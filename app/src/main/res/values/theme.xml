@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.TA" parent="Base.Theme.TA" />
+    <style name="Base.Theme.TA" parent="Base.Theme.ThemeBuilder">
+        <item name="colorPrimary">@color/turqoise</item>
+        <item name="colorPrimaryVariant">@color/turqoise_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/red</item>
+        <item name="colorSecondaryVariant">@color/red_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/black</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorError">@color/red_dark</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="textAppearanceButton">@style/TextAppearance.TA.Button</item>
+        <item name="borderlessButtonStyle">@style/Widget.TA.Button.TextButton</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.TA.Button.OutlinedButton</item>
+        <item name="materialButtonStyle">@style/Widget.TA.Button</item>
+        <item name="textInputStyle">@style/Widget.TA.TextInputLayout.FilledBox</item>
+        <item name="editTextStyle">@style/Widget.TA.EditText</item>
+        <item name="android:editTextStyle">@style/Widget.TA.EditText</item>
+        <item name="chipStyle">@style/Widget.TA.Chip.Choice</item>
+    </style>
+    <style name="Base.Theme.ThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">?attr/colorSurface</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

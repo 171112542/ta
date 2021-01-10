@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="turqoise">#00CB9D</color>
+    <color name="turqoise_light">#00FFCE</color>
+    <color name="red">#ED0027</color>
+    <color name="red_light">#FF5751</color>
+    <color name="red_dark">#B20000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+</resources>
