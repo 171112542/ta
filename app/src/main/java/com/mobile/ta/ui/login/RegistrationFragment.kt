@@ -56,6 +56,14 @@ class RegistrationFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel.profilePicture.observe(viewLifecycleOwner, {
+            binding.imageViewEditProfilePicture.setImageBitmap(it)
+        })
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == PROFILE_PICTURE_REQUEST_CODE) {
@@ -86,7 +94,6 @@ class RegistrationFragment : Fragment() {
     private fun setProfilePicture(picture: Bitmap?) {
         picture?.let {
             viewModel.setProfilePicture(it)
-            binding.imageViewEditProfilePicture.setImageBitmap(it)
         }
     }
 
