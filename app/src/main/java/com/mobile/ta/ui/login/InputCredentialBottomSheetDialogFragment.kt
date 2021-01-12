@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.ta.databinding.FragmentInputCredentialBottomSheetBinding
+import com.mobile.ta.utils.text
 
 class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
@@ -26,8 +28,14 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
             buttonSubmitCredentials.setOnClickListener {
-                onSubmitListener.invoke(editTextInputCredential.text.toString())
+                onSubmitListener.invoke(editTextInputCredential.text())
                 dismiss()
+            }
+            editTextInputCredential.doOnTextChanged { text, _, _, _ ->
+                buttonSubmitCredentials.isEnabled = when {
+                    text.isNullOrBlank() -> false
+                    else -> true
+                }
             }
         }
         return binding.root
