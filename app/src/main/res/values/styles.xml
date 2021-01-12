@@ -8,7 +8,7 @@
         <item name="android:background">@drawable/edit_text_background</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorHint">@color/edit_text_hint_color</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">@dimen/dp_16</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Subtitle1</item>
     </style>
     <style name="Widget.TA.TextInputLayout.FilledBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -34,21 +34,6 @@
         <item name="textAppearanceSubtitle1">@style/TextAppearance.TA.Subtitle1</item>
         <item name="textAppearanceCaption">@style/TextAppearance.TA.Caption</item>
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.FilledBox</item>
-    </style>
-    <style name="TextAppearance.TA.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:fontWeight">400</item>
-    </style>
-    <style name="TextAppearance.TA.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">500</item>
-        <item name="android:textSize">10sp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:fontWeight">500</item>
-        <item name="android:textAllCaps">true</item>
     </style>
     <style name="Widget.TA.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
@@ -96,13 +81,6 @@
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="tint">?attr/colorControlNormal</item>
         <item name="elevation">@dimen/dp_8</item>
-    </style>
-
-    <style name="TextAppearance.TA.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">400</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:fontWeight">400</item>
     </style>
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
