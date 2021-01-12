@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sketchfab Viewer API example</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+        #api-frame {
+            border: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <!-- Insert this script -->
+    <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.9.0.js"></script>
+</head>
+
+<body>
+<!-- Insert an empty iframe -->
+<iframe src="" id="api-frame" allow="autoplay; fullscreen" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+
+<!-- Initialize the viewer -->
+<script type="text/javascript">
+    var iframe = document.getElementById( 'api-frame' );
+    var uid = 'd9f71bdc54934e529ce53651f7422cdc';
+
+    var client = new Sketchfab( iframe );
+    let popUpExit = () => {};
+
+    client.init(uid, {
+        success: function onSuccess( api ){
+            api.start();
+            api.addEventListener('annotationSelect', function(index) {
+                if (index >= 0) {
+                    munculinExit = () => {};
+                } else {
+                    munculinExit = () => {
+                        console.log("Munculin Exit");
+                    };
+                }
+            });
+            api.addEventListener(
+                'click',
+                function(info) {
+                    munculinExit();
+                }
+            );
+        },
+        error: function onError() {
+            console.log( 'Viewer error' );
+        },
+        ui_stop: 0
+    } );
+    </script>
+</body>
+</html>
