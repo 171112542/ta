@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.databinding.FragmentLoginBinding
 import com.mobile.ta.ui.HomeFragmentDirections
-import com.mobile.ta.ui.LoginFragmentDirections
 
 class LoginFragment : Fragment() {
 
@@ -48,7 +47,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun openCredentialsBottomSheet() {
-        InputCredentialBottomSheetDialogFragment.newFragment(this::onSubmitListener)
+        InputCredentialBottomSheetDialogFragment.newInstance(this::onSubmitListener)
             .show(parentFragmentManager, INPUT_CREDENTIALS_TAG)
     }
 }

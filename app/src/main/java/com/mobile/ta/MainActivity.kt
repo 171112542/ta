@@ -1,8 +1,7 @@
 package com.mobile.ta
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.mobile.ta.R
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

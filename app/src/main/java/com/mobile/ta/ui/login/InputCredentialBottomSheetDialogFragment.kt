@@ -10,7 +10,7 @@ import com.mobile.ta.databinding.FragmentInputCredentialBottomSheetBinding
 class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
-        fun newFragment(onSubmitListener: (String) -> Unit) = InputCredentialBottomSheetDialogFragment().apply {
+        fun newInstance(onSubmitListener: (String) -> Unit) = InputCredentialBottomSheetDialogFragment().apply {
             this.onSubmitListener = onSubmitListener
         }
     }

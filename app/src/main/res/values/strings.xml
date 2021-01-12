@@ -6,4 +6,7 @@
     <string name="credentials">Credentials</string>
     <string name="welcome_label">Welcome!</string>
     <string name="identity_label">What’s your identity?</string>
+    <string name="full_name_hint">Full Name</string>
+    <string name="date_of_birth_hint">Date of Birth</string>
+    <string name="birth_date_picker_title_label">Choose Date</string>
 </resources>
