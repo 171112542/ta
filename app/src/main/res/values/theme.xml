@@ -22,6 +22,7 @@
         <item name="editTextStyle">@style/Widget.TA.EditText</item>
         <item name="android:editTextStyle">@style/Widget.TA.EditText</item>
         <item name="chipStyle">@style/Widget.TA.Chip.Choice</item>
+        <item name="materialCardViewStyle">@style/Widget.TA.CardView</item>
     </style>
     <style name="Base.Theme.ThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">?attr/colorPrimary</item>

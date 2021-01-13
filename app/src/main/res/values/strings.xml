@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">TA</string>
+    <string name="dest_home_label">Home</string>
+    <string name="dest_course_label">Course</string>
+    <string name="dest_profile_label">Profile</string>
+    <string name="search_bar_content_description">Search</string>
+    <string name="search_bar_hint">Search</string>
 </resources>
