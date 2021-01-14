@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -50,6 +51,16 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$rootProject.navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navVersion"
 
-
     implementation "com.google.android.material:material:$rootProject.mdcVersion"
+
+    // Firebase
+    implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
+
+    // Dagger Hilt
+    implementation "com.google.dagger:hilt-android:${rootProject.hiltVersion}"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:${rootProject.hiltViewModelVersion}"
+    kapt "androidx.hilt:hilt-compiler:${rootProject.hiltViewModelVersion}"
+    kapt "com.google.dagger:hilt-android-compiler:${rootProject.hiltVersion}"
+    kaptTest "com.google.dagger:hilt-android-compiler:${rootProject.hiltVersion}"
+    testImplementation "com.google.dagger:hilt-android-testing:${rootProject.hiltVersion}"
 }
