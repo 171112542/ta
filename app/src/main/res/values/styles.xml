@@ -8,7 +8,7 @@
         <item name="android:background">@drawable/edit_text_background</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorHint">@color/edit_text_hint_color</item>
-        <item name="android:padding">16dp</item>
+        <item name="android:padding">@dimen/dp_16</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Subtitle1</item>
     </style>
     <style name="Widget.TA.TextInputLayout.FilledBox" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
@@ -35,25 +35,17 @@
         <item name="textAppearanceCaption">@style/TextAppearance.TA.Caption</item>
         <item name="editTextStyle">@style/Widget.MaterialComponents.TextInputEditText.FilledBox</item>
     </style>
-    <style name="TextAppearance.TA.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:fontWeight">400</item>
-    </style>
-    <style name="TextAppearance.TA.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">500</item>
-        <item name="android:textSize">10sp</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:fontWeight">500</item>
-        <item name="android:textAllCaps">true</item>
-    </style>
     <style name="Widget.TA.Button.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+    </style>
+    <style name="Widget.TA.Button.TextButton.Secondary" parent="Widget.TA.Button.TextButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton.Secondary</item>
+    </style>
+    <style name="Widget.TA.Button.CloseButton" parent="Widget.TA.Button.TextButton">
+        <item name="android:drawableEnd">@drawable/ic_close</item>
+        <item name="android:padding">@dimen/dp_0</item>
     </style>
     <style name="Widget.TA.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
@@ -65,22 +57,36 @@
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
+    <style name="Widget.TA.Button.Google" parent="Widget.TA.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.Google</item>
+        <item name="android:drawableLeft">@drawable/fui_ic_googleg_color_24dp</item>
+        <item name="android:text">@string/fui_sign_in_with_google</item>
+    </style>
     <style name="ThemeOverlay.TA.Button.TextButton" parent="">
         <item name="colorPrimary">@color/turqoise</item>
+    </style>
+    <style name="ThemeOverlay.TA.Button.TextButton.Secondary" parent="">
+        <item name="colorPrimary">@color/red</item>
     </style>
     <style name="ThemeOverlay.TA.Button" parent="">
         <item name="colorPrimary">@color/turqoise</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
-
-    <style name="TextAppearance.TA.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">400</item>
-        <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:fontWeight">400</item>
+    <style name="ThemeOverlay.TA.Button.Google" parent="">
+        <item name="colorPrimary">?attr/colorSurface</item>
+        <item name="colorOnPrimary">?attr/colorOnSurface</item>
+    </style>
+    <style name="Widget.TA.FloatingActionButton.Surface" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="backgroundTint">?attr/colorSurface</item>
+        <item name="tint">?attr/colorControlNormal</item>
+        <item name="elevation">@dimen/dp_8</item>
     </style>
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
+    </style>
+    <style name="ShapeAppearance.TA.RoundedComponent" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerSize">50dp</item>
     </style>
 </resources>
