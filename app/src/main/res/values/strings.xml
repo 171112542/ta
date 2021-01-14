@@ -9,4 +9,9 @@
     <string name="full_name_hint">Full Name</string>
     <string name="date_of_birth_hint">Date of Birth</string>
     <string name="birth_date_picker_title_label">Choose Date</string>
+    <string name="discussion_label">Discussion</string>
+    <string name="create_new_discussion">Create New Discussion</string>
+    <string name="title">Title</string>
+    <string name="questions">Questions</string>
+    <string name="create_discussion">Create Discussion</string>
 </resources>

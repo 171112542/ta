@@ -76,17 +76,32 @@
         <item name="colorPrimary">?attr/colorSurface</item>
         <item name="colorOnPrimary">?attr/colorOnSurface</item>
     </style>
+    <style name="Widget.TA.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="layout_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</item>
+    </style>
     <style name="Widget.TA.FloatingActionButton.Surface" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
         <item name="android:background">?attr/colorSurface</item>
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="tint">?attr/colorControlNormal</item>
-        <item name="elevation">@dimen/dp_8</item>
     </style>
+
+
+    <style name="Widget.TA.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="titleTextAppearance">?attr/textAppearanceHeadline2</item>
+    </style>
+    <style name="Widget.TA.Toolbar.Back" parent="Widget.TA.Toolbar">
+        <item name="navigationIcon">@drawable/ic_arrow_back</item>
+    </style>
+
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
     </style>
     <style name="ShapeAppearance.TA.RoundedComponent" parent="ShapeAppearance.MaterialComponents">
-        <item name="cornerSize">50dp</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearance.TA.RoundedComponent.Stroke" parent="ShapeAppearance.TA.RoundedComponent">
+        <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="android:strokeWidth">@dimen/dp_1</item>
     </style>
 </resources>

@@ -95,7 +95,7 @@
         android:label="3DViewFragment" />
     <fragment
         android:id="@+id/discussionForumFragment"
-        android:name="com.mobile.ta.ui.DiscussionForumFragment"
+        android:name="com.mobile.ta.ui.discussion.DiscussionForumFragment"
         android:label="DiscussionFragment" >
         <action
             android:id="@+id/action_discussionForumFragment_to_discussionFragment2"
@@ -103,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/discussionFragment2"
-        android:name="com.mobile.ta.ui.DiscussionFragment"
+        android:name="com.mobile.ta.ui.discussion.DiscussionFragment"
         android:label="DiscussionFragment" />
     <fragment
         android:id="@+id/courseQuestionsFragment"

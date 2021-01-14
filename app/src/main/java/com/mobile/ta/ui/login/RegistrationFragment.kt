@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.textfield.TextInputEditText
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
 import com.mobile.ta.utils.FileUtil
+import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.login.RegistrationViewModel
@@ -134,20 +134,7 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun validateDateOfBirth() =
-        validateEditText(binding.editTextDateOfBirth, Constants.DATE_OF_BIRTH)
+        binding.editTextDateOfBirth.notBlankValidate(Constants.DATE_OF_BIRTH)
 
-    private fun validateName() = validateEditText(binding.editTextFullName, Constants.NAME)
-
-    private fun validateEditText(editText: TextInputEditText, errorObject: String): Boolean {
-        var isError = true
-        val text = editText.text()
-        editText.error = when {
-            text.isBlank() -> Constants.getEmptyErrorMessage(errorObject)
-            else -> {
-                isError = false
-                null
-            }
-        }
-        return isError.not()
-    }
+    private fun validateName() = binding.editTextFullName.notBlankValidate(Constants.NAME)
 }
