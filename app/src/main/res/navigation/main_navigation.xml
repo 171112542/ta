@@ -96,15 +96,20 @@
     <fragment
         android:id="@+id/discussionForumFragment"
         android:name="com.mobile.ta.ui.discussion.DiscussionForumFragment"
-        android:label="DiscussionFragment" >
+        android:label="DiscussionFragment"
+        tools:layout="@layout/fragment_discussion_forum">
         <action
-            android:id="@+id/action_discussionForumFragment_to_discussionFragment2"
-            app:destination="@id/discussionFragment2" />
+            android:id="@+id/action_discussionForumFragment_to_discussionFragment"
+            app:destination="@id/discussionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/discussionFragment2"
+        android:id="@+id/discussionFragment"
         android:name="com.mobile.ta.ui.discussion.DiscussionFragment"
-        android:label="DiscussionFragment" />
+        android:label="DiscussionFragment" >
+        <argument
+            android:name="id"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/courseQuestionsFragment"
         android:name="com.mobile.ta.ui.CourseQuestionsFragment"

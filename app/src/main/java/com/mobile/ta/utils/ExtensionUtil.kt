@@ -4,6 +4,9 @@ import android.widget.EditText
 import android.widget.TextView
 import com.mobile.ta.config.Constants
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.util.Date
 import java.util.Locale
 
 /**
@@ -34,5 +37,10 @@ fun TextView.text() = this.text.toString()
 /**
  * Date Time Converter
  */
+fun Date.now() = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC))
+
 fun Long.toDateString(pattern: String): String =
+    SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
+
+fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
