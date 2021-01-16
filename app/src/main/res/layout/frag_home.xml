@@ -21,9 +21,9 @@
             android:layout_height="56dp"
             android:background="@drawable/drawable_rounded_rect"
             android:backgroundTint="?attr/colorSurface"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:elevation="@dimen/keyline_1"
             android:clickable="true"
+            android:elevation="@dimen/keyline_1"
+            android:foreground="?android:attr/selectableItemBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,6 +52,15 @@
             app:layout_constraintStart_toEndOf="@+id/frag_home_search_icon"
             app:layout_constraintTop_toTopOf="@+id/frag_home_search_bar" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/frag_home_rv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frag_home_search_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView"
+            android:id="@+id/vh_co_image"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/black"
@@ -28,11 +28,11 @@
             android:backgroundTint="#F2FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintStart_toStartOf="@+id/shapeableImageView"
+            app:layout_constraintStart_toStartOf="@+id/vh_co_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView2"
+            android:id="@+id/vh_co_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/keyline_4"
@@ -45,7 +45,7 @@
             tools:text="Dummy Course Title" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView4"
+            android:id="@+id/vh_co_desc"
             style="@style/TextAppearance.TA.CourseListDescription"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -57,7 +57,7 @@
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
+            app:layout_constraintTop_toBottomOf="@+id/vh_co_title"
             tools:text="Dummy course content description " />
 
         <View
@@ -70,7 +70,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/materialTextView3"
+            android:id="@+id/vh_co_level"
             style="@style/TextAppearance.TA.CourseListLevelTag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
