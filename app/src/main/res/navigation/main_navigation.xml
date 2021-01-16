@@ -23,7 +23,8 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mobile.ta.ui.HomeFragment"
-        android:label="HomeFragment" >
+        android:label="HomeFragment"
+        tools:layout="@layout/frag_home">
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -35,7 +36,8 @@
     <fragment
         android:id="@+id/myCourseFragment"
         android:name="com.mobile.ta.ui.MyCourseFragment"
-        android:label="MyCourseFragment" >
+        android:label="MyCourseFragment"
+        tools:layout="@layout/frag_course">
         <action
             android:id="@+id/action_myCourseFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />
@@ -44,7 +46,8 @@
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.mobile.ta.ui.ProfileFragment"
-        android:label="ProfileFragment" >
+        android:label="ProfileFragment"
+        tools:layout="@layout/frag_profile">
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/editProfileFragment" />
