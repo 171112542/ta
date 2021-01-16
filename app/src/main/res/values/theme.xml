@@ -14,7 +14,21 @@
         <item name="colorOnSurface">@color/black</item>
         <item name="colorError">@color/red_dark</item>
         <item name="colorOnError">@color/white</item>
+
+        <item name="textAppearanceHeadline1">@style/TextAppearance.TA.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.TA.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.TA.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.TA.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.TA.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.TA.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.TA.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.TA.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.TA.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.TA.Body2</item>
         <item name="textAppearanceButton">@style/TextAppearance.TA.Button</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.TA.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.TA.Overline</item>
+
         <item name="borderlessButtonStyle">@style/Widget.TA.Button.TextButton</item>
         <item name="materialButtonOutlinedStyle">@style/Widget.TA.Button.OutlinedButton</item>
         <item name="materialButtonStyle">@style/Widget.TA.Button</item>

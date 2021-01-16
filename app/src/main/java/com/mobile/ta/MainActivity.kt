@@ -13,6 +13,8 @@ import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.ProfileFragmentDirections
 import me.ibrahimsn.lib.OnItemSelectedListener
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

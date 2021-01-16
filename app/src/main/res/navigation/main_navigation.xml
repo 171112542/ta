@@ -7,8 +7,9 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.mobile.ta.ui.LoginFragment"
-        android:label="LoginFragment">
+        android:name="com.mobile.ta.ui.login.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
@@ -16,8 +17,9 @@
     <action android:id="@+id/action_global_loginFragment" app:destination="@id/loginFragment" />
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.mobile.ta.ui.RegistrationFragment"
-        android:label="RegistrationFragment" />
+        android:name="com.mobile.ta.ui.login.RegistrationFragment"
+        android:label="RegistrationFragment"
+        tools:layout="@layout/fragment_registration" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mobile.ta.ui.HomeFragment"
