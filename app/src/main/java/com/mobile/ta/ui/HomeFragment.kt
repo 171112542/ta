@@ -1,21 +1,29 @@
 package com.mobile.ta.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
 import com.mobile.ta.adapter.CourseOverviewAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.data.CourseOverviewData
 import com.mobile.ta.databinding.FragHomeBinding
+import com.mobile.ta.viewmodel.HomeViewModel
 
 class HomeFragment :
     Fragment(),
     View.OnClickListener {
     private var _binding: FragHomeBinding? = null
     private val binding get() = _binding as FragHomeBinding
+    private val viewmodel by viewModels<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +31,7 @@ class HomeFragment :
         savedInstanceState: Bundle?
     ): View {
         _binding = FragHomeBinding.inflate(inflater, container, false)
+        binding.fragHomeSearchBar.setOnClickListener(this)
         return binding.root
     }
 
@@ -38,14 +47,23 @@ class HomeFragment :
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.frag_home_search_bar -> HomeFragmentDirections.actionHomeFragmentToSearchFragment()
+            R.id.frag_home_search_bar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
     }
 
     private fun setupRecyclerView() {
         val diffCallback = CourseOverviewDiffCallback()
         val adapter = CourseOverviewAdapter(diffCallback)
-        adapter.submitList(CourseOverviewData.data.toMutableList())
-        binding.fragHomeRv.adapter = adapter
+        with(binding.fragHomeRv) {
+            this.adapter = adapter
+            addItemDecoration(RVSeparator.getSpaceSeparator(
+                context,
+                LinearLayoutManager.VERTICAL,
+                resources
+            ))
+        }
+        viewmodel.courseOverviews.observe(viewLifecycleOwner, {
+            adapter.submitList(it.toMutableList())
+        })
     }
 }

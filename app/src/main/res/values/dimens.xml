@@ -28,4 +28,5 @@
   
     <dimen name="offset_bottom_navbar">80dp</dimen>
     <dimen name="medium_component_radius">10dp</dimen>
+    <dimen name="search_bar_height">56dp</dimen>
 </resources>

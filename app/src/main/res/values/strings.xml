@@ -14,4 +14,9 @@
     <string name="full_name_hint">Full Name</string>
     <string name="date_of_birth_hint">Date of Birth</string>
     <string name="birth_date_picker_title_label">Choose Date</string>
+    <string name="no_search_image_content_description">Search Image</string>
+    <string name="no_search_help_title">Start Searching for a Course</string>
+    <string name="no_search_help_desc">Learning starts today. Search for a course you have been wanting to learn!</string>
+    <string name="search_result_end_text">End of Search Results</string>
+    <string name="no_search_result_text">No Result</string>
 </resources>
