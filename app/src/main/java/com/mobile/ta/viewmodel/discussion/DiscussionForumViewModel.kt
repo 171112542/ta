@@ -41,15 +41,9 @@ class DiscussionForumViewModel @ViewModelInject constructor(
 
     private fun addDiscussionForum(discussionForums: DiscussionForum) {
         _discussionForums.value?.add(discussionForums)
-        saveDiscussionState()
     }
 
     private fun setDiscussionForums(discussionForums: ArrayList<DiscussionForum>) {
         _discussionForums.value = discussionForums
-        saveDiscussionState()
-    }
-
-    private fun saveDiscussionState() {
-        savedStateHandle.set(DISCUSSION_FORUM, _discussionForums.value)
     }
 }

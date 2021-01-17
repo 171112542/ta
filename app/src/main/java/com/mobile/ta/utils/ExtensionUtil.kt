@@ -37,10 +37,10 @@ fun TextView.text() = this.text.toString()
 /**
  * Date Time Converter
  */
-fun Date.now() = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC))
+fun Date.now(): Date = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC))
 
 fun Long.toDateString(pattern: String): String =
-    SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
+    SimpleDateFormat(pattern, Locale.ENGLISH).format(this * 1000)
 
 fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)

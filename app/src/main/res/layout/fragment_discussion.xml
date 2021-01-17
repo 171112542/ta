@@ -7,21 +7,9 @@
     android:background="?attr/colorSurface"
     tools:context=".ui.discussion.DiscussionForumFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar_discussion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_discussion"
-            style="@style/Widget.TA.Toolbar.Back"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            app:title="@string/discussion_label" />
-    </com.google.android.material.appbar.AppBarLayout>
+    <include
+        android:id="@+id/layout_discussion_question"
+        layout="@layout/layout_discussion_question" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_discussion_answer"
@@ -31,7 +19,7 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar_discussion"
+        app:layout_constraintTop_toBottomOf="@id/layout_discussion_question"
         tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -42,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/app_bar_discussion" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_reply_discussion"
@@ -51,7 +39,7 @@
         android:layout_margin="@dimen/dp_16"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_add"
+        app:srcCompat="@drawable/ic_reply"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
