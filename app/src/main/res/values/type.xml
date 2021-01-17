@@ -2,107 +2,94 @@
 <resources>
     <style name="TextAppearance.TA.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/montserrat</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/sp_30</item>
     </style>
     <style name="TextAppearance.TA.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_24</item>
     </style>
     <style name="TextAppearance.TA.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_20</item>
     </style>
     <style name="TextAppearance.TA.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">500</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">500</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
     <style name="TextAppearance.TA.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">600</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">600</item>
+        <item name="android:textFontWeight">600</item>
         <item name="android:textSize">@dimen/sp_14</item>
     </style>
     <style name="TextAppearance.TA.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">600</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">600</item>
+        <item name="android:textFontWeight">600</item>
         <item name="android:textSize">@dimen/sp_12</item>
     </style>
     <style name="TextAppearance.TA.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_16</item>
     </style>
     <style name="TextAppearance.TA.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_12</item>
     </style>
     <style name="TextAppearance.TA.Body1" parent="TextAppearance.MaterialComponents.Body1">
         <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">300</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">300</item>
+        <item name="android:textFontWeight">300</item>
         <item name="android:textSize">@dimen/sp_14</item>
     </style>
     <style name="TextAppearance.TA.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_12</item>
     </style>
     <style name="TextAppearance.TA.Button" parent="TextAppearance.MaterialComponents.Button">
         <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">400</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">400</item>
+        <item name="android:textFontWeight">400</item>
         <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textAllCaps">true</item>
     </style>
     <style name="TextAppearance.TA.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="fontFamily">@font/roboto</item>
-        <item name="fontWeight">500</item>
         <item name="android:textSize">@dimen/sp_10</item>
         <item name="android:fontFamily">@font/roboto</item>
-        <item name="android:fontWeight">500</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:textAllCaps">true</item>
     </style>
     <style name="TextAppearance.TA.Overline" parent="TextAppearance.MaterialComponents.Overline">
         <item name="fontFamily">@font/montserrat</item>
-        <item name="fontWeight">500</item>
         <item name="android:fontFamily">@font/montserrat</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:fontWeight">500</item>
+        <item name="android:textFontWeight">500</item>
         <item name="android:textSize">@dimen/sp_10</item>
         <item name="android:textAllCaps">true</item>
     </style>
