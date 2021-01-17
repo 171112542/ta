@@ -9,7 +9,9 @@
 
     <include
         android:id="@+id/layout_discussion_question"
-        layout="@layout/layout_discussion_question" />
+        layout="@layout/layout_discussion_question"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_discussion_answer"
@@ -23,7 +25,7 @@
         tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar_discussion_forum_load"
+        android:id="@+id/progress_bar_discussion_load"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"

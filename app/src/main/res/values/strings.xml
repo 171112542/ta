@@ -14,4 +14,6 @@
     <string name="title">Title</string>
     <string name="questions">Questions</string>
     <string name="create_discussion">Create Discussion</string>
+    <string name="reply_to_the_discussion">Reply to the Discussion</string>
+    <string name="reply">Reply</string>
 </resources>

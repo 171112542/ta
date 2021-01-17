@@ -15,6 +15,7 @@ object Constants {
     const val DATE_OF_BIRTH = "Date of Birth"
     const val TITLE = "Title"
     const val QUESTION = "Question"
+    const val REPLY = "Reply"
 
     fun getEmptyErrorMessage(data: String) = "$data must be filled"
 }

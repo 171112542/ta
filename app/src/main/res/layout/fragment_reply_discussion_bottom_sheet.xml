@@ -9,19 +9,21 @@
         android:id="@+id/text_view_reply_discussion_title"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:text="@string/create_new_discussion"
+        android:text="@string/reply_to_the_discussion"
         android:textAppearance="?attr/textAppearanceHeadline4"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_discussion_title"
+        android:id="@+id/text_input_discussion_answer"
         style="@style/Widget.TA.TextInputLayout.OutlinedBox"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_16"
-        android:hint="@string/title"
+        app:counterEnabled="true"
+        app:counterMaxLength="@integer/max_counter_length_4000"
+        app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_view_reply_discussion_title">
@@ -29,28 +31,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_discussion_answer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/text_input_discussion_question"
-        style="@style/Widget.TA.TextInputLayout.OutlinedBox"
-        android:layout_width="@dimen/dp_0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_16"
-        android:hint="@string/questions"
-        app:counterEnabled="true"
-        app:counterMaxLength="@integer/max_counter_length_4000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_discussion_title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edit_text_discussion_question"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/reply"
             android:inputType="textMultiLine"
-            android:maxLines="@integer/max_content_line_3" />
+            android:maxLines="@integer/max_content_line_5" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -59,9 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_16"
         android:enabled="false"
-        android:text="@string/create_discussion"
+        android:text="@string/reply"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_discussion_question" />
+        app:layout_constraintTop_toBottomOf="@id/text_input_discussion_answer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

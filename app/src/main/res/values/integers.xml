@@ -2,5 +2,6 @@
 <resources>
     <integer name="max_credentials_length">10</integer>
     <integer name="max_content_line_3">3</integer>
-    <integer name="max_cunter_length_4000">4000</integer>
+    <integer name="max_content_line_5">5</integer>
+    <integer name="max_counter_length_4000">4000</integer>
 </resources>
