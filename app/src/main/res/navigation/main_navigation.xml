@@ -58,8 +58,9 @@
     <action android:id="@+id/action_global_profileFragment" app:destination="@id/profileFragment" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mobile.ta.ui.SearchFragment"
-        android:label="SearchFragment" >
+        android:name="com.mobile.ta.ui.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/frag_search">
         <action
             android:id="@+id/action_searchFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />

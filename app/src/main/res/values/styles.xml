@@ -1,8 +1,14 @@
 <resources>
+    <style name="ThemeOverlay.TA.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.TA.BottomSheetDialog</item>
+    </style>
+    <style name="Widget.TA.BottomSheetDialog" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.TA.LargeComponent</item>
+    </style>
     <style name="Widget.TA.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
         <item name="android:padding">@dimen/keyline_0</item>
-        <item name="android:layout_width">24dp</item>
-        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_width">28dp</item>
+        <item name="android:layout_height">28dp</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
     <style name="Widget.TA.SmoothBottomBar" parent="">
@@ -62,6 +68,10 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
     </style>
     <style name="Widget.TA.Button.TextButton.Secondary" parent="Widget.TA.Button.TextButton">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton.Secondary</item>
@@ -74,6 +84,13 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+    </style>
+    <style name="Widget.TA.Button.Grey">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.Grey</item>
+    </style>
+    <style name="ThemeOverlay.TA.Button.Grey" parent="">
+        <item name="colorPrimary">@color/grey_light</item>
+        <item name="colorOnPrimary">@color/black</item>
     </style>
     <style name="Widget.TA.Button" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button</item>
@@ -134,6 +151,10 @@
     <style name="ShapeAppearance.TA.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
+    </style>
+    <style name="ShapeAppearance.TA.LargeComponent" parent="ShapeAppearance.MaterialComponents.LargeComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">15dp</item>
     </style>
     <style name="ShapeAppearance.TA.RoundedComponent" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerSize">50dp</item>

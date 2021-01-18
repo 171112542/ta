@@ -60,6 +60,7 @@ dependencies {
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:${rootProject.hiltViewModelVersion}"
 
     implementation "com.google.android.material:material:$rootProject.mdcVersion"
+    implementation "com.google.android:flexbox:$rootProject.flexboxVersion"
     implementation "com.google.dagger:hilt-android:${rootProject.hiltVersion}"
     implementation 'com.firebaseui:firebase-ui-auth:6.4.0'
     

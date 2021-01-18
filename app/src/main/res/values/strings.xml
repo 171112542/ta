@@ -3,7 +3,7 @@
     <string name="dest_home_label">Home</string>
     <string name="dest_course_label">Course</string>
     <string name="dest_profile_label">Profile</string>
-    <string name="search_bar_content_description">Search</string>
+    <string name="ic_search_content_description">Search</string>
     <string name="search_bar_hint">Search</string>
     <string name="teacher_role">I am a teacher</string>
     <string name="confirm">Confirm</string>
@@ -19,4 +19,16 @@
     <string name="no_search_help_desc">Learning starts today. Search for a course you have been wanting to learn!</string>
     <string name="search_result_end_text">End of Search Results</string>
     <string name="no_search_result_text">No Result</string>
+    <string name="ic_filter_content_description">Filter</string>
+    <string name="filter_title_text">Filters</string>
+    <string name="tags_title_text">Tags</string>
+    <string name="edit_text">Edit</string>
+    <string name="no_tag_selected_text">No Tag Selected</string>
+    <string name="sort_title_text">Sort</string>
+    <string name="a_z_ascending_sort_text">A-Z (ascending)</string>
+    <string name="z_a_descending_sort_text">Z-A (descending)</string>
+    <string name="newest_to_oldest_sort_text">Newest to oldest</string>
+    <string name="oldest_to_newest_sort_text">Oldest to newest</string>
+    <string name="reset_filter_text">Reset to default</string>
+    <string name="apply_filter_text">Apply filters</string>
 </resources>

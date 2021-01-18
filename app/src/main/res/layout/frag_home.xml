@@ -31,7 +31,7 @@
         <ImageView
             android:id="@+id/frag_home_search_icon"
             style="@style/Widget.TA.Icon"
-            android:contentDescription="@string/search_bar_content_description"
+            android:contentDescription="@string/ic_search_content_description"
             android:elevation="@dimen/keyline_2"
             android:src="@drawable/ic_search_24dp"
             android:layout_marginStart="@dimen/keyline_4"

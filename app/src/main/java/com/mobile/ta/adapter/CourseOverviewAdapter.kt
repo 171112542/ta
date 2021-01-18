@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.VhCourseOverviewBinding
 import com.mobile.ta.model.CourseOverview
+import com.mobile.ta.model.LevelTag
 
 class CourseOverviewAdapter(
     diffCallback: CourseOverviewDiffCallback
@@ -15,7 +16,14 @@ class CourseOverviewAdapter(
         fun bind(courseOverview: CourseOverview) {
             binding.vhCoTitle.text = courseOverview.title
             binding.vhCoDesc.text = courseOverview.description
-            binding.vhCoLevel.text = courseOverview.level
+            binding.vhCoLevel.text = when (courseOverview.level) {
+                LevelTag.JUNIOR_ONE -> "Junior - 1"
+                LevelTag.JUNIOR_TWO -> "Junior - 2"
+                LevelTag.JUNIOR_THREE -> "Junior - 3"
+                LevelTag.SENIOR_ONE -> "Senior - 1"
+                LevelTag.SENIOR_TWO -> "Senior - 2"
+                LevelTag.SENIOR_THREE -> "Senior - 3"
+            }
         }
     }
 
