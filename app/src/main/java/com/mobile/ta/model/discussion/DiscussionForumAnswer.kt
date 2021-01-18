@@ -3,9 +3,9 @@ package com.mobile.ta.model.discussion
 import java.util.Date
 
 data class DiscussionForumAnswer(
-    val id: String,
-    val answer: String,
-    val createdAt: Date,
-    val userId: String,
-    val userName: String
+    var id: String,
+    var answer: String,
+    var createdAt: Date,
+    var userId: String,
+    var userName: String
 )

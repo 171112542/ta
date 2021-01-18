@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import com.mobile.ta.data.DiscussionData
 import com.mobile.ta.model.discussion.DiscussionForum
 import com.mobile.ta.utils.now
-import java.util.Date
 
 class DiscussionForumViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
@@ -28,7 +27,7 @@ class DiscussionForumViewModel @ViewModelInject constructor(
     }
 
     fun createNewDiscussion(title: String, question: String) {
-        val today = Date().now()
+        val today = now()
         val discussionForum =
             DiscussionForum("123", title, question, today, "NEW", "user_id", "username")
         addDiscussionForum(discussionForum)

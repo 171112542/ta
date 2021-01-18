@@ -2,7 +2,6 @@ package com.mobile.ta.data
 
 import com.mobile.ta.model.discussion.DiscussionForum
 import com.mobile.ta.utils.now
-import java.util.Date
 
 object DiscussionData {
 
@@ -10,8 +9,11 @@ object DiscussionData {
     private const val dummyQuestion =
         "What do you think about Black Hole? I read that Black Hole is ..., then how could the black hole appears?"
 
-    val discussionForumsData = arrayListOf<DiscussionForum>(getDiscussionForumData(dummyTitle, dummyQuestion))
+    const val USER_ID = "user_id"
+    const val USER_NAME = "user_name"
 
-    fun getDiscussionForumData(title: String, question: String) =
-        DiscussionForum("123", title, question, Date().now(), "NEW", "user_id", "username")
+    val discussionForumsData = arrayListOf(getDiscussionForumData(dummyTitle, dummyQuestion))
+
+    private fun getDiscussionForumData(title: String, question: String) =
+        DiscussionForum("123", title, question, now(), USER_ID, USER_NAME, "NEW")
 }

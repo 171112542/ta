@@ -3,13 +3,13 @@ package com.mobile.ta.model.discussion
 import java.util.Date
 
 data class DiscussionForum(
-    val id: String,
-    val name: String,
-    val question: String,
-    val createdAt: Date,
-    val userId: String,
-    val userName: String,
-    val status: String,
-    val answer: List<Map<String, DiscussionForumAnswer>> = listOf(),
-    val acceptedAnswerId: String? = null
+    var id: String,
+    var name: String,
+    var question: String,
+    var createdAt: Date,
+    var userId: String,
+    var userName: String,
+    var status: String,
+    var answer: Map<String, DiscussionForumAnswer> = mapOf(),
+    var acceptedAnswerId: String? = null
 )
