@@ -49,6 +49,7 @@
         style="@style/Widget.TA.FloatingActionButton.Surface"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="@id/image_view_edit_profile_picture"
         app:layout_constraintEnd_toEndOf="@id/image_view_edit_profile_picture"
         app:srcCompat="@drawable/ic_edit_outline"
@@ -61,10 +62,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_48"
         android:hint="@string/full_name_hint"
-        app:startIconDrawable="@drawable/ic_person_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image_view_edit_profile_picture">
+        app:layout_constraintTop_toBottomOf="@id/image_view_edit_profile_picture"
+        app:startIconDrawable="@drawable/ic_person_outline">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_full_name"
@@ -79,10 +80,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_16"
         android:hint="@string/date_of_birth_hint"
-        app:startIconDrawable="@drawable/ic_cake_outline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/text_input_full_name">
+        app:layout_constraintTop_toBottomOf="@id/text_input_full_name"
+        app:startIconDrawable="@drawable/ic_cake_outline">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_date_of_birth"

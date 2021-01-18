@@ -26,6 +26,5 @@ class RegistrationViewModel @ViewModelInject constructor(
 
     fun setProfilePicture(profilePicture: Bitmap) {
         _profilePicture.value = profilePicture
-        savedStateHandle.set(PROFILE_PICTURE, _profilePicture.value)
     }
 }
