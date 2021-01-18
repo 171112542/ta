@@ -6,7 +6,7 @@
           <package name="java.util" withSubpackages="false" static="false" />
           <package name="kotlinx.android.synthetic" withSubpackages="true" static="false" />
           <package name="io.ktor" withSubpackages="true" static="false" />
-        <value />
+        </value>
       </option>
       <option name="PACKAGES_IMPORT_LAYOUT">
         <value>

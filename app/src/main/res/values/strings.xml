@@ -16,4 +16,11 @@
     <string name="birth_date_picker_title_label">Choose Date</string>
     <string name="three_d_back_information">Tap empty area to show back button</string>
     <string name="back_button_label">BACK</string>
+    <string name="discussion_label">Discussion</string>
+    <string name="create_new_discussion">Create New Discussion</string>
+    <string name="title">Title</string>
+    <string name="questions">Questions</string>
+    <string name="create_discussion">Create Discussion</string>
+    <string name="reply_to_the_discussion">Reply to the Discussion</string>
+    <string name="reply">Reply</string>
 </resources>
