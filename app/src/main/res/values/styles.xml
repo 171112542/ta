@@ -1,11 +1,34 @@
 <resources>
+    <style name="Widget.TA.Icon" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="android:padding">@dimen/keyline_0</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+    <style name="Widget.TA.SmoothBottomBar" parent="">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="background">?attr/colorSurface</item>
+        <item name="iconSize">24dp</item>
+        <item name="iconTint">?attr/colorOnSurface</item>
+        <item name="iconTintActive">?attr/colorPrimary</item>
+        <item name="indicatorColor">@color/bottom_nav_indicator_color</item>
+        <item name="indicatorRadius">@dimen/medium_component_radius</item>
+        <item name="itemPadding">12dp</item>
+        <item name="sideMargins">@dimen/keyline_4</item>
+        <item name="textColor">?attr/colorPrimary</item>
+        <item name="itemFontFamily">@font/roboto_light</item>
+        <item name="textSize">14sp</item>
+    </style>
+    <style name="Widget.TA.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/ShapeAppearance.TA.MediumComponent</item>
+    </style>
     <style name="Widget.TA.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
         <item name="chipMinHeight">45dp</item>
         <item name="chipCornerRadius">5dp</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
     <style name="Widget.TA.EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:background">@drawable/drawable_edit_text_background</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:textColorHint">@color/edit_text_hint_color</item>
         <item name="android:padding">@dimen/dp_16</item>
@@ -72,6 +95,28 @@
         <item name="colorPrimary">@color/turqoise</item>
         <item name="colorOnPrimary">@color/white</item>
     </style>
+    <style name="TextAppearance.TA.CourseListLevelTag" parent="">
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textFontWeight">500</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFeatureSettings">smcp</item>
+    </style>
+    <style name="TextAppearance.TA.CourseListDescription" parent="">
+        <item name="fontFamily">@font/roboto</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textFontWeight">300</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <style name="TextAppearance.TA.CourseListTitle" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/montserrat</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="android:textFontWeight">600</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+    </style>
     <style name="ThemeOverlay.TA.Button.Google" parent="">
         <item name="colorPrimary">?attr/colorSurface</item>
         <item name="colorOnPrimary">?attr/colorOnSurface</item>
@@ -85,6 +130,10 @@
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
+    </style>
+    <style name="ShapeAppearance.TA.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
     </style>
     <style name="ShapeAppearance.TA.RoundedComponent" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerSize">50dp</item>
