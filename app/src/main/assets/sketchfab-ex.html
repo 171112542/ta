@@ -22,39 +22,46 @@
 
 <body>
 <!-- Insert an empty iframe -->
-<iframe src="" id="api-frame" allow="autoplay; fullscreen" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+<iframe src="" id="api-frame" allow="autoplay"></iframe>
 
 <!-- Initialize the viewer -->
 <script type="text/javascript">
     var iframe = document.getElementById( 'api-frame' );
-    var uid = 'd9f71bdc54934e529ce53651f7422cdc';
+    var uid = Android.getSketchfabId();
 
     var client = new Sketchfab( iframe );
-    let popUpExit = () => {};
+    let toggleBackButton = undefined;
 
     client.init(uid, {
         success: function onSuccess( api ){
-            api.start();
             api.addEventListener('annotationSelect', function(index) {
                 if (index >= 0) {
-                    munculinExit = () => {};
+                    toggleBackButton = undefined;
                 } else {
-                    munculinExit = () => {
-                        console.log("Munculin Exit");
+                    let pendingExecution = false;
+                    if (!toggleBackButton) {
+                        pendingExecution = true;
+                    }
+                    toggleBackButton = () => {
+                        Android.toggleBackButton();
                     };
+                    if (pendingExecution) toggleBackButton();
                 }
             });
             api.addEventListener(
                 'click',
                 function(info) {
-                    munculinExit();
+                    if (toggleBackButton) {
+                        toggleBackButton();
+                    }
                 }
             );
         },
         error: function onError() {
             console.log( 'Viewer error' );
         },
-        ui_stop: 0
+        ui_stop: 0,
+        autostart: 1
     } );
     </script>
 </body>

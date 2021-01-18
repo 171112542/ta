@@ -95,7 +95,12 @@
     <fragment
         android:id="@+id/threeDFragment"
         android:name="com.mobile.ta.ui.ThreeDFragment"
-        android:label="3DViewFragment" />
+        android:label="3DViewFragment" >
+        <argument
+            android:name="sketchfabId"
+            app:argType="string"
+            android:defaultValue="d9f71bdc54934e529ce53651f7422cdc"/>
+    </fragment>
     <fragment
         android:id="@+id/discussionForumFragment"
         android:name="com.mobile.ta.ui.DiscussionForumFragment"
