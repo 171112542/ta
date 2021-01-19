@@ -49,7 +49,7 @@ class DiscussionViewModel @ViewModelInject constructor(
 
     fun fetchDiscussion(id: String) {
         this.id = id
-        val discussionDetail = DiscussionData.discussionForumsData.first()
+        val discussionDetail = DiscussionData.discussionForumsData[0]
         _discussionForumQuestion.value = discussionDetail
         _discussionAnswers.value = discussionDetail.answer.map { answer ->
             answer.value.apply {

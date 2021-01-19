@@ -10,10 +10,14 @@ import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.ProfileFragmentDirections
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
     private var hideBottomBar = false
     private val destinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
         hideBottomBar = when (destination.id) {
@@ -24,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         }
         toggleBottomNavAnimation()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
