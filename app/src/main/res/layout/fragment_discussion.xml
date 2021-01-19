@@ -10,8 +10,11 @@
     <include
         android:id="@+id/layout_discussion_question"
         layout="@layout/layout_discussion_question"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_discussion_answer"

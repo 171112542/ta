@@ -14,7 +14,7 @@ import com.mobile.ta.databinding.FragmentDiscussionBinding
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
+import java.util.*
 
 @AndroidEntryPoint
 class DiscussionFragment : Fragment() {
@@ -51,6 +51,7 @@ class DiscussionFragment : Fragment() {
         viewModel.fetchDiscussion(args.id)
         viewModel.discussionForumQuestion.observe(viewLifecycleOwner, {
             it?.let { discussionForum ->
+                binding.layoutDiscussionQuestion.root.visibility = View.VISIBLE
                 setupQuestionData(
                     discussionForum.name,
                     discussionForum.userName,
@@ -102,7 +103,6 @@ class DiscussionFragment : Fragment() {
 
     private fun showResult() {
         with(binding) {
-            layoutDiscussionQuestion.root.visibility = View.VISIBLE
             recyclerViewDiscussionAnswer.visibility = View.VISIBLE
             progressBarDiscussionLoad.visibility = View.GONE
         }

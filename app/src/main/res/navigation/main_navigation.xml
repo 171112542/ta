@@ -115,7 +115,7 @@
     <fragment
         android:id="@+id/discussionForumFragment"
         android:name="com.mobile.ta.ui.discussion.DiscussionForumFragment"
-        android:label="DiscussionFragment"
+        android:label="DiscussionForumFragment"
         tools:layout="@layout/fragment_discussion_forum">
         <action
             android:id="@+id/action_discussionForumFragment_to_discussionFragment"
