@@ -23,4 +23,7 @@
     <string name="create_discussion">Create Discussion</string>
     <string name="reply_to_the_discussion">Reply to the Discussion</string>
     <string name="reply">Reply</string>
+    <string name="give_a_feedback">Give a feedback</string>
+    <string name="log_out">Log out</string>
+    <string name="app_version">v.1.0.0</string>
 </resources>
