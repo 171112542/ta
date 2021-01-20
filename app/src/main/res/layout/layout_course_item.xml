@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/dp_16"
+    android:orientation="vertical">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_view_course_item"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="@dimen/dp_100"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.TA.MediumComponent"
+        tools:src="@drawable/drawable_half_rounded_pink" />
+
+    <TextView
+        android:id="@+id/text_view_course_item_title"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_12"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?attr/colorOnSurface"
+        tools:text="Theory of Black Hole" />
+
+    <TextView
+        android:id="@+id/text_view_course_info_creator_email"
+        style="@style/Widget.TA.TextView.Icon.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_4"
+        app:drawableStartCompat="@drawable/ic_person_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
+        app:layout_constraintTop_toBottomOf="@id/text_view_course_info_creator_description"
+        tools:ignore="MissingPrefix"
+        tools:text="50" />
+
+</LinearLayout>
