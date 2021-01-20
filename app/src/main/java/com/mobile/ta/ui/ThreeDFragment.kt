@@ -64,10 +64,10 @@ class ThreeDFragment : Fragment() {
                 threeDBackButton.visibility = if (it) View.VISIBLE else View.GONE
                 threeDBackInfoLabel.visibility = if (!it) View.VISIBLE else View.GONE
                 if (it) {
-                    cancelTimer(timer)
+                    cancelTimer()
                     startTimer(timer)
                 } else {
-                    cancelTimer(timer)
+                    cancelTimer()
                 }
             })
         }
@@ -84,7 +84,7 @@ class ThreeDFragment : Fragment() {
         timer.schedule(timerTask, 5000)
         hasStartedTimer = true
     }
-    private fun cancelTimer(timer: Timer) {
+    private fun cancelTimer() {
         if (hasStartedTimer) {
             hasStartedTimer = false
             timerTask.cancel()

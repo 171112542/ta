@@ -106,7 +106,8 @@
     <fragment
         android:id="@+id/threeDFragment"
         android:name="com.mobile.ta.ui.ThreeDFragment"
-        android:label="3DViewFragment">
+        android:label="3DViewFragment"
+        tools:layout="@layout/fragment_three_d">
         <argument
             android:name="sketchfabId"
             android:defaultValue="d9f71bdc54934e529ce53651f7422cdc"
@@ -141,7 +142,8 @@
     <fragment
         android:id="@+id/editProfileFragment"
         android:name="com.mobile.ta.ui.EditProfileFragment"
-        android:label="EditProfileFragment" />
+        android:label="@string/toolbar_edit_profile"
+        tools:layout="@layout/fragment_edit_profile"/>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.mobile.ta.ui.settings.SettingsFragment"
