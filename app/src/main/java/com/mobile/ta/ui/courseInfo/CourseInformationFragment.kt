@@ -1,4 +1,4 @@
-package com.mobile.ta.ui
+package com.mobile.ta.ui.courseInfo
 
 import androidx.fragment.app.Fragment
 

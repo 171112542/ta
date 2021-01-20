@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseInformationFragment"
-        android:name="com.mobile.ta.ui.CourseInformationFragment"
+        android:name="com.mobile.ta.ui.courseInfo.CourseInformationFragment"
         android:label="CourseInformationFragment">
         <action
             android:id="@+id/action_courseInformationFragment_to_courseContentFragment"
