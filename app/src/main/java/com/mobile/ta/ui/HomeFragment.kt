@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.adapter.CourseOverviewAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
@@ -29,6 +30,12 @@ class HomeFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        (activity as MainActivity).hideToolbar()
     }
 
     override fun onDestroyView() {

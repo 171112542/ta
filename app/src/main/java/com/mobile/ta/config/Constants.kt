@@ -16,6 +16,7 @@ object Constants {
     const val TITLE = "Title"
     const val QUESTION = "Question"
     const val REPLY = "Reply"
+    const val FEEDBACK = "Feedback"
 
     fun getEmptyErrorMessage(data: String) = "$data must be filled"
 }

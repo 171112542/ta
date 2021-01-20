@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.mobile.ta.MainActivity
 import com.mobile.ta.databinding.FragmentLoginBinding
 import com.mobile.ta.ui.HomeFragmentDirections
 
@@ -30,6 +31,11 @@ class LoginFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).hideToolbar()
     }
 
     private fun goToHome() {

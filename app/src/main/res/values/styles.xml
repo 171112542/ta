@@ -42,6 +42,9 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.TextInputLayout.OutlinedBox</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
+    <style name="Widget.TA.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+    </style>
     <style name="ThemeOverlay.TA.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="colorPrimary">@color/turqoise</item>
         <item name="colorOnSurface">@color/black</item>

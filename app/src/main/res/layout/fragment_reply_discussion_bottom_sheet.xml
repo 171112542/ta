@@ -47,6 +47,7 @@
         android:layout_marginTop="@dimen/dp_16"
         android:enabled="false"
         android:text="@string/reply"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_input_discussion_answer" />
