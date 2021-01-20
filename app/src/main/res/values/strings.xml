@@ -26,4 +26,16 @@
     <string name="give_a_feedback">Give a feedback</string>
     <string name="log_out">Log out</string>
     <string name="app_version">v.1.0.0</string>
+    <string name="category">Category</string>
+    <string name="your_feedback">Your Feedback</string>
+    <string name="your_feedback_hint">Your feedback here…</string>
+    <string name="submit_feedback">Submit Feedback</string>
+
+    <string-array name="feedback_category">
+        <item>Material</item>
+        <item>Exercise</item>
+        <item>Discussion</item>
+        <item>3D view</item>
+        <item>Other</item>
+    </string-array>
 </resources>
