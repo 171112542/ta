@@ -58,7 +58,16 @@ class DiscussionViewModel @ViewModelInject constructor(
         } as ArrayList
     }
 
-    private fun addDiscussionAnswer(discussionForums: DiscussionForumAnswer) {
-        _discussionAnswers.value?.add(discussionForums)
+    private fun addDiscussionAnswer(answer: DiscussionForumAnswer) {
+        val discussions: ArrayList<DiscussionForumAnswer> = arrayListOf()
+        if (isAnswerEmpty().not()) {
+            _discussionAnswers.value?.let {
+                discussions.addAll(it)
+            }
+        }
+        discussions.add(answer)
+        _discussionAnswers.value = discussions
     }
+
+    private fun isAnswerEmpty() = _discussionAnswers.value?.isEmpty() ?: true
 }
