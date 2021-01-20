@@ -38,13 +38,13 @@ class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment
             }
             editTextDiscussionTitle.doOnTextChanged { text, _, _, _ ->
                 discussionTitle = text.toString()
-                if (editTextDiscussionTitle.notBlankValidate(Constants.TITLE).not()) {
+                if (editTextDiscussionTitle.notBlankValidate(Constants.TITLE)) {
                     validate()
                 }
             }
             editTextDiscussionQuestion.doOnTextChanged { text, _, _, _ ->
                 discussionQuestion = text.toString()
-                if (editTextDiscussionQuestion.notBlankValidate(Constants.QUESTION).not()) {
+                if (editTextDiscussionQuestion.notBlankValidate(Constants.QUESTION)) {
                     validate()
                 }
             }
