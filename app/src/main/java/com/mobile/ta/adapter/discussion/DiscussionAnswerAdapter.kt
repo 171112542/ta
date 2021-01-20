@@ -31,7 +31,7 @@ class DiscussionAnswerAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DiscussionAnswerViewHolder(
         LayoutInflater.from(parent.context)
-            .inflate(R.layout.layout_discussion_forum_item, parent, false)
+            .inflate(R.layout.layout_discussion_reply, parent, false)
     )
 
     override fun onBindViewHolder(holder: DiscussionAnswerViewHolder, position: Int) {

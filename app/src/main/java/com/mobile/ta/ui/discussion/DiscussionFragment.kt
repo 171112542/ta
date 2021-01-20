@@ -67,13 +67,13 @@ class DiscussionFragment : Fragment() {
             } else {
                 discussionAnswerAdapter.submitList(it)
                 showResult()
+                binding.layoutDiscussionQuestion.textViewReplyCount.text = it.size.toString()
             }
         })
     }
 
     private fun hideResult(isLoading: Boolean) {
         with(binding) {
-            layoutDiscussionQuestion.root.visibility = View.GONE
             recyclerViewDiscussionAnswer.visibility = View.GONE
             progressBarDiscussionLoad.visibility = if (isLoading) {
                 View.VISIBLE
