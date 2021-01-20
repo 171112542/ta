@@ -49,9 +49,11 @@ class DiscussionViewModel @ViewModelInject constructor(
 
     fun fetchDiscussion(id: String) {
         this.id = id
-        val discussionDetail = DiscussionData.discussionForumsData[0]
+        val discussionDetail = DiscussionData.discussionForumsData.find {
+            it.id == id
+        }
         _discussionForumQuestion.value = discussionDetail
-        _discussionAnswers.value = discussionDetail.answer.map { answer ->
+        _discussionAnswers.value = discussionDetail?.answer?.map { answer ->
             answer.value.apply {
                 this.id = answer.key
             }
@@ -67,6 +69,7 @@ class DiscussionViewModel @ViewModelInject constructor(
         }
         discussions.add(answer)
         _discussionAnswers.value = discussions
+        DiscussionData.addForumAnswer(id.orEmpty(), answer)
     }
 
     private fun isAnswerEmpty() = _discussionAnswers.value?.isEmpty() ?: true

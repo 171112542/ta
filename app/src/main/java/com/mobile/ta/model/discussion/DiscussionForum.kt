@@ -1,6 +1,6 @@
 package com.mobile.ta.model.discussion
 
-import java.util.Date
+import java.util.*
 
 data class DiscussionForum(
     var id: String,
@@ -10,6 +10,6 @@ data class DiscussionForum(
     var userId: String,
     var userName: String,
     var status: String,
-    var answer: Map<String, DiscussionForumAnswer> = mapOf(),
+    var answer: MutableMap<String, DiscussionForumAnswer> = mutableMapOf(),
     var acceptedAnswerId: String? = null
 )

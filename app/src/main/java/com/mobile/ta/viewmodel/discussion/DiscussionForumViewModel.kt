@@ -29,7 +29,7 @@ class DiscussionForumViewModel @ViewModelInject constructor(
     fun createNewDiscussion(title: String, question: String) {
         val today = now()
         val discussionForum =
-            DiscussionForum("123", title, question, today, "NEW", "user_id", "username")
+            DiscussionForum(today.toString(), title, question, today, "NEW", "user_id", "username")
         addDiscussionForum(discussionForum)
     }
 
@@ -39,7 +39,8 @@ class DiscussionForumViewModel @ViewModelInject constructor(
     }
 
     private fun addDiscussionForum(discussionForums: DiscussionForum) {
-        _discussionForums.value?.add(discussionForums)
+        DiscussionData.addForum(discussionForums)
+        fetchDiscussionForums()
     }
 
     private fun setDiscussionForums(discussionForums: ArrayList<DiscussionForum>) {
