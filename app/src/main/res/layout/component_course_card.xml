@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/component_course_container"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_120"
+    android:background="@drawable/drawable_rounded_rect"
+    android:backgroundTint="?attr/colorSurface"
+    android:elevation="@dimen/elevation_0">
+</androidx.constraintlayout.widget.ConstraintLayout>

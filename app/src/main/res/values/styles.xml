@@ -78,6 +78,10 @@
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
+    <style name="Widget.TA.Button.OutlinedButton.Secondary" parent="Widget.TA.Button.OutlinedButton">
+        <item name="textColor">?attr/colorSecondary</item>
+        <item name="strokeColor">?attr/colorSecondary</item>
+    </style>
     <style name="Widget.TA.Button" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
@@ -153,5 +157,10 @@
     <style name="ShapeAppearance.TA.RoundedComponent.Stroke" parent="ShapeAppearance.TA.RoundedComponent">
         <item name="strokeWidth">@dimen/dp_1</item>
         <item name="android:strokeWidth">@dimen/dp_1</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MyTheme.ShapeableImageView.Rounded.TopBottomLeft" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">50%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
     </style>
 </resources>

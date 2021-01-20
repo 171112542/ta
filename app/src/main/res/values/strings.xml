@@ -30,6 +30,22 @@
     <string name="your_feedback">Your Feedback</string>
     <string name="your_feedback_hint">Your feedback here…</string>
     <string name="submit_feedback">Submit Feedback</string>
+    <string name="bio_hint">Bio</string>
+    <string name="phone_number_hint">Phone Number</string>
+    <string name="email_address_hint">Email Address</string>
+    <string name="success_update_profile_label">Profile successfully updated!</string>
+    <string name="close_action">CLOSE</string>
+    <string name="about_tab">About</string>
+    <string name="feedback_tab">Feedback</string>
+    <string name="email_label">Email</string>
+    <string name="phone_number_label">Phone Number</string>
+    <string name="birth_date_label">Birth Date</string>
+    <string name="submitted_label">Submitted</string>
+    <string name="date_submitted_label">Date Submitted</string>
+    <string name="feedback_type_label">Feedback Type</string>
+    <string name="description_label">Description</string>
+    <string name="edit_label">Edit</string>
+    <string name="toolbar_edit_profile">Edit Profile</string>
 
     <!-- Toolbar title -->
     <string name="toolbar_settings">Settings</string>
