@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.mobile.ta.MainActivity
 import com.mobile.ta.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
@@ -25,6 +26,11 @@ class SettingsFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        (activity as MainActivity).showToolbar()
     }
 
     private fun goToAddFeedback() {

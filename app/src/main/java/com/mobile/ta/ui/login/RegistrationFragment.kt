@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
@@ -59,6 +60,7 @@ class RegistrationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        (activity as MainActivity).hideToolbar()
         viewModel.profilePicture.observe(viewLifecycleOwner, {
             binding.imageViewEditProfilePicture.setImageBitmap(it)
         })

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.mobile.ta.MainActivity
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
 import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
@@ -46,6 +47,7 @@ class DiscussionForumFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        (activity as MainActivity).showToolbar()
         viewModel.fetchDiscussionForums()
         viewModel.discussionForums.observe(viewLifecycleOwner, {
             discussionForumAdapter.submitList(it)
