@@ -46,6 +46,32 @@
     <string name="oldest_to_newest_sort_text">Oldest to newest</string>
     <string name="reset_filter_text">Reset to default</string>
     <string name="apply_filter_text">Apply filters</string>
+    <string name="type_tag_title_text">Type</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="save_selection_text">Save Selection</string>
+    <string name="junior_one_text">Junior - 1</string>
+    <string name="junior_two_text">Junior - 2</string>
+    <string name="junior_three_text">Junior - 3</string>
+    <string name="senior_one_text">Senior - 1</string>
+    <string name="senior_two_text">Senior - 2</string>
+    <string name="senior_three_text">Senior - 3</string>
+    <string name="physics_text">Physics</string>
+    <string name="biology_text">Biology</string>
+    <string name="chemistry_text">Chemistry</string>
+    <string name="math_text">Math</string>
+    <string name="save_text">Save</string>
+    <string name="level_tag_title_text">Level</string>
+
+    <!-- Exercise -->
+    <string name="submit_answer_text">Submit Answer</string>
+    <string name="show_explanation_text">Show Explanation</string>
+    <string name="hide_explanation_text">Hide Explanation</string>
+    <string name="explanation_text">Explanation</string>
+    <string name="correct_answer_text">Correct Answer!</string>
+    <string name="correct_answer_image_content_description">Correct Answer Image</string>
+    <string name="wrong_answer_image_content_description">Wrong Answer Image</string>
+    <string name="wrong_answer_text">Wrong Answer</string>
+    <string name="next_chapter_text">Next Chapter</string>
 
     <string name="three_d_back_information">Tap empty area to show back button</string>
     <string name="back_button_label">BACK</string>

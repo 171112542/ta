@@ -57,6 +57,7 @@ class HomeFragment :
     private fun setupRecyclerView() {
         val diffCallback = CourseOverviewDiffCallback()
         val adapter = CourseOverviewAdapter(diffCallback)
+        adapter.setParentFragment(this)
         with(binding.fragHomeRv) {
             this.adapter = adapter
             addItemDecoration(

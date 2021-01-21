@@ -5,5 +5,6 @@ data class CourseOverview(
     val title: String,
     val description: String,
     val level: LevelTag,
-    val imageUrl: String
+    val type: TypeTag,
+    val imageUrl: Int
 )

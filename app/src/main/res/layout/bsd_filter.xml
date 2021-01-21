@@ -118,46 +118,48 @@
             app:layout_constraintTop_toBottomOf="@+id/bsd_filter_sort_title" />
 
         <RadioGroup
+            android:id="@+id/bsd_filter_sort_group"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/keyline_4"
             android:showDividers="middle"
-            android:checkedButton="@id/bsd_filter_default_checked_radio"
+            android:checkedButton="@id/bsd_filter_sort_ascending"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/bsd_filter_sort_line">
 
             <RadioButton
-                android:id="@+id/bsd_filter_default_checked_radio"
+                android:id="@+id/bsd_filter_sort_ascending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/keyline_4"
                 android:text="@string/a_z_ascending_sort_text" />
 
             <RadioButton
+                android:id="@+id/bsd_filter_sort_descending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="@dimen/keyline_4"
                 android:text="@string/z_a_descending_sort_text" />
 
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/keyline_4"
-                android:text="@string/newest_to_oldest_sort_text" />
+<!--            <RadioButton-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingHorizontal="@dimen/keyline_4"-->
+<!--                android:text="@string/newest_to_oldest_sort_text" />-->
 
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/keyline_4"
-                android:text="@string/oldest_to_newest_sort_text" />
+<!--            <RadioButton-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingHorizontal="@dimen/keyline_4"-->
+<!--                android:text="@string/oldest_to_newest_sort_text" />-->
 
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/bsd_filter_cancel"
+        android:id="@+id/bsd_filter_reset_to_default"
         style="@style/Widget.TA.Button.Grey"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -177,6 +179,6 @@
         android:layout_marginStart="@dimen/keyline_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/bsd_filter_cancel" />
+        app:layout_constraintStart_toEndOf="@id/bsd_filter_reset_to_default" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,11 +2,9 @@ package com.mobile.ta.ui.search
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,11 +19,16 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.TagAdapter
 import com.mobile.ta.adapter.diff.StringDiffCallback
 import com.mobile.ta.databinding.BsdFilterBinding
+import com.mobile.ta.viewmodel.SearchViewModel
+import com.mobile.ta.viewmodel.SearchViewModel.Companion.SortOption
 
 
-class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
+        BottomSheetDialogFragment(),
+        View.OnClickListener {
     companion object {
-        fun newInstance() = FilterBottomSheetDialogFragment()
+        fun newInstance(viewmodel: SearchViewModel) = FilterBottomSheetDialogFragment(viewmodel)
+        private const val TAG_SELECTION_DIALOG = "tag_selection_dialog"
     }
 
     private var _binding: BsdFilterBinding? = null
@@ -37,12 +40,17 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = BsdFilterBinding.inflate(inflater, container, false)
+        binding.bsdFilterApply.setOnClickListener(this)
+        binding.bsdFilterTagEdit.setOnClickListener(this)
+        binding.bsdFilterResetToDefault.setOnClickListener(this)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupTagRecyclerView()
+        setupRadioSortOption()
+        observeViewModel()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -52,6 +60,17 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             setupHeight(bottomSheetDialog)
         }
         return dialog
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.bsd_filter_reset_to_default -> viewmodel.resetSelectedToFault()
+            R.id.bsd_filter_apply -> {
+                viewmodel.performFilter()
+                this.dismiss()
+            }
+            R.id.bsd_filter_tag_edit -> showTagSelectionDialog()
+        }
     }
 
     private fun setupHeight(bottomSheetDialog: BottomSheetDialog) {
@@ -68,10 +87,7 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
         behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
-    private fun getWindowHeight(): Int {
-        val displayMetrics = DisplayMetrics()
-        return requireActivity().window.decorView.height
-    }
+    private fun getWindowHeight(): Int = requireActivity().window.decorView.height
 
     private fun setupTagRecyclerView() {
         val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
@@ -92,6 +108,41 @@ class FilterBottomSheetDialogFragment : BottomSheetDialogFragment() {
             this.adapter = tagAdapter
             addItemDecoration(spaceSeparator)
         }
-        tagAdapter.submitList(arrayListOf("Test 1", "Test 2"))
+    }
+
+    private fun setupRadioSortOption() {
+        binding.bsdFilterSortGroup.setOnCheckedChangeListener { _, checkedId ->
+            when (checkedId) {
+                R.id.bsd_filter_sort_ascending -> viewmodel.saveSelectedSortOption(SortOption.A_Z)
+                R.id.bsd_filter_sort_descending -> viewmodel.saveSelectedSortOption(SortOption.Z_A)
+            }
+        }
+    }
+
+    private fun showTagSelectionDialog() {
+        val dialog = TagSelectionDialogFragment(viewmodel)
+        dialog.show(parentFragmentManager, TAG_SELECTION_DIALOG)
+    }
+
+    private fun observeViewModel() {
+        viewmodel.selectedTags.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.bsdFilterTagRv.visibility = View.GONE
+                binding.bsdFilterNoTagSelected.visibility = View.VISIBLE
+            } else {
+                binding.bsdFilterTagRv.visibility = View.VISIBLE
+                binding.bsdFilterNoTagSelected.visibility = View.GONE
+            }
+
+            if (binding.bsdFilterTagRv.adapter is TagAdapter) {
+                (binding.bsdFilterTagRv.adapter as TagAdapter).submitList(it)
+            }
+        }
+        viewmodel.selectedSortOption.observe(viewLifecycleOwner) {
+            if (it == SortOption.A_Z)
+                binding.bsdFilterSortAscending.isChecked = true
+            else
+                binding.bsdFilterSortDescending.isChecked = true
+        }
     }
 }

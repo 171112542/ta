@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/keyline_4">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_tag_selection_type_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/type_tag_title_text"
+        android:textAppearance="@style/TextAppearance.TA.Headline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/dialog_tag_selection_type_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_tag_selection_type_title"
+        app:selectionRequired="false">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_physics_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/physics_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_biology_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/biology_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_chemistry_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/chemistry_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_math_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/math_text" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/dialog_tag_selection_level_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_4"
+        android:text="@string/level_tag_title_text"
+        android:textAppearance="@style/TextAppearance.TA.Headline5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_tag_selection_type_group" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/dialog_tag_selection_level_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_4"
+        app:chipSpacingVertical="7.5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_tag_selection_level_title"
+        app:selectionRequired="false">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_junior_one_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/junior_one_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_junior_two_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/junior_two_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_junior_three_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/junior_three_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_senior_one_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/senior_one_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_senior_two_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/senior_two_text" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/dialog_tag_selection_senior_three_chip"
+            style="@style/Widget.TA.Chip.Choice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/senior_three_text" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <Button
+        android:id="@+id/dialog_tag_selection_cancel_button"
+        style="@style/Widget.TA.Button.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cancel_text"
+        android:layout_marginEnd="@dimen/keyline_2"
+        android:layout_marginTop="@dimen/dp_48"
+        app:layout_constraintTop_toBottomOf="@id/dialog_tag_selection_level_group"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dialog_tag_selection_save_button"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/dialog_tag_selection_save_button"
+        style="@style/Widget.TA.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/keyline_2"
+        android:text="@string/save_text"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_tag_selection_cancel_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/dialog_tag_selection_cancel_button"
+        app:layout_constraintTop_toTopOf="@+id/dialog_tag_selection_cancel_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
