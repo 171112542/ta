@@ -127,11 +127,9 @@ class CourseInformationFragment : Fragment() {
     }
 
     private fun goToCourseContent(id: String) {
-//        findNavController().navigate(
-//            CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment(
-//                id
-//            )
-//        )
+        findNavController().navigate(
+            CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment()
+        )
     }
 
     private fun goToOtherCourseInfo(id: String) {
