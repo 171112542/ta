@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,7 +38,7 @@
             app:constraint_referenced_ids="frag_search_no_search_help_description,
                 frag_search_no_search_help_title,
                 frag_search_no_search_image"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/frag_search_no_search_image"

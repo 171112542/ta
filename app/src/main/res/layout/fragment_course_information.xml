@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.courseInfo.CourseInformationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_16">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_course"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/ShapeAppearance.TA.MediumComponent"
+            tools:src="@drawable/drawable_half_rounded_pink" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_title"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:textAppearance="?attr/textAppearanceHeadline4"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toTopOf="@+id/text_view_course_info_created_by"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course"
+            app:layout_constraintTop_toTopOf="@id/image_view_course"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Theory of Black Hole" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_created_by"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="@id/image_view_course"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_course_info_title"
+            tools:text="Creator Name" />
+
+        <Button
+            android:id="@+id/button_enroll_course"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/enroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/image_view_course" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_content_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/content"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_enroll_course" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_course_info_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_content_label" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_about_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/about_this_course"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recycler_view_course_info_content" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_about"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_about_label"
+            tools:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to mtake a type specimen book." />
+
+        <TextView
+            android:id="@+id/text_view_course_info_about_tag_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:text="@string/tags"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintBottom_toBottomOf="@id/chip_group_course_info_about_tags"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/chip_group_course_info_about_tags" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_course_info_about_tags"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_16"
+            app:chipSpacing="@dimen/dp_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/text_view_course_info_about_tag_label"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_about" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_recommended_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/recommended_before_you_start"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chip_group_course_info_about_tags" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_course_info_recommended"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_recommended_label"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_recommended_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_48"
+            android:paddingBottom="@dimen/dp_24"
+            android:text="@string/no_recommended_course_label"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorControlNormal"
+            app:layout_constraintBottom_toTopOf="@id/text_view_course_info_related_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_recommended_label" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_related_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/related_to_this_course"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_recommended_empty" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_course_info_related"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_related_label"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_related_empty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/dp_48"
+            android:paddingBottom="@dimen/dp_24"
+            android:text="@string/no_related_courses_label"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorControlNormal"
+            app:layout_constraintBottom_toTopOf="@id/text_view_course_info_about_creator_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_related_label" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_about_creator_label"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_32"
+            android:text="@string/about_this_course_creator"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_related_empty" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/image_view_course_info_creator"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:layout_marginTop="@dimen/dp_24"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_about_creator_label"
+            app:shapeAppearance="@style/ShapeAppearance.TA.RoundedComponent"
+            tools:src="@drawable/drawable_half_rounded_blue" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_creator_name"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
+            app:layout_constraintTop_toTopOf="@id/image_view_course_info_creator"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Creator name" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_creator_description"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_8"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_course_info_creator_name"
+            tools:text="Creator Description" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_creator_email"
+            style="@style/Widget.TA.TextView.Icon"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_12"
+            app:drawableStartCompat="@drawable/ic_email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_creator_description"
+            tools:ignore="MissingPrefix"
+            tools:text="Emailnya" />
+
+        <TextView
+            android:id="@+id/text_view_course_info_creator_course"
+            style="@style/Widget.TA.TextView.Icon"
+            android:layout_width="@dimen/dp_0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp_16"
+            android:layout_marginTop="@dimen/dp_12"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textColor="?attr/colorOnSurface"
+            app:drawableStartCompat="@drawable/ic_course_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_creator_email"
+            tools:ignore="MissingPrefix"
+            tools:text="7 courses related" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

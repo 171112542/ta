@@ -32,10 +32,12 @@
         <item name="borderlessButtonStyle">@style/Widget.TA.Button.TextButton</item>
         <item name="materialButtonOutlinedStyle">@style/Widget.TA.Button.OutlinedButton</item>
         <item name="materialButtonStyle">@style/Widget.TA.Button</item>
+        <item name="floatingActionButtonStyle">@style/Widget.TA.FloatingActionButton</item>
         <item name="textInputStyle">@style/Widget.TA.TextInputLayout.FilledBox</item>
         <item name="editTextStyle">@style/Widget.TA.EditText</item>
         <item name="android:editTextStyle">@style/Widget.TA.EditText</item>
         <item name="chipStyle">@style/Widget.TA.Chip.Choice</item>
+        <item name="toolbarStyle">@style/Widget.TA.Toolbar</item>
         <item name="materialCardViewStyle">@style/Widget.TA.CardView</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.TA.BottomSheetDialog</item>
     </style>

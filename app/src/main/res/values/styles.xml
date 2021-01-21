@@ -48,6 +48,9 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.TextInputLayout.OutlinedBox</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
+    <style name="Widget.TA.TextInputLayout.OutlinedBox.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+    </style>
     <style name="ThemeOverlay.TA.TextInputLayout.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="colorPrimary">@color/turqoise</item>
         <item name="colorOnSurface">@color/black</item>
@@ -84,6 +87,10 @@
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.TextButton</item>
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
+    </style>
+    <style name="Widget.TA.Button.OutlinedButton.Secondary" parent="Widget.TA.Button.OutlinedButton">
+        <item name="textColor">?attr/colorSecondary</item>
+        <item name="strokeColor">?attr/colorSecondary</item>
     </style>
     <style name="Widget.TA.Button.Grey">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.Grey</item>
@@ -138,12 +145,41 @@
         <item name="colorPrimary">?attr/colorSurface</item>
         <item name="colorOnPrimary">?attr/colorOnSurface</item>
     </style>
+    <style name="Widget.TA.FloatingActionButton" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="layout_behavior">com.google.android.material.behavior.HideBottomViewOnScrollBehavior</item>
+    </style>
     <style name="Widget.TA.FloatingActionButton.Surface" parent="Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
         <item name="android:background">?attr/colorSurface</item>
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="tint">?attr/colorControlNormal</item>
-        <item name="elevation">@dimen/dp_8</item>
     </style>
+    <style name="Widget.TA.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
+        <item name="titleTextAppearance">?attr/textAppearanceHeadline2</item>
+    </style>
+    <style name="Widget.TA.Toolbar.Back" parent="Widget.TA.Toolbar">
+        <item name="navigationIcon">@drawable/ic_arrow_back</item>
+    </style>
+
+    <style name="Widget.TA.TextView.Icon" parent="">
+        <item name="android:drawablePadding">@dimen/dp_12</item>
+        <item name="drawableTint">?attr/colorOnSurface</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="Widget.TA.TextView.Icon.Small" parent="Widget.TA.TextView.Icon">
+        <item name="drawableTint">?attr/colorPrimaryVariant</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:drawablePadding">@dimen/dp_0</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+        <item name="drawableSize">@dimen/dp_20</item>
+    </style>
+    <style name="Widget.TA.TextView.Icon.Menu" parent="Widget.TA.TextView.Icon">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">@dimen/dp_16</item>
+    </style>
+
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
@@ -157,6 +193,15 @@
         <item name="cornerSize">15dp</item>
     </style>
     <style name="ShapeAppearance.TA.RoundedComponent" parent="ShapeAppearance.MaterialComponents">
-        <item name="cornerSize">50dp</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="ShapeAppearance.TA.RoundedComponent.Stroke" parent="ShapeAppearance.TA.RoundedComponent">
+        <item name="strokeWidth">@dimen/dp_1</item>
+        <item name="android:strokeWidth">@dimen/dp_1</item>
+    </style>
+    <style name="ShapeAppearanceOverlay.MyTheme.ShapeableImageView.Rounded.TopBottomLeft" parent="ShapeAppearance.MaterialComponents">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">50%</item>
+        <item name="cornerSizeBottomLeft">50%</item>
     </style>
 </resources>
