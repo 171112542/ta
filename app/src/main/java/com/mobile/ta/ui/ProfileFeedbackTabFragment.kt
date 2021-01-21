@@ -45,6 +45,7 @@ class ProfileFeedbackTabFragment : Fragment() {
             }
             profileTabRecyclerView.addItemDecoration(itemDecoration)
             viewModel.feedbacks.observe(viewLifecycleOwner, Observer {
+                profileTabNoData.visibility = if (it.count() == 0) View.VISIBLE else View.GONE
                 adapter.submitList(it)
             })
         }
