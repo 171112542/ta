@@ -88,7 +88,8 @@
             app:destination="@id/courseQuestionsFragment" />
         <argument
             android:name="id"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue="x5s1d"/>
         <action
             android:id="@+id/action_courseInformationFragment_self"
             app:destination="@id/courseInformationFragment" />
