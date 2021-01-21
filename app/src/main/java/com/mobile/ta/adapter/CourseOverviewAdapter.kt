@@ -14,8 +14,8 @@ import com.mobile.ta.model.LevelTag
 import com.mobile.ta.model.TypeTag
 import com.mobile.ta.ui.HomeFragment
 import com.mobile.ta.ui.HomeFragmentDirections
-import com.mobile.ta.ui.SearchFragmentDirections
 import com.mobile.ta.ui.search.SearchFragment
+import com.mobile.ta.ui.search.SearchFragmentDirections
 
 class CourseOverviewAdapter(
     diffCallback: CourseOverviewDiffCallback
