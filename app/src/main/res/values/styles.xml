@@ -175,8 +175,8 @@
         <item name="cornerSize">50%</item>
     </style>
     <style name="ShapeAppearance.TA.RoundedComponent.Stroke" parent="ShapeAppearance.TA.RoundedComponent">
-        <item name="strokeWidth">@dimen/dp_1</item>
-        <item name="android:strokeWidth">@dimen/dp_1</item>
+        <item name="strokeWidth">@dimen/dp_2</item>
+        <item name="strokeColor">?attr/colorPrimary</item>
     </style>
     <style name="ShapeAppearanceOverlay.MyTheme.ShapeableImageView.Rounded.TopBottomLeft" parent="ShapeAppearance.MaterialComponents">
         <item name="cornerFamily">rounded</item>
