@@ -9,26 +9,26 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/outlinedButton"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Outlined Button"
         style="@style/Widget.TA.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Outlined Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/textButton"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:text="Text Button"
         style="@style/Widget.TA.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/outlinedButton" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/normalButton"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Normal Button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textButton" />

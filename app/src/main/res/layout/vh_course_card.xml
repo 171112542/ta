@@ -17,13 +17,13 @@
         android:cropToPadding="true"
         android:padding="@dimen/dp_2"
         android:scaleType="centerCrop"
+        android:src="@drawable/img_sample"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/ShapeAppearance.TA.RoundedComponent"
         app:strokeColor="?attr/colorPrimary"
-        app:strokeWidth="@dimen/dp_2"
-        android:src="@drawable/img_sample" />
+        app:strokeWidth="@dimen/dp_2" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/course_card_title"
@@ -32,10 +32,10 @@
         android:layout_marginStart="@dimen/dp_16"
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="?attr/colorOnSurface"
+        app:layout_constraintBottom_toTopOf="@id/course_card_description"
         app:layout_constraintEnd_toStartOf="@id/course_card_guideline"
         app:layout_constraintStart_toEndOf="@id/course_card_image"
         app:layout_constraintTop_toTopOf="@id/course_card_image"
-        app:layout_constraintBottom_toTopOf="@id/course_card_description"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Theory of Black Hole" />
 
@@ -68,10 +68,10 @@
         android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_8"
         android:textAppearance="@style/TextAppearance.TA.Body2"
+        app:layout_constraintBottom_toTopOf="@id/course_card_progress"
         app:layout_constraintEnd_toStartOf="@id/course_card_guideline"
         app:layout_constraintStart_toEndOf="@id/course_card_image"
         app:layout_constraintTop_toBottomOf="@id/course_card_title"
-        app:layout_constraintBottom_toTopOf="@id/course_card_progress"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
 
     <androidx.constraintlayout.widget.Guideline

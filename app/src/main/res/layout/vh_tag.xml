@@ -4,16 +4,16 @@
     android:id="@+id/vh_tag_title"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:textAppearance="@style/TextAppearance.TA.Body1"
-    android:paddingStart="@dimen/keyline_4"
-    android:paddingEnd="@dimen/keyline_4"
-    android:paddingTop="@dimen/keyline_2"
-    android:paddingBottom="@dimen/keyline_2"
     android:layout_marginEnd="@dimen/keyline_2"
     android:background="@drawable/drawable_rounded_rect"
-    android:minHeight="45dp"
-    android:gravity="center"
     android:backgroundTint="@color/grey"
+    android:gravity="center"
+    android:minHeight="45dp"
+    android:paddingStart="@dimen/keyline_4"
+    android:paddingTop="@dimen/keyline_2"
+    android:paddingEnd="@dimen/keyline_4"
+    android:paddingBottom="@dimen/keyline_2"
+    android:textAppearance="@style/TextAppearance.TA.Body1"
     tools:text="Physics">
 
 </com.google.android.material.textview.MaterialTextView>

@@ -26,9 +26,9 @@ class LoginFragment : Fragment() {
             buttonSignIn.setOnClickListener {
                 goToHome()
             }
-//            buttonTeacherRole.setOnClickListener {
-//                openCredentialsBottomSheet()
-//            }
+            buttonTeacherRole.setOnClickListener {
+                openCredentialsBottomSheet()
+            }
         }
         return binding.root
     }
