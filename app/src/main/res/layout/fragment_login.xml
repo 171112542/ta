@@ -46,22 +46,12 @@
             style="@style/Widget.TA.Button.Google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_48"
-            app:layout_constraintBottom_toTopOf="@id/button_teacher_role"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/button_teacher_role"
-            style="@style/Widget.TA.Button.TextButton.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_16"
-            android:text="@string/teacher_role"
-            android:textAlignment="center"
+            android:layout_marginBottom="@dimen/dp_100"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+<!--        <Button-->gi:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
