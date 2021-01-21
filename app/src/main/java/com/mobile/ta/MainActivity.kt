@@ -15,6 +15,7 @@ import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.ProfileFragmentDirections
+import com.mobile.ta.ui.courseInfo.CourseInformationFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         // Delete from this line...
-        navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
+        navController.navigate(CourseInformationFragmentDirections.actionGlobalCourseInformationFragment("id"))
         // ...until this line later
         setContentView(binding.root)
         setSupportActionBar(toolbar)

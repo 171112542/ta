@@ -143,6 +143,26 @@
         <item name="navigationIcon">@drawable/ic_arrow_back</item>
     </style>
 
+    <style name="Widget.TA.TextView.Icon" parent="">
+        <item name="android:drawablePadding">@dimen/dp_12</item>
+        <item name="drawableTint">?attr/colorOnSurface</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody1</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+    <style name="Widget.TA.TextView.Icon.Small" parent="Widget.TA.TextView.Icon">
+        <item name="drawableTint">?attr/colorPrimaryVariant</item>
+        <item name="android:textColor">?attr/colorControlNormal</item>
+        <item name="android:drawablePadding">@dimen/dp_0</item>
+        <item name="android:textAppearance">?attr/textAppearanceBody2</item>
+        <item name="drawableSize">@dimen/dp_20</item>
+    </style>
+    <style name="Widget.TA.TextView.Icon.Menu" parent="Widget.TA.TextView.Icon">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:padding">@dimen/dp_16</item>
+    </style>
+
     <style name="ShapeAppearance.TA.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>

@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/text_view_discussion_created_time"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_12"
             android:layout_marginEnd="@dimen/dp_40"
@@ -33,7 +33,7 @@
         <TextView
             android:id="@+id/text_view_discussion_title"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_16"
             android:layout_marginEnd="@dimen/dp_40"
@@ -48,7 +48,7 @@
         <TextView
             android:id="@+id/text_view_discussion_question"
             android:layout_width="@dimen/dp_0"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_8"
             android:layout_marginEnd="@dimen/dp_40"

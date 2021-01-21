@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/discussionForumFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -77,14 +77,21 @@
     </fragment>
     <fragment
         android:id="@+id/courseInformationFragment"
-        android:name="com.mobile.ta.ui.CourseInformationFragment"
-        android:label="CourseInformationFragment">
+        android:name="com.mobile.ta.ui.courseInfo.CourseInformationFragment"
+        android:label="CourseInformationFragment"
+        tools:layout="@layout/fragment_course_information">
         <action
             android:id="@+id/action_courseInformationFragment_to_courseContentFragment"
             app:destination="@id/courseContentFragment" />
         <action
             android:id="@+id/action_courseInformationFragment_to_courseQuestionsFragment"
             app:destination="@id/courseQuestionsFragment" />
+        <argument
+            android:name="id"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_courseInformationFragment_self"
+            app:destination="@id/courseInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
@@ -158,4 +165,7 @@
         android:name="com.mobile.ta.ui.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
+    <action
+        android:id="@+id/action_global_courseInformationFragment"
+        app:destination="@id/courseInformationFragment" />
 </navigation>
