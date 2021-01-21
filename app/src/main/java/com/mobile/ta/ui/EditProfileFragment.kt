@@ -71,6 +71,12 @@ class EditProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        (activity as MainActivity).showToolbar()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.edit_profile_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -125,7 +131,6 @@ class EditProfileFragment : Fragment() {
     }
 
     fun openDatePickerDialog(date: Date) {
-        Log.d("var", "test")
         val calendar = Calendar.getInstance()
         calendar.setTime(date)
         DatePickerDialog(
