@@ -73,9 +73,6 @@
     <string name="wrong_answer_text">Wrong Answer</string>
     <string name="next_chapter_text">Next Chapter</string>
 
-    <string name="three_d_back_information">Tap empty area to show back button</string>
-    <string name="back_button_label">BACK</string>
-
     <!-- Discussion -->
     <string name="discussion_label">Discussion</string>
     <string name="create_new_discussion">Create New Discussion</string>
@@ -133,6 +130,12 @@
     <string name="created_by">Created by %s</string>
     <string name="no_recommended_course_label">No recommended course, yet.</string>
     <string name="no_related_courses_label">No related courses, yet.</string>
+
+    <string name="three_d_back_information">Tap empty area to show back button</string>
+    <string name="back_button_label">BACK</string>
+    <string name="course_ongoing_tab">Ongoing</string>
+    <string name="course_finished_tab">Finished</string>
+    <string name="no_data_label">No Data</string>
 
     <plurals name="creator_course_count">
         <item quantity="one">%d course created</item>
