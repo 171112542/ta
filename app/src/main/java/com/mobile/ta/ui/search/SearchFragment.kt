@@ -25,7 +25,7 @@ class SearchFragment :
     Fragment(),
     View.OnClickListener {
     companion object {
-        private const val FILTER_TAG = "FILTER_TAG"
+        private const val FILTER_BSD_FRAGMENT = "filter_bsd_fragment"
     }
 
     private var _binding: FragSearchBinding? = null
@@ -99,6 +99,7 @@ class SearchFragment :
     private fun setupRecyclerView() {
         val diffCallback = CourseOverviewDiffCallback()
         val adapter = CourseOverviewAdapter(diffCallback)
+        adapter.setParentFragment(this)
         with(binding.fragSearchSearchResultRv) {
             this.adapter = adapter
             addItemDecoration(
@@ -112,8 +113,8 @@ class SearchFragment :
     }
 
     private fun showFilterDialog() {
-        val dialog = FilterBottomSheetDialogFragment.newInstance()
-        dialog.show(parentFragmentManager, FILTER_TAG)
+        val dialog = FilterBottomSheetDialogFragment.newInstance(viewmodel)
+        dialog.show(parentFragmentManager, FILTER_BSD_FRAGMENT)
     }
 
     private fun observeViewModel() {
@@ -121,7 +122,7 @@ class SearchFragment :
             binding.fragSearchNoSearchGroup.visibility = if (it) View.GONE else View.VISIBLE
         })
 
-        viewmodel.searchResult.observe(viewLifecycleOwner, {
+        viewmodel.filteredSearchResult.observe(viewLifecycleOwner, {
             if (it.isEmpty()) {
                 binding.fragSearchNoSearchResultGroup.visibility = View.VISIBLE
                 binding.fragSearchSearchResultGroup.visibility = View.GONE

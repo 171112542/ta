@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/vh_course_question_wrong_banner"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:background="@color/red_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_sad_24dp"
+            android:contentDescription="@string/wrong_answer_image_content_description"
+            android:layout_marginEnd="@dimen/keyline_4" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/wrong_answer_text"
+            android:textColor="@color/red_dark"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vh_course_question_correct_banner"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:orientation="horizontal"
+        android:background="@color/green_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vh_course_question_wrong_banner"
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_confetti_24dp"
+            android:contentDescription="@string/correct_answer_image_content_description"
+            android:layout_marginEnd="@dimen/keyline_4" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/correct_answer_text"
+            android:textColor="@color/green"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/vh_course_question_question"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vh_course_question_correct_banner"
+        tools:text="Question" />
+
+    <RadioGroup
+        android:id="@+id/vh_course_question_choice_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        android:divider="@drawable/radio_space_separator"
+        android:showDividers="middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_question">
+
+        <RadioButton
+            android:id="@+id/vh_course_question_choice_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:checked="true"
+            tools:text="Choice 1" />
+
+        <RadioButton
+            android:id="@+id/vh_course_question_choice_two"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Choice 2" />
+
+        <RadioButton
+            android:id="@+id/vh_course_question_choice_three"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Choice 3" />
+
+        <RadioButton
+            android:id="@+id/vh_course_question_choice_four"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Choice 4" />
+
+    </RadioGroup>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/vh_course_question_submit_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="vh_course_question_submit" />
+
+    <Button
+        android:id="@+id/vh_course_question_submit"
+        style="@style/Widget.TA.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_answer_text"
+        android:enabled="false"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+    
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/vh_course_question_explanation_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="vh_course_question_explanation_description,
+        vh_course_question_explanation_title,
+        vh_course_question_explanation_line"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <View
+        android:id="@+id/vh_course_question_explanation_line"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_margin="@dimen/keyline_4"
+        android:background="@color/grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/vh_course_question_choice_group" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/vh_course_question_explanation_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/explanation_text"
+        android:textAppearance="@style/TextAppearance.TA.Headline5"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_line" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/vh_course_question_explanation_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_title"
+        tools:text="Testing explanation text" />
+
+    <Button
+        android:id="@+id/vh_course_question_show_explanation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        android:text="@string/show_explanation_text"
+        app:layout_constraintBottom_toTopOf="@id/vh_course_question_next_chapter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/vh_course_question_hide_explanation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/hide_explanation_text"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintBottom_toTopOf="@+id/vh_course_question_submit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/vh_course_question_next_chapter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        android:text="@string/next_chapter_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

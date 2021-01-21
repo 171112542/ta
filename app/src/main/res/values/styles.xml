@@ -1,4 +1,22 @@
 <resources>
+    <style name="Widget.TA.RadioButton.CorrectAnswer" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/drawable_rounded_rect</item>
+        <item name="android:backgroundTint">@color/green_light</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.RadioButton.CorrectAnswer</item>
+    </style>
+    <style name="Widget.TA.RadioButton.WrongAnswer" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="android:background">@drawable/drawable_rounded_rect</item>
+        <item name="android:backgroundTint">@color/red_light</item>
+        <item name="android:textColor">@color/red_dark</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.RadioButton.WrongAnswer</item>
+    </style>
+    <style name="ThemeOverlay.TA.RadioButton.CorrectAnswer" parent="">
+        <item name="colorSecondary">@color/green</item>
+    </style>
+    <style name="ThemeOverlay.TA.RadioButton.WrongAnswer" parent="">
+        <item name="colorSecondary">@color/red_dark</item>
+    </style>
     <style name="ThemeOverlay.TA.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/Widget.TA.BottomSheetDialog</item>
     </style>
