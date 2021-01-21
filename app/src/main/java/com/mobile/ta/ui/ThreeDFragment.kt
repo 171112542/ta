@@ -1,10 +1,7 @@
 package com.mobile.ta.ui
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,15 +10,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mobile.ta.databinding.FragmentThreeDBinding
 import com.mobile.ta.viewmodel.course.ThreeDViewModel
-import java.util.*
-import kotlin.concurrent.schedule
+import java.util.Timer
+import java.util.TimerTask
 
 class ThreeDFragment : Fragment() {
     private lateinit var binding : FragmentThreeDBinding

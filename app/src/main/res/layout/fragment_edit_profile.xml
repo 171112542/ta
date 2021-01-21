@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/edit_profile_layout"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/edit_profile_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,17 +7,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingEnd="@dimen/dp_16"
     android:paddingStart="@dimen/dp_16">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/dp_16"
             android:paddingBottom="@dimen/dp_16">
+
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/edit_profile_image_view"
                 android:layout_width="120dp"
@@ -32,7 +34,7 @@
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.TA.RoundedComponent"
                 android:src="@drawable/ic_person"
                 android:layout_marginTop="@dimen/dp_48"
-                android:padding="@dimen/dp_2"/>
+                android:padding="@dimen/dp_2" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/edit_profile_picture_button"
@@ -76,7 +78,7 @@
                     android:id="@+id/edit_profile_birth_date_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"/>
+                    android:focusable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -94,9 +96,9 @@
                     android:id="@+id/edit_profile_email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
-                    />
+                    android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_profile_phone_number_container"
                 style="@style/Widget.TA.TextInputLayout.OutlinedBox"
@@ -113,6 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/edit_profile_bio_container"
                 style="@style/Widget.TA.TextInputLayout.OutlinedBox"
@@ -129,7 +132,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="top|start"
-                    android:lines="3"/>
+                    android:lines="3" />
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

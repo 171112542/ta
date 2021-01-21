@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingStart="@dimen/dp_16"
     android:paddingEnd="@dimen/dp_16">
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_id"
         android:layout_width="0dp"
@@ -17,6 +18,7 @@
         android:paddingBottom="@dimen/dp_20"
         android:textAppearance="@style/TextAppearance.TA.Headline5"
         tools:text="SUGGSTN - 020000012" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_submit_status"
         android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
         android:textAppearance="@style/TextAppearance.TA.Headline5"
         android:text="@string/submitted_label"
         tools:text="Submitted" />
+
     <LinearLayout
         android:id="@+id/profile_feedback_separator_line"
         android:layout_width="match_parent"
@@ -38,7 +41,8 @@
         android:background="@color/black_60"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_id"/>
+        app:layout_constraintTop_toBottomOf="@id/profile_feedback_id" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_date_submitted_label"
         android:layout_width="wrap_content"
@@ -48,8 +52,8 @@
         android:layout_marginTop="@dimen/dp_20"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/date_submitted_label"
-        />
+        android:text="@string/date_submitted_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_date_submitted"
         android:layout_width="wrap_content"
@@ -58,8 +62,8 @@
         app:layout_constraintTop_toBottomOf="@id/profile_feedback_date_submitted_label"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="June 18th, 2020 5:15PM"
-        />
+        tools:text="June 18th, 2020 5:15PM" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_type_label"
         android:layout_width="wrap_content"
@@ -69,8 +73,8 @@
         android:layout_marginTop="@dimen/dp_20"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/feedback_type_label"
-        />
+        android:text="@string/feedback_type_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_type"
         android:layout_width="wrap_content"
@@ -79,8 +83,8 @@
         app:layout_constraintTop_toBottomOf="@id/profile_feedback_type_label"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="Others"
-        />
+        tools:text="Others" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_description_label"
         android:layout_width="wrap_content"
@@ -90,8 +94,8 @@
         android:layout_marginTop="@dimen/dp_20"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/description_label"
-        />
+        android:text="@string/description_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_feedback_description"
         android:layout_width="wrap_content"
@@ -100,8 +104,7 @@
         app:layout_constraintTop_toBottomOf="@id/profile_feedback_description_label"
         app:layout_constraintStart_toStartOf="parent"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="Something wrong in the logout button"
-        />
+        tools:text="Something wrong in the logout button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

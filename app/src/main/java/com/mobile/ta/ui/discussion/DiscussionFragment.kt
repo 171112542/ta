@@ -14,7 +14,7 @@ import com.mobile.ta.databinding.FragmentDiscussionBinding
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.util.Date
 
 @AndroidEntryPoint
 class DiscussionFragment : Fragment() {

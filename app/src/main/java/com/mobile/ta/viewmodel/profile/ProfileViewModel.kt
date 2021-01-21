@@ -8,9 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.FeedbackData
 import com.mobile.ta.data.UserData
-import com.mobile.ta.model.Feedback
 import com.mobile.ta.model.User
 
 class ProfileViewModel @ViewModelInject constructor(
@@ -63,7 +61,7 @@ class ProfileViewModel @ViewModelInject constructor(
                 bio
             )
             _user.postValue(user)
-            UserData.setUserData(user);
+            UserData.setUserData(user)
         }
     }
 }

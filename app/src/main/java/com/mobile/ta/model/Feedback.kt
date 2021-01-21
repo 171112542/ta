@@ -1,6 +1,6 @@
 package com.mobile.ta.model
 
-import java.util.*
+import java.util.Date
 
 data class Feedback(
     val id: String,

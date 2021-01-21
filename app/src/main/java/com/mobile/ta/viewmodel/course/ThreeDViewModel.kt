@@ -6,9 +6,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.mobile.ta.viewmodel.login.RegistrationViewModel
-import java.util.*
-import kotlin.concurrent.schedule
 
 class ThreeDViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle

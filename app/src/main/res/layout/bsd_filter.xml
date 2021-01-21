@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:padding="@dimen/keyline_4">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/bsd_filter_title"
+        style="@style/TextAppearance.TA.Headline3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/filter_title_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_4"
+        android:background="@drawable/drawable_rounded_rect"
+        android:backgroundTint="@color/grey_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bsd_filter_title">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bsd_filter_tag_title"
+            style="@style/TextAppearance.TA.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/keyline_4"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:text="@string/tags_title_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/bsd_filter_tag_edit"
+            style="@style/Widget.TA.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/keyline_4"
+            android:text="@string/edit_text"
+            app:layout_constraintBottom_toBottomOf="@+id/bsd_filter_tag_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/bsd_filter_tag_title" />
+
+        <View
+            android:id="@+id/bsd_filter_tag_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bsd_filter_tag_title" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bsd_filter_no_tag_selected"
+            style="@style/TextAppearance.TA.Overline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:layout_marginBottom="@dimen/keyline_4"
+            android:text="@string/no_tag_selected_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bsd_filter_tag_line" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bsd_filter_tag_rv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/keyline_4"
+            android:paddingHorizontal="@dimen/keyline_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bsd_filter_tag_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/keyline_4"
+        android:background="@drawable/drawable_rounded_rect"
+        android:backgroundTint="@color/grey_light"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bsd_filter_sort_title"
+            style="@style/TextAppearance.TA.Headline5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/keyline_4"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:text="@string/sort_title_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/bsd_filter_sort_line"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:background="@color/grey"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bsd_filter_sort_title" />
+
+        <RadioGroup
+            android:id="@+id/bsd_filter_sort_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/keyline_4"
+            android:showDividers="middle"
+            android:checkedButton="@id/bsd_filter_sort_ascending"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bsd_filter_sort_line">
+
+            <RadioButton
+                android:id="@+id/bsd_filter_sort_ascending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/keyline_4"
+                android:text="@string/a_z_ascending_sort_text" />
+
+            <RadioButton
+                android:id="@+id/bsd_filter_sort_descending"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/keyline_4"
+                android:text="@string/z_a_descending_sort_text" />
+
+<!--            <RadioButton-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingHorizontal="@dimen/keyline_4"-->
+<!--                android:text="@string/newest_to_oldest_sort_text" />-->
+
+<!--            <RadioButton-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingHorizontal="@dimen/keyline_4"-->
+<!--                android:text="@string/oldest_to_newest_sort_text" />-->
+
+        </RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/bsd_filter_reset_to_default"
+        style="@style/Widget.TA.Button.Grey"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_filter_text"
+        android:layout_marginEnd="@dimen/keyline_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bsd_filter_apply"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bsd_filter_apply"
+        style="@style/Widget.TA.Button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/apply_filter_text"
+        android:layout_marginStart="@dimen/keyline_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/bsd_filter_reset_to_default" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

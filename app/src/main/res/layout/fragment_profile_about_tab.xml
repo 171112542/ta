@@ -8,16 +8,16 @@
     android:paddingEnd="@dimen/dp_16"
     android:paddingTop="@dimen/dp_8">
 
-<!--    <com.google.android.material.imageview.ShapeableImageView-->
-<!--        android:id="@+id/profile_about_joined_image_view"-->
-<!--        android:layout_width="@dimen/dp_32"-->
-<!--        android:layout_height="@dimen/dp_32"-->
-<!--        android:layout_marginTop="@dimen/dp_20"-->
-<!--        android:src="@drawable/ic_update_black_24dp"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:tint="?attr/colorSecondary"-->
-<!--        />-->
+    <!--    <com.google.android.material.imageview.ShapeableImageView-->
+    <!--        android:id="@+id/profile_about_joined_image_view"-->
+    <!--        android:layout_width="@dimen/dp_32"-->
+    <!--        android:layout_height="@dimen/dp_32"-->
+    <!--        android:layout_marginTop="@dimen/dp_20"-->
+    <!--        android:src="@drawable/ic_update_black_24dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:tint="?attr/colorSecondary"-->
+    <!--        />-->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_about_email_image_view"
         android:layout_width="@dimen/dp_32"
@@ -26,8 +26,8 @@
         android:src="@drawable/ic_mail_outline_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorSecondary"
-        />
+        app:tint="?attr/colorSecondary" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_email_label"
         android:layout_width="wrap_content"
@@ -38,8 +38,8 @@
         app:layout_constraintStart_toEndOf="@id/profile_about_email_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/email_label"
-        />
+        android:text="@string/email_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_email"
         android:layout_width="wrap_content"
@@ -49,8 +49,8 @@
         app:layout_constraintBottom_toBottomOf="@id/profile_about_email_image_view"
         app:layout_constraintStart_toEndOf="@id/profile_about_email_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="john@gmail.com"
-        />
+        tools:text="john@gmail.com" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_about_phone_image_view"
         android:layout_width="@dimen/dp_32"
@@ -59,8 +59,8 @@
         android:src="@drawable/ic_phone_android_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_about_email_image_view"
-        app:tint="?attr/colorSecondary"
-        />
+        app:tint="?attr/colorSecondary" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_phone_label"
         android:layout_width="wrap_content"
@@ -71,8 +71,8 @@
         app:layout_constraintStart_toEndOf="@id/profile_about_phone_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/phone_number_label"
-        />
+        android:text="@string/phone_number_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_phone"
         android:layout_width="wrap_content"
@@ -82,8 +82,8 @@
         app:layout_constraintBottom_toBottomOf="@id/profile_about_phone_image_view"
         app:layout_constraintStart_toEndOf="@id/profile_about_phone_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="+6281990333364"
-        />
+        tools:text="+6281990333364" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_about_birth_date_image_view"
         android:layout_width="@dimen/dp_32"
@@ -92,8 +92,8 @@
         android:src="@drawable/ic_date_range_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_about_phone_image_view"
-        app:tint="?attr/colorSecondary"
-        />
+        app:tint="?attr/colorSecondary" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_birth_date_label"
         android:layout_width="wrap_content"
@@ -104,8 +104,8 @@
         app:layout_constraintStart_toEndOf="@id/profile_about_birth_date_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
         android:textColor="@color/black_60"
-        android:text="@string/birth_date_label"
-        />
+        android:text="@string/birth_date_label" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/profile_about_birth_date"
         android:layout_width="wrap_content"
@@ -115,6 +115,5 @@
         app:layout_constraintBottom_toBottomOf="@id/profile_about_birth_date_image_view"
         app:layout_constraintStart_toEndOf="@id/profile_about_birth_date_image_view"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="March 5, 1990"
-        />
+        tools:text="March 5, 1990" />
 </androidx.constraintlayout.widget.ConstraintLayout>

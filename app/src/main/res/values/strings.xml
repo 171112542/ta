@@ -14,7 +14,7 @@
     <string name="dest_home_label">Home</string>
     <string name="dest_course_label">Course</string>
     <string name="dest_profile_label">Profile</string>
-    <string name="search_bar_content_description">Search</string>
+    <string name="ic_search_content_description">Search</string>
     <string name="search_bar_hint">Search</string>
 
     <!-- Auth -->
@@ -27,6 +27,51 @@
     <string name="full_name_hint">Full Name</string>
     <string name="date_of_birth_hint">Date of Birth</string>
     <string name="birth_date_picker_title_label">Choose Date</string>
+
+    <!-- Search and Filter -->
+    <string name="no_search_image_content_description">Search Image</string>
+    <string name="no_search_help_title">Start Searching for a Course</string>
+    <string name="no_search_help_desc">Learning starts today. Search for a course you have been wanting to learn!</string>
+    <string name="search_result_end_text">End of Search Results</string>
+    <string name="no_search_result_text">No Result</string>
+    <string name="ic_filter_content_description">Filter</string>
+    <string name="filter_title_text">Filters</string>
+    <string name="tags_title_text">Tags</string>
+    <string name="edit_text">Edit</string>
+    <string name="no_tag_selected_text">No Tag Selected</string>
+    <string name="sort_title_text">Sort</string>
+    <string name="a_z_ascending_sort_text">A-Z (ascending)</string>
+    <string name="z_a_descending_sort_text">Z-A (descending)</string>
+    <string name="newest_to_oldest_sort_text">Newest to oldest</string>
+    <string name="oldest_to_newest_sort_text">Oldest to newest</string>
+    <string name="reset_filter_text">Reset to default</string>
+    <string name="apply_filter_text">Apply filters</string>
+    <string name="type_tag_title_text">Type</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="save_selection_text">Save Selection</string>
+    <string name="junior_one_text">Junior - 1</string>
+    <string name="junior_two_text">Junior - 2</string>
+    <string name="junior_three_text">Junior - 3</string>
+    <string name="senior_one_text">Senior - 1</string>
+    <string name="senior_two_text">Senior - 2</string>
+    <string name="senior_three_text">Senior - 3</string>
+    <string name="physics_text">Physics</string>
+    <string name="biology_text">Biology</string>
+    <string name="chemistry_text">Chemistry</string>
+    <string name="math_text">Math</string>
+    <string name="save_text">Save</string>
+    <string name="level_tag_title_text">Level</string>
+
+    <!-- Exercise -->
+    <string name="submit_answer_text">Submit Answer</string>
+    <string name="show_explanation_text">Show Explanation</string>
+    <string name="hide_explanation_text">Hide Explanation</string>
+    <string name="explanation_text">Explanation</string>
+    <string name="correct_answer_text">Correct Answer!</string>
+    <string name="correct_answer_image_content_description">Correct Answer Image</string>
+    <string name="wrong_answer_image_content_description">Wrong Answer Image</string>
+    <string name="wrong_answer_text">Wrong Answer</string>
+    <string name="next_chapter_text">Next Chapter</string>
 
     <!-- Discussion -->
     <string name="discussion_label">Discussion</string>

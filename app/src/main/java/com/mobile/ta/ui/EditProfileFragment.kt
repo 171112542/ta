@@ -8,16 +8,9 @@ import android.graphics.Bitmap
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.MainActivity
@@ -27,44 +20,49 @@ import com.mobile.ta.data.UserData.dobDateFormat
 import com.mobile.ta.databinding.FragmentEditProfileBinding
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
-import java.util.*
+import java.util.Date
 
 class EditProfileFragment : Fragment() {
+
+    companion object {
+        private const val EDIT_PROFILE_PICTURE_REQUEST_CODE = 3
+    }
+
     private lateinit var binding: FragmentEditProfileBinding
     private lateinit var mContext: Context
     private val viewModel: ProfileViewModel by activityViewModels()
-    private val EDIT_PROFILE_PICTURE_REQUEST_CODE = 3
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         mContext = requireContext()
         binding = FragmentEditProfileBinding.inflate(inflater, container, false)
         binding.apply {
             editProfilePictureButton.setOnClickListener {
                 openGallery()
             }
-            editProfileBirthDateInput.setOnClickListener { view ->
-                viewModel.user.value?.dob.let {
-                    if (it !== null) {
-                        openDatePickerDialog(it)
-                    } else {
-                        val calendar = Calendar.getInstance()
-                        calendar.add(Calendar.YEAR, -12)
-                        openDatePickerDialog(calendar.time)
-                    }
+            editProfileBirthDateInput.setOnClickListener {
+                viewModel.user.value?.dob?.let { dob ->
+                    openDatePickerDialog(dob)
+                } ?: run {
+                    val calendar = Calendar.getInstance()
+                    calendar.add(Calendar.YEAR, -12)
+                    openDatePickerDialog(calendar.time)
                 }
             }
-            viewModel.user.observe(viewLifecycleOwner, Observer {
-                editProfileFullNameInput.setText(it.name)
-                it.photo?.let {
+            viewModel.user.observe(viewLifecycleOwner, { user ->
+                editProfileFullNameInput.setText(user.name)
+                user.photo?.let {
                     editProfileImageView.setImageBitmap(it)
                 }
-                editProfileBirthDateInput.setText(dobDateFormat.format(it.dob))
-                editProfileEmailInput.setText(it.email)
-                editProfilePhoneNumberInput.setText(it.phone)
-                editProfileBioInput.setText(it.bio)
+                user.dob?.let {
+                    editProfileBirthDateInput.setText(dobDateFormat.format(it))
+                }
+                editProfileEmailInput.setText(user.email)
+                editProfilePhoneNumberInput.setText(user.phone)
+                editProfileBioInput.setText(user.bio)
             })
         }
         setHasOptionsMenu(true)
@@ -110,8 +108,13 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun showSnackbar() {
-        Snackbar.make((requireActivity() as MainActivity).getBindingRoot(), R.string.success_update_profile_label, Snackbar.LENGTH_SHORT)
+        Snackbar.make(
+            (requireActivity() as MainActivity).getBindingRoot(),
+            R.string.success_update_profile_label,
+            Snackbar.LENGTH_SHORT
+        )
             .setAction(R.string.close_action) {
+                it.visibility = View.GONE
             }
             .show()
     }
@@ -127,15 +130,15 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun setProfilePicture(picture: Bitmap?) {
-            viewModel.setUserPhoto(picture!!)
+        viewModel.setUserPhoto(picture!!)
     }
 
-    fun openDatePickerDialog(date: Date) {
+    private fun openDatePickerDialog(date: Date) {
         val calendar = Calendar.getInstance()
-        calendar.setTime(date)
+        calendar.time = date
         DatePickerDialog(
             mContext,
-            DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            { _, year, month, day ->
                 val pickedDateTime = Calendar.getInstance()
                 pickedDateTime.set(year, month, day)
                 viewModel.setUserDob(pickedDateTime)

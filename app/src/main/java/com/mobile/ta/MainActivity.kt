@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         animator.start()
     }
 
-    fun getBindingRoot(): ConstraintLayout {
+    fun getBindingRoot(): CoordinatorLayout {
         return binding.root
     }
 }

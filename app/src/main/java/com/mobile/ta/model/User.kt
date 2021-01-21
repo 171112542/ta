@@ -1,7 +1,7 @@
 package com.mobile.ta.model
 
 import android.graphics.Bitmap
-import java.util.*
+import java.util.Date
 
 data class User(
     val name: String,

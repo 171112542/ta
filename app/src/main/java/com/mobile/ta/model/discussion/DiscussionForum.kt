@@ -1,6 +1,6 @@
 package com.mobile.ta.model.discussion
 
-import java.util.*
+import java.util.Date
 
 data class DiscussionForum(
     var id: String,

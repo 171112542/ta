@@ -13,6 +13,7 @@ buildscript {
         firebaseUiVersion = "6.4.0"
         hiltVersion = "2.29.1-alpha"
         hiltViewModelVersion = "1.0.0-alpha02"
+        flexboxVersion = "2.0.1"
     }
     repositories {
         google()
