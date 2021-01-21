@@ -7,7 +7,7 @@ object UserCourseData {
         UserCourse(
             "x5s1d",
             "Theory of Black Hole",
-            "A black hole is a region of spacetime where gravity is so strong that nothing",
+            "A black hole is a region of spacetime where gravity is so strong that ...",
             "",
             5
         )

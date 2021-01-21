@@ -23,7 +23,7 @@ class UserCourseAdapter(
                     it.findNavController().navigate(R.id.action_myCourseFragment_to_courseInformationFragment)
                 }
                 courseCardTitle.text = item.title
-                courseCardDescription.text = item.title
+                courseCardDescription.text = item.description
                 courseCardProgress.progress = item.progress
             }
         }
