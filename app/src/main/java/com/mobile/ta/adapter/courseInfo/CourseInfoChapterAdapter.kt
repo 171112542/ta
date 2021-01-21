@@ -29,7 +29,9 @@ class CourseInfoChapterAdapter(
                 textViewCourseContentDescription.text = data.content
                 textViewCourseContentLessonNumber.text =
                     context.resources.getString(R.string.lesson_number, data.order)
-                textViewCourseContentProgress.visibility = View.GONE
+                textViewCourseContentProgress.text = "${data.progress}%"
+
+                progressBarCourseContent.setProgress(data.progress.toInt(), true)
 
                 root.setOnClickListener {
                     onClickListener.invoke(data.id)

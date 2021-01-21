@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/courseInformationFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -163,4 +163,7 @@
         android:name="com.mobile.ta.ui.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
+    <action
+        android:id="@+id/action_global_courseInformationFragment"
+        app:destination="@id/courseInformationFragment" />
 </navigation>

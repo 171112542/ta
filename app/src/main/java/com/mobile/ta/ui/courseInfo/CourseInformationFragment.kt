@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.adapter.courseInfo.CourseInfoChapterAdapter
@@ -16,8 +18,11 @@ import com.mobile.ta.adapter.courseInfo.CourseInfoPrerequisitesCourseAdapter
 import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.adapter.diff.CourseInfoPrerequisitesCourseDiffCallback
 import com.mobile.ta.databinding.FragmentCourseInformationBinding
+import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.courseInfo.Creator
+import com.mobile.ta.model.courseInfo.Tag
 import com.mobile.ta.utils.ImageUtil
+import com.mobile.ta.viewmodel.courseInfo.CourseInformationViewModel
 
 class CourseInformationFragment : Fragment() {
 
@@ -28,6 +33,8 @@ class CourseInformationFragment : Fragment() {
     private lateinit var binding: FragmentCourseInformationBinding
 
     private val args: CourseInformationFragmentArgs by navArgs()
+    private val viewModel: CourseInformationViewModel by viewModels()
+
     private val courseContentAdapter by lazy {
         CourseInfoChapterAdapter(CourseInfoChapterDiffCallback(), this::goToCourseContent)
     }
@@ -60,7 +67,42 @@ class CourseInformationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        args.id
+        viewModel.fetchCourseInfo(args.id)
+        viewModel.courseInfo.observe(viewLifecycleOwner, {
+            it?.let { courseInformation ->
+                viewModel.fetchCreatorInfo(courseInformation.creatorId)
+
+                setupCourseMainInfo(
+                    courseInformation.photo,
+                    courseInformation.name,
+                    courseInformation.creatorName
+                )
+                setupCourseAboutInfo(
+                    courseInformation.description,
+                    courseInformation.tags.values.toMutableList() as ArrayList
+                )
+
+                courseContentAdapter.submitList(courseInformation.chapter.values.toMutableList() as ArrayList)
+            }
+        })
+        viewModel.creatorInfo.observe(viewLifecycleOwner, {
+            it?.let { creator ->
+                setupCreatorInfo(creator)
+            }
+        })
+    }
+
+    private fun createTagChip(index: Int, text: String, color: Int): Chip {
+        val chipBinding = ItemSimpleTagChipBinding.inflate(
+            layoutInflater,
+            binding.chipGroupCourseInfoAboutTags, false
+        ).root
+        with(chipBinding) {
+            this.id = index
+            this.text = text
+            this.setChipBackgroundColorResource(color)
+        }
+        return chipBinding
     }
 
     private fun enrollCourse(enrollmentKey: String) {
@@ -69,6 +111,17 @@ class CourseInformationFragment : Fragment() {
             CourseInformationFragmentDirections
                 .actionCourseInformationFragmentToCourseContentFragment()
         )
+    }
+
+    private fun getTagColor(index: Int): Int {
+        val colors = arrayListOf(
+            R.color.black,
+            R.color.accent_green,
+            R.color.accent_orange,
+            R.color.accent_blue,
+            R.color.accent_pink
+        )
+        return colors[index % colors.size]
     }
 
     private fun goToCourseContent(id: String) {
@@ -103,6 +156,18 @@ class CourseInformationFragment : Fragment() {
             textViewCourseInfoTitle.text = title
             textViewCourseInfoCreatedBy.text = getString(R.string.created_by, createdBy)
             loadImage(image, imageViewCourse)
+        }
+    }
+
+    private fun setupCourseAboutInfo(about: String, tags: ArrayList<Tag>) {
+        with(binding) {
+            textViewCourseInfoAbout.text = about
+            with(chipGroupCourseInfoAboutTags) {
+                removeAllViews()
+                tags.forEachIndexed { index, tag ->
+                    addView(createTagChip(index, tag.name, getTagColor(index)))
+                }
+            }
         }
     }
 

@@ -69,6 +69,8 @@
     <string name="tags">Tags</string>
     <string name="lesson_number">LESSON %d</string>
     <string name="created_by">Created by %s</string>
+    <string name="no_recommended_course_label">No recommended course, yet.</string>
+    <string name="no_related_courses_label">No related courses, yet.</string>
 
     <plurals name="creator_course_count">
         <item quantity="one">%d course created</item>
