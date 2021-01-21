@@ -247,7 +247,7 @@
             app:drawableStartCompat="@drawable/ic_course_24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/image_view_course_info_creator"
-            app:layout_constraintTop_toBottomOf="@id/text_view_course_info_creator_email"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_item_enrolled_students"
             tools:ignore="MissingPrefix"
             tools:text="7 courses related" />
 

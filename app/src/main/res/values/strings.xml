@@ -67,6 +67,7 @@
     <string name="related_to_this_course"><b>Related</b> to This Course</string>
     <string name="about_this_course_creator"><b>About This</b> Course\'s Creator</string>
     <string name="tags">Tags</string>
+    <string name="lesson_number">LESSON %d</string>
     <string name="created_by">Created by %s</string>
 
     <plurals name="creator_course_count">

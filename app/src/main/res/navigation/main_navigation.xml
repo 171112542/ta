@@ -89,6 +89,9 @@
         <argument
             android:name="id"
             app:argType="string" />
+        <action
+            android:id="@+id/action_courseInformationFragment_self"
+            app:destination="@id/courseInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"

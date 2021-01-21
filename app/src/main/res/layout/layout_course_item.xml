@@ -5,6 +5,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="@dimen/dp_16"
+    android:clickable="true"
+    android:focusable="true"
     android:orientation="vertical">
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -25,7 +27,7 @@
         tools:text="Theory of Black Hole" />
 
     <TextView
-        android:id="@+id/text_view_course_info_creator_email"
+        android:id="@+id/text_view_course_item_enrolled_students"
         style="@style/Widget.TA.TextView.Icon.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
