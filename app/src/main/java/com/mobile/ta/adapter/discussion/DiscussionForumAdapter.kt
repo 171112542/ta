@@ -54,7 +54,7 @@ class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :
                 textViewDiscussionTitle.text = data.name
                 textViewDiscussionQuestion.text = data.question
                 textViewDiscussionCreatedTime.text =
-                    data.createdAt.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS)
+                    data.createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
 
                 cardViewDiscussionItem.setOnClickListener {
                     onClickListener.invoke(data.id)

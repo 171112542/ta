@@ -1,7 +1,5 @@
 package com.mobile.ta.viewmodel.discussion
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -9,8 +7,12 @@ import androidx.lifecycle.ViewModel
 import com.mobile.ta.data.DiscussionData
 import com.mobile.ta.model.discussion.DiscussionForum
 import com.mobile.ta.utils.now
+import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DiscussionForumViewModel @ViewModelInject constructor(
+@HiltViewModel
+class DiscussionForumViewModel @Inject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

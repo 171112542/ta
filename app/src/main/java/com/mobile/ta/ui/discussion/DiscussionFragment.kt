@@ -102,13 +102,13 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupQuestionData(
-        title: String, userName: String, createdAt: Date, question: String, replyCount: Int
+        title: String, userName: String, createdAt: Date?, question: String, replyCount: Int
     ) {
         with(binding.layoutDiscussionQuestion) {
             textViewDiscussionTitle.text = title
             textViewDiscussionQuestionerName.text = userName
             textViewDiscussionQuestionCreatedTime.text =
-                createdAt.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS)
+                createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
             textViewDiscussionQuestion.text = question
             textViewReplyCount.text = replyCount.toString()
         }
