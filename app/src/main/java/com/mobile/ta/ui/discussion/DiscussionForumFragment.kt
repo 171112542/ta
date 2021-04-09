@@ -15,13 +15,14 @@ import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscussionForumFragment : Fragment() {
+class DiscussionForumFragment : Fragment(), View.OnClickListener {
 
     companion object {
         private const val CREATE_NEW_DISCUSSION_TAG = "CREATE NEW DISCUSSION"
     }
 
-    private lateinit var binding: FragmentDiscussionForumBinding
+    private var _binding: FragmentDiscussionForumBinding? = null
+    private val binding get() = _binding!!
 
     private val discussionForumAdapter by lazy {
         DiscussionForumAdapter(this::goToDiscussionDetail)
@@ -31,16 +32,16 @@ class DiscussionForumFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
+        _binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
         with(binding) {
-            buttonAddDiscussion.setOnClickListener {
-                openCreateDiscussionBottomSheet()
-            }
+            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
             with(recyclerViewDiscussions) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = discussionForumAdapter
+                setHasFixedSize(true)
             }
         }
+        showLoading()
         return binding.root
     }
 
@@ -55,6 +56,19 @@ class DiscussionForumFragment : Fragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onClick(view: View?) {
+        with(binding) {
+            when (view) {
+                buttonAddDiscussion -> openCreateDiscussionBottomSheet()
+            }
+        }
+    }
+
     private fun goToDiscussionDetail(discussionForumId: String) {
         findNavController().navigate(
             DiscussionForumFragmentDirections.actionDiscussionForumFragmentToDiscussionFragment(
@@ -63,7 +77,7 @@ class DiscussionForumFragment : Fragment() {
         )
     }
 
-    private fun hideResult() {
+    private fun showLoading() {
         with(binding) {
             recyclerViewDiscussions.visibility = View.GONE
             progressBarDiscussionForumLoad.visibility = View.VISIBLE

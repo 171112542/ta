@@ -17,13 +17,14 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
 @AndroidEntryPoint
-class DiscussionFragment : Fragment() {
+class DiscussionFragment : Fragment(), View.OnClickListener {
 
     companion object {
         private const val REPLY_DISCUSSION_TAG = "REPLY DISCUSSION"
     }
 
-    private lateinit var binding: FragmentDiscussionBinding
+    private var _binding: FragmentDiscussionBinding? = null
+    private val binding get() = _binding!!
 
     private val args: DiscussionFragmentArgs by navArgs()
     private val discussionAnswerAdapter by lazy { DiscussionAnswerAdapter() }
@@ -32,14 +33,13 @@ class DiscussionFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDiscussionBinding.inflate(inflater, container, false)
+        _binding = FragmentDiscussionBinding.inflate(inflater, container, false)
         with(binding) {
-            buttonReplyDiscussion.setOnClickListener {
-                openReplyBottomSheet()
-            }
+            buttonReplyDiscussion.setOnClickListener(this@DiscussionFragment)
             with(recyclerViewDiscussionAnswer) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = discussionAnswerAdapter
+                setHasFixedSize(false)
             }
         }
         return binding.root
@@ -65,11 +65,24 @@ class DiscussionFragment : Fragment() {
             if (it.isEmpty()) {
                 hideResult(false)
             } else {
-                discussionAnswerAdapter.submitList(it)
                 showResult()
+                discussionAnswerAdapter.submitList(it)
                 binding.layoutDiscussionQuestion.textViewReplyCount.text = it.size.toString()
             }
         })
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onClick(view: View?) {
+        with(binding) {
+            when (view) {
+                buttonReplyDiscussion -> openReplyBottomSheet()
+            }
+        }
     }
 
     private fun hideResult(isLoading: Boolean) {
