@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
@@ -15,12 +14,12 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.CourseQuestion
-import com.mobile.ta.ui.CourseQuestionsFragmentDirections
+import com.mobile.ta.ui.CoursePracticeFragmentDirections
 
 
-class CourseQuestionAdapter(
+class CoursePracticeAdapter(
         diffCallback: CourseQuestionDiffCallback
-) : ListAdapter<CourseQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
+) : ListAdapter<CourseQuestion, CoursePracticeAdapter.ViewHolder>(diffCallback) {
     inner class ViewHolder(private val binding: VhCourseQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(courseQuestion: CourseQuestion) {
             binding.vhCourseQuestionQuestion.text = courseQuestion.question
@@ -49,7 +48,7 @@ class CourseQuestionAdapter(
             }
         }
 
-        fun showCorrectAnswer(courseQuestion: CourseQuestion) {
+        private fun showCorrectAnswer(courseQuestion: CourseQuestion) {
             val selectedAnswerId = binding.vhCourseQuestionChoiceGroup.checkedRadioButtonId
             val selectedRadioButton = binding.vhCourseQuestionChoiceGroup.findViewById<RadioButton>(selectedAnswerId)
             val selectedAnswerIndex = binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
@@ -103,22 +102,22 @@ class CourseQuestionAdapter(
             }
         }
 
-        fun hideExplanation() {
+        private fun hideExplanation() {
             binding.vhCourseQuestionShowExplanation.visibility = View.VISIBLE
             binding.vhCourseQuestionHideExplanation.visibility = View.GONE
             binding.vhCourseQuestionExplanationGroup.visibility = View.GONE
         }
 
-        fun showExplanation() {
+        private fun showExplanation() {
             binding.vhCourseQuestionShowExplanation.visibility = View.GONE
             binding.vhCourseQuestionHideExplanation.visibility = View.VISIBLE
             binding.vhCourseQuestionExplanationGroup.visibility = View.VISIBLE
         }
 
-        fun allowNextChapterNavigation() {
-            binding.vhCourseQuestionNextChapter.visibility = View.VISIBLE
-            binding.vhCourseQuestionNextChapter.setOnClickListener {
-                it.findNavController().navigate(CourseQuestionsFragmentDirections.actionCourseQuestionsFragmentToCourseContentFragment())
+        private fun allowNextChapterNavigation() {
+            binding.vhCourseQuestionSubmitResult.visibility = View.VISIBLE
+            binding.vhCourseQuestionSubmitResult.setOnClickListener {
+                it.findNavController().navigate(CoursePracticeFragmentDirections.actionCoursePracticeFragmentToCourseSubmitFragment())
             }
         }
     }

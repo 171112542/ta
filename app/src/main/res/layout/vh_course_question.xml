@@ -184,7 +184,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/keyline_4"
         android:text="@string/show_explanation_text"
-        app:layout_constraintBottom_toTopOf="@id/vh_course_question_next_chapter"
+        app:layout_constraintBottom_toTopOf="@id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:visibility="gone" />
@@ -202,11 +202,11 @@
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/vh_course_question_next_chapter"
+        android:id="@+id/vh_course_question_submit_result"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/keyline_4"
-        android:text="@string/next_chapter_text"
+        android:text="@string/submit_result_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

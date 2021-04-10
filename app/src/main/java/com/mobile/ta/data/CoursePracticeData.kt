@@ -2,7 +2,7 @@ package com.mobile.ta.data
 
 import com.mobile.ta.model.CourseQuestion
 
-object CourseQuestionData {
+object CoursePracticeData {
     val data = listOf(
         CourseQuestion(
             id = 1,

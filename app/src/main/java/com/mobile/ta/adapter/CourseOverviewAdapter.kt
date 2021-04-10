@@ -8,12 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
-import com.mobile.ta.databinding.FragCourseQuestionsBinding
 import com.mobile.ta.databinding.VhCourseOverviewBinding
 import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.LevelTag
 import com.mobile.ta.model.TypeTag
-import com.mobile.ta.ui.CourseQuestionsFragmentDirections
 import com.mobile.ta.ui.HomeFragment
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.search.SearchFragment

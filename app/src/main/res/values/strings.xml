@@ -54,5 +54,5 @@
     <string name="correct_answer_image_content_description">Correct Answer Image</string>
     <string name="wrong_answer_image_content_description">Wrong Answer Image</string>
     <string name="wrong_answer_text">Wrong Answer</string>
-    <string name="next_chapter_text">Next Chapter</string>
+    <string name="submit_result_text">Submit Result</string>
 </resources>

@@ -73,8 +73,11 @@
             android:id="@+id/action_courseInformationFragment_to_courseContentFragment"
             app:destination="@id/courseContentFragment" />
         <action
-            android:id="@+id/action_courseInformationFragment_to_courseQuestionsFragment"
-            app:destination="@id/courseQuestionsFragment" />
+            android:id="@+id/action_courseInformationFragment_to_coursePracticeFragment"
+            app:destination="@id/coursePracticeFragment" />
+        <action
+            android:id="@+id/action_courseInformationFragment_to_courseSubmitFragment"
+            app:destination="@id/courseSubmitFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
@@ -90,8 +93,11 @@
             android:id="@+id/action_courseContentFragment_self"
             app:destination="@id/courseContentFragment" />
         <action
-            android:id="@+id/action_courseContentFragment_to_courseQuestionsFragment"
-            app:destination="@id/courseQuestionsFragment" />
+            android:id="@+id/action_courseContentFragment_to_coursePracticeFragment"
+            app:destination="@id/coursePracticeFragment" />
+        <action
+            android:id="@+id/action_courseContentFragment_to_courseSubmitFragment"
+            app:destination="@id/courseSubmitFragment" />
     </fragment>
     <fragment
         android:id="@+id/threeDFragment"
@@ -110,13 +116,13 @@
         android:name="com.mobile.ta.ui.DiscussionFragment"
         android:label="DiscussionFragment" />
     <fragment
-        android:id="@+id/courseQuestionsFragment"
-        android:name="com.mobile.ta.ui.CourseQuestionsFragment"
+        android:id="@+id/coursePracticeFragment"
+        android:name="com.mobile.ta.ui.CoursePracticeFragment"
         android:label="CourseQuestionsFragment"
-        tools:layout="@layout/frag_course_questions">
+        tools:layout="@layout/frag_course_practice">
         <action
-            android:id="@+id/action_courseQuestionsFragment_to_courseContentFragment"
-            app:destination="@id/courseContentFragment" />
+            android:id="@+id/action_coursePracticeFragment_to_courseSubmitFragment"
+            app:destination="@id/courseSubmitFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -133,5 +139,17 @@
     <fragment
         android:id="@+id/feedbackFragment"
         android:name="com.mobile.ta.ui.FeedbackFragment"
-        android:label="FeedbackFragment" />
+        android:label="FeedbackFragment" /><action android:id="@+id/action_global_coursePracticeFragment" app:destination="@id/coursePracticeFragment"/>
+    <fragment
+        android:id="@+id/courseSubmitFragment"
+        android:name="com.mobile.ta.ui.CourseSubmitFragment"
+        android:label="CourseSubmitFragment"
+        tools:layout="@layout/frag_course_submit">
+        <action
+            android:id="@+id/action_courseSubmitFragment_to_discussionForumFragment"
+            app:destination="@id/discussionForumFragment" />
+        <action
+            android:id="@+id/action_courseSubmitFragment_to_courseContentFragment"
+            app:destination="@id/courseContentFragment" />
+    </fragment>
 </navigation>

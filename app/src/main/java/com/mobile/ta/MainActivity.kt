@@ -10,7 +10,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobile.ta.databinding.ActivityMainBinding
-import com.mobile.ta.ui.CourseQuestionsFragmentDirections
+import com.mobile.ta.ui.CoursePracticeFragmentDirections
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.ProfileFragmentDirections
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             (supportFragmentManager.findFragmentById(R.id.act_main_host_fragment) as NavHostFragment).navController
 
         // Delete from this line...
-        navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
+        navController.navigate(CoursePracticeFragmentDirections.actionGlobalCoursePracticeFragment())
         // ...until this line later
         setContentView(binding.root)
         setupBottomNavMenu(navController)

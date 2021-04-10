@@ -12,6 +12,8 @@ buildscript {
         hiltVersion = "2.29.1-alpha"
         hiltViewModelVersion = "1.0.0-alpha02"
         flexboxVersion = "2.0.1"
+        googleGmsVersion = "4.3.5"
+        firebaseBomVersion = "27.0.0"
     }
     repositories {
         google()
@@ -22,6 +24,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+        classpath "com.google.gms:google-services:$googleGmsVersion"
     }
 }
 

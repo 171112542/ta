@@ -45,9 +45,9 @@ class HomeFragment :
         _binding = null
     }
 
-    override fun onClick(v: View?) {
-        when (v?.id) {
-            R.id.frag_home_search_bar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+    override fun onClick(v: View) {
+        when (v) {
+            binding.fragHomeSearchBar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
     }
 
