@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.MainActivity
+import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
 import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
@@ -27,33 +29,20 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
     private val discussionForumAdapter by lazy {
         DiscussionForumAdapter(this::goToDiscussionDetail)
     }
-    private val viewModel: DiscussionForumViewModel by viewModels()
+    private val viewModel by viewModels<DiscussionForumViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
-        with(binding) {
-            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
-            with(recyclerViewDiscussions) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = discussionForumAdapter
-                setHasFixedSize(true)
-            }
-        }
-        showLoading()
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).showToolbar()
-        viewModel.fetchDiscussionForums()
-        viewModel.discussionForums.observe(viewLifecycleOwner, {
-            discussionForumAdapter.submitList(it)
-            showResult()
-        })
+        setupObserver()
+        setupViews()
     }
 
     override fun onDestroyView() {
@@ -67,6 +56,35 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
                 buttonAddDiscussion -> openCreateDiscussionBottomSheet()
             }
         }
+    }
+
+    private fun setupObserver() {
+        viewModel.fetchDiscussionForums()
+        viewModel.discussionForums.observe(viewLifecycleOwner, {
+            it.data?.let { data ->
+                discussionForumAdapter.submitList(data)
+                discussionForumAdapter.notifyDataSetChanged()
+                showResult()
+            }
+        })
+        viewModel.isForumAdded.observe(viewLifecycleOwner, {
+            if (it) {
+                showSuccessAddForumToast()
+            }
+            viewModel.setIsForumAdded()
+        })
+    }
+
+    private fun setupViews() {
+        with(binding) {
+            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
+            with(recyclerViewDiscussions) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = discussionForumAdapter
+                setHasFixedSize(true)
+            }
+        }
+        showLoading()
     }
 
     private fun goToDiscussionDetail(discussionForumId: String) {
@@ -94,5 +112,13 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
             recyclerViewDiscussions.visibility = View.VISIBLE
             progressBarDiscussionForumLoad.visibility = View.GONE
         }
+    }
+
+    private fun showSuccessAddForumToast() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.success_add_forum_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 }

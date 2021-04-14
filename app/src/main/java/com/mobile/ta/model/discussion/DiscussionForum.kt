@@ -10,6 +10,5 @@ data class DiscussionForum(
     var userId: String,
     var userName: String,
     var status: String,
-    var answer: MutableMap<String, DiscussionForumAnswer> = mutableMapOf(),
     var acceptedAnswerId: String? = null
 )

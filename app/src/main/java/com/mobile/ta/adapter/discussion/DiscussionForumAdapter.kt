@@ -43,7 +43,8 @@ class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :
 
     override fun getItemViewType(position: Int): Int = position % 4
 
-    inner class DiscussionForumViewHolder(itemView: View, private val viewType: Int) : RecyclerView.ViewHolder(itemView) {
+    inner class DiscussionForumViewHolder(itemView: View, private val viewType: Int) :
+        RecyclerView.ViewHolder(itemView) {
 
         private val binding by lazy {
             LayoutDiscussionForumItemBinding.bind(itemView)

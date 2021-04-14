@@ -12,7 +12,7 @@ import com.mobile.ta.databinding.LayoutDiscussionReplyBinding
 import com.mobile.ta.model.discussion.DiscussionForumAnswer
 import com.mobile.ta.utils.toDateString
 
-class DiscussionAnswerAdapter :
+class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: ((String) -> Unit)? = null) :
     ListAdapter<DiscussionForumAnswer, DiscussionAnswerAdapter.DiscussionAnswerViewHolder>(
         diffCallback
     ) {
@@ -48,8 +48,19 @@ class DiscussionAnswerAdapter :
             with(binding) {
                 textViewDiscussionReply.text = data.answer
                 textViewDiscussionQuestionCreatedTime.text =
-                    data.createdAt.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS)
+                    data.createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
                 textViewDiscussionQuestionerName.text = data.userName
+
+                buttonMarkAsAcceptedAnswer.apply {
+                    visibility = onMarkAsAnswerListener?.let {
+                        View.VISIBLE
+                    } ?: run {
+                        View.GONE
+                    }
+                    setOnClickListener {
+                        onMarkAsAnswerListener?.invoke(data.id)
+                    }
+                }
             }
         }
     }

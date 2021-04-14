@@ -2,14 +2,14 @@ package com.mobile.ta.utils
 
 import android.widget.EditText
 import android.widget.TextView
+import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.mobile.ta.config.Constants
+import com.mobile.ta.model.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -53,45 +53,36 @@ fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
 
 @ExperimentalCoroutinesApi
-fun <T> CollectionReference.getCallbackFlowList(
-    mapper: (MutableList<DocumentSnapshot>) -> MutableList<T>): Flow<MutableList<T>> {
-    return callbackFlow {
-        val listener =
-            this@getCallbackFlowList.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    cancel(
-                        cause = firebaseFirestoreException,
-                        message = firebaseFirestoreException.message.orEmpty()
-                    )
-                    return@addSnapshotListener
-                }
-                val mappedDataList = mapper.invoke(querySnapshot?.documents ?: mutableListOf())
-                offer(mappedDataList)
-            }
-        awaitClose {
-            listener.remove()
-        }
-    }
+suspend fun <T> CollectionReference.fetchData(
+    mapper: (MutableList<DocumentSnapshot>) -> MutableList<T>
+): Status<MutableList<T>> {
+    lateinit var statusData: Status<MutableList<T>>
+    get().addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener { data ->
+        statusData = Status.success(mapper.invoke(data.documents))
+    }.await()
+    return statusData
 }
 
 @ExperimentalCoroutinesApi
-fun <T> CollectionReference.getCallbackFlow(mapper: (DocumentSnapshot) -> T): Flow<T> {
-    return callbackFlow {
-        val listener =
-            this@getCallbackFlow.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
-                firebaseFirestoreException?.let {
-                    cancel(
-                        cause = firebaseFirestoreException,
-                        message = firebaseFirestoreException.message.orEmpty()
-                    )
-                    return@addSnapshotListener
-                }
-                querySnapshot?.documents?.first()?.let { data ->
-                    offer(mapper.invoke(data))
-                }
-            }
-        awaitClose {
-            listener.remove()
-        }
-    }
+suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T): Status<T> {
+    lateinit var statusData: Status<T>
+    get().addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener { data ->
+        statusData = Status.success(mapper.invoke(data))
+    }.await()
+    return statusData
+}
+
+@ExperimentalCoroutinesApi
+suspend fun <T> Task<T>.fetchData(): Status<T> {
+    lateinit var statusData: Status<T>
+    addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener { data ->
+        statusData = Status.success(data)
+    }.await()
+    return statusData
 }
