@@ -43,9 +43,11 @@ class CourseOverviewAdapter(
             }
             binding.root.setOnClickListener {
                 if (parentFragment is HomeFragment)
-                    it.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCourseInformationFragment())
+                    it.findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToCourseInformationFragment(""))
                 else if (parentFragment is SearchFragment)
-                    it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment())
+                    it.findNavController().navigate(
+                        SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment(""))
             }
         }
     }

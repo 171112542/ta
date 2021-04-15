@@ -1,6 +1,5 @@
 package com.mobile.ta.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,8 @@ import com.mobile.ta.data.CourseOverviewData
 import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.LevelTag
 import com.mobile.ta.model.TypeTag
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
 
 class SearchViewModel : ViewModel() {
     companion object {

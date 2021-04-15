@@ -1,4 +1,3 @@
-package com.mobile.ta.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

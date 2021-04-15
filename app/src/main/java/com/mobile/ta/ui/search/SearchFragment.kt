@@ -10,12 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mobile.ta.R
 import com.mobile.ta.adapter.CourseOverviewAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
-import com.mobile.ta.data.CourseOverviewData
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.ui.RVSeparator
 import com.mobile.ta.viewmodel.SearchViewModel

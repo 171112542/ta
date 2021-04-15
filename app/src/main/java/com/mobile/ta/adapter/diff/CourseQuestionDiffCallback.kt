@@ -1,7 +1,6 @@
 package com.mobile.ta.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.CourseQuestion
 
 class CourseQuestionDiffCallback : DiffUtil.ItemCallback<CourseQuestion>() {

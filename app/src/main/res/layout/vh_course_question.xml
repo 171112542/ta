@@ -136,7 +136,7 @@
         app:layout_constraintBottom_toTopOf="@id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    
+
     <androidx.constraintlayout.widget.Group
         android:id="@+id/vh_course_question_explanation_group"
         android:layout_width="wrap_content"

@@ -2,16 +2,10 @@ package com.mobile.ta.ui.search
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.SearchView
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexDirection
@@ -25,8 +19,6 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.TagAdapter
 import com.mobile.ta.adapter.diff.StringDiffCallback
 import com.mobile.ta.databinding.BsdFilterBinding
-import com.mobile.ta.model.LevelTag
-import com.mobile.ta.model.TypeTag
 import com.mobile.ta.viewmodel.SearchViewModel
 import com.mobile.ta.viewmodel.SearchViewModel.Companion.SortOption
 

@@ -5,6 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.tabs.TabLayoutMediator
+import com.mobile.ta.MainActivity
+import com.mobile.ta.R
+import com.mobile.ta.adapter.CoursePagerAdapter
 import com.mobile.ta.databinding.FragCourseBinding
 
 class MyCourseFragment : Fragment() {
@@ -17,7 +21,24 @@ class MyCourseFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragCourseBinding.inflate(inflater, container, false)
+        val coursePagerAdapter = CoursePagerAdapter(this)
+        binding.apply {
+            courseViewPager.adapter = coursePagerAdapter
+            (courseViewPager.getChildAt(0) as ViewGroup).clipChildren = false
+            TabLayoutMediator(courseTabLayout, courseViewPager) {tab, position ->
+                when (position) {
+                    0 -> tab.text = getString(R.string.course_ongoing_tab)
+                    1 -> tab.text = getString(R.string.course_finished_tab)
+                }
+            }.attach()
+        }
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        (activity as MainActivity).showToolbar(isMain = true)
     }
 
     override fun onDestroyView() {

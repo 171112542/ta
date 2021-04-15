@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:focusableInTouchMode="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:clipChildren="false"
+        android:clipToPadding="false"
         android:padding="@dimen/keyline_4">
 
         <EditText
@@ -39,7 +38,7 @@
             app:constraint_referenced_ids="frag_search_no_search_help_description,
                 frag_search_no_search_help_title,
                 frag_search_no_search_image"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/frag_search_no_search_image"
@@ -70,10 +69,10 @@
             android:id="@+id/frag_search_no_search_help_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_2"
             android:text="@string/no_search_help_desc"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.TA.Subtitle2"
-            android:layout_marginTop="@dimen/keyline_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -83,21 +82,21 @@
             android:id="@+id/frag_search_search_result_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:constraint_referenced_ids="frag_search_search_result_rv,
                 frag_search_search_result_end_line,
                 frag_search_search_result_end_text,
                 frag_search_search_result_filter"
-            android:visibility="gone"
             tools:visibility="gone" />
 
         <ImageView
             android:id="@+id/frag_search_search_result_filter"
+            style="@style/Widget.TA.Icon"
             android:layout_marginTop="@dimen/keyline_4"
-            android:src="@drawable/ic_filter_list_24px"
+            android:clickable="true"
             android:contentDescription="@string/ic_filter_content_description"
             android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
-            style="@style/Widget.TA.Icon"
+            android:src="@drawable/ic_filter_list_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frag_search_search_bar" />
 
@@ -105,8 +104,8 @@
             android:id="@+id/frag_search_search_result_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             android:layout_marginTop="@dimen/keyline_4"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,8 +115,8 @@
             android:id="@+id/frag_search_search_result_end_line"
             android:layout_width="150dp"
             android:layout_height="1dp"
-            android:background="@color/grey_dark"
             android:layout_marginTop="@dimen/keyline_4"
+            android:background="@color/grey_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/frag_search_search_result_rv" />
@@ -126,10 +125,10 @@
             android:id="@+id/frag_search_search_result_end_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_4"
             android:text="@string/search_result_end_text"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.TA.Overline"
-            android:layout_marginTop="@dimen/keyline_4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frag_search_search_result_end_line" />
@@ -138,8 +137,8 @@
             android:id="@+id/frag_search_no_search_result_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="frag_search_no_result_text"
             android:visibility="gone"
+            app:constraint_referenced_ids="frag_search_no_result_text"
             tools:visibility="gone" />
 
         <com.google.android.material.textview.MaterialTextView

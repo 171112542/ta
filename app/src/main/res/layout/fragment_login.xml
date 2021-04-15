@@ -46,7 +46,7 @@
             style="@style/Widget.TA.Button.Google"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/dp_48"
+            android:layout_marginBottom="@dimen/dp_64"
             app:layout_constraintBottom_toTopOf="@id/button_teacher_role"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -59,10 +59,11 @@
             android:layout_marginBottom="@dimen/dp_16"
             android:text="@string/teacher_role"
             android:textAlignment="center"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </LinearLayout>

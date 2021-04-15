@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import com.mobile.ta.R
 import com.mobile.ta.databinding.DialogTagSelectionBinding
 import com.mobile.ta.model.LevelTag
@@ -20,7 +19,7 @@ class TagSelectionDialogFragment(private val viewmodel: SearchViewModel) :
     private var _binding: DialogTagSelectionBinding? = null
     private val binding get() = _binding as DialogTagSelectionBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = DialogTagSelectionBinding.inflate(inflater, container, false)
         binding.dialogTagSelectionSaveButton.setOnClickListener(this)
         binding.dialogTagSelectionCancelButton.setOnClickListener(this)
@@ -37,7 +36,7 @@ class TagSelectionDialogFragment(private val viewmodel: SearchViewModel) :
         super.onStart()
         val dialogWidth = requireActivity().window.decorView.width * 90 / 100
         val dialogHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-        dialog?.window?.setLayout(dialogWidth, dialogHeight);
+        dialog?.window?.setLayout(dialogWidth, dialogHeight)
     }
 
     override fun onClick(v: View) {
