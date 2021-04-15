@@ -1,14 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:padding="@dimen/keyline_4">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        style="@style/Widget.TA.CircularProgressIndicator.Inverted"
+        android:id="@+id/frag_course_submit_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/frag_course_submit_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="frag_course_submit_description,
+        frag_course_submit_next_chapter,frag_course_submit_retry,
+        frag_course_submit_score,frag_course_submit_title"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/frag_course_submit_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Some Dummy Text for Now"
+        android:textAppearance="@style/TextAppearance.TA.Headline2"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Exercise Title" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/frag_course_submit_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Questions you got correct:"
+        android:textAppearance="@style/TextAppearance.TA.Body1"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:layout_marginBottom="@dimen/keyline_2"
+        app:layout_constraintBottom_toTopOf="@+id/frag_course_submit_score"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Questions you got correct:" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Submit Result"
-        android:textAlignment="center"
+        android:id="@+id/frag_course_submit_score"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.TA.Headline1" />
+        android:letterSpacing="0.2"
+        android:text="9/10"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.TA.Headline1"
+        android:textColor="?attr/colorOnPrimary"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/frag_course_submit_retry"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frag_course_submit_title"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/frag_course_submit_retry"
+        style="@style/Widget.TA.Button.Inverted"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Retry Practice"
+        app:layout_constraintBottom_toTopOf="@id/frag_course_submit_next_chapter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/frag_course_submit_next_chapter"
+        style="@style/Widget.TA.Button.Inverted"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Next Chapter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

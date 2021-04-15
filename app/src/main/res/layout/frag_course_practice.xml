@@ -5,6 +5,26 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/frag_course_practice_loading"
+        android:indeterminate="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/frag_course_practice_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="frag_course_practice_tab,
+        frag_course_practice_title,frag_course_practice_vp"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/frag_course_practice_title"
         android:layout_width="0dp"
@@ -34,6 +54,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frag_course_practice_tab" />
+        app:layout_constraintTop_toBottomOf="@+id/frag_course_practice_tab" >
+
+    </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

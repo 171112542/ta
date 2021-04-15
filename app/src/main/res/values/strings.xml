@@ -55,4 +55,8 @@
     <string name="wrong_answer_image_content_description">Wrong Answer Image</string>
     <string name="wrong_answer_text">Wrong Answer</string>
     <string name="submit_result_text">Submit Result</string>
+    <string name="confirmation_dialog_show_result_title">Show your results?</string>
+    <string name="confirmation_dialog_show_result_message">Some questions are still not answered. Are you sure you want to submit?</string>
+    <string name="dialog_no_text">No</string>
+    <string name="dialog_yes_text">Yes</string>
 </resources>

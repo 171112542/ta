@@ -122,7 +122,8 @@
         tools:layout="@layout/frag_course_practice">
         <action
             android:id="@+id/action_coursePracticeFragment_to_courseSubmitFragment"
-            app:destination="@id/courseSubmitFragment" />
+            app:destination="@id/courseSubmitFragment"
+            app:popUpTo="@id/courseInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -151,5 +152,9 @@
         <action
             android:id="@+id/action_courseSubmitFragment_to_courseContentFragment"
             app:destination="@id/courseContentFragment" />
+        <action
+            android:id="@+id/action_courseSubmitFragment_to_coursePracticeFragment"
+            app:destination="@id/coursePracticeFragment"
+            app:popUpTo="@id/courseInformationFragment" />
     </fragment>
 </navigation>

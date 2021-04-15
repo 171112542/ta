@@ -14,6 +14,7 @@ buildscript {
         flexboxVersion = "2.0.1"
         googleGmsVersion = "4.3.5"
         firebaseBomVersion = "27.0.0"
+        ktxCoroutinePlayServicesVersion = "1.4.1"
     }
     repositories {
         google()
