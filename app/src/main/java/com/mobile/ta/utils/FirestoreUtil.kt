@@ -39,6 +39,6 @@ suspend fun <T> Task<T>.fetchData(): Status<Boolean> {
         statusData = Status.error(it.message.orEmpty(), false)
     }.addOnSuccessListener {
         statusData = Status.success(true)
-        }.await()
+    }.await()
     return statusData
 }
