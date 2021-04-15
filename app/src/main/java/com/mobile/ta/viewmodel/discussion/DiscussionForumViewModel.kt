@@ -1,49 +1,65 @@
 package com.mobile.ta.viewmodel.discussion
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.DiscussionData
 import com.mobile.ta.model.discussion.DiscussionForum
+import com.mobile.ta.model.status.Status
+import com.mobile.ta.repository.DiscussionRepository
+import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.now
+import com.mobile.ta.viewmodel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DiscussionForumViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+@HiltViewModel
+class DiscussionForumViewModel @Inject constructor(
+    private val discussionRepository: DiscussionRepository,
+    private val savedStateHandle: SavedStateHandle
+) : BaseViewModel() {
 
     companion object {
         private const val DISCUSSION_FORUM = "DISCUSSION_FORUM"
     }
 
-    private var _discussionForums: MutableLiveData<ArrayList<DiscussionForum>>
-    val discussionForums: LiveData<ArrayList<DiscussionForum>>
+    private var _discussionForums = MutableLiveData<Status<MutableList<DiscussionForum>>>()
+    val discussionForums: LiveData<Status<MutableList<DiscussionForum>>>
         get() = _discussionForums
 
-    init {
-        _discussionForums = savedStateHandle.getLiveData(DISCUSSION_FORUM, arrayListOf())
-    }
+    private var _isForumAdded = MutableLiveData<Boolean>()
+    val isForumAdded: LiveData<Boolean>
+        get() = _isForumAdded
 
     fun createNewDiscussion(title: String, question: String) {
-        val today = now()
-        val discussionForum =
-            DiscussionForum(today.toString(), title, question, today, "NEW", "user_id", "username")
+        val discussionForum = hashMapOf<String, Any?>(
+            DiscussionMapper.NAME to title,
+            DiscussionMapper.QUESTION to question,
+            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.USER_ID to "userId",
+            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.ACCEPTED_ANSWER_ID to null
+        )
         addDiscussionForum(discussionForum)
     }
 
     fun fetchDiscussionForums() {
-        val discussionForumsData = DiscussionData.discussionForumsData
-        setDiscussionForums(discussionForumsData)
+        launchViewModelScope {
+            _discussionForums.value = discussionRepository.getDiscussionForums()
+        }
     }
 
-    private fun addDiscussionForum(discussionForums: DiscussionForum) {
-        DiscussionData.addForum(discussionForums)
-        fetchDiscussionForums()
+    fun setIsForumAdded(value: Boolean = false) {
+        _isForumAdded.value = value
     }
 
-    private fun setDiscussionForums(discussionForums: ArrayList<DiscussionForum>) {
-        _discussionForums.value = discussionForums
+    private fun addDiscussionForum(discussionForum: HashMap<String, Any?>) {
+        launchViewModelScope {
+            val discussionForumAdded = discussionRepository.addDiscussionForum(discussionForum)
+            checkStatus(discussionForumAdded.status, {
+                setIsForumAdded()
+            }, {
+                setIsForumAdded(true)
+            })
+        }
     }
 }

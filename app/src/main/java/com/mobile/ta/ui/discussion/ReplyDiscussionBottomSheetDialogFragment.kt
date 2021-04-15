@@ -11,7 +11,7 @@ import com.mobile.ta.databinding.FragmentReplyDiscussionBottomSheetBinding
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 
-class ReplyDiscussionBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class ReplyDiscussionBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
     companion object {
         fun newInstance(onSubmitListener: (String) -> Unit) =
@@ -20,24 +20,41 @@ class ReplyDiscussionBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
     }
 
-    private lateinit var binding: FragmentReplyDiscussionBottomSheetBinding
+    private var _binding: FragmentReplyDiscussionBottomSheetBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var onSubmitListener: (String) -> Unit
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding =
+        _binding =
             FragmentReplyDiscussionBottomSheetBinding.inflate(inflater, container, false)
         with(binding) {
-            buttonSubmitDiscussionForum.setOnClickListener {
-                onSubmitListener.invoke(editTextDiscussionAnswer.text())
-                dismiss()
-            }
+            buttonSubmitDiscussionForum.setOnClickListener(this@ReplyDiscussionBottomSheetDialogFragment)
             editTextDiscussionAnswer.doOnTextChanged { _, _, _, _ ->
                 buttonSubmitDiscussionForum.isEnabled =
                     editTextDiscussionAnswer.notBlankValidate(Constants.REPLY)
             }
         }
         return binding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onClick(view: View?) {
+        binding.apply {
+            when (view) {
+                buttonSubmitDiscussionForum -> submitReply()
+            }
+        }
+    }
+
+    private fun submitReply() {
+        onSubmitListener.invoke(binding.editTextDiscussionAnswer.text())
+        dismiss()
     }
 }

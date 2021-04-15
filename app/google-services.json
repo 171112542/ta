@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "181721136788",
+    "project_id": "mlearn-2da8d",
+    "storage_bucket": "mlearn-2da8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:181721136788:android:dc1999851819d462d73e81",
+        "android_client_info": {
+          "package_name": "com.mobile.ta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "181721136788-r4nfv2mhtm7d9hiq719h0ph80kq9spcv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSe2axlHFnnw5Gnln7vNfsmiZrGmXLlZs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "181721136788-r4nfv2mhtm7d9hiq719h0ph80kq9spcv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
