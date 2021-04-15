@@ -7,5 +7,6 @@ data class DiscussionForumAnswer(
     var answer: String,
     var createdAt: Date?,
     var userId: String,
-    var userName: String
+    var userName: String,
+    var isAccepted: Boolean = false
 )

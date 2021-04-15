@@ -12,7 +12,7 @@ import com.mobile.ta.databinding.LayoutDiscussionReplyBinding
 import com.mobile.ta.model.discussion.DiscussionForumAnswer
 import com.mobile.ta.utils.toDateString
 
-class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: ((String) -> Unit)? = null) :
+class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Unit) :
     ListAdapter<DiscussionForumAnswer, DiscussionAnswerAdapter.DiscussionAnswerViewHolder>(
         diffCallback
     ) {
@@ -29,6 +29,10 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: ((String) -> U
         }
     }
 
+    private var _isCurrentUser: Boolean = false
+
+    private var _hasAcceptedAnswer: Boolean = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = DiscussionAnswerViewHolder(
         LayoutInflater.from(parent.context)
             .inflate(R.layout.layout_discussion_reply, parent, false)
@@ -36,6 +40,20 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: ((String) -> U
 
     override fun onBindViewHolder(holder: DiscussionAnswerViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    fun setIsCurrentUser(value: Boolean) {
+        if (_isCurrentUser != value) {
+            _isCurrentUser = value
+            notifyDataSetChanged()
+        }
+    }
+
+    fun setHasAcceptedAnswer(value: Boolean) {
+        if (_hasAcceptedAnswer != value) {
+            _hasAcceptedAnswer = value
+            notifyDataSetChanged()
+        }
     }
 
     inner class DiscussionAnswerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -51,14 +69,21 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: ((String) -> U
                     data.createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
                 textViewDiscussionQuestionerName.text = data.userName
 
+                imageViewCheckedAnswer.visibility = if (data.isAccepted) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
+
                 buttonMarkAsAcceptedAnswer.apply {
-                    visibility = onMarkAsAnswerListener?.let {
-                        View.VISIBLE
-                    } ?: run {
-                        View.GONE
-                    }
+                    visibility =
+                        if (_isCurrentUser && _hasAcceptedAnswer.not() && data.isAccepted.not()) {
+                            View.VISIBLE
+                        } else {
+                            View.GONE
+                        }
                     setOnClickListener {
-                        onMarkAsAnswerListener?.invoke(data.id)
+                        onMarkAsAnswerListener.invoke(data.id)
                     }
                 }
             }

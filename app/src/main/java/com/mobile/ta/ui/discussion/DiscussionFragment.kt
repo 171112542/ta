@@ -30,7 +30,9 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
 
     private val args: DiscussionFragmentArgs by navArgs()
 
-    private val discussionAnswerAdapter by lazy { DiscussionAnswerAdapter() }
+    private val discussionAnswerAdapter by lazy {
+        DiscussionAnswerAdapter(viewModel::markAsAcceptedAnswer)
+    }
 
     private val viewModel by viewModels<DiscussionViewModel>()
 
@@ -72,6 +74,9 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
                     discussionForum.createdAt,
                     discussionForum.question
                 )
+                discussionAnswerAdapter.setHasAcceptedAnswer(discussionForum.acceptedAnswerId?.let {
+                    true
+                } ?: false)
             }
         })
         viewModel.discussionAnswers.observe(viewLifecycleOwner, {
@@ -88,8 +93,9 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
         viewModel.isAnswerAdded.observe(viewLifecycleOwner, {
             if (it) {
                 showSuccessAddReplyToast()
+                viewModel.fetchDiscussion()
             }
-            viewModel.setIsAnswerAdded()
+            viewModel.setIsAnswerAdded(false)
         })
     }
 

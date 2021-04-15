@@ -1,6 +1,5 @@
 package com.mobile.ta.repository.impl
 
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.model.discussion.DiscussionForum
@@ -45,7 +44,7 @@ class DiscussionRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addDiscussionForum(data: HashMap<String, Any?>): Status<DocumentReference> {
+    override suspend fun addDiscussionForum(data: HashMap<String, Any?>): Status<Boolean> {
         return withContext(ioDispatcher) {
             discussionCollection.add(data).fetchData()
         }
@@ -54,7 +53,7 @@ class DiscussionRepositoryImpl @Inject constructor(
     override suspend fun addDiscussionForumAnswer(
         discussionId: String,
         data: HashMap<String, Any>
-    ): Status<DocumentReference> {
+    ): Status<Boolean> {
         return withContext(ioDispatcher) {
             getDiscussionAnswerCollection(discussionId).add(data).fetchData()
         }
@@ -63,11 +62,16 @@ class DiscussionRepositoryImpl @Inject constructor(
     override suspend fun markAsAcceptedAnswer(
         discussionId: String,
         answerId: String
-    ): Status<Void> {
+    ): Status<Boolean> {
         return withContext(ioDispatcher) {
             discussionCollection.document(discussionId).update(
                 mapOf(
-                    DiscussionMapper.FORUM_ACCEPTED_ANSWER_ID to answerId
+                    DiscussionMapper.ACCEPTED_ANSWER_ID to answerId
+                )
+            ).fetchData()
+            getDiscussionAnswerCollection(discussionId).document(answerId).update(
+                mapOf(
+                    DiscussionMapper.IS_ACCEPTED to true
                 )
             ).fetchData()
         }

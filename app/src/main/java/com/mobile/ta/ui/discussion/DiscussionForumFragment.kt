@@ -70,6 +70,7 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
             if (it) {
                 showSuccessAddForumToast()
+                viewModel.fetchDiscussionForums()
             }
             viewModel.setIsForumAdded()
         })

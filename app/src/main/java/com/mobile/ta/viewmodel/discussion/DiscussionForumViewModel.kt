@@ -32,12 +32,12 @@ class DiscussionForumViewModel @Inject constructor(
 
     fun createNewDiscussion(title: String, question: String) {
         val discussionForum = hashMapOf<String, Any?>(
-            DiscussionMapper.FORUM_NAME to title,
-            DiscussionMapper.FORUM_QUESTION to question,
-            DiscussionMapper.FORUM_CREATED_AT to now(),
-            DiscussionMapper.FORUM_USER_ID to "userId",
-            DiscussionMapper.FORUM_USER_NAME to "username",
-            DiscussionMapper.FORUM_ACCEPTED_ANSWER_ID to null
+            DiscussionMapper.NAME to title,
+            DiscussionMapper.QUESTION to question,
+            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.USER_ID to "userId",
+            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.ACCEPTED_ANSWER_ID to null
         )
         addDiscussionForum(discussionForum)
     }
@@ -59,7 +59,6 @@ class DiscussionForumViewModel @Inject constructor(
                 setIsForumAdded()
             }, {
                 setIsForumAdded(true)
-                fetchDiscussionForums()
             })
         }
     }

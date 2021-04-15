@@ -45,10 +45,11 @@ class DiscussionViewModel @Inject constructor(
 
     fun createNewDiscussionAnswer(answer: String) {
         val discussionForumAnswer = hashMapOf<String, Any>(
-            DiscussionMapper.FORUM_ANSWER to answer,
-            DiscussionMapper.FORUM_CREATED_AT to now(),
-            DiscussionMapper.FORUM_USER_ID to "userId",
-            DiscussionMapper.FORUM_USER_NAME to "username"
+            DiscussionMapper.ANSWER to answer,
+            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.USER_ID to "userId",
+            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.IS_ACCEPTED to false
         )
         addDiscussionAnswer(discussionForumAnswer)
     }
@@ -62,11 +63,19 @@ class DiscussionViewModel @Inject constructor(
         }
     }
 
+    fun markAsAcceptedAnswer(answerId: String) {
+        id?.let { discussionId ->
+            launchViewModelScope {
+                discussionRepository.markAsAcceptedAnswer(discussionId, answerId)
+            }
+        }
+    }
+
     fun setDiscussionId(id: String) {
         this.id = id
     }
 
-    fun setIsAnswerAdded(value: Boolean = false) {
+    fun setIsAnswerAdded(value: Boolean) {
         _isAnswerAdded.value = value
     }
 
@@ -76,10 +85,9 @@ class DiscussionViewModel @Inject constructor(
                 val addDiscussionResult =
                     discussionRepository.addDiscussionForumAnswer(discussionId, answer)
                 checkStatus(addDiscussionResult.status, {
-                    setIsAnswerAdded()
+                    setIsAnswerAdded(false)
                 }, {
                     setIsAnswerAdded(true)
-                    fetchDiscussion()
                 })
             }
         }
