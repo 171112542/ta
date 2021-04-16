@@ -63,7 +63,6 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
         viewModel.discussionForums.observe(viewLifecycleOwner, {
             it.data?.let { data ->
                 discussionForumAdapter.submitList(data)
-                discussionForumAdapter.notifyDataSetChanged()
                 showResult()
             }
         })

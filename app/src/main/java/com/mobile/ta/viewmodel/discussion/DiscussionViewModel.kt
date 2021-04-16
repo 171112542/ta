@@ -57,8 +57,8 @@ class DiscussionViewModel @Inject constructor(
     fun fetchDiscussion() {
         id?.let { id ->
             launchViewModelScope {
-                _discussionForumQuestion.value = discussionRepository.getDiscussionForumById(id)
-                _discussionAnswers.value = discussionRepository.getDiscussionForumAnswers(id)
+                _discussionForumQuestion.postValue(discussionRepository.getDiscussionForumById(id))
+                _discussionAnswers.postValue(discussionRepository.getDiscussionForumAnswers(id))
             }
         }
     }
@@ -76,7 +76,7 @@ class DiscussionViewModel @Inject constructor(
     }
 
     fun setIsAnswerAdded(value: Boolean) {
-        _isAnswerAdded.value = value
+        _isAnswerAdded.postValue(value)
     }
 
     private fun addDiscussionAnswer(answer: HashMap<String, Any>) {

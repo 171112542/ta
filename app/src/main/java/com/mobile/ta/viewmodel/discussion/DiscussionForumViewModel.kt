@@ -44,7 +44,7 @@ class DiscussionForumViewModel @Inject constructor(
 
     fun fetchDiscussionForums() {
         launchViewModelScope {
-            _discussionForums.value = discussionRepository.getDiscussionForums()
+            _discussionForums.postValue(discussionRepository.getDiscussionForums())
         }
     }
 
