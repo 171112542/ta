@@ -20,13 +20,14 @@ interface CourseQuestionVHListener {
 }
 
 class CourseQuestionAdapter(
-        diffCallback: CourseQuestionDiffCallback,
-        val listener: CourseQuestionVHListener
+    diffCallback: CourseQuestionDiffCallback,
+    val listener: CourseQuestionVHListener
 ) : ListAdapter<CourseQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
     private var submitResultEnabled = false
     private var selectedAnswers = listOf<MutableMap<String, Int>>()
 
-    inner class ViewHolder(private val binding: VhCourseQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: VhCourseQuestionBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(courseQuestion: CourseQuestion) {
             binding.vhCourseQuestionQuestion.text = courseQuestion.question
             binding.vhCourseQuestionChoiceOne.text = courseQuestion.choices[0]
@@ -55,7 +56,8 @@ class CourseQuestionAdapter(
                 showSubmitResult()
             }
             if (selectedAnswers.isNotEmpty()
-                && selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] != -1) {
+                && selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] != -1
+            ) {
                 showCorrectAnswer(selectedAnswers[adapterPosition])
                 showExplanation()
             }
@@ -63,8 +65,10 @@ class CourseQuestionAdapter(
 
         private fun submitAnswer(courseQuestion: CourseQuestion) {
             val selectedAnswerId = binding.vhCourseQuestionChoiceGroup.checkedRadioButtonId
-            val selectedRadioButton = binding.vhCourseQuestionChoiceGroup.findViewById<RadioButton>(selectedAnswerId)
-            val selectedAnswerIndex = binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
+            val selectedRadioButton =
+                binding.vhCourseQuestionChoiceGroup.findViewById<RadioButton>(selectedAnswerId)
+            val selectedAnswerIndex =
+                binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
 
             listener.onSubmitAnswerListener(courseQuestion, selectedAnswerIndex)
             selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] = selectedAnswerIndex
@@ -73,8 +77,10 @@ class CourseQuestionAdapter(
         private fun showCorrectAnswer(selectedAnswer: MutableMap<String, Int>) {
             val correctAnswerIndex = selectedAnswer[CORRECT_ANSWER_KEY] ?: return
             val selectedAnswerIndex = selectedAnswer[SELECTED_ANSWER_KEY] ?: return
-            val correctRadioButton = binding.vhCourseQuestionChoiceGroup.getChildAt(correctAnswerIndex) as RadioButton
-            val selectedRadioButton = binding.vhCourseQuestionChoiceGroup.getChildAt(selectedAnswerIndex) as RadioButton
+            val correctRadioButton =
+                binding.vhCourseQuestionChoiceGroup.getChildAt(correctAnswerIndex) as RadioButton
+            val selectedRadioButton =
+                binding.vhCourseQuestionChoiceGroup.getChildAt(selectedAnswerIndex) as RadioButton
 
             binding.vhCourseQuestionSubmit.isEnabled = false
             binding.vhCourseQuestionSubmitGroup.visibility = View.GONE
@@ -144,6 +150,7 @@ class CourseQuestionAdapter(
             binding.vhCourseQuestionSubmitResult.visibility = View.VISIBLE
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = VhCourseQuestionBinding.inflate(layoutInflater, parent, false)

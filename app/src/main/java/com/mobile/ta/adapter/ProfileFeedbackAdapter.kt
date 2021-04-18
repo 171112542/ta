@@ -9,14 +9,16 @@ import com.mobile.ta.data.FeedbackData.labelFeedbackDateFormat
 import com.mobile.ta.databinding.VhProfileFeedbackBinding
 import com.mobile.ta.model.Feedback
 
-class ProfileFeedbackAdapter (
+class ProfileFeedbackAdapter(
     diffCallback: ProfileFeedbackDiffCallback
 ) : ListAdapter<Feedback, ProfileFeedbackAdapter.ViewHolder>(diffCallback) {
-    class ViewHolder(private val binding: VhProfileFeedbackBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: VhProfileFeedbackBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(feedback: Feedback) {
             binding.apply {
                 profileFeedbackId.text = feedback.id
-                profileFeedbackDateSubmitted.text = labelFeedbackDateFormat.format(feedback.createdAt)
+                profileFeedbackDateSubmitted.text =
+                    labelFeedbackDateFormat.format(feedback.createdAt)
                 profileFeedbackType.text = feedback.feedbackType
                 profileFeedbackDescription.text = feedback.description
             }

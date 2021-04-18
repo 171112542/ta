@@ -24,8 +24,8 @@ import com.mobile.ta.viewmodel.SearchViewModel.Companion.SortOption
 
 
 class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
-        BottomSheetDialogFragment(),
-        View.OnClickListener {
+    BottomSheetDialogFragment(),
+    View.OnClickListener {
     companion object {
         fun newInstance(viewmodel: SearchViewModel) = FilterBottomSheetDialogFragment(viewmodel)
         private const val TAG_SELECTION_DIALOG = "tag_selection_dialog"

@@ -2,8 +2,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sketchfab Viewer API example</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Sketchfab Viewer API</title>
     <style>
         html, body {
             margin: 0;
@@ -15,22 +15,24 @@
             width: 100%;
             height: 100%;
         }
+
+
     </style>
-    <!-- Insert this script -->
-    <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.9.0.js"></script>
+    <script src="https://static.sketchfab.com/api/sketchfab-viewer-1.9.0.js"
+            type="text/javascript"></script>
 </head>
 
 <body>
-<!-- Insert an empty iframe -->
-<iframe src="" id="api-frame" allow="autoplay"></iframe>
+<iframe allow="autoplay" id="api-frame" src=""></iframe>
 
-<!-- Initialize the viewer -->
 <script type="text/javascript">
     var iframe = document.getElementById( 'api-frame' );
     var uid = Android.getSketchfabId();
 
     var client = new Sketchfab( iframe );
-    let toggleBackButton = undefined;
+    let toggleBackButton = () => {
+        Android.toggleBackButton();
+    };
 
     client.init(uid, {
         success: function onSuccess( api ){
@@ -48,6 +50,11 @@
                     if (pendingExecution) toggleBackButton();
                 }
             });
+            api.getAnnotationList(function(err, annotations) {
+                if (annotations) {
+                    toggleBackButton = () => {}
+                }
+            });
             api.addEventListener(
                 'click',
                 function(info) {
@@ -57,12 +64,10 @@
                 }
             );
         },
-        error: function onError() {
-            console.log( 'Viewer error' );
-        },
         ui_stop: 0,
         autostart: 1
     } );
-    </script>
+
+</script>
 </body>
 </html>

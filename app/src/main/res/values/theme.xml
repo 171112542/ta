@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Theme.TA" parent="Base.Theme.TA" />
+
     <style name="Base.Theme.TA" parent="Base.Theme.ThemeBuilder">
         <item name="colorPrimary">@color/turqoise</item>
         <item name="colorPrimaryVariant">@color/turqoise_light</item>
@@ -41,6 +43,7 @@
         <item name="materialCardViewStyle">@style/Widget.TA.CardView</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.TA.BottomSheetDialog</item>
     </style>
+
     <style name="Base.Theme.ThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <item name="android:windowLightStatusBar">false</item>

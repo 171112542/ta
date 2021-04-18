@@ -14,13 +14,15 @@ import com.mobile.ta.model.UserCourse
 class UserCourseAdapter(
     diffCallback: UserCourseDiffCallback
 ) : ListAdapter<UserCourse, UserCourseAdapter.ViewHolder>(diffCallback) {
-    class ViewHolder private constructor(private val binding: VhCourseCardBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(private val binding: VhCourseCardBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(
             item: UserCourse
         ) {
             binding.apply {
                 courseContainer.setOnClickListener {
-                    it.findNavController().navigate(R.id.action_myCourseFragment_to_courseInformationFragment)
+                    it.findNavController()
+                        .navigate(R.id.action_myCourseFragment_to_courseInformationFragment)
                 }
                 courseCardTitle.text = item.title
                 courseCardDescription.text = item.description

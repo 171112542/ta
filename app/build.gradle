@@ -10,7 +10,7 @@ plugins {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.mobile.ta"
@@ -60,10 +60,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$rootProject.navVersion"
     implementation "androidx.fragment:fragment-ktx:$rootProject.fragmentVersion"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:${rootProject.hiltViewModelVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.7"
 
     implementation "com.google.android.material:material:$rootProject.mdcVersion"
     implementation "com.google.android:flexbox:$rootProject.flexboxVersion"
     implementation "com.google.dagger:hilt-android:${rootProject.hiltVersion}"
+
+    implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiVersion}"
 
     implementation 'com.google.firebase:firebase-firestore-ktx'

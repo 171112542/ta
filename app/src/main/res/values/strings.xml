@@ -138,6 +138,10 @@
     <string name="course_ongoing_tab">Ongoing</string>
     <string name="course_finished_tab">Finished</string>
     <string name="no_data_label">No Data</string>
+    <string name="content_navigation_title">Contents</string>
+    <string name="see_discussion">See Discussion (%s)</string>
+    <string name="open_drawer">open drawer</string>
+    <string name="close_drawer">close drawer</string>
 
     <plurals name="creator_course_count">
         <item quantity="one">%d course created</item>

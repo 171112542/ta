@@ -14,16 +14,18 @@ import com.mobile.ta.utils.text
 class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
-        fun newInstance(onSubmitListener: (String) -> Unit) = InputCredentialBottomSheetDialogFragment().apply {
-            this.onSubmitListener = onSubmitListener
-        }
+        fun newInstance(onSubmitListener: (String) -> Unit) =
+            InputCredentialBottomSheetDialogFragment().apply {
+                this.onSubmitListener = onSubmitListener
+            }
     }
 
     private lateinit var binding: FragmentInputCredentialBottomSheetBinding
     private lateinit var onSubmitListener: (String) -> Unit
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
         binding = FragmentInputCredentialBottomSheetBinding.inflate(inflater, container, false)
         with(binding) {
             buttonCloseDialog.setOnClickListener {
@@ -35,7 +37,8 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
             }
             editTextInputCredential.doOnTextChanged { _, _, _, _ ->
                 buttonSubmitCredentials.isEnabled = editTextInputCredential.notBlankValidate(
-                    Constants.CREDENTIALS)
+                    Constants.CREDENTIALS
+                )
             }
         }
         return binding.root

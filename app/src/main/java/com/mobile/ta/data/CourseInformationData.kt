@@ -33,8 +33,8 @@ object CourseInformationData {
         id = "COURSE_ID",
         name = "Theory of Black Hole",
         description = "Black holes are some of the strangest and most fascinating objects in outer space. They're extremely dense, with such strong gravitational attraction that even light cannot escape their grasp if it comes near enough. \n" +
-                "\n" +
-                "Albert Einstein first predicted the existence of black holes in 1916, with his general theory of relativity. The term \"black hole\" was coined many years later in 1967 by American astronomer John Wheeler. After decades of black holes being known only as theoretical objects, the first physical black hole ever discovered was spotted in 1971.",
+            "\n" +
+            "Albert Einstein first predicted the existence of black holes in 1916, with his general theory of relativity. The term \"black hole\" was coined many years later in 1967 by American astronomer John Wheeler. After decades of black holes being known only as theoretical objects, the first physical black hole ever discovered was spotted in 1971.",
         tags = tags,
         photo = "https://images.newscientist.com/wp-content/uploads/2019/04/08111018/screenshot-2019-04-08-10.24.34.jpg",
         chapter = chapters,
