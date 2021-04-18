@@ -31,7 +31,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_discussion_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="@integer/max_content_line_2" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

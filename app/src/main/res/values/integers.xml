@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <integer name="max_credentials_length">10</integer>
+
+    <integer name="max_content_line_2">2</integer>
     <integer name="max_content_line_3">3</integer>
     <integer name="max_content_line_5">5</integer>
-    <integer name="max_counter_length_4000">4000</integer>
     <integer name="max_content_line_6">6</integer>
+
+    <integer name="max_counter_length_4000">4000</integer>
+
+    <integer name="max_credentials_length">10</integer>
     <integer name="max_enrollments_length">8</integer>
 </resources>

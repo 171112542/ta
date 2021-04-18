@@ -11,7 +11,8 @@ import com.mobile.ta.databinding.FragmentCreateDiscussionForumBottomSheetBinding
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.notBlankValidate
 
-class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment() {
+class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment(),
+    View.OnClickListener {
 
     companion object {
         fun newInstance(onSubmitListener: (String, String) -> Unit) =
@@ -20,7 +21,9 @@ class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment
             }
     }
 
-    private lateinit var binding: FragmentCreateDiscussionForumBottomSheetBinding
+    private var _binding: FragmentCreateDiscussionForumBottomSheetBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var onSubmitListener: (String, String) -> Unit
 
     private var discussionTitle: String? = null
@@ -29,13 +32,10 @@ class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding =
+        _binding =
             FragmentCreateDiscussionForumBottomSheetBinding.inflate(inflater, container, false)
         with(binding) {
-            buttonSubmitDiscussionForum.setOnClickListener {
-                onSubmitListener.invoke(discussionTitle.orEmpty(), discussionQuestion.orEmpty())
-                dismiss()
-            }
+            buttonSubmitDiscussionForum.setOnClickListener(this@CreateDiscussionForumBottomSheetDialogFragment)
             editTextDiscussionTitle.doOnTextChanged { text, _, _, _ ->
                 discussionTitle = text.toString()
                 if (editTextDiscussionTitle.notBlankValidate(Constants.TITLE)) {
@@ -52,8 +52,26 @@ class CreateDiscussionForumBottomSheetDialogFragment : BottomSheetDialogFragment
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onClick(view: View?) {
+        with(binding) {
+            when (view) {
+                buttonSubmitDiscussionForum -> submitDiscussion()
+            }
+        }
+    }
+
+    private fun submitDiscussion() {
+        onSubmitListener.invoke(discussionTitle.orEmpty(), discussionQuestion.orEmpty())
+        dismiss()
+    }
+
     private fun validate() {
         binding.buttonSubmitDiscussionForum.isEnabled = discussionTitle.isNotNullOrBlank()
-                && discussionQuestion.isNotNullOrBlank()
+            && discussionQuestion.isNotNullOrBlank()
     }
 }
