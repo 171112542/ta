@@ -43,7 +43,8 @@ class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :
 
     override fun getItemViewType(position: Int): Int = position % 4
 
-    inner class DiscussionForumViewHolder(itemView: View, private val viewType: Int) : RecyclerView.ViewHolder(itemView) {
+    inner class DiscussionForumViewHolder(itemView: View, private val viewType: Int) :
+        RecyclerView.ViewHolder(itemView) {
 
         private val binding by lazy {
             LayoutDiscussionForumItemBinding.bind(itemView)
@@ -54,7 +55,7 @@ class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :
                 textViewDiscussionTitle.text = data.name
                 textViewDiscussionQuestion.text = data.question
                 textViewDiscussionCreatedTime.text =
-                    data.createdAt.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS)
+                    data.createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
 
                 cardViewDiscussionItem.setOnClickListener {
                     onClickListener.invoke(data.id)

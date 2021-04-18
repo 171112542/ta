@@ -81,6 +81,8 @@
     <string name="create_discussion">Create Discussion</string>
     <string name="reply_to_the_discussion">Reply to the Discussion</string>
     <string name="reply">Reply</string>
+    <string name="reply_count_state">0</string>
+    <string name="no_replies_text">No answers</string>
 
     <!-- Settings -->
     <string name="give_a_feedback">Give a feedback</string>
@@ -141,4 +143,15 @@
         <item quantity="one">%d course created</item>
         <item quantity="other">%d courses created</item>
     </plurals>
+
+    <string name="submit_result_text">Submit Result</string>
+    <string name="confirmation_dialog_show_result_title">Show your results?</string>
+    <string name="confirmation_dialog_show_result_message">Some questions are still not answered. Are you sure you want to submit?</string>
+    <string name="dialog_no_text">No</string>
+    <string name="dialog_yes_text">Yes</string>
+
+    <!-- Discussions -->
+    <string name="success_add_forum_message">Forum added.</string>
+    <string name="success_add_reply_message">Reply added to the discussion.</string>
+    <string name="mark_as_answer_discussion">Mark as Answer</string>
 </resources>
