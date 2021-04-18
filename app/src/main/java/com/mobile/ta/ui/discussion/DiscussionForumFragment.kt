@@ -8,51 +8,83 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.MainActivity
+import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
 import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscussionForumFragment : Fragment() {
+class DiscussionForumFragment : Fragment(), View.OnClickListener {
 
     companion object {
         private const val CREATE_NEW_DISCUSSION_TAG = "CREATE NEW DISCUSSION"
     }
 
-    private lateinit var binding: FragmentDiscussionForumBinding
+    private var _binding: FragmentDiscussionForumBinding? = null
+    private val binding get() = _binding!!
 
     private val discussionForumAdapter by lazy {
         DiscussionForumAdapter(this::goToDiscussionDetail)
     }
-    private val viewModel: DiscussionForumViewModel by viewModels()
+    private val viewModel by viewModels<DiscussionForumViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
-        with(binding) {
-            buttonAddDiscussion.setOnClickListener {
-                openCreateDiscussionBottomSheet()
-            }
-            with(recyclerViewDiscussions) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = discussionForumAdapter
-            }
-        }
+        _binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         (activity as MainActivity).showToolbar()
+        setupObserver()
+        setupViews()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onClick(view: View?) {
+        with(binding) {
+            when (view) {
+                buttonAddDiscussion -> openCreateDiscussionBottomSheet()
+            }
+        }
+    }
+
+    private fun setupObserver() {
         viewModel.fetchDiscussionForums()
         viewModel.discussionForums.observe(viewLifecycleOwner, {
-            discussionForumAdapter.submitList(it)
-            showResult()
+            it.data?.let { data ->
+                discussionForumAdapter.submitList(data)
+                showResult()
+            }
         })
+        viewModel.isForumAdded.observe(viewLifecycleOwner, {
+            if (it) {
+                showSuccessAddForumToast()
+                viewModel.fetchDiscussionForums()
+            }
+            viewModel.setIsForumAdded()
+        })
+    }
+
+    private fun setupViews() {
+        with(binding) {
+            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
+            with(recyclerViewDiscussions) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = discussionForumAdapter
+                setHasFixedSize(true)
+            }
+        }
+        showLoading()
     }
 
     private fun goToDiscussionDetail(discussionForumId: String) {
@@ -63,7 +95,7 @@ class DiscussionForumFragment : Fragment() {
         )
     }
 
-    private fun hideResult() {
+    private fun showLoading() {
         with(binding) {
             recyclerViewDiscussions.visibility = View.GONE
             progressBarDiscussionForumLoad.visibility = View.VISIBLE
@@ -80,5 +112,13 @@ class DiscussionForumFragment : Fragment() {
             recyclerViewDiscussions.visibility = View.VISIBLE
             progressBarDiscussionForumLoad.visibility = View.GONE
         }
+    }
+
+    private fun showSuccessAddForumToast() {
+        Snackbar.make(
+            binding.root,
+            getString(R.string.success_add_forum_message),
+            Snackbar.LENGTH_SHORT
+        ).show()
     }
 }
