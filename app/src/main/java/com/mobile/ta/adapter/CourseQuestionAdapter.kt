@@ -7,19 +7,25 @@ import android.widget.RadioButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.CourseQuestion
-import com.mobile.ta.ui.CourseQuestionsFragmentDirections
 
+interface CourseQuestionVHListener {
+    fun onSubmitAnswerListener(courseQuestion: CourseQuestion, selectedIndex: Int)
+    fun onShowResultListener()
+}
 
 class CourseQuestionAdapter(
-        diffCallback: CourseQuestionDiffCallback
+        diffCallback: CourseQuestionDiffCallback,
+        val listener: CourseQuestionVHListener
 ) : ListAdapter<CourseQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
+    private var submitResultEnabled = false
+    private var selectedAnswers = listOf<MutableMap<String, Int>>()
+
     inner class ViewHolder(private val binding: VhCourseQuestionBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(courseQuestion: CourseQuestion) {
             binding.vhCourseQuestionQuestion.text = courseQuestion.question
@@ -32,9 +38,8 @@ class CourseQuestionAdapter(
                 binding.vhCourseQuestionSubmit.isEnabled = true
             }
             binding.vhCourseQuestionSubmit.setOnClickListener {
-                showCorrectAnswer(courseQuestion)
-                binding.vhCourseQuestionSubmit.isEnabled = false
-                binding.vhCourseQuestionSubmitGroup.visibility = View.GONE
+                submitAnswer(courseQuestion)
+                showCorrectAnswer(selectedAnswers[adapterPosition])
                 showExplanation()
             }
             binding.vhCourseQuestionShowExplanation.setOnClickListener {
@@ -43,17 +48,38 @@ class CourseQuestionAdapter(
             binding.vhCourseQuestionHideExplanation.setOnClickListener {
                 hideExplanation()
             }
-            if (courseQuestion.id == currentList.last().id) {
-                allowNextChapterNavigation()
+            binding.vhCourseQuestionSubmitResult.setOnClickListener {
+                listener.onShowResultListener()
+            }
+            if (courseQuestion.id == currentList.last().id && submitResultEnabled) {
+                showSubmitResult()
+            }
+            if (selectedAnswers.isNotEmpty()
+                && selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] != -1) {
+                showCorrectAnswer(selectedAnswers[adapterPosition])
+                showExplanation()
             }
         }
 
-        fun showCorrectAnswer(courseQuestion: CourseQuestion) {
+        private fun submitAnswer(courseQuestion: CourseQuestion) {
             val selectedAnswerId = binding.vhCourseQuestionChoiceGroup.checkedRadioButtonId
             val selectedRadioButton = binding.vhCourseQuestionChoiceGroup.findViewById<RadioButton>(selectedAnswerId)
             val selectedAnswerIndex = binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
-            val correctAnswerIndex = courseQuestion.correctAnswer
+
+            listener.onSubmitAnswerListener(courseQuestion, selectedAnswerIndex)
+            selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] = selectedAnswerIndex
+        }
+
+        private fun showCorrectAnswer(selectedAnswer: MutableMap<String, Int>) {
+            val correctAnswerIndex = selectedAnswer[CORRECT_ANSWER_KEY] ?: return
+            val selectedAnswerIndex = selectedAnswer[SELECTED_ANSWER_KEY] ?: return
             val correctRadioButton = binding.vhCourseQuestionChoiceGroup.getChildAt(correctAnswerIndex) as RadioButton
+            val selectedRadioButton = binding.vhCourseQuestionChoiceGroup.getChildAt(selectedAnswerIndex) as RadioButton
+
+            binding.vhCourseQuestionSubmit.isEnabled = false
+            binding.vhCourseQuestionSubmitGroup.visibility = View.GONE
+            selectedRadioButton.isChecked = true
+
             correctRadioButton.background = ResourcesCompat.getDrawable(
                 binding.root.resources,
                 R.drawable.drawable_rounded_rect,
@@ -102,23 +128,20 @@ class CourseQuestionAdapter(
             }
         }
 
-        fun hideExplanation() {
+        private fun hideExplanation() {
             binding.vhCourseQuestionShowExplanation.visibility = View.VISIBLE
             binding.vhCourseQuestionHideExplanation.visibility = View.GONE
             binding.vhCourseQuestionExplanationGroup.visibility = View.GONE
         }
 
-        fun showExplanation() {
+        private fun showExplanation() {
             binding.vhCourseQuestionShowExplanation.visibility = View.GONE
             binding.vhCourseQuestionHideExplanation.visibility = View.VISIBLE
             binding.vhCourseQuestionExplanationGroup.visibility = View.VISIBLE
         }
 
-        fun allowNextChapterNavigation() {
-            binding.vhCourseQuestionNextChapter.visibility = View.VISIBLE
-            binding.vhCourseQuestionNextChapter.setOnClickListener {
-                it.findNavController().navigate(CourseQuestionsFragmentDirections.actionCourseQuestionsFragmentToCourseContentFragment())
-            }
+        private fun showSubmitResult() {
+            binding.vhCourseQuestionSubmitResult.visibility = View.VISIBLE
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -130,5 +153,27 @@ class CourseQuestionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = currentList[position]
         holder.bind(item)
+    }
+
+    override fun submitList(list: MutableList<CourseQuestion>?) {
+        super.submitList(list)
+        list?.let { courseQuestion ->
+            selectedAnswers = courseQuestion.map {
+                mutableMapOf(
+                    Pair(SELECTED_ANSWER_KEY, -1),
+                    Pair(CORRECT_ANSWER_KEY, it.correctAnswer)
+                )
+            }
+        }
+    }
+
+    fun enableSubmitResult() {
+        submitResultEnabled = true
+        notifyItemChanged(currentList.size - 1)
+    }
+
+    companion object {
+        private const val SELECTED_ANSWER_KEY = "selectedAnswer"
+        private const val CORRECT_ANSWER_KEY = "correctAnswer"
     }
 }

@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
         android:id="@+id/vh_course_question_wrong_banner"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_40"
-        android:background="@color/red_light"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:background="@color/red_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/keyline_4"
+            android:src="@drawable/ic_sad_24dp"
             android:contentDescription="@string/wrong_answer_image_content_description"
-            android:src="@drawable/ic_sad_24dp" />
+            android:layout_marginEnd="@dimen/keyline_4" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/wrong_answer_text"
-            android:textAppearance="@style/TextAppearance.TA.Headline5"
             android:textColor="@color/red_dark"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,29 +42,29 @@
         android:id="@+id/vh_course_question_correct_banner"
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_40"
-        android:background="@color/green_light"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:visibility="gone"
+        android:background="@color/green_light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vh_course_question_wrong_banner"
-        tools:visibility="visible">
+        android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/keyline_4"
+            android:src="@drawable/ic_confetti_24dp"
             android:contentDescription="@string/correct_answer_image_content_description"
-            android:src="@drawable/ic_confetti_24dp" />
+            android:layout_marginEnd="@dimen/keyline_4" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/correct_answer_text"
-            android:textAppearance="@style/TextAppearance.TA.Headline5"
             android:textColor="@color/green"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -130,10 +130,10 @@
         style="@style/Widget.TA.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
-        android:enabled="false"
         android:text="@string/submit_answer_text"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:enabled="false"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintBottom_toTopOf="@id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -141,10 +141,10 @@
         android:id="@+id/vh_course_question_explanation_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         app:constraint_referenced_ids="vh_course_question_explanation_description,
         vh_course_question_explanation_title,
         vh_course_question_explanation_line"
+        android:visibility="gone"
         tools:visibility="visible" />
 
     <View
@@ -161,9 +161,9 @@
         android:id="@+id/vh_course_question_explanation_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
         android:text="@string/explanation_text"
         android:textAppearance="@style/TextAppearance.TA.Headline5"
+        android:layout_margin="@dimen/keyline_4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_line" />
@@ -184,33 +184,37 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/keyline_4"
         android:text="@string/show_explanation_text"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/vh_course_question_next_chapter"
+        app:layout_constraintBottom_toTopOf="@id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/vh_course_question_hide_explanation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
         android:text="@string/hide_explanation_text"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/vh_course_question_submit"
+        android:layout_margin="@dimen/keyline_4"
+        app:layout_constraintBottom_toTopOf="@+id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <Button
-        android:id="@+id/vh_course_question_next_chapter"
+        android:id="@+id/vh_course_question_submit_result"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
-        android:text="@string/next_chapter_text"
-        android:visibility="gone"
+        android:layout_marginHorizontal="@dimen/keyline_4"
+        android:layout_marginBottom="@dimen/keyline_4"
+        android:text="@string/submit_result_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

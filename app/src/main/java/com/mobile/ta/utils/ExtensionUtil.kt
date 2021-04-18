@@ -3,6 +3,7 @@ package com.mobile.ta.utils
 import android.widget.EditText
 import android.widget.TextView
 import com.mobile.ta.config.Constants
+import androidx.lifecycle.MutableLiveData
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -44,3 +45,10 @@ fun Long.toDateString(pattern: String): String =
 
 fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
+
+/**
+ * LiveData Extensions
+ */
+fun <T> MutableLiveData<T>.publishChanges() {
+    this.value = this.value
+}

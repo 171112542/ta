@@ -122,6 +122,13 @@
         <item name="android:textAppearance">@style/TextAppearance.TA.Button</item>
         <item name="shapeAppearance">@style/ShapeAppearance.TA.SmallComponent</item>
     </style>
+    <style name="Widget.TA.Button.Inverted" parent="Widget.TA.Button">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.Inverted</item>
+    </style>
+    <style name="ThemeOverlay.TA.Button.Inverted" parent="">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/turqoise</item>
+    </style>
     <style name="Widget.TA.Button.Google" parent="Widget.TA.Button">
         <item name="materialThemeOverlay">@style/ThemeOverlay.TA.Button.Google</item>
         <item name="android:drawableLeft">@drawable/fui_ic_googleg_color_24dp</item>
@@ -170,6 +177,13 @@
         <item name="android:background">?attr/colorSurface</item>
         <item name="backgroundTint">?attr/colorSurface</item>
         <item name="tint">?attr/colorControlNormal</item>
+        <item name="elevation">@dimen/dp_8</item>
+    </style>
+    <style name="Widget.TA.CircularProgressIndicator.Inverted" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.TA.CircularProgressIndicator.Inverted</item>
+    </style>
+    <style name="ThemeOverlay.TA.CircularProgressIndicator.Inverted" parent="">
+        <item name="colorPrimary">@color/white</item>
     </style>
     <style name="Widget.TA.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
         <item name="titleTextAppearance">?attr/textAppearanceHeadline2</item>

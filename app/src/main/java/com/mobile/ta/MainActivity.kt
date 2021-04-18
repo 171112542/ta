@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.databinding.ActivityMainBinding
+import com.mobile.ta.ui.CoursePracticeFragmentDirections
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.ProfileFragmentDirections
@@ -19,7 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var toolbar: Toolbar
@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         toolbar = binding.mainToolbar
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
+        // Delete from this line...
+        navController.navigate(CoursePracticeFragmentDirections.actionGlobalCoursePracticeFragment())
+        // ...until this line later
         setContentView(binding.root)
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
