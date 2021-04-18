@@ -21,8 +21,9 @@ class ProfileViewModel @ViewModelInject constructor(
     init {
         _user.postValue(UserData.getUserData())
     }
+
     fun setUserPhoto(photo: Bitmap) {
-        _user.value?.let{
+        _user.value?.let {
             val user = User(
                 it.name,
                 it.isFirstTimeLogin,
@@ -35,8 +36,9 @@ class ProfileViewModel @ViewModelInject constructor(
             _user.postValue(user)
         }
     }
+
     fun setUserDob(calendar: Calendar) {
-        _user.value?.let{
+        _user.value?.let {
             val user = User(
                 it.name,
                 it.isFirstTimeLogin,
@@ -49,8 +51,9 @@ class ProfileViewModel @ViewModelInject constructor(
             _user.postValue(user)
         }
     }
+
     fun setUser(name: String, phone: String, bio: String) {
-        _user.value?.let{
+        _user.value?.let {
             val user = User(
                 name,
                 it.isFirstTimeLogin,

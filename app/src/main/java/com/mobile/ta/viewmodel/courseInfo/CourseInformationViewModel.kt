@@ -12,7 +12,7 @@ import com.mobile.ta.model.courseInfo.Creator
 
 class CourseInformationViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
 
     companion object {
         private const val COURSE_INFO = "COURSE_INFO"

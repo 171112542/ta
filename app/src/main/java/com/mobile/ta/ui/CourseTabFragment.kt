@@ -15,7 +15,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.UserCourseAdapter
 import com.mobile.ta.adapter.diff.UserCourseDiffCallback
 import com.mobile.ta.databinding.FragmentCourseTabBinding
-import com.mobile.ta.viewmodel.course.CourseTabViewModel
+import com.mobile.ta.viewmodel.courseContent.CourseTabViewModel
 
 class CourseTabFragment : Fragment() {
     private lateinit var binding: FragmentCourseTabBinding
@@ -33,6 +33,7 @@ class CourseTabFragment : Fragment() {
         setupRecyclerView()
         return binding.root
     }
+
     private fun setupRecyclerView() {
         val adapter = UserCourseAdapter(
             UserCourseDiffCallback()
@@ -55,19 +56,22 @@ class CourseTabFragment : Fragment() {
             when (fragmentType) {
                 ONGOING_TAB -> {
                     viewModel.userOngoingCourse.observe(viewLifecycleOwner, Observer {
-                        courseTabNoData.visibility = if (it.count() == 0) View.VISIBLE else View.GONE
+                        courseTabNoData.visibility =
+                            if (it.count() == 0) View.VISIBLE else View.GONE
                         adapter.submitList(it)
                     })
                 }
                 FINISHED_TAB -> {
                     viewModel.userFinishedCourse.observe(viewLifecycleOwner, Observer {
-                        courseTabNoData.visibility = if (it.count() == 0) View.VISIBLE else View.GONE
+                        courseTabNoData.visibility =
+                            if (it.count() == 0) View.VISIBLE else View.GONE
                         adapter.submitList(it)
                     })
                 }
             }
         }
     }
+
     companion object {
         const val ONGOING_TAB = 0
         const val FINISHED_TAB = 1

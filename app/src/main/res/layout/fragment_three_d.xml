@@ -4,17 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        android:id="@+id/three_d_loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/three_d_back_info_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/drawable_black_gradient_overlay"
+        android:elevation="@dimen/elevation_1"
         android:gravity="center"
         android:paddingTop="@dimen/dp_16"
         android:paddingBottom="@dimen/dp_16"
         android:text="@string/three_d_back_information"
         android:textAlignment="center"
         android:textColor="?attr/colorOnSecondary"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_48"
         android:text="@string/back_button_label"
+        android:visibility="gone"
         app:icon="@drawable/ic_arrow_back_ios_new_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

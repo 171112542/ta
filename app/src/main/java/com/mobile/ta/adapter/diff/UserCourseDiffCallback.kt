@@ -10,8 +10,8 @@ class UserCourseDiffCallback : DiffUtil.ItemCallback<UserCourse>() {
 
     override fun areContentsTheSame(oldItem: UserCourse, newItem: UserCourse): Boolean {
         return oldItem.description == newItem.description
-                && oldItem.photo == newItem.photo
-                && oldItem.title == newItem.title
-                && oldItem.progress == newItem.progress
+            && oldItem.photo == newItem.photo
+            && oldItem.title == newItem.title
+            && oldItem.progress == newItem.progress
     }
 }

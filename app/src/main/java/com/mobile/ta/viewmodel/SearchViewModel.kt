@@ -27,7 +27,10 @@ class SearchViewModel : ViewModel() {
         val sourceOne = _selectedTypeTags
         val sourceTwo = _selectedLevelTags
 
-        fun getCombinedStrings(typeTags: ArrayList<TypeTag>?, levelTags: ArrayList<LevelTag>?): ArrayList<String> {
+        fun getCombinedStrings(
+            typeTags: ArrayList<TypeTag>?,
+            levelTags: ArrayList<LevelTag>?
+        ): ArrayList<String> {
             val result = arrayListOf<String>()
             typeTags?.forEach {
                 when (it) {
@@ -89,7 +92,8 @@ class SearchViewModel : ViewModel() {
             when (it) {
                 is TypeTag -> _selectedTypeTags.value?.add(it)
                 is LevelTag -> _selectedLevelTags.value?.add(it)
-                else ->  {}
+                else -> {
+                }
             }
         }
         _selectedTypeTags.value = _selectedTypeTags.value

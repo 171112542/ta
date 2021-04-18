@@ -21,7 +21,9 @@ class CourseOverviewAdapter(
     diffCallback: CourseOverviewDiffCallback
 ) : ListAdapter<CourseOverview, CourseOverviewAdapter.ViewHolder>(diffCallback) {
     private lateinit var parentFragment: Fragment
-    inner class ViewHolder(private val binding: VhCourseOverviewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    inner class ViewHolder(private val binding: VhCourseOverviewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(courseOverview: CourseOverview) {
             val context = binding.root.context
             binding.vhCoTitle.text = courseOverview.title
@@ -44,10 +46,12 @@ class CourseOverviewAdapter(
             binding.root.setOnClickListener {
                 if (parentFragment is HomeFragment)
                     it.findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToCourseInformationFragment(""))
+                        HomeFragmentDirections.actionHomeFragmentToCourseInformationFragment("")
+                    )
                 else if (parentFragment is SearchFragment)
                     it.findNavController().navigate(
-                        SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment(""))
+                        SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment("")
+                    )
             }
         }
     }

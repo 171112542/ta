@@ -3,7 +3,7 @@ package com.mobile.ta.adapter.diff
 import androidx.recyclerview.widget.DiffUtil
 import com.mobile.ta.model.courseInfo.PrerequisiteCourse
 
-class CourseInfoPrerequisitesCourseDiffCallback : DiffUtil.ItemCallback<PrerequisiteCourse>() {
+class gitCourseInfoPrerequisitesCourseDiffCallback : DiffUtil.ItemCallback<PrerequisiteCourse>() {
 
     override fun areItemsTheSame(
         oldItem: PrerequisiteCourse, newItem: PrerequisiteCourse
@@ -15,6 +15,6 @@ class CourseInfoPrerequisitesCourseDiffCallback : DiffUtil.ItemCallback<Prerequi
         oldItem: PrerequisiteCourse, newItem: PrerequisiteCourse
     ): Boolean {
         return oldItem.id == newItem.id
-                && oldItem.name == newItem.name
+            && oldItem.name == newItem.name
     }
 }

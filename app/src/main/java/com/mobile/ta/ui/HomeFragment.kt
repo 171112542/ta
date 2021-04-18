@@ -40,7 +40,7 @@ class HomeFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity as MainActivity).hideToolbar()
+//        (activity as MainActivity).hideToolbar()
     }
 
     override fun onDestroyView() {

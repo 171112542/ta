@@ -54,7 +54,7 @@
         app:destination="@id/myCourseFragment" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.mobile.ta.ui.ProfileFragment"
+        android:name="com.mobile.ta.ui.profile.ProfileFragment"
         android:label="@string/toolbar_profile"
         tools:layout="@layout/frag_profile">
         <action
@@ -90,20 +90,29 @@
         <action
             android:id="@+id/action_courseInformationFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment" />
+        <action
             android:id="@+id/action_courseInformationFragment_to_courseQuestionsFragment"
-            app:destination="@id/courseQuestionsFragment" />
+            app:destination="@id/coursePracticeFragment" />
         <argument
             android:name="id"
-            app:argType="string"
-            android:defaultValue="x5s1d"/>
+            android:defaultValue="x5s1d"
+            app:argType="string" />
         <action
             android:id="@+id/action_courseInformationFragment_self"
             app:destination="@id/courseInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
-        android:name="com.mobile.ta.ui.CourseContentFragment"
-        android:label="CourseContentFragment">
+        android:name="com.mobile.ta.ui.coursecontent.CourseContentFragment"
+        android:label="">
+        <argument
+            android:name="chapterId"
+            android:defaultValue="I5BQuODccLmcvTTMiHcM"
+            app:argType="string" />
+        <argument
+            android:name="courseId"
+            android:defaultValue="c2c2sdbNsGhDmIxvnkNV"
+            app:argType="string" />
         <action
             android:id="@+id/action_courseContentFragment_to_3DViewFragment"
             app:destination="@id/threeDFragment" />
@@ -122,12 +131,12 @@
     </fragment>
     <fragment
         android:id="@+id/threeDFragment"
-        android:name="com.mobile.ta.ui.ThreeDFragment"
+        android:name="com.mobile.ta.ui.coursecontent.ThreeDFragment"
         android:label="3DViewFragment"
         tools:layout="@layout/fragment_three_d">
         <argument
             android:name="sketchfabId"
-            android:defaultValue="d9f71bdc54934e529ce53651f7422cdc"
+            android:defaultValue="da950fecaa77479984c0bb2e37aa9a7d"
             app:argType="string" />
     </fragment>
     <fragment
@@ -135,6 +144,10 @@
         android:name="com.mobile.ta.ui.discussion.DiscussionForumFragment"
         android:label="@string/toolbar_discussion_forum"
         tools:layout="@layout/fragment_discussion_forum">
+        <argument
+            android:name="contentId"
+            android:defaultValue="Test"
+            app:argType="string" />
         <action
             android:id="@+id/action_discussionForumFragment_to_discussionFragment"
             app:destination="@id/discussionFragment" />
@@ -157,19 +170,20 @@
             android:id="@+id/action_coursePracticeFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment"
             app:popUpTo="@id/courseInformationFragment" />
-        <argument android:name="courseId"
-            app:argType="string"
-            android:defaultValue="bWAEfZivIK6RyKitZtt4" />
+        <argument
+            android:name="courseId"
+            android:defaultValue="bWAEfZivIK6RyKitZtt4"
+            app:argType="string" />
         <argument
             android:name="chapterId"
-            app:argType="string"
-            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W" />
+            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.mobile.ta.ui.EditProfileFragment"
+        android:name="com.mobile.ta.ui.profile.EditProfileFragment"
         android:label="@string/toolbar_edit_profile"
-        tools:layout="@layout/fragment_edit_profile"/>
+        tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.mobile.ta.ui.settings.SettingsFragment"
@@ -184,8 +198,11 @@
         android:name="com.mobile.ta.ui.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
-        android:name="com.mobile.ta.ui.FeedbackFragment"
-        android:label="FeedbackFragment" /><action android:id="@+id/action_global_coursePracticeFragment" app:destination="@id/coursePracticeFragment"/>
+    android:name="com.mobile.ta.ui.FeedbackFragment"
+    android:label="FeedbackFragment" />
+    <action
+        android:id="@+id/action_global_coursePracticeFragment"
+        app:destination="@id/coursePracticeFragment" />
     <fragment
         android:id="@+id/courseSubmitFragment"
         android:name="com.mobile.ta.ui.CourseSubmitFragment"
@@ -203,11 +220,11 @@
             app:popUpTo="@id/courseInformationFragment" />
         <argument
             android:name="chapterId"
-            app:argType="string"
-            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W" />
+            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W"
+            app:argType="string" />
         <argument
             android:name="courseId"
-            app:argType="string"
-            android:defaultValue="bWAEfZivIK6RyKitZtt4" />
+            android:defaultValue="bWAEfZivIK6RyKitZtt4"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -5,24 +5,22 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.databinding.ActivityMainBinding
-import com.mobile.ta.ui.CoursePracticeFragmentDirections
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
-import com.mobile.ta.ui.ProfileFragmentDirections
+import com.mobile.ta.ui.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var toolbar: Toolbar
+    lateinit var toolbar: Toolbar
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private var hideBottomBar = false
@@ -35,6 +33,7 @@ class MainActivity : AppCompatActivity() {
                 else -> true
             }
             toggleBottomNavAnimation()
+            showActionBar(destination.id)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,15 +42,20 @@ class MainActivity : AppCompatActivity() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.act_main_host_fragment) as NavHostFragment).navController
         toolbar = binding.mainToolbar
-        appBarConfiguration = AppBarConfiguration(navController.graph)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.myCourseFragment,
+                R.id.profileFragment,
+                R.id.courseContentFragment
+            )
+        )
 
-        // Delete from this line...
-        navController.navigate(CoursePracticeFragmentDirections.actionGlobalCoursePracticeFragment())
-        // ...until this line later
         setContentView(binding.root)
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
         setupBottomNavMenu(navController)
+        setContentView(binding.root)
     }
 
     override fun onResume() {
@@ -72,15 +76,29 @@ class MainActivity : AppCompatActivity() {
         toolbar.visibility = View.GONE
     }
 
+    private fun showActionBar(destinationId: Int) {
+        val isVisible = when (destinationId) {
+            R.id.loginFragment -> false
+            R.id.homeFragment -> false
+            R.id.threeDFragment -> false
+            else -> true
+        }
+        if (isVisible) {
+            supportActionBar?.show()
+        } else {
+            supportActionBar?.hide()
+        }
+    }
+
     fun showToolbar(title: String? = null, isMain: Boolean? = null) {
         with(toolbar) {
             visibility = View.VISIBLE
             title?.let {
                 this.title = it
             }
-            isMain?.let {
-                navigationIcon = null
-            }
+//            isMain?.let {
+//                navigationIcon = null
+//            }
         }
     }
 
@@ -108,9 +126,5 @@ class MainActivity : AppCompatActivity() {
             )
         animator.duration = 500
         animator.start()
-    }
-
-    fun getBindingRoot(): CoordinatorLayout {
-        return binding.root
     }
 }
