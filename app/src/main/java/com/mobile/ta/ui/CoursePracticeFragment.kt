@@ -1,28 +1,26 @@
 package com.mobile.ta.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
-import com.mobile.ta.adapter.CourseExerciseVHListener
-import com.mobile.ta.adapter.CoursePracticeAdapter
+import com.mobile.ta.adapter.CourseQuestionVHListener
+import com.mobile.ta.adapter.CourseQuestionAdapter
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
-import com.mobile.ta.data.CoursePracticeData
 import com.mobile.ta.databinding.FragCoursePracticeBinding
 import com.mobile.ta.model.CourseQuestion
 import com.mobile.ta.viewmodel.CoursePracticeViewModel
-import com.mobile.ta.viewmodel.HomeViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CoursePracticeFragment
-    : Fragment(), CourseExerciseVHListener {
+    : Fragment(), CourseQuestionVHListener {
     private var _binding: FragCoursePracticeBinding? = null
     private val binding get() = _binding as FragCoursePracticeBinding
     private val viewmodel by viewModels<CoursePracticeViewModel>()
@@ -39,7 +37,7 @@ class CoursePracticeFragment
     }
 
     private fun setupViewPager() {
-        val adapter = CoursePracticeAdapter(CourseQuestionDiffCallback(), this)
+        val adapter = CourseQuestionAdapter(CourseQuestionDiffCallback(), this)
         binding.fragCoursePracticeVp.adapter = adapter
         viewmodel.questions.observe(viewLifecycleOwner) {
             adapter.submitList(it)
@@ -51,7 +49,12 @@ class CoursePracticeFragment
         }
         viewmodel.navigateToSubmitResultPage.observe(viewLifecycleOwner) {
             if (it)
-                findNavController().navigate(CoursePracticeFragmentDirections.actionCoursePracticeFragmentToCourseSubmitFragment())
+                findNavController().navigate(
+                    CoursePracticeFragmentDirections.actionCoursePracticeFragmentToCourseSubmitFragment(
+                        courseId = viewmodel.courseId,
+                        chapterId = viewmodel.chapterId
+                    )
+                )
         }
     }
 

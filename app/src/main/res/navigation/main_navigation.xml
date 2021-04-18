@@ -157,6 +157,13 @@
             android:id="@+id/action_coursePracticeFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment"
             app:popUpTo="@id/courseInformationFragment" />
+        <argument android:name="courseId"
+            app:argType="string"
+            android:defaultValue="bWAEfZivIK6RyKitZtt4" />
+        <argument
+            android:name="chapterId"
+            app:argType="string"
+            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -194,5 +201,13 @@
             android:id="@+id/action_courseSubmitFragment_to_coursePracticeFragment"
             app:destination="@id/coursePracticeFragment"
             app:popUpTo="@id/courseInformationFragment" />
+        <argument
+            android:name="chapterId"
+            app:argType="string"
+            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W" />
+        <argument
+            android:name="courseId"
+            app:argType="string"
+            android:defaultValue="bWAEfZivIK6RyKitZtt4" />
     </fragment>
 </navigation>

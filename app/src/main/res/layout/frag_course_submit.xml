@@ -7,6 +7,15 @@
     android:background="?attr/colorPrimary"
     android:padding="@dimen/keyline_4">
 
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/frag_course_submit_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="frag_course_submit_description,
+        frag_course_submit_score,frag_course_submit_title"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
     <com.google.android.material.progressindicator.CircularProgressIndicator
         style="@style/Widget.TA.CircularProgressIndicator.Inverted"
         android:id="@+id/frag_course_submit_loading"
@@ -18,16 +27,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="visible" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/frag_course_submit_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="frag_course_submit_description,
-        frag_course_submit_next_chapter,frag_course_submit_retry,
-        frag_course_submit_score,frag_course_submit_title"
-        android:visibility="gone"
-        tools:visibility="visible"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/frag_course_submit_title"
@@ -79,9 +78,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Retry Practice"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/frag_course_submit_next_chapter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/frag_course_submit_next_chapter"
@@ -89,9 +90,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Next Chapter"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

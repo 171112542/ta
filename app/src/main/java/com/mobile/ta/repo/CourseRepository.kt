@@ -3,81 +3,46 @@ package com.mobile.ta.repo
 import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.mobile.ta.model.CourseQuestionAnswer
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class CourseRepository {
-    private val db = Firebase.firestore
-    private val chapters = db.collection("chapter")
-    private val users = db.collection("users")
+class CourseRepository @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    private val chapters = db.collection(CHAPTER_COLLECTION_PATH)
 
-    fun getNthChapter(index: Int) = chapters
-        .whereEqualTo("order", index)
-        .get()
+    suspend fun getNthChapter(index: Int) =
+        chapters.whereEqualTo(CHAPTER_ORDER_FIELD, index)
+            .get()
+            .await()
 
-    fun getQuestions(chapterId: String) = chapters
-        .document(chapterId)
-        .collection("question")
-        .orderBy("order")
-        .get()
+    suspend fun getChapterById(chapterId: String) =
+        chapters.document(chapterId)
+            .get()
+            .await()
 
-    fun submitQuestionResult(courseQuestionAnswer: CourseQuestionAnswer, courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .collection("question")
-        .document(courseQuestionAnswer.id)
-        .set(courseQuestionAnswer)
+    suspend fun getQuestions(chapterId: String) =
+        chapters.document(chapterId)
+            .collection(QUESTION_COLLECTION_PATH)
+            .orderBy(QUESTION_ORDER_FIELD)
+            .get()
+            .await()
 
-    fun updateCorrectAnswerCount(correctAnswerCount: Int, totalAnswerCount: Int, courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .update(mapOf(
-            "correctAnswerCount" to correctAnswerCount,
-            "totalAnswerCount" to totalAnswerCount
-        ))
-
-    fun resetSubmittedChapter(courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .delete()
-
-    fun getSubmittedChapter(courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .get()
-
-    suspend fun getIfSubmittedBefore(courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .get()
-        .await()
-        .exists()
-
-    fun createNewSubmittedChapter(courseId: String, chapterId: String) = users
-        .document("l1CLTummIoarBY3Wb3FY")
-        .collection("course")
-        .document(courseId)
-        .collection("chapter")
-        .document(chapterId)
-        .set(hashMapOf(
-            "correctAnswerCount" to -1
-        ))
+    companion object {
+        private const val COURSE_COLLECTION_PATH = "course"
+        private const val CHAPTER_COLLECTION_PATH = "chapter"
+        private const val QUESTION_COLLECTION_PATH = "question"
+        const val CHAPTER_ORDER_FIELD = "order"
+        const val CHAPTER_NEXT_CHAPTER_ID_FIELD = "nextChapterId"
+        const val CHAPTER_TYPE_FIELD = "type"
+        const val CHAPTER_TYPE_FIELD_PRACTICE = "practice"
+        const val CHAPTER_TYPE_FIELD_QUIZ = "quiz"
+        const val CHAPTER_TYPE_FIELD_CONTENT = "content"
+        private const val QUESTION_ORDER_FIELD = "order"
+    }
 }

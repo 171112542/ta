@@ -14,15 +14,15 @@ import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.CourseQuestion
 
-interface CourseExerciseVHListener {
+interface CourseQuestionVHListener {
     fun onSubmitAnswerListener(courseQuestion: CourseQuestion, selectedIndex: Int)
     fun onShowResultListener()
 }
 
-class CoursePracticeAdapter(
+class CourseQuestionAdapter(
         diffCallback: CourseQuestionDiffCallback,
-        val listener: CourseExerciseVHListener
-) : ListAdapter<CourseQuestion, CoursePracticeAdapter.ViewHolder>(diffCallback) {
+        val listener: CourseQuestionVHListener
+) : ListAdapter<CourseQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
     private var submitResultEnabled = false
     private var selectedAnswers = listOf<MutableMap<String, Int>>()
 

@@ -1,6 +1,8 @@
 package com.mobile.ta.viewmodel
 
 import android.util.Log
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.firebase.firestore.QuerySnapshot
 import com.mobile.ta.data.CourseOverviewData
@@ -9,14 +11,23 @@ import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.CourseQuestion
 import com.mobile.ta.model.CourseQuestionAnswer
 import com.mobile.ta.repo.CourseRepository
+import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD
+import com.mobile.ta.repo.UserRepository
 import com.mobile.ta.utils.publishChanges
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class CoursePracticeViewModel : ViewModel() {
+class CoursePracticeViewModel @ViewModelInject constructor(
+    private val courseRepository: CourseRepository,
+    private val userRepository: UserRepository,
+    @Assisted savedStateHandle: SavedStateHandle
+) : ViewModel() {
+    val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
+    val courseId = savedStateHandle.get<String>("courseId") ?: ""
+
+    private lateinit var assignmentType: String
     private var selectedAnswers = MutableLiveData<ArrayList<CourseQuestionAnswer>>(arrayListOf())
-    private val courseRepository = CourseRepository()
     val allQuestionsAnswered = Transformations.map(selectedAnswers) {
         it.size == questions.value?.size
     }
@@ -27,12 +38,16 @@ class CoursePracticeViewModel : ViewModel() {
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            val isChapterDoneBefore = courseRepository.getIfSubmittedBefore("bWAEfZivIK6RyKitZtt4", "jy3EsIxdCVvPn8i0Wl7W")
+            assignmentType = courseRepository.getChapterById(chapterId)[CHAPTER_TYPE_FIELD] as String
+            val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
+                courseId,
+                chapterId
+            )
             if (isChapterDoneBefore) {
                 _navigateToSubmitResultPage.postValue(true)
                 return@launch
             }
-            val questionSnapshots = courseRepository.getQuestions("jy3EsIxdCVvPn8i0Wl7W").await()
+            val questionSnapshots = courseRepository.getQuestions(chapterId)
             val questions = ArrayList<CourseQuestion>()
             questionSnapshots.forEach {
                 questions.add(
@@ -59,19 +74,22 @@ class CoursePracticeViewModel : ViewModel() {
     fun submitAnswer() {
         viewModelScope.launch(Dispatchers.IO) {
             var correctAnswerCount = 0
-            courseRepository.createNewSubmittedChapter("bWAEfZivIK6RyKitZtt4", "jy3EsIxdCVvPn8i0Wl7W").await()
+            userRepository.createNewSubmittedChapter(
+                assignmentType,
+                courseId,
+                chapterId
+            )
             selectedAnswers.value?.forEach {
-                courseRepository.submitQuestionResult(it, "bWAEfZivIK6RyKitZtt4", "jy3EsIxdCVvPn8i0Wl7W").await()
+                userRepository.submitQuestionResult(it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
             }
-            courseRepository
+            userRepository
                 .updateCorrectAnswerCount(
                     correctAnswerCount,
                     questions.value?.size ?: 0,
-                    "bWAEfZivIK6RyKitZtt4",
-                    "jy3EsIxdCVvPn8i0Wl7W"
+                    courseId,
+                    chapterId
                 )
-                .await()
             _navigateToSubmitResultPage.postValue(true)
         }
     }
