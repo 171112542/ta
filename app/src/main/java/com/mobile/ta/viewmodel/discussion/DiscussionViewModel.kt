@@ -1,19 +1,23 @@
 package com.mobile.ta.viewmodel.discussion
 
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.DiscussionData
 import com.mobile.ta.model.discussion.DiscussionForum
 import com.mobile.ta.model.discussion.DiscussionForumAnswer
+import com.mobile.ta.model.status.Status
+import com.mobile.ta.repository.DiscussionRepository
+import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.now
+import com.mobile.ta.viewmodel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DiscussionViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+@HiltViewModel
+class DiscussionViewModel @Inject constructor(
+    private val discussionRepository: DiscussionRepository,
+    private val savedStateHandle: SavedStateHandle
+) : BaseViewModel() {
 
     companion object {
         private const val DISCUSSION_ANSWER = "DISCUSSION_ANSWER"
@@ -22,55 +26,70 @@ class DiscussionViewModel @ViewModelInject constructor(
 
     private var id: String? = null
 
-    private var _discussionAnswers: MutableLiveData<ArrayList<DiscussionForumAnswer>>
-    val discussionAnswers: LiveData<ArrayList<DiscussionForumAnswer>>
+    private var _discussionAnswers: MutableLiveData<Status<MutableList<DiscussionForumAnswer>>>
+    val discussionAnswers: LiveData<Status<MutableList<DiscussionForumAnswer>>>
         get() = _discussionAnswers
 
-    private var _discussionForumQuestion: MutableLiveData<DiscussionForum>
-    val discussionForumQuestion: LiveData<DiscussionForum>
+    private var _discussionForumQuestion: MutableLiveData<Status<DiscussionForum>>
+    val discussionForumQuestion: LiveData<Status<DiscussionForum>>
         get() = _discussionForumQuestion
+
+    private var _isAnswerAdded = MutableLiveData<Boolean>()
+    val isAnswerAdded: LiveData<Boolean>
+        get() = _isAnswerAdded
 
     init {
         _discussionForumQuestion = savedStateHandle.getLiveData(DISCUSSION_QUESTION)
-        _discussionAnswers = savedStateHandle.getLiveData(DISCUSSION_ANSWER, arrayListOf())
+        _discussionAnswers = savedStateHandle.getLiveData(DISCUSSION_ANSWER)
     }
 
     fun createNewDiscussionAnswer(answer: String) {
-        val today = now()
-        val discussionForumAnswer = DiscussionForumAnswer(
-            "ID",
-            answer,
-            today,
-            DiscussionData.USER_ID,
-            DiscussionData.USER_NAME
+        val discussionForumAnswer = hashMapOf<String, Any>(
+            DiscussionMapper.ANSWER to answer,
+            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.USER_ID to "userId",
+            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.IS_ACCEPTED to false
         )
         addDiscussionAnswer(discussionForumAnswer)
     }
 
-    fun fetchDiscussion(id: String) {
+    fun fetchDiscussion() {
+        id?.let { id ->
+            launchViewModelScope {
+                _discussionForumQuestion.postValue(discussionRepository.getDiscussionForumById(id))
+                _discussionAnswers.postValue(discussionRepository.getDiscussionForumAnswers(id))
+            }
+        }
+    }
+
+    fun markAsAcceptedAnswer(answerId: String) {
+        id?.let { discussionId ->
+            launchViewModelScope {
+                discussionRepository.markAsAcceptedAnswer(discussionId, answerId)
+            }
+        }
+    }
+
+    fun setDiscussionId(id: String) {
         this.id = id
-        val discussionDetail = DiscussionData.discussionForumsData.find {
-            it.id == id
-        }
-        _discussionForumQuestion.value = discussionDetail
-        _discussionAnswers.value = discussionDetail?.answer?.map { answer ->
-            answer.value.apply {
-                this.id = answer.key
-            }
-        } as ArrayList
     }
 
-    private fun addDiscussionAnswer(answer: DiscussionForumAnswer) {
-        val discussions: ArrayList<DiscussionForumAnswer> = arrayListOf()
-        if (isAnswerEmpty().not()) {
-            _discussionAnswers.value?.let {
-                discussions.addAll(it)
-            }
-        }
-        discussions.add(answer)
-        _discussionAnswers.value = discussions
-        DiscussionData.addForumAnswer(id.orEmpty(), answer)
+    fun setIsAnswerAdded(value: Boolean) {
+        _isAnswerAdded.postValue(value)
     }
 
-    private fun isAnswerEmpty() = _discussionAnswers.value?.isEmpty() ?: true
+    private fun addDiscussionAnswer(answer: HashMap<String, Any>) {
+        id?.let { discussionId ->
+            launchViewModelScope {
+                val addDiscussionResult =
+                    discussionRepository.addDiscussionForumAnswer(discussionId, answer)
+                checkStatus(addDiscussionResult.status, {
+                    setIsAnswerAdded(false)
+                }, {
+                    setIsAnswerAdded(true)
+                })
+            }
+        }
+    }
 }

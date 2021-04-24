@@ -25,7 +25,7 @@ class MyCourseFragment : Fragment() {
         binding.apply {
             courseViewPager.adapter = coursePagerAdapter
             (courseViewPager.getChildAt(0) as ViewGroup).clipChildren = false
-            TabLayoutMediator(courseTabLayout, courseViewPager) {tab, position ->
+            TabLayoutMediator(courseTabLayout, courseViewPager) { tab, position ->
                 when (position) {
                     0 -> tab.text = getString(R.string.course_ongoing_tab)
                     1 -> tab.text = getString(R.string.course_finished_tab)

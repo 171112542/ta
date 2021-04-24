@@ -15,6 +15,7 @@ class ProfileFeedbackTabViewModel @ViewModelInject constructor(
     private val _feedbacks = MutableLiveData<List<Feedback>>()
     val feedbacks: LiveData<List<Feedback>>
         get() = _feedbacks
+
     init {
         _feedbacks.postValue(FeedbackData.feedbacks)
     }

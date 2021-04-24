@@ -14,12 +14,16 @@ import com.mobile.ta.model.TypeTag
 import com.mobile.ta.viewmodel.SearchViewModel
 
 class TagSelectionDialogFragment(private val viewmodel: SearchViewModel) :
-        DialogFragment(),
-        View.OnClickListener {
+    DialogFragment(),
+    View.OnClickListener {
     private var _binding: DialogTagSelectionBinding? = null
     private val binding get() = _binding as DialogTagSelectionBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = DialogTagSelectionBinding.inflate(inflater, container, false)
         binding.dialogTagSelectionSaveButton.setOnClickListener(this)
         binding.dialogTagSelectionCancelButton.setOnClickListener(this)

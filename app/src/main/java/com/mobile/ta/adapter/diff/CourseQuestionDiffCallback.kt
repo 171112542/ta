@@ -10,8 +10,8 @@ class CourseQuestionDiffCallback : DiffUtil.ItemCallback<CourseQuestion>() {
 
     override fun areContentsTheSame(oldItem: CourseQuestion, newItem: CourseQuestion): Boolean {
         return oldItem.question == newItem.question &&
-                oldItem.choices == newItem.choices &&
-                oldItem.correctAnswer == newItem.correctAnswer &&
-                oldItem.explanation == newItem.explanation
+            oldItem.choices == newItem.choices &&
+            oldItem.correctAnswer == newItem.correctAnswer &&
+            oldItem.explanation == newItem.explanation
     }
 }

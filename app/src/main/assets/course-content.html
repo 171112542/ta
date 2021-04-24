@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <section id="content"></section>
+    <section>
+        <div id="previous-chapter">Previous</div>
+        <div id="next-chapter">Next</div>
+    </section>
+    <script type="text/javascript">
+        var previousChapter = document.querySelector('#previous-chapter');
+        var nextChapter = document.querySelector('#next-chapter');
+        if (!Android.hasPreviousChapter()) {
+            previousChapter.classList.add('hide');
+        } else {
+            previousChapter.classList.remove('hide');
+        }
+        if (!Android.hasNextChapter()) {
+            nextChapter.classList.add('hide');
+        } else {
+            nextChapter.classList.remove('hide');
+        }
+        previousChapter.addEventListener('click', function() {
+            Android.navigatePrevious()
+        });
+        nextChapter.addEventListener('click', function() {
+            Android.navigateNext()
+        });
+    </script>
+</body>
+</html>

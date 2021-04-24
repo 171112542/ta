@@ -30,10 +30,11 @@ class SearchFragment :
     private val viewmodel by viewModels<SearchViewModel>()
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?)
-    : View {
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    )
+        : View {
         _binding = FragSearchBinding.inflate(inflater, container, false)
         binding.fragSearchSearchResultFilter.setOnClickListener(this)
         return binding.root
@@ -74,8 +75,10 @@ class SearchFragment :
             val DRAWABLE_LEFT = 0
             val DRAWABLE_RIGHT = 2
             if (event.action == MotionEvent.ACTION_UP) {
-                val rightBoundOfDrawableLeft = binding.fragSearchSearchBar.compoundDrawables[DRAWABLE_LEFT].bounds.right
-                val drawableRightWidth = binding.fragSearchSearchBar.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
+                val rightBoundOfDrawableLeft =
+                    binding.fragSearchSearchBar.compoundDrawables[DRAWABLE_LEFT].bounds.right
+                val drawableRightWidth =
+                    binding.fragSearchSearchBar.compoundDrawables[DRAWABLE_RIGHT].bounds.width()
                 val leftBoundOfSearchBar = binding.fragSearchSearchBar.left
                 val searchBarWidth = binding.fragSearchSearchBar.width
                 val paddingDrawable = binding.fragSearchSearchBar.compoundDrawablePadding
@@ -136,8 +139,9 @@ class SearchFragment :
 
     private fun hideKeyboard() {
         val inputMethodManager: InputMethodManager = requireActivity()
-                .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            .getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(
-                requireActivity().currentFocus?.windowToken, 0)
+            requireActivity().currentFocus?.windowToken, 0
+        )
     }
 }

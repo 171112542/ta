@@ -10,7 +10,7 @@ class ProfileFeedbackDiffCallback : DiffUtil.ItemCallback<Feedback>() {
 
     override fun areContentsTheSame(oldItem: Feedback, newItem: Feedback): Boolean {
         return oldItem.feedbackType == newItem.feedbackType
-                && oldItem.description == newItem.description
-                && oldItem.createdAt == newItem.createdAt
+            && oldItem.description == newItem.description
+            && oldItem.createdAt == newItem.createdAt
     }
 }

@@ -10,7 +10,7 @@ class CourseOverviewDiffCallback : DiffUtil.ItemCallback<CourseOverview>() {
 
     override fun areContentsTheSame(oldItem: CourseOverview, newItem: CourseOverview): Boolean {
         return oldItem.description == newItem.description
-                && oldItem.level == newItem.level
-                && oldItem.title == newItem.title
+            && oldItem.level == newItem.level
+            && oldItem.title == newItem.title
     }
 }
