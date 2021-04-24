@@ -69,6 +69,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:27.0.0')
     implementation "com.firebaseui:firebase-ui-auth:${rootProject.firebaseUiVersion}"
+    implementation "com.google.android.gms:play-services-auth:${rootProject.playServiceAuthVersion}"
 
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.snackbar.Snackbar
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
@@ -22,7 +23,7 @@ abstract class BaseFragment<T : ViewBinding>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = requireContext()
-        mActivity = mContext as AppCompatActivity
+        mActivity = activity as AppCompatActivity
     }
 
     open fun runOnCreateView() {}
@@ -40,5 +41,9 @@ abstract class BaseFragment<T : ViewBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    protected fun showToast(messageId: Int) {
+        Snackbar.make(binding.root, messageId, Snackbar.LENGTH_SHORT).show()
     }
 }

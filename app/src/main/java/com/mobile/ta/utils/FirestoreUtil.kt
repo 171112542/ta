@@ -42,3 +42,14 @@ suspend fun <T> Task<T>.fetchData(): Status<Boolean> {
     }.await()
     return statusData
 }
+
+@ExperimentalCoroutinesApi
+suspend fun <T> Task<T>.fetchDataWithResult(): Status<T> {
+    lateinit var statusData: Status<T>
+    addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener {
+        statusData = Status.success(it)
+    }.await()
+    return statusData
+}

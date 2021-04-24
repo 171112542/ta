@@ -8,14 +8,12 @@ import com.mobile.ta.model.status.Status
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.DiscussionMapper
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class DiscussionRepositoryImpl @Inject constructor(
-    database: FirebaseFirestore,
-    private val ioDispatcher: CoroutineDispatcher
+    database: FirebaseFirestore
 ) : DiscussionRepository {
 
     private val discussionCollection =

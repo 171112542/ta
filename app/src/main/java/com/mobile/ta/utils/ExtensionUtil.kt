@@ -15,6 +15,12 @@ import java.util.Locale
  */
 fun String?.isNotNullOrBlank() = this.isNullOrBlank().not()
 
+fun Boolean?.orFalse() = this ?: false
+
+fun Boolean?.orTrue() = this ?: true
+
+fun <T> T?.isNull() = this == null
+
 /**
  * View Helper
  */

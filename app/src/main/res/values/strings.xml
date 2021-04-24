@@ -17,11 +17,15 @@
     <string name="ic_search_content_description">Search</string>
     <string name="search_bar_hint">Search</string>
 
-    <!-- Auth -->
+    <!-- Log in -->
     <string name="teacher_role">I am a teacher</string>
     <string name="confirm">Confirm</string>
     <string name="input_token_hint">Input your token</string>
     <string name="credentials">Credentials</string>
+    <string name="wrong_credentials_message">Wrong teacher credentials. Please try again.</string>
+    <string name="fail_to_authenticate_message">Failed to get your Google account. Please re-login your account.</string>
+
+    <!-- Register -->
     <string name="welcome_label">Welcome!</string>
     <string name="identity_label">What’s your identity?</string>
     <string name="full_name_hint">Full Name</string>

@@ -1,5 +1,6 @@
 package com.mobile.ta.di.modules
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -16,6 +17,10 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirestoreInstance(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuthInstance(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Provides
     @Singleton
