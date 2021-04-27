@@ -79,6 +79,7 @@ class MainActivity : AppCompatActivity() {
     private fun showActionBar(destinationId: Int) {
         val isVisible = when (destinationId) {
             R.id.loginFragment -> false
+            R.id.registrationFragment -> false
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
             else -> true

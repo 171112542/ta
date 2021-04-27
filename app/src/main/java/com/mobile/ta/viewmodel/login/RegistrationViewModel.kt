@@ -1,30 +1,108 @@
 package com.mobile.ta.viewmodel.login
 
-import android.graphics.Bitmap
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import com.mobile.ta.model.user.NewUser
+import com.mobile.ta.model.user.UserRoleEnum
+import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.utils.orFalse
+import com.mobile.ta.viewmodel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import java.io.File
+import javax.inject.Inject
 
-class RegistrationViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+@HiltViewModel
+class RegistrationViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : BaseViewModel() {
 
-    companion object {
-        private const val PROFILE_PICTURE = "PROFILE_PICTURE"
-    }
+    private var _isUpdated = MutableLiveData<Boolean>()
+    val isUpdated: LiveData<Boolean>
+        get() = _isUpdated
 
-    private var _profilePicture: MutableLiveData<Bitmap>
-    val profilePicture: LiveData<Bitmap>
+    private var _profilePicture = MutableLiveData<File>()
+    val profilePicture: LiveData<File>
         get() = _profilePicture
 
-    init {
-        _profilePicture = savedStateHandle.getLiveData(PROFILE_PICTURE)
+    private var _user = MutableLiveData<Pair<String, NewUser>>()
+    val user: LiveData<Pair<String, NewUser>>
+        get() = _user
+
+    fun getAuthorizedUserData(isTeacher: Boolean) {
+        launchViewModelScope {
+            authRepository.getUser()?.let { firebaseUser ->
+                _user.postValue(
+                    Pair(
+                        firebaseUser.uid, NewUser(
+                            name = firebaseUser.displayName.orEmpty(),
+                            email = firebaseUser.email.orEmpty(),
+                            photo = firebaseUser.photoUrl,
+                            role = getUserRole(isTeacher)
+                        )
+                    )
+                )
+            }
+            registerUser(_user.value?.second?.name.orEmpty(), null)
+        }
     }
 
-    fun setProfilePicture(profilePicture: Bitmap) {
-        _profilePicture.value = profilePicture
+    fun setProfilePicture(filePath: String) {
+        _profilePicture.value = File(filePath)
+    }
+
+    fun setBirthDate(birthDate: Long) {
+        user.value?.second?.birthDate = birthDate
+    }
+
+    fun updateUser(name: String) {
+        _user.value?.let { user ->
+            user.second.name = name
+            launchViewModelScope {
+                val response = authRepository.updateUser(user.first, user.second)
+                checkStatus(response.status, {
+                    _isUpdated.postValue(response.data.orFalse())
+                }, {
+                    _isUpdated.postValue(false)
+                })
+            }
+        }
+    }
+
+    fun uploadImage() {
+        val imageUri = Uri.fromFile(_profilePicture.value)
+        _user.value?.first?.let { id ->
+            launchViewModelScope {
+                checkStatus(authRepository.uploadImage(id, imageUri).status, {
+                    getImage(id, imageUri)
+                })
+            }
+        }
+    }
+
+    private fun getImage(id: String, imageUri: Uri) {
+        launchViewModelScope {
+            val uploadedImageResponse = authRepository.getImageUrl(id, imageUri)
+            checkStatus(uploadedImageResponse.status, {
+                _user.value?.second?.photo = uploadedImageResponse.data
+            })
+        }
+    }
+
+    private fun getUserRole(isTeacher: Boolean) = if (isTeacher) {
+        UserRoleEnum.ROLE_TEACHER
+    } else {
+        UserRoleEnum.ROLE_STUDENT
+    }
+
+    private fun registerUser(name: String, birthDate: Long?) {
+        _user.value?.let { user ->
+            user.second.birthDate = birthDate
+            user.second.name = name
+
+            launchViewModelScope {
+                authRepository.registerUser(user.first, user.second)
+            }
+        }
     }
 }

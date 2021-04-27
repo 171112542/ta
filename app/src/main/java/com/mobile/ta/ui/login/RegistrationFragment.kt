@@ -1,82 +1,104 @@
 package com.mobile.ta.ui.login
 
-import android.app.Activity
+import android.Manifest
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
+import com.mobile.ta.model.user.NewUser
+import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.login.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
-class RegistrationFragment : Fragment() {
+class RegistrationFragment :
+    BaseFragment<FragmentRegistrationBinding>(FragmentRegistrationBinding::inflate),
+    View.OnClickListener {
 
     companion object {
-        private const val PROFILE_PICTURE_REQUEST_CODE = 1
         private const val INPUT_BIRTH_DATE_TAG = "INPUT BIRTH DATE"
     }
 
-    private lateinit var binding: FragmentRegistrationBinding
-    private lateinit var birthDatePicker: MaterialDatePicker<Long>
+    private val birthDatePicker: MaterialDatePicker<Long> by lazy {
+        MaterialDatePicker.Builder.datePicker().setTitleText(
+            R.string.birth_date_picker_title_label
+        ).build()
+    }
 
+    private val args: RegistrationFragmentArgs by navArgs()
     private val viewModel: RegistrationViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+    override fun onIntentResult(data: Intent?) {
+        data?.data?.let { uri ->
+            FileUtil.getFileAbsolutePath(mContext.contentResolver, uri)?.let {
+                viewModel.setProfilePicture(it)
+            }
+        }
+    }
+
+    override fun runOnCreateView() {
         setupDatePicker()
-        with(binding) {
-            buttonEditProfilePicture.setOnClickListener {
-                openGallery()
-            }
-            buttonSubmitRegistrationForm.setOnClickListener {
-                validate()
-            }
+        binding.apply {
+            buttonEditProfilePicture.setOnClickListener(this@RegistrationFragment)
+            buttonSubmitRegistrationForm.setOnClickListener(this@RegistrationFragment)
             editTextFullName.doOnTextChanged { _, _, _, _ ->
                 validateName()
             }
         }
         setupBirthDateEditText()
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (activity as MainActivity).hideToolbar()
+        viewModel.getAuthorizedUserData(args.isTeacher)
         viewModel.profilePicture.observe(viewLifecycleOwner, {
-            binding.imageViewEditProfilePicture.setImageBitmap(it)
+            setProfilePicture<File>(it)
+        })
+        viewModel.user.observe(viewLifecycleOwner, {
+            updateUserData(it.second)
+        })
+        viewModel.isUpdated.observe(viewLifecycleOwner, {
+            checkIsUpdated(it)
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == PROFILE_PICTURE_REQUEST_CODE) {
-            data?.data?.let { uri ->
-                context?.let { context ->
-                    val filePath = FileUtil.getFilePath(uri, context.contentResolver)
-                    filePath?.let {
-                        val fileBitmap = FileUtil.convertFilePathToBitmap(it)
-                        setProfilePicture(fileBitmap)
-                    }
-                }
+    private fun checkIsUpdated(isUpdated: Boolean) {
+        if (isUpdated) {
+            goToHome()
+        } else {
+            showToast(R.string.fail_to_update_profile)
+        }
+    }
+
+    private fun updateUserData(user: NewUser) {
+        binding.apply {
+            editTextFullName.setText(user.name)
+            user.photo?.let {
+                setProfilePicture(it)
+            }
+        }
+    }
+
+    override fun onClick(view: View?) {
+        binding.apply {
+            when (view) {
+                buttonEditProfilePicture -> openGallery()
+                buttonSubmitRegistrationForm -> validate()
             }
         }
     }
@@ -85,25 +107,31 @@ class RegistrationFragment : Fragment() {
         findNavController().navigate(RegistrationFragmentDirections.actionGlobalHomeFragment())
     }
 
-    private fun openGallery() {
+    override fun onPermissionGranted() {
         val openGalleryIntent = Intent(
             Intent.ACTION_PICK,
-            MediaStore.Images.Media.INTERNAL_CONTENT_URI
-        )
-        startActivityForResult(openGalleryIntent, PROFILE_PICTURE_REQUEST_CODE)
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        ).apply {
+            type = Constants.TYPE_IMAGE_ALL
+        }
+        intentLauncher.launch(openGalleryIntent)
     }
 
-    private fun setProfilePicture(picture: Bitmap?) {
-        picture?.let {
-            viewModel.setProfilePicture(it)
-        }
+    private fun openGallery() {
+        checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
+
+    private fun <T: Any> setProfilePicture(image: T) {
+        Glide.with(mContext).load(image).into(binding.imageViewEditProfilePicture)
     }
 
     private fun setupBirthDateEditText() {
         with(binding.editTextDateOfBirth) {
             setOnTouchListener { view, _ ->
                 view.performClick()
-                birthDatePicker.show(parentFragmentManager, INPUT_BIRTH_DATE_TAG)
+                if (birthDatePicker.isAdded.not()) {
+                    birthDatePicker.show(mActivity.supportFragmentManager, INPUT_BIRTH_DATE_TAG)
+                }
                 true
             }
             doOnTextChanged { _, _, _, _ ->
@@ -113,24 +141,19 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun setupDatePicker() {
-        birthDatePicker = MaterialDatePicker.Builder.datePicker().setTitleText(
-            R.string.birth_date_picker_title_label
-        ).build()
         birthDatePicker.addOnPositiveButtonClickListener {
             binding.editTextDateOfBirth.setText(
                 it.toDateString(Constants.DD_MMMM_YYYY)
             )
+            viewModel.setBirthDate(it)
         }
     }
 
     private fun validate() {
         with(binding) {
-            val name = editTextFullName.text()
-            val dateOfBirth = editTextDateOfBirth.text()
-
             if (validateName() && validateDateOfBirth()) {
-                // TODO: Call view model to set data
-                goToHome()
+                viewModel.uploadImage()
+                viewModel.updateUser(editTextFullName.text())
             }
         }
     }

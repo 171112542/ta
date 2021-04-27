@@ -46,8 +46,14 @@ fun TextView.text() = this.text.toString()
  */
 fun now(): Date = Date.from(LocalDateTime.now().toInstant(ZoneOffset.UTC))
 
-fun Long.toDateString(pattern: String): String =
-    SimpleDateFormat(pattern, Locale.ENGLISH).format(this * 1000)
+fun Long.toDateString(pattern: String, isMillis: Boolean = false): String =
+    SimpleDateFormat(pattern, Locale.ENGLISH).format(
+        this * if (isMillis) {
+            1000
+        } else {
+            1
+        }
+    )
 
 fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)

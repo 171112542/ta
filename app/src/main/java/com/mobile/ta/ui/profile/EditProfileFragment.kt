@@ -12,7 +12,6 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants

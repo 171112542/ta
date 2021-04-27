@@ -9,6 +9,6 @@ data class User(
     val email: String,
     val phone: String,
     val photo: Bitmap?,
-    val dob: Date?,
+    val dob: Date,
     val bio: String,
 )

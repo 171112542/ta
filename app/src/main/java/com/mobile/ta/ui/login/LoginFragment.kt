@@ -1,12 +1,8 @@
 package com.mobile.ta.ui.login
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,18 +29,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private lateinit var googleSignInOptions: GoogleSignInOptions
 
-    private lateinit var signInLauncher: ActivityResultLauncher<Intent>
-
     private val viewModel by viewModels<LoginViewModel>()
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        signInLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    viewModel.getAccountAndAuthenticateUser(result.data)
-                }
-            }
+    override fun onIntentResult(data: Intent?) {
+        viewModel.getAccountAndAuthenticateUser(data)
     }
 
     override fun runOnCreateView() {
@@ -135,6 +123,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun launchSignInIntent() {
-        signInLauncher.launch(googleSignInClient.signInIntent)
+        intentLauncher.launch(googleSignInClient.signInIntent)
     }
 }

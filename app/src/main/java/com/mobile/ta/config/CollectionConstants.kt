@@ -7,4 +7,6 @@ object CollectionConstants {
 
     const val USER_COLLECTION = "users"
     const val TOKEN_COLLECTION = "teacherCredentials"
+
+    const val IMAGES_USERS_STORAGE_PATH = "images/users"
 }
