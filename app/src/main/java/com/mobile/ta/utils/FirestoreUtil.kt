@@ -34,22 +34,20 @@ suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T): St
 
 @ExperimentalCoroutinesApi
 suspend fun <T> Task<T>.fetchData(): Status<Boolean> {
-    lateinit var statusData: Status<Boolean>
-    addOnFailureListener {
-        statusData = Status.error(it.message.orEmpty(), false)
-    }.addOnSuccessListener {
-        statusData = Status.success(true)
-    }.await()
-    return statusData
+    return try {
+        await()
+        Status.success(true)
+    } catch (ex: Exception) {
+        Status.error(ex.message, false)
+    }
 }
 
 @ExperimentalCoroutinesApi
 suspend fun <T> Task<T>.fetchDataWithResult(): Status<T> {
-    lateinit var statusData: Status<T>
-    addOnFailureListener {
-        statusData = Status.error(it.message.orEmpty())
-    }.addOnSuccessListener {
-        statusData = Status.success(it)
-    }.await()
-    return statusData
+    return try {
+        val data = await()
+        Status.success(data)
+    } catch (ex: Exception) {
+        Status.error(ex.message)
+    }
 }

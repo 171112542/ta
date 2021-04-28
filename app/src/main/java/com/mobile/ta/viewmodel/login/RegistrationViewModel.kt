@@ -82,10 +82,11 @@ class RegistrationViewModel @Inject constructor(
 
     private fun getImage(id: String, imageUri: Uri) {
         launchViewModelScope {
-            val uploadedImageResponse = authRepository.getImageUrl(id, imageUri)
-            checkStatus(uploadedImageResponse.status, {
-                _user.value?.second?.photo = uploadedImageResponse.data
-            })
+            authRepository.getImageUrl(id, imageUri).apply {
+                checkStatus(status, {
+                    _user.value?.second?.photo = data
+                })
+            }
         }
     }
 

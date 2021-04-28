@@ -41,10 +41,11 @@ class LoginViewModel @Inject constructor(
 
     fun getAccountAndAuthenticateUser(data: Intent?) {
         launchViewModelScope {
-            val signedInAccount = authRepository.getSignedInAccountFromIntent(data)
-            checkStatus(signedInAccount.status, {
-                onSuccessGetAccount(signedInAccount.data)
-            }, ::setUnauthenticated)
+            authRepository.getSignedInAccountFromIntent(data).apply {
+                checkStatus(status, {
+                    onSuccessGetAccount(this.data)
+                }, ::setUnauthenticated)
+            }
         }
     }
 
