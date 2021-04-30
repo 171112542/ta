@@ -9,10 +9,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentFeedbackBinding
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 

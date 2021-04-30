@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/discussionForumFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -24,7 +24,12 @@
         android:id="@+id/registrationFragment"
         android:name="com.mobile.ta.ui.login.RegistrationFragment"
         android:label="RegistrationFragment"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <argument
+            android:name="isTeacher"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mobile.ta.ui.HomeFragment"
@@ -198,8 +203,6 @@
         android:name="com.mobile.ta.ui.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
-    android:name="com.mobile.ta.ui.FeedbackFragment"
-    android:label="FeedbackFragment" />
     <action
         android:id="@+id/action_global_coursePracticeFragment"
         app:destination="@id/coursePracticeFragment" />

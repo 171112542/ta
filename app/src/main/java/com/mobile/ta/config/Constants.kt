@@ -8,6 +8,8 @@ object Constants {
     const val DD_MMMM_YYYY = "dd MMMM yyyy"
     const val DD_MMMM_YYYY_HH_MM_SS = "dd MMMM yyyy, HH:mm:SS"
 
+    const val TYPE_IMAGE_ALL = "image/*"
+
     /**
      * Error messages
      */

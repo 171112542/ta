@@ -1,6 +1,8 @@
 package com.mobile.ta.di.modules
 
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.DiscussionRepository
+import com.mobile.ta.repository.impl.AuthRepositoryImpl
 import com.mobile.ta.repository.impl.DiscussionRepositoryImpl
 import dagger.Binds
 import dagger.Module
@@ -18,4 +20,9 @@ abstract class RepositoryModule {
         discussionRepositoryImpl: DiscussionRepositoryImpl
     ): DiscussionRepository
 
+    @ExperimentalCoroutinesApi
+    @Binds
+    abstract fun bindAuthRepository(
+        authRepositoryImpl: AuthRepositoryImpl
+    ): AuthRepository
 }

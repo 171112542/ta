@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.adapter.CoursePagerAdapter
 import com.mobile.ta.databinding.FragCourseBinding
+import com.mobile.ta.ui.main.MainActivity
 
 class MyCourseFragment : Fragment() {
     private var _binding: FragCourseBinding? = null
