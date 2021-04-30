@@ -12,11 +12,11 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.data.UserData.dobDateFormat
 import com.mobile.ta.databinding.FragmentEditProfileBinding
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
 import java.util.Date

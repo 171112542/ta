@@ -22,9 +22,9 @@ interface AuthRepository {
 
     suspend fun getUser(): FirebaseUser?
 
-    suspend fun registerUser(userId: String, user: NewUser): Status<Boolean>
+    suspend fun registerUser(user: NewUser): Status<Boolean>
 
-    suspend fun updateUser(userId: String, user: NewUser): Status<Boolean>
+    suspend fun updateUser(user: NewUser): Status<Boolean>
 
     suspend fun uploadImage(userId: String, imageUri: Uri): Status<Boolean>
 

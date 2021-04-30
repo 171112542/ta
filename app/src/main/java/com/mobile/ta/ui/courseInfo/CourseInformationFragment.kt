@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.adapter.courseInfo.CourseInfoChapterAdapter
 import com.mobile.ta.adapter.courseInfo.CourseInfoPrerequisitesCourseAdapter
@@ -22,6 +21,7 @@ import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.courseInfo.Creator
 import com.mobile.ta.model.courseInfo.Tag
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.viewmodel.courseInfo.CourseInformationViewModel
 

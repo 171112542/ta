@@ -20,7 +20,6 @@ import com.mobile.ta.utils.mapper.UserMapper
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-
 @ExperimentalCoroutinesApi
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -71,12 +70,12 @@ class AuthRepositoryImpl @Inject constructor(
         return auth.currentUser
     }
 
-    override suspend fun registerUser(userId: String, user: NewUser): Status<Boolean> {
-        return userCollection.document(userId).set(user).fetchData()
+    override suspend fun registerUser(user: NewUser): Status<Boolean> {
+        return userCollection.document(user.id).set(user).fetchData()
     }
 
-    override suspend fun updateUser(userId: String, user: NewUser): Status<Boolean> {
-        return userCollection.document(userId).update(
+    override suspend fun updateUser(user: NewUser): Status<Boolean> {
+        return userCollection.document(user.id).update(
             mapOf(
                 UserMapper.NAME to user.name,
                 UserMapper.BIRTH_DATE to user.birthDate,

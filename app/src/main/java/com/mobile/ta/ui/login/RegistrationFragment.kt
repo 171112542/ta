@@ -70,7 +70,9 @@ class RegistrationFragment :
             setProfilePicture<File>(it)
         })
         viewModel.user.observe(viewLifecycleOwner, {
-            updateUserData(it.second)
+            it?.let {
+                updateUserData(it)
+            }
         })
         viewModel.isUpdated.observe(viewLifecycleOwner, {
             checkIsUpdated(it)

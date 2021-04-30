@@ -1,14 +1,17 @@
 package com.mobile.ta.model.user
 
-import android.net.Uri
+import com.google.firebase.firestore.DocumentId
 
 data class NewUser(
+
+    @DocumentId
+    var id: String,
 
     var name: String,
 
     var email: String,
 
-    var photo: Uri? = null,
+    var photo: String? = null,
 
     var birthDate: Long? = null,
 

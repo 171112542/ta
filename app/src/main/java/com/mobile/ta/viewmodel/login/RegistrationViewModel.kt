@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.user.NewUser
 import com.mobile.ta.model.user.UserRoleEnum
 import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,25 +26,25 @@ class RegistrationViewModel @Inject constructor(
     val profilePicture: LiveData<File>
         get() = _profilePicture
 
-    private var _user = MutableLiveData<Pair<String, NewUser>>()
-    val user: LiveData<Pair<String, NewUser>>
+    private var _user = MutableLiveData<NewUser>()
+    val user: LiveData<NewUser>
         get() = _user
 
     fun getAuthorizedUserData(isTeacher: Boolean) {
         launchViewModelScope {
             authRepository.getUser()?.let { firebaseUser ->
                 _user.postValue(
-                    Pair(
-                        firebaseUser.uid, NewUser(
-                            name = firebaseUser.displayName.orEmpty(),
-                            email = firebaseUser.email.orEmpty(),
-                            photo = firebaseUser.photoUrl,
-                            role = getUserRole(isTeacher)
-                        )
+                    NewUser(
+                        id = firebaseUser.uid,
+                        name = firebaseUser.displayName.orEmpty(),
+                        email = firebaseUser.email.orEmpty(),
+                        photo = firebaseUser.photoUrl?.toString(),
+                        role = getUserRole(isTeacher)
                     )
                 )
+//                _user.publishChanges()
+                authRepository.registerUser(_user.value!!)
             }
-            registerUser(_user.value?.second?.name.orEmpty(), null)
         }
     }
 
@@ -52,14 +53,14 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun setBirthDate(birthDate: Long) {
-        user.value?.second?.birthDate = birthDate
+        user.value?.birthDate = birthDate
     }
 
     fun updateUser(name: String) {
         _user.value?.let { user ->
-            user.second.name = name
+            user.name = name
             launchViewModelScope {
-                val response = authRepository.updateUser(user.first, user.second)
+                val response = authRepository.updateUser(user)
                 checkStatus(response.status, {
                     _isUpdated.postValue(response.data.orFalse())
                 }, {
@@ -70,12 +71,14 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun uploadImage() {
-        val imageUri = Uri.fromFile(_profilePicture.value)
-        _user.value?.first?.let { id ->
-            launchViewModelScope {
-                checkStatus(authRepository.uploadImage(id, imageUri).status, {
-                    getImage(id, imageUri)
-                })
+        if (_profilePicture.value.isNull().not()) {
+            val imageUri = Uri.fromFile(_profilePicture.value)
+            _user.value?.let { user ->
+                launchViewModelScope {
+                    checkStatus(authRepository.uploadImage(user.id, imageUri).status, {
+                        getImage(user.id, imageUri)
+                    })
+                }
             }
         }
     }
@@ -84,7 +87,7 @@ class RegistrationViewModel @Inject constructor(
         launchViewModelScope {
             authRepository.getImageUrl(id, imageUri).apply {
                 checkStatus(status, {
-                    _user.value?.second?.photo = data
+                    _user.value?.photo = data.toString()
                 })
             }
         }
@@ -96,13 +99,12 @@ class RegistrationViewModel @Inject constructor(
         UserRoleEnum.ROLE_STUDENT
     }
 
-    private fun registerUser(name: String, birthDate: Long?) {
+    private fun registerUser(name: String) {
         _user.value?.let { user ->
-            user.second.birthDate = birthDate
-            user.second.name = name
+            user.name = name
 
             launchViewModelScope {
-                authRepository.registerUser(user.first, user.second)
+
             }
         }
     }

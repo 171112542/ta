@@ -12,12 +12,12 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentCourseContentBinding
 import com.mobile.ta.model.Status
 import com.mobile.ta.model.course.MChapter
 import com.mobile.ta.ui.BaseFragment
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.courseContent.CourseContentViewModel
 
 class CourseContentFragment :

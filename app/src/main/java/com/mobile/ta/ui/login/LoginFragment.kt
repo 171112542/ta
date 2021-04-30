@@ -8,11 +8,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentLoginBinding
 import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.ui.HomeFragmentDirections
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -103,15 +103,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private fun openCredentialsBottomSheet() {
         InputCredentialBottomSheetDialogFragment.newInstance(viewModel::checkTeacherCredential)
             .show(parentFragmentManager, INPUT_CREDENTIALS_TAG)
-    }
-
-    // TODO: Move to splash screen or main activity
-    private fun processSignIn() {
-        GoogleSignIn.getLastSignedInAccount(mContext)?.let { account ->
-            viewModel.onSuccessGetAccount(account)
-        } ?: run {
-            launchSignInIntent()
-        }
     }
 
     private fun setupGoogleSignIn() {
