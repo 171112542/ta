@@ -8,10 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.adapter.ProfilePagerAdapter
 import com.mobile.ta.databinding.FragProfileBinding
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
 
 class ProfileFragment : Fragment() {

@@ -17,16 +17,21 @@
     <string name="ic_search_content_description">Search</string>
     <string name="search_bar_hint">Search</string>
 
-    <!-- Auth -->
+    <!-- Log in -->
     <string name="teacher_role">I am a teacher</string>
     <string name="confirm">Confirm</string>
     <string name="input_token_hint">Input your token</string>
     <string name="credentials">Credentials</string>
+    <string name="wrong_credentials_message">Wrong teacher credentials. Please try again.</string>
+    <string name="fail_to_authenticate_message">Failed to get your Google account. Please re-login your account.</string>
+
+    <!-- Register -->
     <string name="welcome_label">Welcome!</string>
     <string name="identity_label">What’s your identity?</string>
     <string name="full_name_hint">Full Name</string>
     <string name="date_of_birth_hint">Date of Birth</string>
     <string name="birth_date_picker_title_label">Choose Date</string>
+    <string name="fail_to_update_profile">Failed to update your profile. Please try again.</string>
 
     <!-- Search and Filter -->
     <string name="no_search_image_content_description">Search Image</string>
@@ -158,4 +163,7 @@
     <string name="success_add_forum_message">Forum added.</string>
     <string name="success_add_reply_message">Reply added to the discussion.</string>
     <string name="mark_as_answer_discussion">Mark as Answer</string>
+
+    <!-- Others -->
+    <string name="permission_not_granted_message">Fail to get permission.</string>
 </resources>

@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.mobile.ta.MainActivity
 import com.mobile.ta.databinding.FragmentSettingsBinding
+import com.mobile.ta.ui.main.MainActivity
 
 class SettingsFragment : Fragment() {
 
