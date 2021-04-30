@@ -27,7 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         const val PARAM_HOME_FRAGMENT = "HOME_FRAGMENT"
     }
 
-    lateinit var toolbar: Toolbar
+    private lateinit var toolbar: Toolbar
 
     private lateinit var navController: NavController
 
@@ -73,14 +73,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun hideToolbar() {
-        toolbar.visibility = View.GONE
-    }
+    fun getToolbar() = toolbar
 
     private fun initVariables() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.act_main_host_fragment) as NavHostFragment).navController
-        toolbar = binding.mainToolbar
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
@@ -124,18 +121,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             supportActionBar?.show()
         } else {
             supportActionBar?.hide()
-        }
-    }
-
-    fun showToolbar(title: String? = null, isMain: Boolean? = null) {
-        with(toolbar) {
-            visibility = View.VISIBLE
-            title?.let {
-                this.title = it
-            }
-            isMain?.let {
-                navigationIcon = null
-            }
         }
     }
 

@@ -12,7 +12,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
-import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +39,6 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).showToolbar()
         setupObserver()
         setupViews()
     }
