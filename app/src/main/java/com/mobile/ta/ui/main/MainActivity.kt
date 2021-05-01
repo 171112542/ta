@@ -86,6 +86,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.courseContentFragment
             )
         )
+        toolbar = binding.mainToolbar
     }
 
     private fun setStartFragment() {
@@ -115,6 +116,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             R.id.registrationFragment -> false
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
+            R.id.searchFragment -> false
             else -> true
         }
         if (isVisible) {
