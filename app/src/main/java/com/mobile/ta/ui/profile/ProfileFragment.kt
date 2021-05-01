@@ -11,7 +11,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
 import com.mobile.ta.adapter.ProfilePagerAdapter
 import com.mobile.ta.databinding.FragProfileBinding
-import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
 
 class ProfileFragment : Fragment() {
@@ -53,12 +52,6 @@ class ProfileFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.profile_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity as MainActivity).showToolbar(isMain = true)
     }
 
     override fun onDestroyView() {

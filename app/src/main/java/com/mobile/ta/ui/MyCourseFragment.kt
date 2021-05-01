@@ -9,7 +9,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
 import com.mobile.ta.adapter.CoursePagerAdapter
 import com.mobile.ta.databinding.FragCourseBinding
-import com.mobile.ta.ui.main.MainActivity
 
 class MyCourseFragment : Fragment() {
     private var _binding: FragCourseBinding? = null
@@ -33,12 +32,6 @@ class MyCourseFragment : Fragment() {
             }.attach()
         }
         return binding.root
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity as MainActivity).showToolbar(isMain = true)
     }
 
     override fun onDestroyView() {

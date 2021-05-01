@@ -152,7 +152,7 @@ class CourseContentFragment :
             val toggle = ActionBarDrawerToggle(
                 mMainActivity,
                 drawerLayout,
-                mMainActivity.toolbar,
+                mMainActivity.getToolbar(),
                 R.string.open_drawer,
                 R.string.close_drawer
             )
