@@ -1,53 +1,46 @@
 package com.mobile.ta.ui.discussion
 
-import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
-import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DiscussionForumFragment : Fragment(), View.OnClickListener {
+class DiscussionForumFragment :
+    BaseFragment<FragmentDiscussionForumBinding>(FragmentDiscussionForumBinding::inflate),
+    View.OnClickListener {
 
     companion object {
         private const val CREATE_NEW_DISCUSSION_TAG = "CREATE NEW DISCUSSION"
     }
 
-    private var _binding: FragmentDiscussionForumBinding? = null
-    private val binding get() = _binding!!
+    private val args: DiscussionForumFragmentArgs by navArgs()
 
     private val discussionForumAdapter by lazy {
         DiscussionForumAdapter(this::goToDiscussionDetail)
     }
     private val viewModel by viewModels<DiscussionForumViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDiscussionForumBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (activity as MainActivity).showToolbar()
+    override fun runOnCreateView() {
+        binding.apply {
+            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
+            with(recyclerViewDiscussions) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = discussionForumAdapter
+                setHasFixedSize(true)
+            }
+        }
+        showLoading()
         setupObserver()
-        setupViews()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onClick(view: View?) {
@@ -59,38 +52,32 @@ class DiscussionForumFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupObserver() {
+        viewModel.setCourseAndChapterId(args.courseId, args.chapterId)
         viewModel.fetchDiscussionForums()
         viewModel.discussionForums.observe(viewLifecycleOwner, {
-            it.data?.let { data ->
+            it?.data?.let { data ->
                 discussionForumAdapter.submitList(data)
                 showResult()
             }
+            Log.d("DISCUSSION FORUMS: ", it?.data.toString())
         })
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
-            if (it) {
-                showSuccessAddForumToast()
-                viewModel.fetchDiscussionForums()
+            it?.let { isForumAdded ->
+                if (isForumAdded) {
+                    showSuccessAddForumToast()
+                    viewModel.fetchDiscussionForums()
+                }
+                viewModel.setIsForumAdded()
             }
-            viewModel.setIsForumAdded()
+            Log.d("IS FORUM ADDED: ", it.toString())
         })
-    }
-
-    private fun setupViews() {
-        with(binding) {
-            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
-            with(recyclerViewDiscussions) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = discussionForumAdapter
-                setHasFixedSize(true)
-            }
-        }
-        showLoading()
     }
 
     private fun goToDiscussionDetail(discussionForumId: String) {
+        val courseAndChapterId = viewModel.getCourseAndChapterId()
         findNavController().navigate(
             DiscussionForumFragmentDirections.actionDiscussionForumFragmentToDiscussionFragment(
-                discussionForumId
+                courseAndChapterId.first, courseAndChapterId.second, discussionForumId
             )
         )
     }

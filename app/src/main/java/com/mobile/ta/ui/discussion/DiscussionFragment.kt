@@ -1,10 +1,6 @@
 package com.mobile.ta.ui.discussion
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,20 +9,20 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionAnswerAdapter
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentDiscussionBinding
+import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 
 @AndroidEntryPoint
-class DiscussionFragment : Fragment(), View.OnClickListener {
+class DiscussionFragment :
+    BaseFragment<FragmentDiscussionBinding>(FragmentDiscussionBinding::inflate),
+    View.OnClickListener {
 
     companion object {
         private const val REPLY_DISCUSSION_TAG = "REPLY DISCUSSION"
     }
-
-    private var _binding: FragmentDiscussionBinding? = null
-    private val binding get() = _binding!!
 
     private val args: DiscussionFragmentArgs by navArgs()
 
@@ -36,22 +32,16 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
 
     private val viewModel by viewModels<DiscussionViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDiscussionBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun runOnCreateView() {
+        binding.apply {
+            buttonReplyDiscussion.setOnClickListener(this@DiscussionFragment)
+            with(recyclerViewDiscussionAnswer) {
+                layoutManager = LinearLayoutManager(context)
+                adapter = discussionAnswerAdapter
+                setHasFixedSize(false)
+            }
+        }
         setupObserver()
-        setupViews()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onClick(view: View?) {
@@ -63,7 +53,7 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
     }
 
     private fun setupObserver() {
-        viewModel.setDiscussionId(args.id)
+        viewModel.setDiscussionData(args.courseId, args.chapterId, args.id)
         viewModel.fetchDiscussion()
         viewModel.discussionForumQuestion.observe(viewLifecycleOwner, {
             it.data?.let { discussionForum ->
@@ -82,7 +72,7 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
         viewModel.discussionAnswers.observe(viewLifecycleOwner, {
             it.data?.let { data ->
                 if (data.isEmpty()) {
-                    hideResult(false)
+                    hideEmptyResult()
                 } else {
                     showResult()
                     discussionAnswerAdapter.submitList(data)
@@ -99,30 +89,11 @@ class DiscussionFragment : Fragment(), View.OnClickListener {
         })
     }
 
-    private fun setupViews() {
-        with(binding) {
-            buttonReplyDiscussion.setOnClickListener(this@DiscussionFragment)
-            with(recyclerViewDiscussionAnswer) {
-                layoutManager = LinearLayoutManager(context)
-                adapter = discussionAnswerAdapter
-                setHasFixedSize(false)
-            }
-        }
-    }
-
-    private fun hideResult(isLoading: Boolean) {
-        with(binding) {
+    private fun hideEmptyResult() {
+        binding.apply {
             recyclerViewDiscussionAnswer.visibility = View.GONE
-            progressBarDiscussionLoad.visibility = if (isLoading) {
-                View.VISIBLE
-            } else {
-                View.GONE
-            }
-            textViewDiscussionRepliesEmpty.visibility = if (isLoading) {
-                View.GONE
-            } else {
-                View.VISIBLE
-            }
+            progressBarDiscussionLoad.visibility = View.GONE
+            textViewDiscussionRepliesEmpty.visibility = View.VISIBLE
         }
     }
 

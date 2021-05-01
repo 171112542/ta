@@ -150,18 +150,28 @@
         android:label="@string/toolbar_discussion_forum"
         tools:layout="@layout/fragment_discussion_forum">
         <argument
-            android:name="contentId"
-            android:defaultValue="Test"
+            android:name="courseId"
+            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
         <action
             android:id="@+id/action_discussionForumFragment_to_discussionFragment"
             app:destination="@id/discussionFragment" />
+        <argument
+            android:name="chapterId"
+            app:argType="string"
+            android:defaultValue="qUUm1V4ldvW1OcvvozFo" />
     </fragment>
     <fragment
         android:id="@+id/discussionFragment"
         android:name="com.mobile.ta.ui.discussion.DiscussionFragment"
         android:label="@string/toolbar_discussion"
         tools:layout="@layout/fragment_discussion">
+        <argument
+            android:name="courseId"
+            app:argType="string" />
+        <argument
+            android:name="chapterId"
+            app:argType="string" />
         <argument
             android:name="id"
             app:argType="string" />

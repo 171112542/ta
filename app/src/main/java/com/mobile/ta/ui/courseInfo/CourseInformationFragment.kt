@@ -21,7 +21,6 @@ import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.courseInfo.Creator
 import com.mobile.ta.model.courseInfo.Tag
-import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.viewmodel.courseInfo.CourseInformationViewModel
 
@@ -68,7 +67,6 @@ class CourseInformationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity as MainActivity).showToolbar()
         viewModel.fetchCourseInfo(args.id)
         viewModel.courseInfo.observe(viewLifecycleOwner, {
             it?.let { courseInformation ->
