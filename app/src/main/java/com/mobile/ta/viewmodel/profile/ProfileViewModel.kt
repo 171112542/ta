@@ -2,18 +2,20 @@ package com.mobile.ta.viewmodel.profile
 
 import android.graphics.Bitmap
 import android.icu.util.Calendar
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.mobile.ta.data.UserData
 import com.mobile.ta.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ProfileViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
+@HiltViewModel
+class ProfileViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user

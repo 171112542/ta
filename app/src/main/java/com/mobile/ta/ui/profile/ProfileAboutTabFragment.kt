@@ -1,32 +1,34 @@
 package com.mobile.ta.ui.profile
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import com.mobile.ta.data.UserData.labelDobDateFormat
 import com.mobile.ta.databinding.FragmentProfileAboutTabBinding
+import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileAboutTabFragment : Fragment() {
-    private lateinit var binding: FragmentProfileAboutTabBinding
+@AndroidEntryPoint
+class ProfileAboutTabFragment :
+    BaseFragment<FragmentProfileAboutTabBinding>(FragmentProfileAboutTabBinding::inflate) {
+
     private val viewModel: ProfileViewModel by activityViewModels()
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProfileAboutTabBinding.inflate(inflater, container, false)
+
+    override fun runOnCreateView() {
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.user.observe(viewLifecycleOwner, {
+            it?.let { user ->
+//                setAboutData(user.email, user.phone)
+            }
+        })
+    }
+
+    private fun setAboutData(email: String, phone: String, birthDate: String) {
         binding.apply {
-            viewModel.user.observe(viewLifecycleOwner, Observer {
-                profileAboutEmail.text = it.email
-                profileAboutPhone.text = it.phone
-                profileAboutBirthDate.text = labelDobDateFormat.format(it.dob)
-            })
+            profileAboutEmail.text = email
+            profileAboutPhone.text = phone
+//            profileAboutBirthDate.text = labelDobDateFormat.format(it.dob)
         }
-        return binding.root
     }
 }

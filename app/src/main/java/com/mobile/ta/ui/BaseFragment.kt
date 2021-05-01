@@ -8,12 +8,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 
@@ -86,11 +88,22 @@ abstract class BaseFragment<T : ViewBinding>(
         Snackbar.make(binding.root, messageId, Snackbar.LENGTH_SHORT).show()
     }
 
-    fun checkPermission(permission: String) {
+    protected fun showToastWithCloseAction(messageId: Int) {
+        Snackbar.make(binding.root, messageId, Snackbar.LENGTH_SHORT)
+            .setAction(R.string.close_action) {
+                it.visibility = View.GONE
+            }.show()
+    }
+
+    protected fun checkPermission(permission: String) {
         if (checkSelfPermission(mContext, permission) == PackageManager.PERMISSION_GRANTED) {
             onPermissionGranted()
         } else {
             requestPermissionLauncher.launch(permission)
         }
+    }
+
+    protected fun <T: Any> loadImage(image: T, imageView: ImageView) {
+        Glide.with(mContext).load(image).into(imageView)
     }
 }
