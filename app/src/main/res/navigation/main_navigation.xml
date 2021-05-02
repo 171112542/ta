@@ -198,7 +198,11 @@
         android:id="@+id/editProfileFragment"
         android:name="com.mobile.ta.ui.profile.EditProfileFragment"
         android:label="@string/toolbar_edit_profile"
-        tools:layout="@layout/fragment_edit_profile" />
+        tools:layout="@layout/fragment_edit_profile" >
+        <argument
+            android:name="user"
+            app:argType="com.mobile.ta.model.user.User" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.mobile.ta.ui.settings.SettingsFragment"

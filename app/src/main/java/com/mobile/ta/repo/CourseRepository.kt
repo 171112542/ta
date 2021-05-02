@@ -1,13 +1,6 @@
 package com.mobile.ta.repo
 
-import android.util.Log
-import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-import com.mobile.ta.model.CourseQuestionAnswer
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
