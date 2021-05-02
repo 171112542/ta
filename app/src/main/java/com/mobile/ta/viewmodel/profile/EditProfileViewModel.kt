@@ -7,6 +7,7 @@ import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.orFalse
+import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -38,7 +39,8 @@ class EditProfileViewModel @Inject constructor(
     }
 
     fun setBirthDate(birthDate: Long) {
-        user.value?.birthDate = birthDate
+        _user.value?.birthDate = birthDate
+        _user.publishChanges()
     }
 
     fun updateUser(name: String, phoneNumber: String?, bio: String?) {
