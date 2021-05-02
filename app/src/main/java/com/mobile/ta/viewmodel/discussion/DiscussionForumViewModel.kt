@@ -2,7 +2,8 @@ package com.mobile.ta.viewmodel.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mobile.ta.model.discussion.DiscussionForum
+import androidx.lifecycle.SavedStateHandle
+import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.status.Status
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.utils.isNotNullOrBlank

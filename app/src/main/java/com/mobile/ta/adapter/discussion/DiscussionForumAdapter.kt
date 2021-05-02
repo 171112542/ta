@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.LayoutDiscussionForumItemBinding
-import com.mobile.ta.model.discussion.DiscussionForum
+import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.utils.toDateString
 
 class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :

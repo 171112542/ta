@@ -63,7 +63,7 @@ fun Date.toDateString(pattern: String): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(this)
 
 /**
- * LiveData Extensionsp
+ * LiveData Extensions
  */
 fun <T> MutableLiveData<T>.publishChanges() {
     this.value = this.value

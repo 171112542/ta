@@ -1,9 +1,9 @@
 package com.mobile.ta.data
 
-import com.mobile.ta.model.courseInfo.Chapter
-import com.mobile.ta.model.courseInfo.CourseInformation
-import com.mobile.ta.model.courseInfo.Creator
-import com.mobile.ta.model.courseInfo.Tag
+import com.mobile.ta.model.course.chapter.info.Chapter
+import com.mobile.ta.model.course.chapter.info.CourseInformation
+import com.mobile.ta.model.course.chapter.info.Creator
+import com.mobile.ta.model.course.chapter.info.Tag
 
 object CourseInformationData {
 

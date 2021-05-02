@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
@@ -21,10 +22,38 @@
             android:backgroundTint="?attr/colorSurface"
             android:clickable="true"
             android:elevation="@dimen/keyline_2"
+            android:layout_marginEnd="@dimen/keyline_2"
             android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/frag_home_notification_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/frag_home_notification_container"
+            android:layout_width="@dimen/dp_56"
+            android:layout_height="@dimen/search_bar_height"
+            android:elevation="8dp"
+            android:clickable="true"
+            android:background="@drawable/drawable_rounded_rect"
+            android:backgroundTint="?attr/colorSurface"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/frag_home_search_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frag_home_search_bar" />
+
+        <ImageView
+            android:id="@+id/frag_home_notification"
+            style="@style/Widget.TA.Icon"
+            android:background="?attr/colorSurface"
+            android:elevation="@dimen/keyline_2"
+            android:clickable="false"
+            android:contentDescription="@string/notification_label"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_notification_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/frag_home_notification_container"
+            app:layout_constraintEnd_toEndOf="@+id/frag_home_notification_container"
+            app:layout_constraintStart_toStartOf="@+id/frag_home_notification_container"
+            app:layout_constraintTop_toTopOf="@+id/frag_home_notification_container" />
 
         <ImageView
             android:id="@+id/frag_home_search_icon"

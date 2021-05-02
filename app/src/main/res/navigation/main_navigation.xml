@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mobile.ta.ui.HomeFragment"
+        android:name="com.mobile.ta.ui.home.HomeFragment"
         android:label=""
         tools:layout="@layout/frag_home">
         <action
@@ -41,6 +41,9 @@
         <action
             android:id="@+id/action_homeFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
@@ -75,7 +78,7 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mobile.ta.ui.search.SearchFragment"
-        android:label="SearchFragment"
+        android:label=""
         tools:layout="@layout/frag_search">
         <action
             android:id="@+id/action_searchFragment_to_courseInformationFragment"
@@ -91,13 +94,13 @@
             app:destination="@id/courseContentFragment" />
         <action
             android:id="@+id/action_courseInformationFragment_to_coursePracticeFragment"
-            app:destination="@id/coursePracticeFragment" />
+            app:destination="@id/courseAssignmentFragment" />
         <action
             android:id="@+id/action_courseInformationFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment" />
         <action
             android:id="@+id/action_courseInformationFragment_to_courseQuestionsFragment"
-            app:destination="@id/coursePracticeFragment" />
+            app:destination="@id/courseAssignmentFragment" />
         <argument
             android:name="id"
             android:defaultValue="x5s1d"
@@ -129,7 +132,7 @@
             app:destination="@id/courseContentFragment" />
         <action
             android:id="@+id/action_courseContentFragment_to_coursePracticeFragment"
-            app:destination="@id/coursePracticeFragment" />
+            app:destination="@id/courseAssignmentFragment" />
         <action
             android:id="@+id/action_courseContentFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment" />
@@ -177,21 +180,21 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/coursePracticeFragment"
-        android:name="com.mobile.ta.ui.CoursePracticeFragment"
-        android:label="CourseQuestionsFragment"
-        tools:layout="@layout/frag_course_practice">
+        android:id="@+id/courseAssignmentFragment"
+        android:name="com.mobile.ta.ui.courseAssignment.CourseAssignmentFragment"
+        android:label="Assignment"
+        tools:layout="@layout/frag_course_assignment">
         <action
-            android:id="@+id/action_coursePracticeFragment_to_courseSubmitFragment"
+            android:id="@+id/action_courseAssignmentFragment_to_courseSubmitFragment"
             app:destination="@id/courseSubmitFragment"
             app:popUpTo="@id/courseInformationFragment" />
         <argument
             android:name="courseId"
-            android:defaultValue="bWAEfZivIK6RyKitZtt4"
+            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
         <argument
             android:name="chapterId"
-            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W"
+            android:defaultValue="eeveNIBY9S2sUdLA3AZ3"
             app:argType="string" />
     </fragment>
     <fragment
@@ -219,11 +222,11 @@
         tools:layout="@layout/fragment_feedback" />
     <action
         android:id="@+id/action_global_coursePracticeFragment"
-        app:destination="@id/coursePracticeFragment" />
+        app:destination="@id/courseAssignmentFragment" />
     <fragment
         android:id="@+id/courseSubmitFragment"
-        android:name="com.mobile.ta.ui.CourseSubmitFragment"
-        android:label="CourseSubmitFragment"
+        android:name="com.mobile.ta.ui.courseAssignment.CourseSubmitFragment"
+        android:label="Result"
         tools:layout="@layout/frag_course_submit">
         <action
             android:id="@+id/action_courseSubmitFragment_to_discussionForumFragment"
@@ -233,15 +236,20 @@
             app:destination="@id/courseContentFragment" />
         <action
             android:id="@+id/action_courseSubmitFragment_to_coursePracticeFragment"
-            app:destination="@id/coursePracticeFragment"
+            app:destination="@id/courseAssignmentFragment"
             app:popUpTo="@id/courseInformationFragment" />
         <argument
             android:name="chapterId"
-            android:defaultValue="jy3EsIxdCVvPn8i0Wl7W"
+            android:defaultValue="eeveNIBY9S2sUdLA3AZ3"
             app:argType="string" />
         <argument
             android:name="courseId"
-            android:defaultValue="bWAEfZivIK6RyKitZtt4"
+            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.mobile.ta.ui.notification.NotificationFragment"
+        android:label="Notification"
+        tools:layout="@layout/frag_notification" />
 </navigation>

@@ -1,23 +1,29 @@
 package com.mobile.ta.ui.search
 
 import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import com.mobile.ta.R
 import com.mobile.ta.databinding.DialogTagSelectionBinding
 import com.mobile.ta.model.LevelTag
 import com.mobile.ta.model.TypeTag
-import com.mobile.ta.viewmodel.SearchViewModel
+import com.mobile.ta.viewmodel.search.SearchViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class TagSelectionDialogFragment(private val viewmodel: SearchViewModel) :
+@ExperimentalCoroutinesApi
+class TagSelectionDialogFragment :
     DialogFragment(),
     View.OnClickListener {
     private var _binding: DialogTagSelectionBinding? = null
     private val binding get() = _binding as DialogTagSelectionBinding
+    private val viewmodel by viewModels<SearchViewModel>(ownerProducer = { requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +39,7 @@ class TagSelectionDialogFragment(private val viewmodel: SearchViewModel) :
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return dialog
     }
 

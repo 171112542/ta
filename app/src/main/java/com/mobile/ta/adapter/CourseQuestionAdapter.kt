@@ -12,34 +12,34 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
-import com.mobile.ta.model.CourseQuestion
+import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 
 interface CourseQuestionVHListener {
-    fun onSubmitAnswerListener(courseQuestion: CourseQuestion, selectedIndex: Int)
+    fun onSubmitAnswerListener(assignmentQuestion: AssignmentQuestion, selectedIndex: Int)
     fun onShowResultListener()
 }
 
 class CourseQuestionAdapter(
     diffCallback: CourseQuestionDiffCallback,
     val listener: CourseQuestionVHListener
-) : ListAdapter<CourseQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
+) : ListAdapter<AssignmentQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
     private var submitResultEnabled = false
     private var selectedAnswers = listOf<MutableMap<String, Int>>()
 
     inner class ViewHolder(private val binding: VhCourseQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(courseQuestion: CourseQuestion) {
-            binding.vhCourseQuestionQuestion.text = courseQuestion.question
-            binding.vhCourseQuestionChoiceOne.text = courseQuestion.choices[0]
-            binding.vhCourseQuestionChoiceTwo.text = courseQuestion.choices[1]
-            binding.vhCourseQuestionChoiceThree.text = courseQuestion.choices[2]
-            binding.vhCourseQuestionChoiceFour.text = courseQuestion.choices[3]
-            binding.vhCourseQuestionExplanationDescription.text = courseQuestion.explanation
+        fun bind(assignmentQuestion: AssignmentQuestion) {
+            binding.vhCourseQuestionQuestion.text = assignmentQuestion.question
+            binding.vhCourseQuestionChoiceOne.text = assignmentQuestion.choices[0]
+            binding.vhCourseQuestionChoiceTwo.text = assignmentQuestion.choices[1]
+            binding.vhCourseQuestionChoiceThree.text = assignmentQuestion.choices[2]
+            binding.vhCourseQuestionChoiceFour.text = assignmentQuestion.choices[3]
+            binding.vhCourseQuestionExplanationDescription.text = assignmentQuestion.explanation
             binding.vhCourseQuestionChoiceGroup.setOnCheckedChangeListener { _, _ ->
                 binding.vhCourseQuestionSubmit.isEnabled = true
             }
             binding.vhCourseQuestionSubmit.setOnClickListener {
-                submitAnswer(courseQuestion)
+                submitAnswer(assignmentQuestion)
                 showCorrectAnswer(selectedAnswers[adapterPosition])
                 showExplanation()
             }
@@ -52,7 +52,7 @@ class CourseQuestionAdapter(
             binding.vhCourseQuestionSubmitResult.setOnClickListener {
                 listener.onShowResultListener()
             }
-            if (courseQuestion.id == currentList.last().id && submitResultEnabled) {
+            if (assignmentQuestion.id == currentList.last().id && submitResultEnabled) {
                 showSubmitResult()
             }
             if (selectedAnswers.isNotEmpty()
@@ -63,14 +63,14 @@ class CourseQuestionAdapter(
             }
         }
 
-        private fun submitAnswer(courseQuestion: CourseQuestion) {
+        private fun submitAnswer(assignmentQuestion: AssignmentQuestion) {
             val selectedAnswerId = binding.vhCourseQuestionChoiceGroup.checkedRadioButtonId
             val selectedRadioButton =
                 binding.vhCourseQuestionChoiceGroup.findViewById<RadioButton>(selectedAnswerId)
             val selectedAnswerIndex =
                 binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
 
-            listener.onSubmitAnswerListener(courseQuestion, selectedAnswerIndex)
+            listener.onSubmitAnswerListener(assignmentQuestion, selectedAnswerIndex)
             selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] = selectedAnswerIndex
         }
 
@@ -162,7 +162,7 @@ class CourseQuestionAdapter(
         holder.bind(item)
     }
 
-    override fun submitList(list: MutableList<CourseQuestion>?) {
+    override fun submitList(list: MutableList<AssignmentQuestion>?) {
         super.submitList(list)
         list?.let { courseQuestion ->
             selectedAnswers = courseQuestion.map {

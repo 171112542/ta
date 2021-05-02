@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mobile.ta.model.Status
-import com.mobile.ta.model.course.Chapter
+import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.repository.CourseRepository
+import com.mobile.ta.repository.impl.CourseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

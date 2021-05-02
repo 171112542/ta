@@ -1,9 +1,7 @@
 package com.mobile.ta.utils
 
 import com.google.android.gms.tasks.Task
-import com.google.firebase.firestore.CollectionReference
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.*
 import com.mobile.ta.model.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
@@ -32,6 +30,28 @@ suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T): St
         statusData = Status.error(it.message.orEmpty())
     }.addOnSuccessListener { data ->
         statusData = Status.success(mapper.invoke(data))
+    }.await()
+    return statusData
+}
+
+@ExperimentalCoroutinesApi
+suspend fun DocumentReference.exists(): Status<Boolean> {
+    lateinit var statusData: Status<Boolean>
+    val doesDocumentExist = get().addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty(), false)
+    }.await().exists()
+    statusData = Status.success(doesDocumentExist)
+    return statusData
+}
+
+suspend fun <T> Query.fetchData(
+    mapper: (QuerySnapshot) -> MutableList<T>
+): Status<MutableList<T>> {
+    lateinit var statusData: Status<MutableList<T>>
+    get().addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener {
+        statusData = Status.success(mapper.invoke(it))
     }.await()
     return statusData
 }

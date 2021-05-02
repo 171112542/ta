@@ -2,8 +2,8 @@ package com.mobile.ta.repository.impl
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants
-import com.mobile.ta.model.discussion.DiscussionForum
-import com.mobile.ta.model.discussion.DiscussionForumAnswer
+import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
+import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.model.status.Status
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.utils.fetchData

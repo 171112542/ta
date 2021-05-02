@@ -11,7 +11,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityMainBinding
-import com.mobile.ta.ui.HomeFragmentDirections
+import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.ui.login.LoginFragmentDirections

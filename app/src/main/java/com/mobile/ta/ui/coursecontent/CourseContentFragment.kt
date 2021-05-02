@@ -15,7 +15,7 @@ import androidx.navigation.fragment.navArgs
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentCourseContentBinding
 import com.mobile.ta.model.Status
-import com.mobile.ta.model.course.MChapter
+import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.courseContent.CourseContentViewModel
@@ -28,7 +28,7 @@ class CourseContentFragment :
     private lateinit var chapterId: String
     private val args: CourseContentFragmentArgs by navArgs()
     private val viewModel: CourseContentViewModel by viewModels()
-    private var chapters = listOf<MChapter>()
+    private var chapters = listOf<ChapterSummary>()
     private var menuItems = mutableListOf<MenuItem>()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -60,7 +60,7 @@ class CourseContentFragment :
                     val totalDiscussion = result.data?.discussions?.size ?: 0
                     courseContentDiscussionButton.text =
                         String.format(getString(R.string.see_discussion), totalDiscussion)
-                    result.data?.chapters?.let {
+                    result.data?.chapterSummaryList?.let {
                         chapters = it
                         setupMenu()
                     }
@@ -101,14 +101,14 @@ class CourseContentFragment :
                                 findNavController().navigate(destination)
                             }
 
-                            override fun hasNextChapter(): Boolean = it.nextChapterId != null
+                            override fun hasNextChapter(): Boolean = it.nextChapterId == ""
 
                             override fun hasPreviousChapter(): Boolean =
-                                it.previousChapterId != null
+                                it.previousChapterId == ""
 
-                            override fun getTitle(): String = it.name as String
+                            override fun getTitle(): String = it.title
 
-                            override fun getContent(): String = it.content as String
+                            override fun getContent(): String = it.content
                         })
                     }
                 }

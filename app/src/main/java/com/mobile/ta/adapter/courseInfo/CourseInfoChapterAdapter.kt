@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.databinding.LayoutCourseContentItemBinding
-import com.mobile.ta.model.courseInfo.Chapter
+import com.mobile.ta.model.course.chapter.info.Chapter
 
 class CourseInfoChapterAdapter(
     diffCallback: CourseInfoChapterDiffCallback,
