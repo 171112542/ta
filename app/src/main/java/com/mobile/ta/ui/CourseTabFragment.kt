@@ -15,7 +15,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.UserCourseAdapter
 import com.mobile.ta.adapter.diff.UserCourseDiffCallback
 import com.mobile.ta.databinding.FragmentCourseTabBinding
-import com.mobile.ta.viewmodel.courseContent.CourseTabViewModel
+import com.mobile.ta.viewmodel.course.content.CourseTabViewModel
 
 class CourseTabFragment : Fragment() {
     private lateinit var binding: FragmentCourseTabBinding

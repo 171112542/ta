@@ -3,12 +3,10 @@ package com.mobile.ta.viewmodel
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.CourseOverviewData
 import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.LevelTag
 import com.mobile.ta.model.TypeTag
 import java.util.ArrayList
-import java.util.Locale
 
 class SearchViewModel : ViewModel() {
     companion object {
@@ -77,12 +75,12 @@ class SearchViewModel : ViewModel() {
 
     fun performSearch(keyword: String) {
         resetFilter()
-        val searchResult = CourseOverviewData.data.filter {
-            it.title.toLowerCase(Locale.ENGLISH).contains(keyword.toLowerCase(Locale.ENGLISH))
-        }
+//        val searchResult = CourseOverviewData.data.filter {
+//            it.title.toLowerCase(Locale.ENGLISH).contains(keyword.toLowerCase(Locale.ENGLISH))
+//        }
         _hasSearched.value = true
-        _searchResult.value = searchResult
-        _filteredSearchResult.value = searchResult.sortedBy { it.title }
+//        _searchResult.value = searchResult
+//        _filteredSearchResult.value = searchResult.sortedBy { it.title }
     }
 
     fun saveSelectedTags(tags: ArrayList<Any>) {
@@ -129,7 +127,7 @@ class SearchViewModel : ViewModel() {
         nonfilteredResult =
             if (_selectedSortOption.value == SortOption.A_Z) nonfilteredResult?.sortedBy { it.title }
             else nonfilteredResult?.sortedByDescending { it.title }
-        _filteredSearchResult.value = nonfilteredResult
+        _filteredSearchResult.value = nonfilteredResult!!
     }
 
     private fun resetFilter() {

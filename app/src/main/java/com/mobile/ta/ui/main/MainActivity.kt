@@ -1,6 +1,7 @@
 package com.mobile.ta.ui.main
 
 import android.animation.ObjectAnimator
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -14,13 +15,11 @@ import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.base.BaseActivity
-import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.ui.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-
     companion object {
         const val PARAM_FIRST_LAUNCH_FRAGMENT = "PARAM_FIRST_LAUNCH_FRAGMENT"
         const val PARAM_LOGIN_FRAGMENT = "LOGIN_FRAGMENT"
@@ -92,14 +91,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun setStartFragment() {
-        intent.getStringExtra(PARAM_FIRST_LAUNCH_FRAGMENT)?.let { firstLaunchFragment ->
-            when (firstLaunchFragment) {
-                PARAM_HOME_FRAGMENT ->
-                    navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
-                PARAM_LOGIN_FRAGMENT ->
-                    navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment())
-            }
-        }
+//        intent.getStringExtra(PARAM_FIRST_LAUNCH_FRAGMENT)?.let { firstLaunchFragment ->
+//            when (firstLaunchFragment) {
+//                PARAM_HOME_FRAGMENT ->
+//                    navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
+//                PARAM_LOGIN_FRAGMENT ->
+//                    navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+//            }
+//        }
     }
 
     private fun setupBottomNavMenu(navController: NavController) {

@@ -1,25 +1,24 @@
 package com.mobile.ta.viewmodel
 
-import android.util.Log
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.google.firebase.firestore.DocumentSnapshot
-import com.mobile.ta.repo.CourseRepository
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_NEXT_CHAPTER_ID_FIELD
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD_PRACTICE
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD_QUIZ
 import com.mobile.ta.repo.UserRepository
 import com.mobile.ta.repo.UserRepository.Companion.CORRECT_ANSWER_COUNT_FIELD
 import com.mobile.ta.repo.UserRepository.Companion.TOTAL_ANSWER_COUNT_FIELD
+import com.mobile.ta.repository.CourseRepository
+import com.mobile.ta.repository.impl.CourseRepositoryImpl.Companion.CHAPTER_NEXT_CHAPTER_ID_FIELD
+import com.mobile.ta.repository.impl.CourseRepositoryImpl.Companion.CHAPTER_TYPE_FIELD
+import com.mobile.ta.repository.impl.CourseRepositoryImpl.Companion.CHAPTER_TYPE_FIELD_PRACTICE
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CourseSubmitViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CourseSubmitViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
     private val userRepository: UserRepository,
-    @Assisted savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     private val chapterId = savedStateHandle.get<String>("chapterId") ?: ""

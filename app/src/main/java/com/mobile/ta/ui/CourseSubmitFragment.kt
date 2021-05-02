@@ -1,7 +1,6 @@
 package com.mobile.ta.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.databinding.FragCourseSubmitBinding
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD_CONTENT
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD_PRACTICE
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD_QUIZ
-import com.mobile.ta.repo.UserRepository
+import com.mobile.ta.repo.UserRepository.Companion.CHAPTER_TYPE_FIELD_PRACTICE
+import com.mobile.ta.repo.UserRepository.Companion.CHAPTER_TYPE_FIELD_QUIZ
 import com.mobile.ta.repo.UserRepository.Companion.CORRECT_ANSWER_COUNT_FIELD
 import com.mobile.ta.repo.UserRepository.Companion.TOTAL_ANSWER_COUNT_FIELD
-import com.mobile.ta.viewmodel.CoursePracticeViewModel
+import com.mobile.ta.repository.impl.CourseRepositoryImpl.Companion.CHAPTER_TYPE_FIELD_CONTENT
 import com.mobile.ta.viewmodel.CourseSubmitViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +22,11 @@ class CourseSubmitFragment : Fragment() {
     private val binding get() = _binding as FragCourseSubmitBinding
     private val viewmodel by viewModels<CourseSubmitViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragCourseSubmitBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -60,7 +61,7 @@ class CourseSubmitFragment : Fragment() {
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            when(viewmodel.nextChapterType) {
+            when (viewmodel.nextChapterType) {
                 CHAPTER_TYPE_FIELD_PRACTICE -> findNavController().navigate(
                     CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
                         courseId = viewmodel.courseId,
@@ -73,7 +74,9 @@ class CourseSubmitFragment : Fragment() {
                         chapterId = viewmodel.nextChapterId ?: ""
                     )
                 )
-                CHAPTER_TYPE_FIELD_CONTENT -> findNavController().navigate(CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment())
+                CHAPTER_TYPE_FIELD_CONTENT -> findNavController().navigate(
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment()
+                )
             }
         }
     }

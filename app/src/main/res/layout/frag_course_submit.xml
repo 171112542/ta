@@ -11,22 +11,22 @@
         android:id="@+id/frag_course_submit_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:constraint_referenced_ids="frag_course_submit_description,
         frag_course_submit_score,frag_course_submit_title"
-        android:visibility="gone"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        style="@style/Widget.TA.CircularProgressIndicator.Inverted"
         android:id="@+id/frag_course_submit_loading"
+        style="@style/Widget.TA.CircularProgressIndicator.Inverted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:visibility="visible" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/frag_course_submit_title"
@@ -44,11 +44,11 @@
         android:id="@+id/frag_course_submit_description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Questions you got correct:"
-        android:textAppearance="@style/TextAppearance.TA.Body1"
-        android:textAlignment="center"
-        android:textColor="?attr/colorOnPrimary"
         android:layout_marginBottom="@dimen/keyline_2"
+        android:text="Questions you got correct:"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.TA.Body1"
+        android:textColor="?attr/colorOnPrimary"
         app:layout_constraintBottom_toTopOf="@+id/frag_course_submit_score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

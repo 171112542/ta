@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.LayoutDiscussionReplyBinding
-import com.mobile.ta.model.discussion.DiscussionForumAnswer
+import com.mobile.ta.model.course.discussion.DiscussionForumAnswer
 import com.mobile.ta.utils.toDateString
 
 class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Unit) :

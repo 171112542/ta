@@ -14,7 +14,7 @@ import com.mobile.ta.adapter.discussion.DiscussionAnswerAdapter
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentDiscussionBinding
 import com.mobile.ta.utils.toDateString
-import com.mobile.ta.viewmodel.discussion.DiscussionViewModel
+import com.mobile.ta.viewmodel.course.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Date
 

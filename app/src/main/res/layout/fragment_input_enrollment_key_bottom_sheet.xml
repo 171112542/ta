@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/dp_16"
     android:paddingBottom="@dimen/dp_16"
-    tools:context=".ui.courseInfo.InputEnrollmentKeyBottomSheetDialogFragment">
+    tools:context=".ui.course.information.InputEnrollmentKeyBottomSheetDialogFragment">
 
     <TextView
         android:id="@+id/text_view_enrollment_title"

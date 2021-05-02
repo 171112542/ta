@@ -1,27 +1,22 @@
 package com.mobile.ta.viewmodel
 
-import android.util.Log
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import com.google.firebase.firestore.QuerySnapshot
-import com.mobile.ta.data.CourseOverviewData
-import com.mobile.ta.data.CoursePracticeData
-import com.mobile.ta.model.CourseOverview
 import com.mobile.ta.model.CourseQuestion
 import com.mobile.ta.model.CourseQuestionAnswer
-import com.mobile.ta.repo.CourseRepository
-import com.mobile.ta.repo.CourseRepository.Companion.CHAPTER_TYPE_FIELD
 import com.mobile.ta.repo.UserRepository
+import com.mobile.ta.repository.CourseRepository
+import com.mobile.ta.repository.impl.CourseRepositoryImpl.Companion.CHAPTER_TYPE_FIELD
 import com.mobile.ta.utils.publishChanges
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class CoursePracticeViewModel @ViewModelInject constructor(
+@HiltViewModel
+class CoursePracticeViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
     private val userRepository: UserRepository,
-    @Assisted savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
@@ -38,7 +33,8 @@ class CoursePracticeViewModel @ViewModelInject constructor(
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            assignmentType = courseRepository.getChapterById(chapterId)[CHAPTER_TYPE_FIELD] as String
+            assignmentType =
+                courseRepository.getChapterById(chapterId)[CHAPTER_TYPE_FIELD] as String
             val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
                 courseId,
                 chapterId

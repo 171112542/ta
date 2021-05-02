@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.findNavController
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
-import com.mobile.ta.data.UserData.dobDateFormat
 import com.mobile.ta.databinding.FragmentEditProfileBinding
 import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.notBlankValidate
@@ -57,7 +56,7 @@ class EditProfileFragment : Fragment() {
                     editProfileImageView.setImageBitmap(it)
                 }
                 user.dob?.let {
-                    editProfileBirthDateInput.setText(dobDateFormat.format(it))
+//                    editProfileBirthDateInput.setText(dobDateFormat.format(it))
                 }
                 editProfileEmailInput.setText(user.email)
                 editProfilePhoneNumberInput.setText(user.phone)

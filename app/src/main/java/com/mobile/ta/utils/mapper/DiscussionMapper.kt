@@ -1,8 +1,8 @@
 package com.mobile.ta.utils.mapper
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.mobile.ta.model.discussion.DiscussionForum
-import com.mobile.ta.model.discussion.DiscussionForumAnswer
+import com.mobile.ta.model.course.discussion.DiscussionForum
+import com.mobile.ta.model.course.discussion.DiscussionForumAnswer
 import java.util.Date
 
 object DiscussionMapper {

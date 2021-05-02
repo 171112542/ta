@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
-import com.mobile.ta.adapter.CourseQuestionVHListener
 import com.mobile.ta.adapter.CourseQuestionAdapter
+import com.mobile.ta.adapter.CourseQuestionVHListener
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.FragCoursePracticeBinding
 import com.mobile.ta.model.CourseQuestion
@@ -25,7 +25,11 @@ class CoursePracticeFragment
     private val binding get() = _binding as FragCoursePracticeBinding
     private val viewmodel by viewModels<CoursePracticeViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         _binding = FragCoursePracticeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,7 +63,10 @@ class CoursePracticeFragment
     }
 
     private fun setupTabLayout() {
-        TabLayoutMediator(binding.fragCoursePracticeTab, binding.fragCoursePracticeVp) { tab, position ->
+        TabLayoutMediator(
+            binding.fragCoursePracticeTab,
+            binding.fragCoursePracticeVp
+        ) { tab, position ->
             tab.text = (position + 1).toString()
         }.attach()
     }
@@ -82,8 +89,7 @@ class CoursePracticeFragment
                     binding.fragCoursePracticeContent.visibility = View.GONE
                 }
                 .show()
-        }
-        else {
+        } else {
             viewmodel.submitAnswer()
             binding.fragCoursePracticeLoading.visibility = View.VISIBLE
             binding.fragCoursePracticeContent.visibility = View.GONE

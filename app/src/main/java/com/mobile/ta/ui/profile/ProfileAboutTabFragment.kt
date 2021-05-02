@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.mobile.ta.data.UserData.labelDobDateFormat
 import com.mobile.ta.databinding.FragmentProfileAboutTabBinding
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
 
@@ -24,7 +23,7 @@ class ProfileAboutTabFragment : Fragment() {
             viewModel.user.observe(viewLifecycleOwner, Observer {
                 profileAboutEmail.text = it.email
                 profileAboutPhone.text = it.phone
-                profileAboutBirthDate.text = labelDobDateFormat.format(it.dob)
+//                profileAboutBirthDate.text = labelDobDateFormat.format(it.dob)
             })
         }
         return binding.root

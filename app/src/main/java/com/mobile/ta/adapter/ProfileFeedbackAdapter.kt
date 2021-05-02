@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.adapter.diff.ProfileFeedbackDiffCallback
-import com.mobile.ta.data.FeedbackData.labelFeedbackDateFormat
 import com.mobile.ta.databinding.VhProfileFeedbackBinding
 import com.mobile.ta.model.Feedback
 
@@ -17,8 +16,8 @@ class ProfileFeedbackAdapter(
         fun bind(feedback: Feedback) {
             binding.apply {
                 profileFeedbackId.text = feedback.id
-                profileFeedbackDateSubmitted.text =
-                    labelFeedbackDateFormat.format(feedback.createdAt)
+//                profileFeedbackDateSubmitted.text =
+//                    labelFeedbackDateFormat.format(feedback.createdAt)
                 profileFeedbackType.text = feedback.feedbackType
                 profileFeedbackDescription.text = feedback.description
             }

@@ -2,7 +2,7 @@ package com.mobile.ta.viewmodel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mobile.ta.model.status.StatusType
+import com.mobile.ta.utils.wrapper.status.StatusType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

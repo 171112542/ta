@@ -1,8 +1,10 @@
 package com.mobile.ta.utils
 
+import android.content.Context
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
+import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -64,3 +66,9 @@ fun Date.toDateString(pattern: String): String =
 fun <T> MutableLiveData<T>.publishChanges() {
     this.value = this.value
 }
+
+fun String?.getOrDefault(context: Context): String =
+    this ?: context.getString(R.string.default_string_field)
+
+fun Int?.getOrDefaultInt(): Int =
+    this ?: 0

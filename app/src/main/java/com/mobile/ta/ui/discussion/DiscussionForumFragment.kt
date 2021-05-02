@@ -13,7 +13,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
 import com.mobile.ta.ui.main.MainActivity
-import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
+import com.mobile.ta.viewmodel.course.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

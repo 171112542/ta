@@ -35,12 +35,6 @@ class MyCourseFragment : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        (activity as MainActivity).showToolbar(isMain = true)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

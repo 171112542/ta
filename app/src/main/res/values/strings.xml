@@ -134,6 +134,8 @@
     <string name="about_this_course_creator"><b>About This</b> Course\'s Creator</string>
     <string name="tags">Tags</string>
     <string name="lesson_number">LESSON %d</string>
+    <string name="practice_number">LESSON %d</string>
+    <string name="quiz_number">LESSON %d</string>
     <string name="created_by">Created by %s</string>
     <string name="no_recommended_course_label">No recommended course, yet.</string>
     <string name="no_related_courses_label">No related courses, yet.</string>
@@ -166,4 +168,6 @@
 
     <!-- Others -->
     <string name="permission_not_granted_message">Fail to get permission.</string>
+    <string name="default_string_field">-</string>
+    <string name="completed_label">Completed</string>
 </resources>

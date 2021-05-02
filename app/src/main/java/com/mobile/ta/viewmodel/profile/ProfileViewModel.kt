@@ -2,24 +2,18 @@ package com.mobile.ta.viewmodel.profile
 
 import android.graphics.Bitmap
 import android.icu.util.Calendar
-import androidx.hilt.Assisted
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.UserData
 import com.mobile.ta.model.User
 
-class ProfileViewModel @ViewModelInject constructor(
-    @Assisted private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class ProfileViewModel : ViewModel() {
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
 
     init {
-        _user.postValue(UserData.getUserData())
+//        _user.postValue(UserData.getUserData())
     }
 
     fun setUserPhoto(photo: Bitmap) {
@@ -64,7 +58,7 @@ class ProfileViewModel @ViewModelInject constructor(
                 bio
             )
             _user.postValue(user)
-            UserData.setUserData(user)
+//            UserData.setUserData(user)
         }
     }
 }

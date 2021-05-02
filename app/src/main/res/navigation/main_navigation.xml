@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/courseInformationFragment">
 
     <fragment
         android:id="@+id/loginFragment"
@@ -24,11 +24,11 @@
         android:id="@+id/registrationFragment"
         android:name="com.mobile.ta.ui.login.RegistrationFragment"
         android:label="RegistrationFragment"
-        tools:layout="@layout/fragment_registration" >
+        tools:layout="@layout/fragment_registration">
         <argument
             android:name="isTeacher"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -83,7 +83,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseInformationFragment"
-        android:name="com.mobile.ta.ui.courseInfo.CourseInformationFragment"
+        android:name="com.mobile.ta.ui.course.information.CourseInformationFragment"
         android:label="@string/toolbar_back"
         tools:layout="@layout/fragment_course_information">
         <action
@@ -99,8 +99,8 @@
             android:id="@+id/action_courseInformationFragment_to_courseQuestionsFragment"
             app:destination="@id/coursePracticeFragment" />
         <argument
-            android:name="id"
-            android:defaultValue="x5s1d"
+            android:name="courseId"
+            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
         <action
             android:id="@+id/action_courseInformationFragment_self"
@@ -108,15 +108,15 @@
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
-        android:name="com.mobile.ta.ui.coursecontent.CourseContentFragment"
+        android:name="com.mobile.ta.ui.course.content.CourseContentFragment"
         android:label="">
         <argument
             android:name="chapterId"
-            android:defaultValue="I5BQuODccLmcvTTMiHcM"
+            android:defaultValue="qUUm1V4ldvW1OcvvozFo"
             app:argType="string" />
         <argument
             android:name="courseId"
-            android:defaultValue="c2c2sdbNsGhDmIxvnkNV"
+            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
         <action
             android:id="@+id/action_courseContentFragment_to_3DViewFragment"
@@ -136,7 +136,7 @@
     </fragment>
     <fragment
         android:id="@+id/threeDFragment"
-        android:name="com.mobile.ta.ui.coursecontent.ThreeDFragment"
+        android:name="com.mobile.ta.ui.course.content.ThreeDFragment"
         android:label="3DViewFragment"
         tools:layout="@layout/fragment_three_d">
         <argument

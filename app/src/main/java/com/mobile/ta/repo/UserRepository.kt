@@ -11,7 +11,11 @@ class UserRepository @Inject constructor(
     private val users = db.collection(USER_COLLECTION_PATH)
 
     // TODO: Change document path to logged in user ID
-    suspend fun submitQuestionResult(courseQuestionAnswer: CourseQuestionAnswer, courseId: String, chapterId: String) =
+    suspend fun submitQuestionResult(
+        courseQuestionAnswer: CourseQuestionAnswer,
+        courseId: String,
+        chapterId: String
+    ) =
         users.document("l1CLTummIoarBY3Wb3FY")
             .collection(COURSE_COLLECTION_PATH).document(courseId)
             .collection(CHAPTER_COLLECTION_PATH).document(chapterId)
@@ -19,7 +23,12 @@ class UserRepository @Inject constructor(
             .set(courseQuestionAnswer)
             .await()
 
-    suspend fun updateCorrectAnswerCount(correctAnswerCount: Int, totalAnswerCount: Int, courseId: String, chapterId: String) =
+    suspend fun updateCorrectAnswerCount(
+        correctAnswerCount: Int,
+        totalAnswerCount: Int,
+        courseId: String,
+        chapterId: String
+    ) =
         users.document("l1CLTummIoarBY3Wb3FY")
             .collection(COURSE_COLLECTION_PATH).document(courseId)
             .collection(CHAPTER_COLLECTION_PATH).document(chapterId)

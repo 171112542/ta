@@ -11,5 +11,5 @@ data class CourseQuestion(
     val explanation: String,
     val order: Int
 ) {
-    constructor(): this("", "", listOf(), 0, "", 0)
+    constructor() : this("", "", listOf(), 0, "", 0)
 }
