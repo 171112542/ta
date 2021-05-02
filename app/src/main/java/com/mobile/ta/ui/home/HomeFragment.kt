@@ -47,6 +47,7 @@ class HomeFragment :
     override fun onClick(v: View) {
         when (v) {
             binding.fragHomeSearchBar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+            binding.fragHomeNotificationContainer -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNotificationFragment())
         }
     }
 

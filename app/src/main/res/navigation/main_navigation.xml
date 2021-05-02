@@ -36,6 +36,9 @@
         <action
             android:id="@+id/action_homeFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
@@ -225,4 +228,9 @@
             android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.mobile.ta.ui.notification.NotificationFragment"
+        android:label="Notification"
+        tools:layout="@layout/frag_notification" />
 </navigation>
