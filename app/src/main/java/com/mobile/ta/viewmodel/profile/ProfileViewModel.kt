@@ -1,72 +1,44 @@
 package com.mobile.ta.viewmodel.profile
 
-import android.graphics.Bitmap
-import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import com.mobile.ta.data.UserData
-import com.mobile.ta.model.User
+import com.mobile.ta.model.user.User
+import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.repository.UserRepository
+import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
+) : BaseViewModel() {
+
+    private val _isAuthenticated = MutableLiveData<Boolean>()
+    val isAuthenticated: LiveData<Boolean>
+        get() = _isAuthenticated
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
 
-    init {
-        _user.postValue(UserData.getUserData())
-    }
-
-    fun setUserPhoto(photo: Bitmap) {
-        _user.value?.let {
-            val user = User(
-                it.name,
-                it.isFirstTimeLogin,
-                it.email,
-                it.phone,
-                photo,
-                it.dob,
-                it.bio
-            )
-            _user.postValue(user)
+    fun fetchUserData() {
+        launchViewModelScope {
+            authRepository.getUser()?.let { firebaseUser ->
+                getUserData(firebaseUser.uid)
+                _isAuthenticated.postValue(true)
+            } ?: run {
+                authRepository.logOut()
+                _isAuthenticated.postValue(false)
+            }
         }
     }
 
-    fun setUserDob(calendar: Calendar) {
-        _user.value?.let {
-            val user = User(
-                it.name,
-                it.isFirstTimeLogin,
-                it.email,
-                it.phone,
-                it.photo,
-                calendar.time,
-                it.bio
-            )
-            _user.postValue(user)
-        }
-    }
-
-    fun setUser(name: String, phone: String, bio: String) {
-        _user.value?.let {
-            val user = User(
-                name,
-                it.isFirstTimeLogin,
-                it.email,
-                phone,
-                it.photo,
-                it.dob,
-                bio
-            )
-            _user.postValue(user)
-            UserData.setUserData(user)
-        }
+    private suspend fun getUserData(userId: String) {
+        val response = userRepository.getUserById(userId)
+        checkStatus(response.status, {
+            _user.postValue(response.data!!)
+        })
     }
 }

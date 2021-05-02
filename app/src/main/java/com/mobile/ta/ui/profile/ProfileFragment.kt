@@ -1,5 +1,6 @@
 package com.mobile.ta.ui.profile
 
+import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -8,6 +9,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.ProfilePagerAdapter
 import com.mobile.ta.databinding.FragProfileBinding
 import com.mobile.ta.ui.BaseFragment
+import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.viewmodel.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +33,16 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
             }.attach()
         }
         setHasOptionsMenu(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchUserData()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -55,30 +66,49 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
     }
 
     private fun setupObserver() {
+        viewModel.fetchUserData()
         viewModel.user.observe(viewLifecycleOwner, {
-            it?.let {
-//                setProfileData(it.)
+            it?.let { user ->
+                setProfileData(user.photo, user.name, user.bio)
+            }
+        })
+        viewModel.isAuthenticated.observe(viewLifecycleOwner, {
+            if (it.not()) {
+                findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
             }
         })
     }
 
     private fun goToEditProfile() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment())
+        findNavController().navigate(
+            ProfileFragmentDirections.actionProfileFragmentToEditProfileFragment(
+                viewModel.user.value!!
+            )
+        )
     }
 
     private fun goToSettings() {
         findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
     }
 
-    private fun setProfileData(photo: String, name: String, bio: String?) {
+    private fun setProfileData(photo: String?, name: String, bio: String?) {
         binding.apply {
-            loadImage(photo, profilePhotoImageView)
+            photo?.let {
+                loadImage(it, profilePhotoImageView)
+            }
             profileName.text = name
             bio?.let {
                 profileBio.text = it
             } ?: run {
                 profileBio.visibility = View.GONE
             }
+        }
+    }
+
+    private fun setCourseInfo(courseCount: String, finishedCourseCount: String) {
+        binding.apply {
+            textViewProfileCourse.text = courseCount
+            textViewProfileFinished.text = finishedCourseCount
         }
     }
 }

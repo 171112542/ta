@@ -13,7 +13,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
-import com.mobile.ta.model.user.NewUser
+import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
@@ -86,7 +86,7 @@ class RegistrationFragment :
         }
     }
 
-    private fun updateUserData(user: NewUser) {
+    private fun updateUserData(user: User) {
         binding.apply {
             editTextFullName.setText(user.name)
             user.photo?.let {
