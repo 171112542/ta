@@ -1,40 +1,37 @@
 package com.mobile.ta.ui.profile
 
-import android.content.Context
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
 import com.mobile.ta.adapter.ProfileFeedbackAdapter
 import com.mobile.ta.adapter.diff.ProfileFeedbackDiffCallback
 import com.mobile.ta.databinding.FragmentProfileFeedbackTabBinding
+import com.mobile.ta.ui.BaseFragment
 import com.mobile.ta.viewmodel.profile.ProfileFeedbackTabViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFeedbackTabFragment : Fragment() {
-    private lateinit var binding: FragmentProfileFeedbackTabBinding
+@AndroidEntryPoint
+class ProfileFeedbackTabFragment :
+    BaseFragment<FragmentProfileFeedbackTabBinding>(FragmentProfileFeedbackTabBinding::inflate) {
+
     private val viewModel: ProfileFeedbackTabViewModel by viewModels()
-    lateinit var mContext: Context
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProfileFeedbackTabBinding.inflate(inflater, container, false)
-        mContext = requireContext()
-        binding.apply {
-            val diffCallback = ProfileFeedbackDiffCallback()
-            val adapter = ProfileFeedbackAdapter(diffCallback)
-            val layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-            profileTabRecyclerView.adapter = adapter
-            profileTabRecyclerView.layoutManager = layoutManager
-            val itemDecoration =
-                DividerItemDecoration(context, LinearLayoutManager.VERTICAL).apply {
+
+    private val feedbackAdapter by lazy {
+        ProfileFeedbackAdapter(ProfileFeedbackDiffCallback())
+    }
+
+    override fun runOnCreateView() {
+        binding.profileTabRecyclerView.apply {
+            layoutManager = LinearLayoutManager(mContext)
+            adapter = feedbackAdapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    LinearLayoutManager.VERTICAL
+                ).apply {
                     setDrawable(
                         ResourcesCompat.getDrawable(
                             resources,
@@ -42,13 +39,22 @@ class ProfileFeedbackTabFragment : Fragment() {
                             null
                         )!!
                     )
-                }
-            profileTabRecyclerView.addItemDecoration(itemDecoration)
-            viewModel.feedbacks.observe(viewLifecycleOwner, Observer {
-                profileTabNoData.visibility = if (it.count() == 0) View.VISIBLE else View.GONE
-                adapter.submitList(it)
-            })
+                })
         }
-        return binding.root
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.feedbacks.observe(viewLifecycleOwner, {
+            feedbackAdapter.submitList(it)
+            showEmptyState(it.isEmpty())
+        })
+    }
+
+    private fun showEmptyState(show: Boolean) {
+        binding.apply {
+            profileTabNoData.visibility = if (show) View.VISIBLE else View.GONE
+            profileTabRecyclerView.visibility = if (show.not()) View.VISIBLE else View.GONE
+        }
     }
 }

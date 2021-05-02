@@ -98,10 +98,20 @@
     <string name="your_feedback">Your Feedback</string>
     <string name="your_feedback_hint">Your feedback here…</string>
     <string name="submit_feedback">Submit Feedback</string>
+
+    <string-array name="feedback_category">
+        <item>Material</item>
+        <item>Exercise</item>
+        <item>Discussion</item>
+        <item>3D view</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Profile -->
+    <string name="success_update_profile_message">Profile successfully updated!</string>
     <string name="bio_hint">Bio</string>
     <string name="phone_number_hint">Phone Number</string>
     <string name="email_address_hint">Email Address</string>
-    <string name="success_update_profile_label">Profile successfully updated!</string>
     <string name="close_action">CLOSE</string>
     <string name="about_tab">About</string>
     <string name="feedback_tab">Feedback</string>
@@ -114,14 +124,8 @@
     <string name="description_label">Description</string>
     <string name="edit_label">Edit</string>
     <string name="toolbar_edit_profile">Edit Profile</string>
-
-    <string-array name="feedback_category">
-        <item>Material</item>
-        <item>Exercise</item>
-        <item>Discussion</item>
-        <item>3D view</item>
-        <item>Other</item>
-    </string-array>
+    <string name="courses_label">Courses</string>
+    <string name="finished_label">Finished</string>
 
     <!-- Course Info -->
     <string name="enrollment">Enrollment</string>

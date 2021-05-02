@@ -2,6 +2,8 @@ package com.mobile.ta.utils.mapper
 
 import com.google.firebase.firestore.DocumentSnapshot
 import com.mobile.ta.model.user.TeacherCredential
+import com.mobile.ta.model.user.User
+import com.mobile.ta.model.user.UserRoleEnum
 
 object UserMapper {
 
@@ -10,6 +12,9 @@ object UserMapper {
     const val NAME = "name"
     const val PHOTO = "photo"
     const val BIRTH_DATE = "birthDate"
+    const val BIO = "bio"
+    const val PHONE_NUMBER = "phoneNumber"
+    const val ROLE = "role"
 
     fun mapToTeacherCredential(snapshot: DocumentSnapshot): TeacherCredential? {
         val userId: String = snapshot.getString(USER_ID).orEmpty()
@@ -20,5 +25,20 @@ object UserMapper {
         } else {
             null
         }
+    }
+
+    fun mapToUser(snapshot: DocumentSnapshot): User {
+        val id: String = snapshot.id
+        val name: String = snapshot.getString(NAME).orEmpty()
+        val email: String = snapshot.getString(EMAIL).orEmpty()
+        val photo: String? = snapshot.getString(PHOTO)
+        val birthDate: Long? = snapshot.getLong(BIRTH_DATE)
+        val role: UserRoleEnum = snapshot.getString(ROLE)?.let {
+            UserRoleEnum.valueOf(it)
+        } ?: UserRoleEnum.ROLE_STUDENT
+        val phoneNumber: String? = snapshot.getString(PHONE_NUMBER)
+        val bio: String? = snapshot.getString(BIO)
+
+        return User(id, name, email, photo, birthDate, role, phoneNumber, bio)
     }
 }
