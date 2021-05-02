@@ -75,7 +75,9 @@ class UserRepositoryImpl @Inject constructor(
         return users.document("l1CLTummIoarBY3Wb3FY")
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
-            .set("exists" to true)
+            .set(mapOf(
+                "exists" to true
+            ))
             .fetchData()
     }
 }
