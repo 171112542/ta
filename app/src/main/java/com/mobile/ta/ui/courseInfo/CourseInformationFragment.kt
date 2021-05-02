@@ -12,7 +12,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.mobile.ta.MainActivity
 import com.mobile.ta.R
 import com.mobile.ta.adapter.courseInfo.CourseInfoChapterAdapter
 import com.mobile.ta.adapter.courseInfo.CourseInfoPrerequisitesCourseAdapter
@@ -68,7 +67,6 @@ class CourseInformationFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity as MainActivity).showToolbar()
         viewModel.fetchCourseInfo(args.id)
         viewModel.courseInfo.observe(viewLifecycleOwner, {
             it?.let { courseInformation ->

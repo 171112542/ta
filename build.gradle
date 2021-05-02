@@ -17,6 +17,7 @@ buildscript {
         firebaseBomVersion = "27.0.0"
         googleServiceVersion = "4.3.5"
         coroutineVersion = "1.4.2"
+        playServiceAuthVersion = "19.0.0"
     }
     repositories {
         google()

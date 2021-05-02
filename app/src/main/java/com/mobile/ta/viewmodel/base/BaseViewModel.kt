@@ -18,10 +18,10 @@ abstract class BaseViewModel : ViewModel() {
     protected fun checkStatus(
         status: StatusType,
         onSuccessListener: () -> Unit,
-        onFailureListener: () -> Unit
+        onFailureListener: (() -> Unit)? = null
     ) {
         if (status == StatusType.FAILED) {
-            onFailureListener.invoke()
+            onFailureListener?.invoke()
         } else {
             onSuccessListener.invoke()
         }

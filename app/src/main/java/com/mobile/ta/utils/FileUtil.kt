@@ -9,19 +9,20 @@ import java.io.File
 
 object FileUtil {
 
-    fun getFilePath(fileUri: Uri, contentResolver: ContentResolver): String? {
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+    fun getFileAbsolutePath(contentResolver: ContentResolver, uri: Uri): String? {
+        var result: String? = null
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
 
-        val cursor = contentResolver.query(fileUri, filePathColumn, null, null, null)
-        cursor?.moveToFirst()
-
-        val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
-        val filePath = columnIndex?.let {
-            cursor.getString(it)
+        if (cursor?.moveToFirst().orFalse()) {
+            val columnIndex = cursor?.getColumnIndex(projection[0])
+            columnIndex?.let {
+                result = cursor.getString(it)
+            }
         }
         cursor?.close()
 
-        return filePath
+        return result
     }
 
     fun convertFilePathToBitmap(filePath: String): Bitmap? = if (File(filePath).exists()) {
