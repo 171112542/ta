@@ -1,7 +1,5 @@
 package com.mobile.ta.data
 
-import com.mobile.ta.model.CourseQuestion
-
 object CoursePracticeData {
 //    val data = listOf(
 //        CourseQuestion(

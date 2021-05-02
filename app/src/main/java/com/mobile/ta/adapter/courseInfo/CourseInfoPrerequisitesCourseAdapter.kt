@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseInfoPrerequisitesCourseDiffCallback
 import com.mobile.ta.databinding.LayoutCourseItemBinding
-import com.mobile.ta.model.courseInfo.PrerequisiteCourse
+import com.mobile.ta.model.course.chapter.info.PrerequisiteCourse
 import com.mobile.ta.utils.ImageUtil
 
 class CourseInfoPrerequisitesCourseAdapter(

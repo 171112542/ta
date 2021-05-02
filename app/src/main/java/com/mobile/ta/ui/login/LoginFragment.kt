@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.MainActivity
 import com.mobile.ta.databinding.FragmentLoginBinding
-import com.mobile.ta.ui.HomeFragmentDirections
+import com.mobile.ta.ui.home.HomeFragmentDirections
 
 class LoginFragment : Fragment() {
 

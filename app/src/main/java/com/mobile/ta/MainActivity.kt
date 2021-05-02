@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.databinding.ActivityMainBinding
-import com.mobile.ta.ui.HomeFragmentDirections
+import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             R.id.loginFragment -> false
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
+            R.id.searchFragment -> false
             else -> true
         }
         if (isVisible) {

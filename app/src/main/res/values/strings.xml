@@ -61,6 +61,8 @@
     <string name="math_text">Math</string>
     <string name="save_text">Save</string>
     <string name="level_tag_title_text">Level</string>
+    <string name="no_filter_result_found_text">No Filter Result Found</string>
+    <string name="searched_desc_text">Search result for \"%s\"</string>
 
     <!-- Exercise -->
     <string name="submit_answer_text">Submit Answer</string>
@@ -72,6 +74,7 @@
     <string name="wrong_answer_image_content_description">Wrong Answer Image</string>
     <string name="wrong_answer_text">Wrong Answer</string>
     <string name="next_chapter_text">Next Chapter</string>
+    <string name="assignment_result_text">%1$d/%2$d</string>
 
     <!-- Discussion -->
     <string name="discussion_label">Discussion</string>
@@ -158,4 +161,7 @@
     <string name="success_add_forum_message">Forum added.</string>
     <string name="success_add_reply_message">Reply added to the discussion.</string>
     <string name="mark_as_answer_discussion">Mark as Answer</string>
+
+    <!-- Notifications -->
+    <string name="notification_label">Notification</string>
 </resources>

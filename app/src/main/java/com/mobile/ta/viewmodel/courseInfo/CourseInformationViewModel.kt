@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.mobile.ta.data.CourseInformationData
-import com.mobile.ta.model.courseInfo.CourseInformation
-import com.mobile.ta.model.courseInfo.Creator
+import com.mobile.ta.model.course.chapter.info.CourseInformation
+import com.mobile.ta.model.course.chapter.info.Creator
 
 class CourseInformationViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle

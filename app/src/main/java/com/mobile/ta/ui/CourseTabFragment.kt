@@ -27,7 +27,7 @@ class CourseTabFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCourseTabBinding.inflate(inflater, container, false)
         mContext = requireContext()
         setupRecyclerView()
@@ -55,14 +55,14 @@ class CourseTabFragment : Fragment() {
             courseTabRecyclerView.layoutManager = layoutManager
             when (fragmentType) {
                 ONGOING_TAB -> {
-                    viewModel.userOngoingCourse.observe(viewLifecycleOwner, Observer {
+                    viewModel.userOngoingCourse.observe(viewLifecycleOwner, {
                         courseTabNoData.visibility =
                             if (it.count() == 0) View.VISIBLE else View.GONE
                         adapter.submitList(it)
                     })
                 }
                 FINISHED_TAB -> {
-                    viewModel.userFinishedCourse.observe(viewLifecycleOwner, Observer {
+                    viewModel.userFinishedCourse.observe(viewLifecycleOwner, {
                         courseTabNoData.visibility =
                             if (it.count() == 0) View.VISIBLE else View.GONE
                         adapter.submitList(it)

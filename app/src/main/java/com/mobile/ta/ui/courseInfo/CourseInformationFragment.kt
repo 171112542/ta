@@ -20,8 +20,8 @@ import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.adapter.diff.CourseInfoPrerequisitesCourseDiffCallback
 import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
-import com.mobile.ta.model.courseInfo.Creator
-import com.mobile.ta.model.courseInfo.Tag
+import com.mobile.ta.model.course.chapter.info.Creator
+import com.mobile.ta.model.course.chapter.info.Tag
 import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.viewmodel.courseInfo.CourseInformationViewModel
 
