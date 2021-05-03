@@ -1,6 +1,5 @@
 package com.mobile.ta.ui.search
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.ta.R
-import com.mobile.ta.adapter.TagAdapter
+import com.mobile.ta.adapter.course.information.TagAdapter
 import com.mobile.ta.adapter.diff.StringDiffCallback
 import com.mobile.ta.databinding.BsdFilterBinding
 import com.mobile.ta.viewmodel.search.SearchViewModel
@@ -33,7 +32,7 @@ class FilterBottomSheetDialogFragment :
 
     private var _binding: BsdFilterBinding? = null
     private val binding get() = _binding as BsdFilterBinding
-    private val viewmodel by viewModels<SearchViewModel>(ownerProducer = { requireParentFragment()} )
+    private val viewmodel by viewModels<SearchViewModel>(ownerProducer = { requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,

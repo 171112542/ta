@@ -3,7 +3,10 @@ package com.mobile.ta.utils
 import com.google.firebase.Timestamp
 
 object TimestampUtil {
-    fun getTimeDifferenceString(thenTimestamp: Timestamp, nowTimestamp: Timestamp = Timestamp.now()): String {
+    fun getTimeDifferenceString(
+        thenTimestamp: Timestamp,
+        nowTimestamp: Timestamp = Timestamp.now()
+    ): String {
         var timeString = ""
         val difference = nowTimestamp.seconds - thenTimestamp.seconds
         timeString = when {

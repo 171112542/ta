@@ -23,4 +23,4 @@ data class User(
     var phoneNumber: String? = null,
 
     var bio: String? = null
-): Parcelable
+) : Parcelable

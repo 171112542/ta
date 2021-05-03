@@ -10,7 +10,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentLoginBinding
-import com.mobile.ta.ui.BaseFragment
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.login.LoginViewModel

@@ -12,8 +12,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.mobile.ta.R
 import com.mobile.ta.databinding.DialogTagSelectionBinding
-import com.mobile.ta.model.LevelTag
-import com.mobile.ta.model.TypeTag
+import com.mobile.ta.model.course.information.LevelTag
+import com.mobile.ta.model.course.information.TypeTag
 import com.mobile.ta.viewmodel.search.SearchViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

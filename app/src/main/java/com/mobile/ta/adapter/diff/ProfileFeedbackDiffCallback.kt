@@ -1,7 +1,7 @@
 package com.mobile.ta.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mobile.ta.model.Feedback
+import com.mobile.ta.model.user.feedback.Feedback
 
 class ProfileFeedbackDiffCallback : DiffUtil.ItemCallback<Feedback>() {
     override fun areItemsTheSame(oldItem: Feedback, newItem: Feedback): Boolean {

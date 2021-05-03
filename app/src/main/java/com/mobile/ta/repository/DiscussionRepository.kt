@@ -2,7 +2,7 @@ package com.mobile.ta.repository
 
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
-import com.mobile.ta.model.status.Status
+import com.mobile.ta.utils.wrapper.status.Status
 
 interface DiscussionRepository {
 

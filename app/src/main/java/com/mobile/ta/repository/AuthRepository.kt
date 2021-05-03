@@ -3,9 +3,9 @@ package com.mobile.ta.repository
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.firebase.auth.FirebaseUser
-import com.mobile.ta.model.status.Status
 import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.model.user.User
+import com.mobile.ta.utils.wrapper.status.Status
 
 interface AuthRepository {
 

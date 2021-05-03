@@ -1,7 +1,7 @@
 package com.mobile.ta.utils.mapper
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.mobile.ta.model.course.chapter.assignment.UserSubmittedAssignment
+import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
 
 object UserSubmittedAssignmentMapper {
     const val TITLE_FIELD = "title"

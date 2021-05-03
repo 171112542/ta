@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
         <!-- create gradient you want to use with the angle you want to use -->
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <gradient
                 android:angle="135"
                 android:centerColor="#00000000"
@@ -19,8 +18,7 @@
         android:left="2dp"
         android:right="2dp"
         android:top="2dp">
-        <shape
-            android:shape="rectangle">
+        <shape android:shape="rectangle">
             <solid android:color="#FFFFff" />
             <corners android:radius="@dimen/medium_component_radius" />
         </shape>

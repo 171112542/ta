@@ -1,25 +1,26 @@
 package com.mobile.ta.repository.impl
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.mobile.ta.config.CollectionConstants
+import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.model.course.chapter.Chapter
-import com.mobile.ta.model.status.Status
 import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.utils.fetchData
-import com.mobile.ta.utils.mapper.ChapterMapper
 import com.mobile.ta.utils.mapper.CourseMapper
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.mobile.ta.utils.wrapper.status.Status
 import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
 class CourseRepositoryImpl @Inject constructor(
-    db: FirebaseFirestore
+    private val database: FirebaseFirestore
 ) : CourseRepository {
-    private val courses = db.collection(CollectionConstants.COURSE_COLLECTION)
+    private val courseCollection =
+        database.collection(COURSE_COLLECTION)
+
+    override suspend fun getCourseById(courseId: String): Status<Course> {
+        return courseCollection.document(courseId).fetchData(CourseMapper::mapToCourse)
+    }
 
     override suspend fun searchCourse(courseTitle: String): Status<MutableList<Course>> {
-        return courses
+        return courseCollection
             .whereGreaterThanOrEqualTo(CourseMapper.CANONICAL_TITLE_FIELD, courseTitle)
             .whereLessThanOrEqualTo(
                 CourseMapper.CANONICAL_TITLE_FIELD,
@@ -30,7 +31,7 @@ class CourseRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllCourses(): Status<MutableList<Course>> {
-        return courses
+        return courseCollection
             .fetchData(CourseMapper::mapToCourses)
     }
 }

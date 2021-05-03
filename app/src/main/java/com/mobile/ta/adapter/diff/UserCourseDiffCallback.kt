@@ -1,7 +1,7 @@
 package com.mobile.ta.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mobile.ta.model.UserCourse
+import com.mobile.ta.model.user.course.UserCourse
 
 class UserCourseDiffCallback : DiffUtil.ItemCallback<UserCourse>() {
     override fun areItemsTheSame(oldItem: UserCourse, newItem: UserCourse): Boolean {

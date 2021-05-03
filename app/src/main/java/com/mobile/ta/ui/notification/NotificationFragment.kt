@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.mobile.ta.databinding.FragHomeBinding
 import com.mobile.ta.databinding.FragNotificationBinding
-import com.mobile.ta.viewmodel.home.HomeViewModel
 import com.mobile.ta.viewmodel.notification.NotificationViewModel
 
 class NotificationFragment : Fragment() {

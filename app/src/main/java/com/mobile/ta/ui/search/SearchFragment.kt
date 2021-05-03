@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
-import com.mobile.ta.adapter.CourseAdapter
+import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.ui.RVSeparator
@@ -124,7 +124,8 @@ class SearchFragment :
         viewmodel.hasSearched.observe(viewLifecycleOwner, {
             binding.fragSearchNoSearchGroup.visibility = if (it) View.GONE else View.VISIBLE
             binding.fragSearchedGroup.visibility = if (it) View.VISIBLE else View.GONE
-            binding.fragSearchedLabel.text = getString(R.string.searched_desc_text, viewmodel.keyword)
+            binding.fragSearchedLabel.text =
+                getString(R.string.searched_desc_text, viewmodel.keyword)
         })
 
         viewmodel.hasFiltered.observe(viewLifecycleOwner, {

@@ -4,7 +4,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.databinding.FragmentSettingsBinding
-import com.mobile.ta.ui.BaseFragment
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.viewmodel.settings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

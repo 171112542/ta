@@ -11,5 +11,5 @@ data class Notification(
     val hasRead: Boolean,
     val type: NotificationType
 ) {
-    constructor(): this("", "", Timestamp.now(), false, NotificationType.UPDATE)
+    constructor() : this("", "", Timestamp.now(), false, NotificationType.UPDATE)
 }
