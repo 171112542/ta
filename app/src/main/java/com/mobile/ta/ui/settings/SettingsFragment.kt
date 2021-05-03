@@ -1,36 +1,33 @@
 package com.mobile.ta.ui.settings
 
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.databinding.FragmentSettingsBinding
-import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.viewmodel.settings.SettingsViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class SettingsFragment : Fragment() {
+@AndroidEntryPoint
+class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsBinding::inflate),
+    View.OnClickListener {
 
-    private lateinit var binding: FragmentSettingsBinding
+    private val viewModel: SettingsViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
-        with(binding) {
-            textViewGiveAFeedback.setOnClickListener {
-                goToAddFeedback()
-            }
-            textViewLogOut.setOnClickListener {
-                goToLogIn()
-            }
+    override fun runOnCreateView() {
+        binding.apply {
+            textViewGiveAFeedback.setOnClickListener(this@SettingsFragment)
+            textViewLogOut.setOnClickListener(this@SettingsFragment)
         }
-        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as MainActivity).showToolbar()
+    override fun onClick(view: View?) {
+        with(binding) {
+            when (view) {
+                textViewGiveAFeedback -> goToAddFeedback()
+                textViewLogOut -> processLogOut()
+            }
+        }
     }
 
     private fun goToAddFeedback() {
@@ -39,7 +36,8 @@ class SettingsFragment : Fragment() {
         )
     }
 
-    private fun goToLogIn() {
+    private fun processLogOut() {
+        viewModel.logOut()
         findNavController().navigate(SettingsFragmentDirections.actionGlobalLoginFragment())
     }
 }

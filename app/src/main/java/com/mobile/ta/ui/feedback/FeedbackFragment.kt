@@ -12,7 +12,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentFeedbackBinding
-import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 
@@ -39,11 +38,6 @@ class FeedbackFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         setupAutoComplete()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        (activity as MainActivity).showToolbar()
     }
 
     private fun setupAutoComplete() {

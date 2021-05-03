@@ -1,7 +1,6 @@
 package com.mobile.ta.ui.main
 
 import android.animation.ObjectAnimator
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -12,10 +11,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityMainBinding
-import com.mobile.ta.ui.HomeFragmentDirections
-import com.mobile.ta.ui.MyCourseFragmentDirections
 import com.mobile.ta.ui.base.BaseActivity
-import com.mobile.ta.ui.profile.ProfileFragmentDirections
+import com.mobile.ta.ui.course.MyCourseFragmentDirections
+import com.mobile.ta.ui.home.HomeFragmentDirections
+import com.mobile.ta.ui.user.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +25,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         const val PARAM_HOME_FRAGMENT = "HOME_FRAGMENT"
     }
 
-    lateinit var toolbar: Toolbar
+    private lateinit var toolbar: Toolbar
 
     private lateinit var navController: NavController
 
@@ -72,14 +71,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun hideToolbar() {
-        toolbar.visibility = View.GONE
-    }
+    fun getToolbar() = toolbar
 
     private fun initVariables() {
         navController =
             (supportFragmentManager.findFragmentById(R.id.act_main_host_fragment) as NavHostFragment).navController
-        toolbar = binding.mainToolbar
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
@@ -88,6 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.courseContentFragment
             )
         )
+        toolbar = binding.mainToolbar
     }
 
     private fun setStartFragment() {
@@ -117,24 +114,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             R.id.registrationFragment -> false
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
+            R.id.searchFragment -> false
             else -> true
         }
         if (isVisible) {
             supportActionBar?.show()
         } else {
             supportActionBar?.hide()
-        }
-    }
-
-    fun showToolbar(title: String? = null, isMain: Boolean? = null) {
-        with(toolbar) {
-            visibility = View.VISIBLE
-            title?.let {
-                this.title = it
-            }
-            isMain?.let {
-                navigationIcon = null
-            }
         }
     }
 

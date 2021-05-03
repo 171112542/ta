@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
-import com.mobile.ta.adapter.courseInfo.CourseInfoChapterAdapter
-import com.mobile.ta.adapter.courseInfo.RelatedCourseAdapter
+import com.mobile.ta.adapter.course.information.CourseInformationContentAdapter
+import com.mobile.ta.adapter.course.information.RelatedCourseAdapter
 import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.course.information.Creator
@@ -37,7 +37,7 @@ class CourseInformationFragment :
     private val viewModel: CourseInformationViewModel by viewModels()
 
     private val courseContentAdapter by lazy {
-        CourseInfoChapterAdapter(this::goToCourseContent)
+        CourseInformationContentAdapter(this::goToCourseContent)
     }
     private val prerequisiteCourseAdapter by lazy {
         RelatedCourseAdapter(

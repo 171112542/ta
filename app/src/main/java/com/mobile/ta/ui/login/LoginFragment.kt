@@ -10,9 +10,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentLoginBinding
-import com.mobile.ta.ui.HomeFragmentDirections
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +39,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             buttonSignIn.setOnClickListener(this@LoginFragment)
             buttonTeacherRole.setOnClickListener(this@LoginFragment)
         }
-        (activity as MainActivity).hideToolbar()
         setupGoogleSignIn()
     }
 

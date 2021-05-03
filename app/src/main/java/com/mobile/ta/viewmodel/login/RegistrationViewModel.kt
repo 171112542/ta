@@ -3,9 +3,10 @@ package com.mobile.ta.viewmodel.login
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.mobile.ta.model.user.NewUser
+import com.mobile.ta.model.user.User
 import com.mobile.ta.model.user.UserRoleEnum
 import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.base.BaseViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     private var _isUpdated = MutableLiveData<Boolean>()
@@ -26,23 +28,23 @@ class RegistrationViewModel @Inject constructor(
     val profilePicture: LiveData<File>
         get() = _profilePicture
 
-    private var _user = MutableLiveData<NewUser>()
-    val user: LiveData<NewUser>
+    private var _user = MutableLiveData<User>()
+    val user: LiveData<User>
         get() = _user
 
     fun getAuthorizedUserData(isTeacher: Boolean) {
         launchViewModelScope {
             authRepository.getUser()?.let { firebaseUser ->
                 _user.postValue(
-                    NewUser(
+                    User(
                         id = firebaseUser.uid,
                         name = firebaseUser.displayName.orEmpty(),
                         email = firebaseUser.email.orEmpty(),
                         photo = firebaseUser.photoUrl?.toString(),
-                        role = getUserRole(isTeacher)
+                        role = getUserRole(isTeacher),
+                        phoneNumber = firebaseUser.phoneNumber
                     )
                 )
-//                _user.publishChanges()
                 authRepository.registerUser(_user.value!!)
             }
         }
@@ -60,7 +62,7 @@ class RegistrationViewModel @Inject constructor(
         _user.value?.let { user ->
             user.name = name
             launchViewModelScope {
-                val response = authRepository.updateUser(user)
+                val response = userRepository.updateUser(user)
                 checkStatus(response.status, {
                     _isUpdated.postValue(response.data.orFalse())
                 }, {
@@ -75,7 +77,7 @@ class RegistrationViewModel @Inject constructor(
             val imageUri = Uri.fromFile(_profilePicture.value)
             _user.value?.let { user ->
                 launchViewModelScope {
-                    checkStatus(authRepository.uploadImage(user.id, imageUri).status, {
+                    checkStatus(userRepository.uploadUserImage(user.id, imageUri).status, {
                         getImage(user.id, imageUri)
                     })
                 }
@@ -85,7 +87,7 @@ class RegistrationViewModel @Inject constructor(
 
     private fun getImage(id: String, imageUri: Uri) {
         launchViewModelScope {
-            authRepository.getImageUrl(id, imageUri).apply {
+            userRepository.getUserImageUrl(id, imageUri).apply {
                 checkStatus(status, {
                     _user.value?.photo = data.toString()
                 })
@@ -97,15 +99,5 @@ class RegistrationViewModel @Inject constructor(
         UserRoleEnum.ROLE_TEACHER
     } else {
         UserRoleEnum.ROLE_STUDENT
-    }
-
-    private fun registerUser(name: String) {
-        _user.value?.let { user ->
-            user.name = name
-
-            launchViewModelScope {
-
-            }
-        }
     }
 }

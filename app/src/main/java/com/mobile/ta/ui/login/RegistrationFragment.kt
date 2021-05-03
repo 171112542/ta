@@ -9,12 +9,11 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
-import com.mobile.ta.model.user.NewUser
+import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
@@ -67,7 +66,7 @@ class RegistrationFragment :
 
         viewModel.getAuthorizedUserData(args.isTeacher)
         viewModel.profilePicture.observe(viewLifecycleOwner, {
-            setProfilePicture<File>(it)
+            loadImage<File>(it, binding.imageViewEditProfilePicture)
         })
         viewModel.user.observe(viewLifecycleOwner, {
             it?.let {
@@ -87,11 +86,11 @@ class RegistrationFragment :
         }
     }
 
-    private fun updateUserData(user: NewUser) {
+    private fun updateUserData(user: User) {
         binding.apply {
             editTextFullName.setText(user.name)
             user.photo?.let {
-                setProfilePicture(it)
+                loadImage(it, binding.imageViewEditProfilePicture)
             }
         }
     }
@@ -121,10 +120,6 @@ class RegistrationFragment :
 
     private fun openGallery() {
         checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
-    }
-
-    private fun <T : Any> setProfilePicture(image: T) {
-        Glide.with(mContext).load(image).into(binding.imageViewEditProfilePicture)
     }
 
     private fun setupBirthDateEditText() {

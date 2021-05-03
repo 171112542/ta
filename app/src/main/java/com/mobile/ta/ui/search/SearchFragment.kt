@@ -11,13 +11,16 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
-import com.mobile.ta.adapter.CourseOverviewAdapter
+import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.ui.RVSeparator
-import com.mobile.ta.viewmodel.SearchViewModel
+import com.mobile.ta.viewmodel.search.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
+@ExperimentalCoroutinesApi
+@AndroidEntryPoint
 class SearchFragment :
     Fragment(),
     View.OnClickListener {
@@ -36,7 +39,7 @@ class SearchFragment :
     )
         : View {
         _binding = FragSearchBinding.inflate(inflater, container, false)
-        binding.fragSearchSearchResultFilter.setOnClickListener(this)
+        binding.fragSearchedFilter.setOnClickListener(this)
         return binding.root
     }
 
@@ -54,7 +57,7 @@ class SearchFragment :
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.frag_search_search_result_filter -> showFilterDialog()
+            R.id.frag_searched_filter -> showFilterDialog()
         }
     }
 
@@ -98,9 +101,9 @@ class SearchFragment :
 
     private fun setupRecyclerView() {
         val diffCallback = CourseOverviewDiffCallback()
-        val adapter = CourseOverviewAdapter(diffCallback)
+        val adapter = CourseAdapter(diffCallback)
         adapter.setParentFragment(this)
-        with(binding.fragSearchSearchResultRv) {
+        with(binding.fragSearchFoundResultRv) {
             this.adapter = adapter
             addItemDecoration(
                 RVSeparator.getSpaceSeparator(
@@ -113,24 +116,38 @@ class SearchFragment :
     }
 
     private fun showFilterDialog() {
-        val dialog = FilterBottomSheetDialogFragment.newInstance(viewmodel)
-        dialog.show(parentFragmentManager, FILTER_BSD_FRAGMENT)
+        val dialog = FilterBottomSheetDialogFragment.newInstance()
+        dialog.show(childFragmentManager, FILTER_BSD_FRAGMENT)
     }
 
     private fun observeViewModel() {
         viewmodel.hasSearched.observe(viewLifecycleOwner, {
             binding.fragSearchNoSearchGroup.visibility = if (it) View.GONE else View.VISIBLE
+            binding.fragSearchedGroup.visibility = if (it) View.VISIBLE else View.GONE
+            binding.fragSearchedLabel.text =
+                getString(R.string.searched_desc_text, viewmodel.keyword)
+        })
+
+        viewmodel.hasFiltered.observe(viewLifecycleOwner, {
+            binding.fragFilteredGroup.visibility = if (it) View.VISIBLE else View.GONE
         })
 
         viewmodel.filteredSearchResult.observe(viewLifecycleOwner, {
-            if (it.isEmpty()) {
-                binding.fragSearchNoSearchResultGroup.visibility = View.VISIBLE
-                binding.fragSearchSearchResultGroup.visibility = View.GONE
+            if (viewmodel.hasSearched.value == false) return@observe
+            if (it.isEmpty() && viewmodel.hasFiltered.value == false) {
+                binding.fragFilteredNotFoundGroup.visibility = View.GONE
+                binding.fragSearchNotFoundGroup.visibility = View.VISIBLE
+                binding.fragSearchFoundGroup.visibility = View.GONE
+            } else if (it.isEmpty() && viewmodel.hasFiltered.value == true) {
+                binding.fragFilteredNotFoundGroup.visibility = View.VISIBLE
+                binding.fragSearchNotFoundGroup.visibility = View.GONE
+                binding.fragSearchFoundGroup.visibility = View.GONE
             } else {
-                binding.fragSearchNoSearchResultGroup.visibility = View.GONE
-                binding.fragSearchSearchResultGroup.visibility = View.VISIBLE
-                if (binding.fragSearchSearchResultRv.adapter is CourseOverviewAdapter) {
-                    (binding.fragSearchSearchResultRv.adapter as CourseOverviewAdapter)
+                binding.fragFilteredNotFoundGroup.visibility = View.GONE
+                binding.fragSearchNotFoundGroup.visibility = View.GONE
+                binding.fragSearchFoundGroup.visibility = View.VISIBLE
+                if (binding.fragSearchFoundResultRv.adapter is CourseAdapter) {
+                    (binding.fragSearchFoundResultRv.adapter as CourseAdapter)
                         .submitList(it)
                 }
             }

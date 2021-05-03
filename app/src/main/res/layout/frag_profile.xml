@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/dp_16">
@@ -35,6 +36,7 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/dp_80"
         android:layout_marginStart="@dimen/dp_32"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:paddingStart="@dimen/dp_20"
         app:layout_constraintBottom_toBottomOf="@id/profile_course_container"
@@ -50,20 +52,21 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_profile_course"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="bottom"
-                android:text="0"
                 android:textAppearance="@style/TextAppearance.TA.Headline3"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                tools:text="0" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:text="Courses"
+                android:text="@string/courses_label"
                 android:textAppearance="@style/TextAppearance.TA.Headline4"
                 android:textColor="?attr/colorOnPrimary" />
         </LinearLayout>
@@ -76,20 +79,21 @@
             android:orientation="vertical">
 
             <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_view_profile_finished"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="bottom"
-                android:text="0"
                 android:textAppearance="@style/TextAppearance.TA.Headline3"
-                android:textColor="?attr/colorOnPrimary" />
+                android:textColor="?attr/colorOnPrimary"
+                tools:text="0" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="top"
-                android:text="Finished"
+                android:text="@string/finished_label"
                 android:textAppearance="@style/TextAppearance.TA.Headline4"
                 android:textColor="?attr/colorOnPrimary" />
         </LinearLayout>
@@ -107,7 +111,6 @@
             android:id="@+id/profile_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Person Smith"
             android:textAppearance="@style/TextAppearance.TA.Headline5"
             app:layout_constraintBottom_toTopOf="@id/profile_bio"
             app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
@@ -118,7 +121,6 @@
             android:id="@+id/profile_bio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Something in bio?"
             android:textAppearance="@style/TextAppearance.TA.Subtitle2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
@@ -134,8 +136,7 @@
             android:textColor="?attr/colorSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent
-" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.tabs.TabLayout

@@ -79,18 +79,77 @@
             app:layout_constraintTop_toBottomOf="@+id/frag_search_no_search_help_title" />
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/frag_search_search_result_group"
+            android:id="@+id/frag_searched_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="frag_search_search_result_rv,
-                frag_search_search_result_end_line,
-                frag_search_search_result_end_text,
-                frag_search_search_result_filter"
-            tools:visibility="gone" />
+            app:constraint_referenced_ids="frag_searched_label,
+                frag_searched_filter,
+                frag_searched_filter_space" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/frag_filtered_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_filtered_icon" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/frag_filtered_not_found_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_filtered_not_found_text" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/frag_search_found_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_search_found_end_text,
+                frag_search_found_end_line,
+                frag_search_found_result_rv" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/frag_search_not_found_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_search_not_found_result_text" />
+
+        <TextView
+            android:id="@+id/frag_searched_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/keyline_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/searched_desc_text"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
+            app:layout_constraintBottom_toBottomOf="@+id/frag_searched_filter"
+            app:layout_constraintEnd_toStartOf="@+id/frag_searched_filter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter" />
+
+        <Space
+            android:id="@+id/frag_searched_filter_space"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/frag_searched_filter"
+            app:layout_constraintEnd_toEndOf="@id/frag_searched_filter" />
+
+        <View
+            android:id="@+id/frag_filtered_icon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="@dimen/keyline_1"
+            android:layout_marginEnd="@dimen/keyline_1"
+            android:background="@drawable/drawable_red_badge_circle"
+            app:layout_constraintEnd_toEndOf="@+id/frag_searched_filter_space"
+            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter_space" />
 
         <ImageView
-            android:id="@+id/frag_search_search_result_filter"
+            android:id="@+id/frag_searched_filter"
             style="@style/Widget.TA.Icon"
             android:layout_marginTop="@dimen/keyline_4"
             android:clickable="true"
@@ -101,7 +160,7 @@
             app:layout_constraintTop_toBottomOf="@+id/frag_search_search_bar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/frag_search_search_result_rv"
+            android:id="@+id/frag_search_found_result_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/keyline_4"
@@ -109,20 +168,20 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_search_search_result_filter" />
+            app:layout_constraintTop_toBottomOf="@+id/frag_searched_filter" />
 
         <View
-            android:id="@+id/frag_search_search_result_end_line"
+            android:id="@+id/frag_search_found_end_line"
             android:layout_width="150dp"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/keyline_4"
             android:background="@color/grey_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/frag_search_search_result_rv" />
+            app:layout_constraintTop_toBottomOf="@id/frag_search_found_result_rv" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/frag_search_search_result_end_text"
+            android:id="@+id/frag_search_found_end_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/keyline_4"
@@ -131,18 +190,23 @@
             android:textAppearance="@style/TextAppearance.TA.Overline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_search_search_result_end_line" />
-
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/frag_search_no_search_result_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:constraint_referenced_ids="frag_search_no_result_text"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toBottomOf="@+id/frag_search_found_end_line" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/frag_search_no_result_text"
+            android:id="@+id/frag_filtered_not_found_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_4"
+            android:text="@string/no_filter_result_found_text"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.TA.Overline"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frag_search_found_end_line" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/frag_search_not_found_result_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/keyline_4"
@@ -152,7 +216,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_search_search_result_end_line" />
+            app:layout_constraintTop_toBottomOf="@+id/frag_search_found_end_line" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

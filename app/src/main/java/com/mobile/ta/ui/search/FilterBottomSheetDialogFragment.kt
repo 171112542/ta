@@ -1,38 +1,38 @@
 package com.mobile.ta.ui.search
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.google.android.flexbox.JustifyContent
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.ta.R
-import com.mobile.ta.adapter.TagAdapter
+import com.mobile.ta.adapter.course.information.TagAdapter
 import com.mobile.ta.adapter.diff.StringDiffCallback
 import com.mobile.ta.databinding.BsdFilterBinding
-import com.mobile.ta.viewmodel.SearchViewModel
-import com.mobile.ta.viewmodel.SearchViewModel.Companion.SortOption
+import com.mobile.ta.viewmodel.search.SearchViewModel
+import com.mobile.ta.viewmodel.search.SearchViewModel.Companion.SortOption
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-
-class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
+@ExperimentalCoroutinesApi
+class FilterBottomSheetDialogFragment :
     BottomSheetDialogFragment(),
     View.OnClickListener {
     companion object {
-        fun newInstance(viewmodel: SearchViewModel) = FilterBottomSheetDialogFragment(viewmodel)
+        fun newInstance() = FilterBottomSheetDialogFragment()
         private const val TAG_SELECTION_DIALOG = "tag_selection_dialog"
     }
 
     private var _binding: BsdFilterBinding? = null
     private val binding get() = _binding as BsdFilterBinding
+    private val viewmodel by viewModels<SearchViewModel>(ownerProducer = { requireParentFragment() })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,18 +53,9 @@ class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
         observeViewModel()
     }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = super.onCreateDialog(savedInstanceState)
-        dialog.setOnShowListener { dialogInterface ->
-            val bottomSheetDialog = dialogInterface as BottomSheetDialog
-            setupHeight(bottomSheetDialog)
-        }
-        return dialog
-    }
-
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.bsd_filter_reset_to_default -> viewmodel.resetSelectedToFault()
+            R.id.bsd_filter_reset_to_default -> viewmodel.resetFilter()
             R.id.bsd_filter_apply -> {
                 viewmodel.performFilter()
                 this.dismiss()
@@ -72,22 +63,6 @@ class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
             R.id.bsd_filter_tag_edit -> showTagSelectionDialog()
         }
     }
-
-    private fun setupHeight(bottomSheetDialog: BottomSheetDialog) {
-        val bottomSheet =
-            bottomSheetDialog.findViewById<View>(R.id.design_bottom_sheet) as View
-        val behavior = BottomSheetBehavior.from(bottomSheet)
-        val layoutParams = bottomSheet.layoutParams
-        val windowHeight = getWindowHeight()
-        behavior.peekHeight = windowHeight * 80 / 100
-        if (layoutParams != null) {
-            layoutParams.height = windowHeight * 80 / 100
-        }
-        bottomSheet.layoutParams = layoutParams
-        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-    }
-
-    private fun getWindowHeight(): Int = requireActivity().window.decorView.height
 
     private fun setupTagRecyclerView() {
         val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
@@ -120,7 +95,7 @@ class FilterBottomSheetDialogFragment(private val viewmodel: SearchViewModel) :
     }
 
     private fun showTagSelectionDialog() {
-        val dialog = TagSelectionDialogFragment(viewmodel)
+        val dialog = TagSelectionDialogFragment()
         dialog.show(parentFragmentManager, TAG_SELECTION_DIALOG)
     }
 

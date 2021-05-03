@@ -1,7 +1,7 @@
 package com.mobile.ta.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mobile.ta.model.course.information.Chapter
+import com.mobile.ta.model.course.chapter.Chapter
 
 class CourseInfoChapterDiffCallback : DiffUtil.ItemCallback<Chapter>() {
 
