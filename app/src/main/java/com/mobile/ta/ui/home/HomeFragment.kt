@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragHomeBinding
-import com.mobile.ta.ui.RVSeparator
+import com.mobile.ta.utils.RVSeparator
 import com.mobile.ta.viewmodel.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

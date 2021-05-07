@@ -23,6 +23,8 @@ fun Boolean?.orTrue() = this ?: true
 
 fun <T> T?.isNull() = this == null
 
+fun <T> T?.isNotNull() = this != null
+
 /**
  * View Helper
  */

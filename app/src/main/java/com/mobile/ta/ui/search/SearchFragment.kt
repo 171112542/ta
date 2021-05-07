@@ -14,7 +14,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
-import com.mobile.ta.ui.RVSeparator
+import com.mobile.ta.utils.RVSeparator
 import com.mobile.ta.viewmodel.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -30,7 +30,7 @@ interface UserRepository {
 
     suspend fun createNewSubmittedAssignment(courseId: String, chapterId: String): Status<Boolean>
 
-    suspend fun getUserById(id: String): Status<User>
+    suspend fun getUser(): Status<User>
 
     suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri>
 

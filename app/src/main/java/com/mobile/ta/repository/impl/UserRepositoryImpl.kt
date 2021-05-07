@@ -1,6 +1,7 @@
 package com.mobile.ta.repository.impl
 
 import android.net.Uri
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.mobile.ta.config.CollectionConstants
@@ -20,9 +21,11 @@ import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class UserRepositoryImpl @Inject constructor(
+    private val auth: FirebaseAuth,
     database: FirebaseFirestore,
     storage: FirebaseStorage
 ) : UserRepository {
+
     private val userCollection by lazy {
         database.collection(CollectionConstants.USER_COLLECTION)
     }
@@ -103,8 +106,10 @@ class UserRepositoryImpl @Inject constructor(
             .fetchData()
     }
 
-    override suspend fun getUserById(id: String): Status<User> {
-        return userCollection.document(id).fetchData(UserMapper::mapToUser)
+    override suspend fun getUser(): Status<User> {
+        return auth.currentUser?.let {
+            userCollection.document(it.uid).fetchData(UserMapper::mapToUser)
+        } ?: Status.error(null, null)
     }
 
     override suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri> {

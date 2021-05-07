@@ -11,7 +11,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.viewmodel.discussion.DiscussionForumViewModel
+import com.mobile.ta.viewmodel.course.chapter.discussion.DiscussionForumViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
