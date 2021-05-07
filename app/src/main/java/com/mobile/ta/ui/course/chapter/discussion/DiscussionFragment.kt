@@ -10,6 +10,7 @@ import com.mobile.ta.adapter.course.chapter.discussion.DiscussionAnswerAdapter
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentDiscussionBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.course.chapter.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,9 +65,7 @@ class DiscussionFragment :
                     discussionForum.createdAt,
                     discussionForum.question
                 )
-                discussionAnswerAdapter.setHasAcceptedAnswer(discussionForum.acceptedAnswerId?.let {
-                    true
-                } ?: false)
+                discussionAnswerAdapter.setHasAcceptedAnswer(discussionForum.acceptedAnswerId.isNotNull())
             }
         })
         viewModel.discussionAnswers.observe(viewLifecycleOwner, {
@@ -86,6 +85,11 @@ class DiscussionFragment :
                 viewModel.fetchDiscussion()
             }
             viewModel.setIsAnswerAdded(false)
+        })
+        viewModel.user.observe(viewLifecycleOwner, {
+            if (it.isNotNull()) {
+                discussionAnswerAdapter.setIsCurrentUser(viewModel.isCurrentUser())
+            }
         })
     }
 

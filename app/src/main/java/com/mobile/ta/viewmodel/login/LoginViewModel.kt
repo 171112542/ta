@@ -30,9 +30,8 @@ class LoginViewModel @Inject constructor(
 
     fun checkTeacherCredential(credential: String) {
         launchViewModelScope {
-            val credentialResponse = authRepository.checkTeacherCredentials(credential)
-            checkStatus(credentialResponse.status, {
-                setCredentials(credentialResponse.data)
+            checkStatus(authRepository.checkTeacherCredentials(credential), {
+                setCredentials(it)
             }, {
                 setCredentials()
             })
@@ -41,26 +40,24 @@ class LoginViewModel @Inject constructor(
 
     fun getAccountAndAuthenticateUser(data: Intent?) {
         launchViewModelScope {
-            authRepository.getSignedInAccountFromIntent(data).apply {
-                checkStatus(status, {
-                    onSuccessGetAccount(this.data)
-                }, ::setUnauthenticated)
-            }
+            checkStatus(authRepository.getSignedInAccountFromIntent(data), {
+                onSuccessGetAccount(it)
+            }, ::setUnauthenticated)
         }
     }
 
     fun getIsUserRegistered() {
         launchViewModelScope {
             val isRegisteredResponse = authRepository.getIsUserRegistered()
-            checkStatus(isRegisteredResponse.status, {
-                _isRegistered.postValue(isRegisteredResponse.data.orFalse())
+            checkStatus(isRegisteredResponse, { data ->
+                _isRegistered.postValue(data)
             }, {
                 _isRegistered.postValue(false)
             })
         }
     }
 
-    fun onSuccessGetAccount(signedInAccount: GoogleSignInAccount?) {
+    private fun onSuccessGetAccount(signedInAccount: GoogleSignInAccount?) {
         signedInAccount?.idToken?.let {
             authenticateUser(it)
         } ?: run {
@@ -70,9 +67,8 @@ class LoginViewModel @Inject constructor(
 
     private fun authenticateUser(token: String) {
         launchViewModelScope {
-            val authenticateUserResponse = authRepository.authenticateUser(token)
-            checkStatus(authenticateUserResponse.status, {
-                _isAuthenticated.postValue(authenticateUserResponse.data.orFalse())
+            checkStatus(authRepository.authenticateUser(token), { data ->
+                _isAuthenticated.postValue(data)
             }, ::setUnauthenticated)
         }
     }

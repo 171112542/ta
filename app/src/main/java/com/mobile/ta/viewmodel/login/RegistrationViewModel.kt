@@ -7,8 +7,7 @@ import com.mobile.ta.model.user.User
 import com.mobile.ta.model.user.UserRoleEnum
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.UserRepository
-import com.mobile.ta.utils.isNull
-import com.mobile.ta.utils.orFalse
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -62,9 +61,8 @@ class RegistrationViewModel @Inject constructor(
         _user.value?.let { user ->
             user.name = name
             launchViewModelScope {
-                val response = userRepository.updateUser(user)
-                checkStatus(response.status, {
-                    _isUpdated.postValue(response.data.orFalse())
+                checkStatus(userRepository.updateUser(user), { data ->
+                    _isUpdated.postValue(data)
                 }, {
                     _isUpdated.postValue(false)
                 })
@@ -73,11 +71,11 @@ class RegistrationViewModel @Inject constructor(
     }
 
     fun uploadImage() {
-        if (_profilePicture.value.isNull().not()) {
+        if (_profilePicture.value.isNotNull()) {
             val imageUri = Uri.fromFile(_profilePicture.value)
             _user.value?.let { user ->
                 launchViewModelScope {
-                    checkStatus(userRepository.uploadUserImage(user.id, imageUri).status, {
+                    checkStatus(userRepository.uploadUserImage(user.id, imageUri), {
                         getImage(user.id, imageUri)
                     })
                 }
@@ -87,11 +85,9 @@ class RegistrationViewModel @Inject constructor(
 
     private fun getImage(id: String, imageUri: Uri) {
         launchViewModelScope {
-            userRepository.getUserImageUrl(id, imageUri).apply {
-                checkStatus(status, {
-                    _user.value?.photo = data.toString()
-                })
-            }
+            checkStatus(userRepository.getUserImageUrl(id, imageUri), { data ->
+                _user.value?.photo = data.toString()
+            })
         }
     }
 
