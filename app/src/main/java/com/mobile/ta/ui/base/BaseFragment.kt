@@ -14,15 +14,19 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.mobile.ta.R
+import com.mobile.ta.ui.login.LoginFragmentDirections
+import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.wrapper.Inflate
 
 abstract class BaseFragment<T : ViewBinding>(
     private val inflate: Inflate<T>
-) : Fragment() {
+) : Fragment(), FirebaseAuth.AuthStateListener {
 
     private var _binding: T? = null
     protected val binding get() = _binding as T
@@ -81,6 +85,12 @@ abstract class BaseFragment<T : ViewBinding>(
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onAuthStateChanged(auth: FirebaseAuth) {
+        if (auth.currentUser.isNull()) {
+            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+        }
     }
 
     protected fun showToast(messageId: Int) {
