@@ -1,14 +1,9 @@
 package com.mobile.ta.di.modules
 
-import com.mobile.ta.repository.CourseRepository
-import com.mobile.ta.repository.AuthRepository
-import com.mobile.ta.repository.DiscussionRepository
-import com.mobile.ta.repository.UserRepository
-import com.mobile.ta.repository.impl.CourseRepositoryImpl
-import com.mobile.ta.repository.UserRepository
-import com.mobile.ta.repository.impl.AuthRepositoryImpl
-import com.mobile.ta.repository.impl.DiscussionRepositoryImpl
-import com.mobile.ta.repository.impl.UserRepositoryImpl
+import com.google.firebase.firestore.FirebaseFirestore
+import com.mobile.ta.model.course.chapter.Chapter
+import com.mobile.ta.repository.*
+import com.mobile.ta.repository.impl.*
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -37,13 +32,20 @@ abstract class RepositoryModule {
     abstract fun bindCourseRepository(
         courseRepositoryImpl: CourseRepositoryImpl
     ): CourseRepository
+
+    @ExperimentalCoroutinesApi
+    @Binds
+    abstract fun bindChapterRepository(
+        chapterRepositoryImpl: ChapterRepositoryImpl
+    ): ChapterRepository
+
     @Binds
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
 
     @Binds
-    abstract fun bindUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
-    ): UserRepository
+    abstract fun bindNotificationRepository(
+        notificationRepositoryImpl: NotificationRepositoryImpl
+    ): NotificationRepository
 }

@@ -1,4 +1,4 @@
-package com.mobile.ta.adapter
+package com.mobile.ta.adapter.course.chapter.assignment
 
 import android.view.LayoutInflater
 import android.view.View

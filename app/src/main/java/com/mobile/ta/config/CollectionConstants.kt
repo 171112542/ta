@@ -9,4 +9,5 @@ object CollectionConstants {
     const val QUESTION_COLLECTION = "questions"
     const val TOKEN_COLLECTION = "teacherCredentials"
     const val IMAGES_USERS_STORAGE_PATH = "images/users"
+    const val NOTIFICATION_COLLECTION = "notifications"
 }

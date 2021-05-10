@@ -173,6 +173,8 @@
 
     <!-- Notifications -->
     <string name="notification_label">Notification</string>
+    <string name="general_notification_channel_name">General</string>
+    <string name="general_notification_channel_id">General</string>
 
     <!-- Others -->
     <string name="permission_not_granted_message">Fail to get permission.</string>

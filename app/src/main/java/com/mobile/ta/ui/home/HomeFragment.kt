@@ -31,6 +31,7 @@ class HomeFragment :
     ): View {
         _binding = FragHomeBinding.inflate(inflater, container, false)
         binding.fragHomeSearchBar.setOnClickListener(this)
+        binding.fragHomeNotificationContainer.setOnClickListener(this)
         return binding.root
     }
 

@@ -13,3 +13,4 @@
 /captures
 .externalNativeBuild
 .cxx
+/cloud_functions/functions/node_modules

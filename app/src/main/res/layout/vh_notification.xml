@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/vh_notification_container"
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/keyline_4"
-    android:background="@drawable/drawable_new_notification_border"
-    android:elevation="@dimen/keyline_2"
-    android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/vh_notification_time"
-        android:layout_width="0dp"
+    app:cardElevation="@dimen/keyline_0">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/vh_notification_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.TA.Subtitle2"
-        android:textColor="@color/grey_dark"
-        android:layout_marginEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toStartOf="@+id/vh_notification_thumbnail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="19 minutes ago" />
+        android:background="@drawable/drawable_new_notification_border"
+        android:clickable="true"
+        android:elevation="@dimen/keyline_2"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="@dimen/keyline_4">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/vh_notification_message"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/keyline_2"
-        android:textAppearance="@style/TextAppearance.TA.Body2"
-        android:layout_marginEnd="@dimen/keyline_4"
-        app:layout_constraintEnd_toStartOf="@+id/vh_notification_thumbnail"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vh_notification_time"
-        tools:text="Your question in Kotlin Fundamentals has a new answer!" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/vh_notification_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/keyline_4"
+            android:textAppearance="@style/TextAppearance.TA.Subtitle2"
+            android:textColor="@color/grey_dark"
+            app:layout_constraintEnd_toStartOf="@+id/vh_notification_thumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="19 minutes ago" />
 
-    <ImageView
-        android:id="@+id/vh_notification_thumbnail"
-        android:layout_width="@dimen/dp_48"
-        android:layout_height="@dimen/dp_48"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/notification_thumbnail_new_answer" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/vh_notification_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_2"
+            android:layout_marginEnd="@dimen/keyline_4"
+            android:textAppearance="@style/TextAppearance.TA.Body2"
+            app:layout_constraintEnd_toStartOf="@+id/vh_notification_thumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vh_notification_time"
+            tools:text="Your question in Kotlin Fundamentals has a new answer!" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/vh_notification_thumbnail"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/notification_thumbnail_new_answer" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
