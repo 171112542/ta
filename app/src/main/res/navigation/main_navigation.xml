@@ -208,7 +208,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.mobile.ta.ui.settings.SettingsFragment"
+        android:name="com.mobile.ta.ui.user.settings.SettingsFragment"
         android:label="@string/toolbar_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -217,7 +217,7 @@
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"
-        android:name="com.mobile.ta.ui.feedback.FeedbackFragment"
+        android:name="com.mobile.ta.ui.user.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
     <action

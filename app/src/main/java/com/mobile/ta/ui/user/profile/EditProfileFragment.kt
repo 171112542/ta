@@ -13,6 +13,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.Timestamp
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentEditProfileBinding
@@ -130,7 +131,7 @@ class EditProfileFragment :
     private fun openDatePickerDialog() {
         calendar.time = viewModel.user.value?.birthDate?.let {
             Date(it)
-        } ?: now()
+        } ?: Timestamp.now().toDate()
         datePickerDialog.show()
     }
 

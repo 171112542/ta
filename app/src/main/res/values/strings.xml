@@ -129,6 +129,8 @@
     <string name="toolbar_edit_profile">Edit Profile</string>
     <string name="courses_label">Courses</string>
     <string name="finished_label">Finished</string>
+    <string name="feedback_sent_message">Feedback sent!</string>
+    <string name="feedback_not_sent_message">Failed to send your feedback. Please try again.</string>
 
     <!-- Course Info -->
     <string name="enrollment">Enrollment</string>

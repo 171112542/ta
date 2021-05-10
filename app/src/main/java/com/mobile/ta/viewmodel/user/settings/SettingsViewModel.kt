@@ -1,4 +1,4 @@
-package com.mobile.ta.viewmodel.settings
+package com.mobile.ta.viewmodel.user.settings
 
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.viewmodel.base.BaseViewModel

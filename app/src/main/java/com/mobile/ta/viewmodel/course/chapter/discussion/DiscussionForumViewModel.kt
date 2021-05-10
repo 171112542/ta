@@ -2,13 +2,13 @@ package com.mobile.ta.viewmodel.course.chapter.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.mapper.DiscussionMapper
-import com.mobile.ta.utils.now
 import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.utils.wrapper.status.Status
 import com.mobile.ta.viewmodel.base.BaseViewModel
@@ -43,7 +43,7 @@ class DiscussionForumViewModel @Inject constructor(
         val discussionForum = hashMapOf<String, Any?>(
             DiscussionMapper.NAME to title,
             DiscussionMapper.QUESTION to question,
-            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.CREATED_AT to Timestamp.now(),
             DiscussionMapper.USER_ID to user?.id,
             DiscussionMapper.USER_NAME to user?.name,
             DiscussionMapper.ACCEPTED_ANSWER_ID to null

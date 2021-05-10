@@ -1,7 +1,6 @@
 package com.mobile.ta.utils
 
 import android.content.Context
-import android.text.format.Time
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.MutableLiveData
@@ -10,7 +9,6 @@ import com.mobile.ta.config.Constants
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import java.util.TimeZone
 
 /**
  * Object helper
@@ -48,13 +46,6 @@ fun TextView.text() = this.text.toString()
 /**
  * Date Time Converter
  */
-fun now(): Date {
-    val offset = TimeZone.getTimeZone(
-        Time.getCurrentTimezone()
-    ).rawOffset + TimeZone.getTimeZone(Time.getCurrentTimezone()).dstSavings
-    return Date(System.currentTimeMillis() - offset)
-}
-
 fun Long.toDateString(pattern: String, isMillis: Boolean = false): String =
     SimpleDateFormat(pattern, Locale.ENGLISH).format(
         this * if (isMillis) {

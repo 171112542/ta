@@ -1,9 +1,11 @@
 package com.mobile.ta.model.course.chapter.discussion
 
+import com.google.firebase.firestore.DocumentId
 import java.util.Date
 
 data class DiscussionForum(
 
+    @DocumentId
     var id: String,
 
     var name: String,
