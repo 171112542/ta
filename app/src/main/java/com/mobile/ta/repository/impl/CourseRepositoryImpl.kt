@@ -7,8 +7,10 @@ import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.CourseMapper
 import com.mobile.ta.utils.wrapper.status.Status
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalCoroutinesApi
 class CourseRepositoryImpl @Inject constructor(
     private val database: FirebaseFirestore
 ) : CourseRepository {

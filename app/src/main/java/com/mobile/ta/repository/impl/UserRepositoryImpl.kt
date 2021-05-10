@@ -3,12 +3,14 @@ package com.mobile.ta.repository.impl
 import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.model.user.User
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
 import com.mobile.ta.model.user.course.chapter.assignment.mapToFirebaseData
+import com.mobile.ta.model.user.feedback.Feedback
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
@@ -106,10 +108,24 @@ class UserRepositoryImpl @Inject constructor(
             .fetchData()
     }
 
+    override suspend fun addUserFeedback(id: String, data: HashMap<String, Any?>): Status<Boolean> {
+        return userCollection.document(id)
+            .collection(CollectionConstants.FEEDBACK_COLLECTION)
+            .add(data)
+            .fetchData()
+    }
+
     override suspend fun getUser(): Status<User> {
         return auth.currentUser?.let {
             userCollection.document(it.uid).fetchData(UserMapper::mapToUser)
         } ?: Status.error(null, null)
+    }
+
+    override suspend fun getUserFeedbacks(id: String): Status<MutableList<Feedback>> {
+        return userCollection.document(id)
+            .collection(CollectionConstants.FEEDBACK_COLLECTION)
+            .orderBy(UserMapper.CREATED_AT, Query.Direction.DESCENDING)
+            .fetchData(UserMapper::mapToUserFeedbacks)
     }
 
     override suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri> {

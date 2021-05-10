@@ -1,10 +1,19 @@
 package com.mobile.ta.model.user.feedback
 
-import java.util.Date
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
+import com.mobile.ta.utils.serializer.TimestampSerializer
+import kotlinx.serialization.Serializable
 
 data class Feedback(
+
+    @DocumentId
     val id: String,
+
     val feedbackType: String,
+
     val description: String,
-    val createdAt: Date
+
+    @Serializable(with = TimestampSerializer::class)
+    val createdAt: Timestamp
 )

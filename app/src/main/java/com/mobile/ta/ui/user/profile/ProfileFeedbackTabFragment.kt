@@ -2,6 +2,7 @@ package com.mobile.ta.ui.user.profile
 
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,12 +12,14 @@ import com.mobile.ta.adapter.user.profile.ProfileFeedbackAdapter
 import com.mobile.ta.databinding.FragmentProfileFeedbackTabBinding
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.viewmodel.user.profile.ProfileFeedbackTabViewModel
+import com.mobile.ta.viewmodel.user.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProfileFeedbackTabFragment :
     BaseFragment<FragmentProfileFeedbackTabBinding>(FragmentProfileFeedbackTabBinding::inflate) {
 
+    private val profileViewModel: ProfileViewModel by activityViewModels()
     private val viewModel: ProfileFeedbackTabViewModel by viewModels()
 
     private val feedbackAdapter by lazy {
@@ -45,6 +48,7 @@ class ProfileFeedbackTabFragment :
     }
 
     private fun setupObserver() {
+        viewModel.fetchFeedbacks(profileViewModel.user.value?.id)
         viewModel.feedbacks.observe(viewLifecycleOwner, {
             feedbackAdapter.submitList(it)
             showEmptyState(it.isEmpty())
