@@ -1,5 +1,6 @@
 package com.mobile.ta.utils.mapper
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.mobile.ta.model.course.Course
 
@@ -12,5 +13,9 @@ object CourseMapper {
 
     fun mapToCourses(querySnapshot: QuerySnapshot): MutableList<Course> {
         return querySnapshot.toObjects(Course::class.java)
+    }
+
+    fun mapToCourse(documentSnapshot: DocumentSnapshot): Course {
+        return documentSnapshot.toObject(Course::class.java) ?: Course()
     }
 }

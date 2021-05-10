@@ -3,7 +3,6 @@ package com.mobile.ta.viewmodel.splash
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.repository.AuthRepository
-import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,9 +18,8 @@ class SplashScreenViewModel @Inject constructor(
 
     fun authenticateUser(token: String) {
         launchViewModelScope {
-            val authenticateUserResponse = authRepository.authenticateUser(token)
-            checkStatus(authenticateUserResponse.status, {
-                _isAuthenticated.postValue(authenticateUserResponse.data.orFalse())
+            checkStatus(authRepository.authenticateUser(token), { data ->
+                _isAuthenticated.postValue(data)
             }, ::setUnauthenticated)
         }
     }

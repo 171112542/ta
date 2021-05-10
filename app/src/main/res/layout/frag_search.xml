@@ -91,24 +91,24 @@
             android:id="@+id/frag_filtered_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="frag_filtered_icon"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_filtered_icon" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/frag_filtered_not_found_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="frag_filtered_not_found_text"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:constraint_referenced_ids="frag_filtered_not_found_text" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/frag_search_found_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:constraint_referenced_ids="frag_search_found_end_text,
                 frag_search_found_end_line,
-                frag_search_found_result_rv"
-            android:visibility="gone" />
+                frag_search_found_result_rv" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/frag_search_not_found_group"
@@ -142,11 +142,11 @@
             android:id="@+id/frag_filtered_icon"
             android:layout_width="8dp"
             android:layout_height="8dp"
-            android:background="@drawable/drawable_red_badge_circle"
             android:layout_marginTop="@dimen/keyline_1"
             android:layout_marginEnd="@dimen/keyline_1"
-            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter_space"
-            app:layout_constraintEnd_toEndOf="@+id/frag_searched_filter_space" />
+            android:background="@drawable/drawable_red_badge_circle"
+            app:layout_constraintEnd_toEndOf="@+id/frag_searched_filter_space"
+            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter_space" />
 
         <ImageView
             android:id="@+id/frag_searched_filter"

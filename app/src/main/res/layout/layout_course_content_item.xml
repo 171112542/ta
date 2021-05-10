@@ -64,31 +64,17 @@
             app:layout_constraintTop_toBottomOf="@+id/view_separator"
             tools:text="Contenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee..." />
 
-        <ProgressBar
-            android:id="@+id/progress_bar_course_content"
-            style="?android:progressBarStyleHorizontal"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="@dimen/dp_12"
-            android:layout_marginTop="@dimen/dp_8"
-            android:layout_marginEnd="@dimen/dp_120"
-            android:progressDrawable="@drawable/drawable_progress_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_description"
-            tools:progress="20" />
-
         <TextView
             android:id="@+id/text_view_course_content_progress"
             android:layout_width="@dimen/dp_0"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dp_12"
-            android:textAppearance="?attr/textAppearanceButton"
-            android:textColor="?attr/colorSecondary"
+            android:text="@string/completed_label"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/progress_bar_course_content"
-            app:layout_constraintStart_toEndOf="@id/progress_bar_course_content"
-            app:layout_constraintTop_toTopOf="@id/progress_bar_course_content"
-            tools:text="20%" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -1,7 +1,6 @@
 package com.mobile.ta.adapter.diff
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mobile.ta.model.UserCourse
 import com.mobile.ta.model.notification.Notification
 
 class NotificationDiffCallback : DiffUtil.ItemCallback<Notification>() {

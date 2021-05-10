@@ -6,7 +6,6 @@ import com.mobile.ta.repository.*
 import com.mobile.ta.repository.impl.*
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kotlinx.coroutines.ExperimentalCoroutinesApi

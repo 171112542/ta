@@ -2,11 +2,9 @@ package com.mobile.ta.viewmodel.search
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.mobile.ta.model.LevelTag
-import com.mobile.ta.model.TypeTag
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.model.status.Status
-import com.mobile.ta.model.status.StatusType
+import com.mobile.ta.model.course.information.LevelTag
+import com.mobile.ta.model.course.information.TypeTag
 import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -128,7 +126,8 @@ class SearchViewModel @Inject constructor(
             }.toMutableList()
         }
         nonfilteredResult =
-            if (_selectedSortOption.value == SortOption.A_Z) nonfilteredResult.sortedBy { it.title }.toMutableList()
+            if (_selectedSortOption.value == SortOption.A_Z) nonfilteredResult.sortedBy { it.title }
+                .toMutableList()
             else nonfilteredResult.sortedByDescending { it.title }.toMutableList()
         _filteredSearchResult.value = nonfilteredResult
     }

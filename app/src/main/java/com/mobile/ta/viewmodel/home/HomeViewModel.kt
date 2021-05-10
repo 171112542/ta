@@ -3,7 +3,6 @@ package com.mobile.ta.viewmodel.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.model.status.Status
 import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

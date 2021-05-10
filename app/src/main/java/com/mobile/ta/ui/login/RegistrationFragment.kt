@@ -14,7 +14,7 @@ import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentRegistrationBinding
 import com.mobile.ta.model.user.User
-import com.mobile.ta.ui.BaseFragment
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text

@@ -8,13 +8,13 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants
-import com.mobile.ta.model.status.Status
 import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.fetchDataWithResult
 import com.mobile.ta.utils.mapper.UserMapper
+import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
