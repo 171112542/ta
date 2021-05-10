@@ -2,15 +2,14 @@ package com.mobile.ta.viewmodel.course.chapter.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.mapper.DiscussionMapper
-import com.mobile.ta.utils.now
 import com.mobile.ta.utils.publishChanges
-import com.mobile.ta.utils.wrapper.status.Status
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -29,8 +28,8 @@ class DiscussionForumViewModel @Inject constructor(
     private val chapterId: String
         get() = _chapterId!!
 
-    private var _discussionForums = MutableLiveData<Status<MutableList<DiscussionForum>>>()
-    val discussionForums: LiveData<Status<MutableList<DiscussionForum>>>
+    private var _discussionForums = MutableLiveData<MutableList<DiscussionForum>>()
+    val discussionForums: LiveData<MutableList<DiscussionForum>>
         get() = _discussionForums
 
     private var _isForumAdded = MutableLiveData<Boolean>()
@@ -43,9 +42,10 @@ class DiscussionForumViewModel @Inject constructor(
         val discussionForum = hashMapOf<String, Any?>(
             DiscussionMapper.NAME to title,
             DiscussionMapper.QUESTION to question,
-            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.CREATED_AT to Timestamp.now(),
             DiscussionMapper.USER_ID to user?.id,
             DiscussionMapper.USER_NAME to user?.name,
+            DiscussionMapper.USER_IMAGE to user?.photo.orEmpty(),
             DiscussionMapper.ACCEPTED_ANSWER_ID to null
         )
         addDiscussionForum(discussionForum)
@@ -54,9 +54,9 @@ class DiscussionForumViewModel @Inject constructor(
     fun fetchDiscussionForums() {
         if (areDataNotNull()) {
             launchViewModelScope {
-                _discussionForums.postValue(
-                    discussionRepository.getDiscussionForums(courseId, chapterId)
-                )
+                checkStatus(discussionRepository.getDiscussionForums(courseId, chapterId), {
+                    _discussionForums.postValue(it)
+                })
                 checkStatus(userRepository.getUser(), {
                     user = it
                 })
@@ -72,7 +72,7 @@ class DiscussionForumViewModel @Inject constructor(
         _chapterId = chapterId
     }
 
-    fun setIsForumAdded(value: Boolean = false) {
+    fun setIsForumAdded(value: Boolean) {
         _isForumAdded.postValue(value)
     }
 
@@ -82,9 +82,9 @@ class DiscussionForumViewModel @Inject constructor(
                 checkStatus(discussionRepository.addDiscussionForum(
                     courseId, chapterId, discussionForum
                 ), {
-                    setIsForumAdded()
-                }, {
                     setIsForumAdded(true)
+                }, {
+                    setIsForumAdded(false)
                 })
             }
             _isForumAdded.publishChanges()

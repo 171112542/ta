@@ -10,6 +10,7 @@ import com.mobile.ta.adapter.course.chapter.discussion.DiscussionAnswerAdapter
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentDiscussionBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.course.chapter.discussion.DiscussionViewModel
@@ -57,19 +58,20 @@ class DiscussionFragment :
         viewModel.setDiscussionData(args.courseId, args.chapterId, args.id)
         viewModel.fetchDiscussion()
         viewModel.discussionForumQuestion.observe(viewLifecycleOwner, {
-            it.data?.let { discussionForum ->
+            it?.let { discussionForum ->
                 binding.layoutDiscussionQuestion.root.visibility = View.VISIBLE
                 setupQuestionData(
                     discussionForum.name,
                     discussionForum.userName,
                     discussionForum.createdAt,
-                    discussionForum.question
+                    discussionForum.question,
+                    discussionForum.userImage
                 )
                 discussionAnswerAdapter.setHasAcceptedAnswer(discussionForum.acceptedAnswerId.isNotNull())
             }
         })
         viewModel.discussionAnswers.observe(viewLifecycleOwner, {
-            it.data?.let { data ->
+            it?.let { data ->
                 if (data.isEmpty()) {
                     hideEmptyResult()
                 } else {
@@ -80,11 +82,13 @@ class DiscussionFragment :
             }
         })
         viewModel.isAnswerAdded.observe(viewLifecycleOwner, {
-            if (it) {
-                showSuccessAddReplyToast()
-                viewModel.fetchDiscussion()
+            it?.let { added ->
+                if (added) {
+                    showSuccessAddReplyToast()
+                    viewModel.fetchDiscussion()
+                }
+                viewModel.setIsAnswerAdded(false)
             }
-            viewModel.setIsAnswerAdded(false)
         })
         viewModel.user.observe(viewLifecycleOwner, {
             if (it.isNotNull()) {
@@ -107,7 +111,7 @@ class DiscussionFragment :
     }
 
     private fun setupQuestionData(
-        title: String, userName: String, createdAt: Date?, question: String
+        title: String, userName: String, createdAt: Date?, question: String, image: String
     ) {
         with(binding.layoutDiscussionQuestion) {
             textViewDiscussionTitle.text = title
@@ -116,6 +120,13 @@ class DiscussionFragment :
                 createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
             textViewDiscussionQuestion.text = question
             textViewReplyCount.text = getString(R.string.reply_count_state)
+
+            ImageUtil.loadImageWithPlaceholder(
+                mContext,
+                image,
+                imageViewDiscussionQuestioner,
+                R.drawable.ic_person
+            )
         }
     }
 

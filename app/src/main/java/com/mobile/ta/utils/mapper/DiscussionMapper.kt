@@ -12,6 +12,7 @@ object DiscussionMapper {
     const val CREATED_AT = "createdAt"
     const val USER_ID = "userId"
     const val USER_NAME = "userName"
+    const val USER_IMAGE = "userImage"
     const val STATUS = "status"
     const val ANSWER = "answer"
     const val ACCEPTED_ANSWER_ID = "acceptedAnswerId"
@@ -28,6 +29,7 @@ object DiscussionMapper {
         val createdAt: Date? = snapshot.getDate(CREATED_AT)
         val userId: String = snapshot.getString(USER_ID).orEmpty()
         val userName: String = snapshot.getString(USER_NAME).orEmpty()
+        val userImage: String = snapshot.getString(USER_IMAGE).orEmpty()
         val status: String = snapshot.getString(STATUS).orEmpty()
         val acceptedAnswerId: String? = snapshot.getString(ACCEPTED_ANSWER_ID)
 
@@ -39,6 +41,7 @@ object DiscussionMapper {
             userId = userId,
             userName = userName,
             status = status,
+            userImage = userImage,
             acceptedAnswerId = acceptedAnswerId
         )
     }
@@ -47,14 +50,15 @@ object DiscussionMapper {
         return DataMapper.mapToLists(snapshots, ::mapToDiscussionForumAnswer)
     }
 
-    fun mapToDiscussionForumAnswer(snapshot: DocumentSnapshot): DiscussionForumAnswer {
+    private fun mapToDiscussionForumAnswer(snapshot: DocumentSnapshot): DiscussionForumAnswer {
         val id: String = snapshot.id
         val answer: String = snapshot.getString(ANSWER).orEmpty()
         val createdAt: Date? = snapshot.getDate(CREATED_AT)
         val userId: String = snapshot.getString(USER_ID).orEmpty()
         val userName: String = snapshot.getString(USER_NAME).orEmpty()
+        val userImage: String = snapshot.getString(USER_IMAGE).orEmpty()
         val isAccepted: Boolean = snapshot.getBoolean(IS_ACCEPTED) ?: false
 
-        return DiscussionForumAnswer(id, answer, createdAt, userId, userName, isAccepted)
+        return DiscussionForumAnswer(id, answer, createdAt, userId, userName, userImage, isAccepted)
     }
 }

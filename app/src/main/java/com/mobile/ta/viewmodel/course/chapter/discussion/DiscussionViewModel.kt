@@ -2,6 +2,7 @@ package com.mobile.ta.viewmodel.course.chapter.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.model.user.User
@@ -9,9 +10,7 @@ import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.mapper.DiscussionMapper
-import com.mobile.ta.utils.now
 import com.mobile.ta.utils.publishChanges
-import com.mobile.ta.utils.wrapper.status.Status
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -34,12 +33,12 @@ class DiscussionViewModel @Inject constructor(
     private val id: String
         get() = _id!!
 
-    private var _discussionAnswers = MutableLiveData<Status<MutableList<DiscussionForumAnswer>>>()
-    val discussionAnswers: LiveData<Status<MutableList<DiscussionForumAnswer>>>
+    private var _discussionAnswers = MutableLiveData<MutableList<DiscussionForumAnswer>>()
+    val discussionAnswers: LiveData<MutableList<DiscussionForumAnswer>>
         get() = _discussionAnswers
 
-    private var _discussionForumQuestion = MutableLiveData<Status<DiscussionForum>>()
-    val discussionForumQuestion: LiveData<Status<DiscussionForum>>
+    private var _discussionForumQuestion = MutableLiveData<DiscussionForum>()
+    val discussionForumQuestion: LiveData<DiscussionForum>
         get() = _discussionForumQuestion
 
     private var _isAnswerAdded = MutableLiveData<Boolean>()
@@ -53,9 +52,10 @@ class DiscussionViewModel @Inject constructor(
     fun createNewDiscussionAnswer(answer: String) {
         val discussionForumAnswer = hashMapOf<String, Any>(
             DiscussionMapper.ANSWER to answer,
-            DiscussionMapper.CREATED_AT to now(),
+            DiscussionMapper.CREATED_AT to Timestamp.now(),
             DiscussionMapper.USER_ID to _user.value?.id.orEmpty(),
             DiscussionMapper.USER_NAME to _user.value?.name.orEmpty(),
+            DiscussionMapper.USER_IMAGE to _user.value?.photo.orEmpty(),
             DiscussionMapper.IS_ACCEPTED to false
         )
         addDiscussionAnswer(discussionForumAnswer)
@@ -64,12 +64,12 @@ class DiscussionViewModel @Inject constructor(
     fun fetchDiscussion() {
         if (areDataNotNull()) {
             launchViewModelScope {
-                _discussionForumQuestion.postValue(
-                    discussionRepository.getDiscussionForumById(courseId, chapterId, id)
-                )
-                _discussionAnswers.postValue(
-                    discussionRepository.getDiscussionForumAnswers(courseId, chapterId, id)
-                )
+                checkStatus(discussionRepository.getDiscussionForumById(courseId, chapterId, id), {
+                    _discussionForumQuestion.postValue(it)
+                })
+                checkStatus(discussionRepository.getDiscussionForumAnswers(courseId, chapterId, id), {
+                    _discussionAnswers.postValue(it)
+                })
                 checkStatus(userRepository.getUser(), {
                     _user.postValue(it)
                 })

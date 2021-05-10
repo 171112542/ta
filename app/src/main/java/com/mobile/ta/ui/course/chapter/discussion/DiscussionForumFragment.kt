@@ -1,6 +1,5 @@
 package com.mobile.ta.ui.course.chapter.discussion
 
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -55,11 +54,10 @@ class DiscussionForumFragment :
         viewModel.setCourseAndChapterId(args.courseId, args.chapterId)
         viewModel.fetchDiscussionForums()
         viewModel.discussionForums.observe(viewLifecycleOwner, {
-            it?.data?.let { data ->
+            it?.let { data ->
                 discussionForumAdapter.submitList(data)
                 showResult()
             }
-            Log.d("DISCUSSION FORUMS: ", it?.data.toString())
         })
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
             it?.let { isForumAdded ->
@@ -67,9 +65,8 @@ class DiscussionForumFragment :
                     showSuccessAddForumToast()
                     viewModel.fetchDiscussionForums()
                 }
-                viewModel.setIsForumAdded()
+                viewModel.setIsForumAdded(false)
             }
-            Log.d("IS FORUM ADDED: ", it.toString())
         })
     }
 
