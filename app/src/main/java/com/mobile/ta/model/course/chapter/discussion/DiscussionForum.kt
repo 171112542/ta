@@ -20,5 +20,7 @@ data class DiscussionForum(
 
     var status: String,
 
+    var userImage: String,
+
     var acceptedAnswerId: String? = null
 )

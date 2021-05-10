@@ -10,6 +10,7 @@ import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.LayoutDiscussionReplyBinding
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
+import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.utils.toDateString
 
 class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Unit) :
@@ -68,6 +69,13 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Un
                 textViewDiscussionQuestionCreatedTime.text =
                     data.createdAt?.toDateString(Constants.DD_MMMM_YYYY_HH_MM_SS).orEmpty()
                 textViewDiscussionQuestionerName.text = data.userName
+
+                ImageUtil.loadImageWithPlaceholder(
+                    binding.root.context,
+                    data.userImage,
+                    imageViewDiscussionQuestioner,
+                    R.drawable.ic_person
+                )
 
                 imageViewCheckedAnswer.visibility = if (data.isAccepted) {
                     View.VISIBLE
