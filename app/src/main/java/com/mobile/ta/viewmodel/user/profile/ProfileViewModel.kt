@@ -25,20 +25,19 @@ class ProfileViewModel @Inject constructor(
 
     fun fetchUserData() {
         launchViewModelScope {
-            authRepository.getUser()?.let { firebaseUser ->
-                getUserData(firebaseUser.uid)
+            checkStatus(userRepository.getUser(), { user ->
+                _user.postValue(user)
                 _isAuthenticated.postValue(true)
-            } ?: run {
-                authRepository.logOut()
+            }, {
+                doLogOut()
                 _isAuthenticated.postValue(false)
-            }
+            })
         }
     }
 
-    private suspend fun getUserData(userId: String) {
-        val response = userRepository.getUserById(userId)
-        checkStatus(response.status, {
-            _user.postValue(response.data!!)
-        })
+    private fun doLogOut() {
+        launchViewModelScope {
+            authRepository.logOut()
+        }
     }
 }

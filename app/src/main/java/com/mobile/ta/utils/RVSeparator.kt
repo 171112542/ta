@@ -1,4 +1,4 @@
-package com.mobile.ta.ui
+package com.mobile.ta.utils
 
 import android.content.Context
 import android.content.res.Resources

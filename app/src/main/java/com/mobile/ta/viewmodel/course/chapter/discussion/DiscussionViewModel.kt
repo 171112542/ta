@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
+import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
+import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.now
@@ -16,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DiscussionViewModel @Inject constructor(
-    private val discussionRepository: DiscussionRepository
+    private val discussionRepository: DiscussionRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel() {
 
     private var _courseId: String? = null
@@ -43,12 +46,16 @@ class DiscussionViewModel @Inject constructor(
     val isAnswerAdded: LiveData<Boolean>
         get() = _isAnswerAdded
 
+    private var _user = MutableLiveData<User>()
+    val user: LiveData<User>
+        get() = _user
+
     fun createNewDiscussionAnswer(answer: String) {
         val discussionForumAnswer = hashMapOf<String, Any>(
             DiscussionMapper.ANSWER to answer,
             DiscussionMapper.CREATED_AT to now(),
-            DiscussionMapper.USER_ID to "userId",
-            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.USER_ID to _user.value?.id.orEmpty(),
+            DiscussionMapper.USER_NAME to _user.value?.name.orEmpty(),
             DiscussionMapper.IS_ACCEPTED to false
         )
         addDiscussionAnswer(discussionForumAnswer)
@@ -63,11 +70,16 @@ class DiscussionViewModel @Inject constructor(
                 _discussionAnswers.postValue(
                     discussionRepository.getDiscussionForumAnswers(courseId, chapterId, id)
                 )
+                checkStatus(userRepository.getUser(), {
+                    _user.postValue(it)
+                })
             }
             _discussionForumQuestion.publishChanges()
             _discussionAnswers.publishChanges()
         }
     }
+
+    fun isCurrentUser() = _user.value?.id.orEmpty() == id
 
     fun markAsAcceptedAnswer(answerId: String) {
         if (areDataNotNull()) {
@@ -90,13 +102,14 @@ class DiscussionViewModel @Inject constructor(
     private fun addDiscussionAnswer(answer: HashMap<String, Any>) {
         if (areDataNotNull()) {
             launchViewModelScope {
-                val addDiscussionResult =
-                    discussionRepository.addDiscussionForumAnswer(courseId, chapterId, id, answer)
-                checkStatus(addDiscussionResult.status, {
-                    setIsAnswerAdded(false)
-                }, {
-                    setIsAnswerAdded(true)
-                })
+                checkStatus(
+                    discussionRepository.addDiscussionForumAnswer(
+                        courseId, chapterId, id, answer
+                    ), {
+                        setIsAnswerAdded(it)
+                    }, {
+                        setIsAnswerAdded(false)
+                    })
             }
             _isAnswerAdded.publishChanges()
         }

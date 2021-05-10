@@ -1,9 +1,11 @@
-package com.mobile.ta.viewmodel.discussion
+package com.mobile.ta.viewmodel.course.chapter.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
+import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
+import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.now
@@ -16,6 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DiscussionForumViewModel @Inject constructor(
     private val discussionRepository: DiscussionRepository,
+    private val userRepository: UserRepository,
 ) : BaseViewModel() {
 
     private var _courseId: String? = null
@@ -34,13 +37,15 @@ class DiscussionForumViewModel @Inject constructor(
     val isForumAdded: LiveData<Boolean>
         get() = _isForumAdded
 
+    private var user: User? = null
+
     fun createNewDiscussion(title: String, question: String) {
         val discussionForum = hashMapOf<String, Any?>(
             DiscussionMapper.NAME to title,
             DiscussionMapper.QUESTION to question,
             DiscussionMapper.CREATED_AT to now(),
-            DiscussionMapper.USER_ID to "userId",
-            DiscussionMapper.USER_NAME to "username",
+            DiscussionMapper.USER_ID to user?.id,
+            DiscussionMapper.USER_NAME to user?.name,
             DiscussionMapper.ACCEPTED_ANSWER_ID to null
         )
         addDiscussionForum(discussionForum)
@@ -52,6 +57,9 @@ class DiscussionForumViewModel @Inject constructor(
                 _discussionForums.postValue(
                     discussionRepository.getDiscussionForums(courseId, chapterId)
                 )
+                checkStatus(userRepository.getUser(), {
+                    user = it
+                })
             }
             _discussionForums.publishChanges()
         }
@@ -71,10 +79,9 @@ class DiscussionForumViewModel @Inject constructor(
     private fun addDiscussionForum(discussionForum: HashMap<String, Any?>) {
         if (areDataNotNull()) {
             launchViewModelScope {
-                val discussionForumAdded = discussionRepository.addDiscussionForum(
+                checkStatus(discussionRepository.addDiscussionForum(
                     courseId, chapterId, discussionForum
-                )
-                checkStatus(discussionForumAdded.status, {
+                ), {
                     setIsForumAdded()
                 }, {
                     setIsForumAdded(true)
