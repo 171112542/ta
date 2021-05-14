@@ -6,13 +6,13 @@ import android.os.Bundle
 import android.view.*
 import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
 import com.mobile.ta.adapter.course.CourseAdapter
-import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
+import com.mobile.ta.adapter.course.CourseVHListener
+import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.RVSeparator
@@ -24,7 +24,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchFragment :
     BaseFragment<FragSearchBinding>(FragSearchBinding::inflate),
-    View.OnClickListener {
+    View.OnClickListener,
+    CourseVHListener {
     companion object {
         private const val FILTER_BSD_FRAGMENT = "filter_bsd_fragment"
     }
@@ -45,6 +46,14 @@ class SearchFragment :
         when (v.id) {
             R.id.frag_searched_filter -> showFilterDialog()
         }
+    }
+
+    override fun onClickListener(courseId: String) {
+        findNavController().navigate(
+            SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment(
+                courseId = courseId
+            )
+        )
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -86,9 +95,8 @@ class SearchFragment :
     }
 
     private fun setupRecyclerView() {
-        val diffCallback = CourseOverviewDiffCallback()
-        val adapter = CourseAdapter(diffCallback)
-        adapter.setParentFragment(this)
+        val diffCallback = CourseDiffCallback()
+        val adapter = CourseAdapter(diffCallback, this)
         with(binding.fragSearchFoundResultRv) {
             this.adapter = adapter
             addItemDecoration(

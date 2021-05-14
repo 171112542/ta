@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
+import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.VhCourseOverviewBinding
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.ui.home.HomeFragment
@@ -14,12 +14,17 @@ import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.ui.search.SearchFragment
 import com.mobile.ta.ui.search.SearchFragmentDirections
 import com.mobile.ta.utils.ImageUtil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+interface CourseVHListener {
+    fun onClickListener(courseId: String)
+}
+
+@ExperimentalCoroutinesApi
 class CourseAdapter(
-    diffCallback: CourseOverviewDiffCallback
+    diffCallback: CourseDiffCallback,
+    val listener: CourseVHListener
 ) : ListAdapter<Course, CourseAdapter.ViewHolder>(diffCallback) {
-    private lateinit var parentFragment: Fragment
-
     inner class ViewHolder(private val binding: VhCourseOverviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(course: Course) {
@@ -28,17 +33,9 @@ class CourseAdapter(
             binding.vhCoDesc.text = course.description
             binding.vhCoLevel.text = course.level.toString()
             binding.vhCoType.text = course.type.toString()
-            course.imageUrl?.let { ImageUtil.loadImage(context, it, binding.vhCoImage) }
+            course.imageUrl.let { ImageUtil.loadImage(context, it, binding.vhCoImage) }
             binding.root.setOnClickListener {
-                //TODO: Make adapter only update ViewModel regarding navigation signal and let the Fragment handle the navigation
-                if (parentFragment is HomeFragment)
-                    it.findNavController().navigate(
-                        HomeFragmentDirections.actionHomeFragmentToCourseInformationFragment("")
-                    )
-                else if (parentFragment is SearchFragment)
-                    it.findNavController().navigate(
-                        SearchFragmentDirections.actionSearchFragmentToCourseInformationFragment("")
-                    )
+                listener.onClickListener(course.id)
             }
         }
     }
@@ -57,9 +54,5 @@ class CourseAdapter(
     override fun submitList(list: List<Course>?) {
         super.submitList(list)
         notifyDataSetChanged()
-    }
-
-    fun setParentFragment(fragment: Fragment) {
-        parentFragment = fragment
     }
 }

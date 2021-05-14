@@ -67,7 +67,7 @@ abstract class BaseFragment<T : ViewBinding>(
     }
 
     open fun runOnCreate() {
-        redirectIfLoggedOut()
+//        redirectIfLoggedOut()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

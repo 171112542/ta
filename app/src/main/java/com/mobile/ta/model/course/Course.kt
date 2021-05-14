@@ -9,15 +9,29 @@ import com.mobile.ta.model.course.information.TypeTag
 
 data class Course(
     @DocumentId
-    val id: String? = null,
-    val chapterSummaryList: List<ChapterSummary>? = null,
-    val title: String? = null,
-    val imageUrl: String? = null,
-    val description: String? = null,
-    val creator: Creator? = null,
-    val level: LevelTag? = null,
-    val type: TypeTag? = null,
-    val prerequisiteCourse: List<RelatedCourse>? = null,
-    val relatedCourse: List<RelatedCourse>? = null,
-    val totalStudentEnrolled: Int? = null
-)
+    val id: String,
+    val chapterSummaryList: List<ChapterSummary>,
+    val title: String,
+    val imageUrl: String,
+    val description: String,
+    val creator: Creator,
+    val level: LevelTag,
+    val type: TypeTag,
+    val prerequisiteCourse: List<RelatedCourse>,
+    val relatedCourse: List<RelatedCourse>,
+    val totalStudentEnrolled: Int
+) {
+    constructor(): this(
+        "",
+        listOf(),
+        "",
+        "",
+        "",
+        Creator(),
+        LevelTag.JUNIOR_ONE,
+        TypeTag.BIOLOGY,
+        listOf(),
+        listOf(),
+        0
+    )
+}
