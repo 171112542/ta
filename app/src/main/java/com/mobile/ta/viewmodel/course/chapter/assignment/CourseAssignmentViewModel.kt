@@ -30,7 +30,7 @@ class CourseAssignmentViewModel @Inject constructor(
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     var chapterTitle: String = ""
     private lateinit var loggedInUid: String
-    private lateinit var chapter: Chapter
+    lateinit var chapter: Chapter
 
     private var selectedAnswers = MutableLiveData<ArrayList<UserAssignmentAnswer>>(arrayListOf())
     val allQuestionsAnswered = Transformations.map(selectedAnswers) {

@@ -37,8 +37,9 @@ class CourseAssignmentFragment :
         val adapter = CourseQuestionAdapter(CourseQuestionDiffCallback(), this)
         binding.fragCourseAssignmentVp.adapter = adapter
         viewmodel.questions.observe(viewLifecycleOwner) {
-            binding.fragCourseAssignmentTitle.text = viewmodel.chapterTitle
             adapter.submitList(it)
+            adapter.setQuestionType(viewmodel.chapter.type)
+            binding.fragCourseAssignmentTitle.text = viewmodel.chapterTitle
             binding.fragCourseAssignmentContent.visibility = View.VISIBLE
             binding.fragCourseAssignmentLoading.visibility = View.GONE
         }
