@@ -184,4 +184,5 @@
     <string name="permission_not_granted_message">Fail to get permission.</string>
     <string name="default_string_field">-</string>
     <string name="completed_label">Completed</string>
+    <string name="fcm_token_shared_pref_key">fcmToken</string>
 </resources>

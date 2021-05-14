@@ -203,6 +203,7 @@ class CourseContentFragment :
                 chapterId
             )
             else -> CourseContentFragmentDirections.actionCourseContentFragmentToCoursePracticeFragment(
+                courseId,
                 chapterId
             )
         }

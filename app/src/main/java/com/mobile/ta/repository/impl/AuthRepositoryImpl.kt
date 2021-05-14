@@ -23,7 +23,6 @@ class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     database: FirebaseFirestore
 ) : AuthRepository {
-
     private val userCollection by lazy {
         database.collection(CollectionConstants.USER_COLLECTION)
     }

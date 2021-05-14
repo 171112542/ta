@@ -11,37 +11,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragHomeBinding
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.RVSeparator
 import com.mobile.ta.viewmodel.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment :
-    Fragment(),
+    BaseFragment<FragHomeBinding>(FragHomeBinding::inflate),
     View.OnClickListener {
-    private var _binding: FragHomeBinding? = null
-    private val binding get() = _binding as FragHomeBinding
     private val viewmodel by viewModels<HomeViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragHomeBinding.inflate(inflater, container, false)
+    override fun runOnCreateView() {
         binding.fragHomeSearchBar.setOnClickListener(this)
         binding.fragHomeNotificationContainer.setOnClickListener(this)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onClick(v: View) {

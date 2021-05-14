@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import com.mobile.ta.R
 import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.wrapper.Inflate
+import dagger.hilt.android.AndroidEntryPoint
 
 abstract class BaseFragment<T : ViewBinding>(
     private val inflate: Inflate<T>
@@ -64,10 +66,16 @@ abstract class BaseFragment<T : ViewBinding>(
         showToast(R.string.permission_not_granted_message)
     }
 
+    open fun runOnCreate() {
+        redirectIfLoggedOut()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mContext = requireContext()
         mActivity = activity as AppCompatActivity
+        runOnCreate()
     }
 
     open fun runOnCreateView() {}
@@ -88,9 +96,7 @@ abstract class BaseFragment<T : ViewBinding>(
     }
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
-        if (auth.currentUser.isNull()) {
-            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
-        }
+        redirectIfLoggedOut()
     }
 
     protected fun showToast(messageId: Int) {
@@ -114,5 +120,11 @@ abstract class BaseFragment<T : ViewBinding>(
 
     protected fun <T : Any> loadImage(image: T, imageView: ImageView) {
         Glide.with(mContext).load(image).into(imageView)
+    }
+
+    private fun redirectIfLoggedOut() {
+        if (FirebaseAuth.getInstance().currentUser.isNull()) {
+            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+        }
     }
 }

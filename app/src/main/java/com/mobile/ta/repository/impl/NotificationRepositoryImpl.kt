@@ -1,5 +1,6 @@
 package com.mobile.ta.repository.impl
 
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.mobile.ta.config.CollectionConstants
@@ -24,6 +25,14 @@ class NotificationRepositoryImpl @Inject constructor(
         return userCollection.document(userId)
             .update(mapOf(
                 NotificationMapper.USER_NOTIFICATION_TOKEN_FIELD to token
+            ))
+            .fetchData()
+    }
+
+    override suspend fun deleteNotificationToken(userId: String): Status<Boolean> {
+        return userCollection.document(userId)
+            .update(mapOf(
+                NotificationMapper.USER_NOTIFICATION_TOKEN_FIELD to FieldValue.delete()
             ))
             .fetchData()
     }

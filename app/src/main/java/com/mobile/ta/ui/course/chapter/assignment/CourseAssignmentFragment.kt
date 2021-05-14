@@ -10,31 +10,22 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
-import com.mobile.ta.adapter.course.information.CourseQuestionAdapter
-import com.mobile.ta.adapter.course.information.CourseQuestionVHListener
+import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionAdapter
+import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionVHListener
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.FragCourseAssignmentBinding
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CourseAssignmentFragment
-    : Fragment(), CourseQuestionVHListener {
-    private var _binding: FragCourseAssignmentBinding? = null
-    private val binding get() = _binding as FragCourseAssignmentBinding
+class CourseAssignmentFragment :
+    BaseFragment<FragCourseAssignmentBinding>(FragCourseAssignmentBinding::inflate),
+    CourseQuestionVHListener {
     private val viewmodel by viewModels<CourseAssignmentViewModel>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragCourseAssignmentBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

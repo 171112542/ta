@@ -10,7 +10,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
-
     protected fun launchViewModelScope(
         dispatcher: CoroutineDispatcher = Dispatchers.IO,
         block: suspend () -> Unit

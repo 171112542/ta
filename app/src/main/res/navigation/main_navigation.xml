@@ -190,11 +190,9 @@
             app:popUpTo="@id/courseInformationFragment" />
         <argument
             android:name="courseId"
-            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
         <argument
             android:name="chapterId"
-            android:defaultValue="eeveNIBY9S2sUdLA3AZ3"
             app:argType="string" />
     </fragment>
     <fragment
@@ -240,11 +238,9 @@
             app:popUpTo="@id/courseInformationFragment" />
         <argument
             android:name="chapterId"
-            android:defaultValue="eeveNIBY9S2sUdLA3AZ3"
             app:argType="string" />
         <argument
             android:name="courseId"
-            android:defaultValue="QQkuBxd5v4wYTK50lWVb"
             app:argType="string" />
     </fragment>
     <fragment

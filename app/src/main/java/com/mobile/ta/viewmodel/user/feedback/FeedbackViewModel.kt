@@ -4,17 +4,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
 import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.viewmodel.base.BaseViewModel
+import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FeedbackViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
-) : BaseViewModel() {
+    private val userRepository: UserRepository,
+    private val notificationRepository: NotificationRepository
+) : BaseViewModelWithAuth(authRepository, notificationRepository) {
 
     private var _userId: String? = null
 
@@ -53,7 +56,7 @@ class FeedbackViewModel @Inject constructor(
 
     private fun doLogOut() {
         launchViewModelScope {
-            authRepository.logOut()
+            logOut()
         }
     }
 }

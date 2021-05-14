@@ -37,11 +37,12 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun submitQuestionResult(
+        userId: String,
         userAssignmentAnswer: UserAssignmentAnswer,
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .collection(CollectionConstants.QUESTION_COLLECTION).document(userAssignmentAnswer.id)
@@ -50,11 +51,12 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateCorrectAnswerCount(
+        userId: String,
         userSubmittedAssignment: UserSubmittedAssignment,
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .update(userSubmittedAssignment.mapToFirebaseData())
@@ -62,10 +64,11 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resetSubmittedChapter(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .delete()
@@ -73,31 +76,33 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSubmittedChapter(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<UserSubmittedAssignment> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .fetchData(UserSubmittedAssignmentMapper::mapToUserSubmittedAssignment)
     }
 
-
     override suspend fun getIfSubmittedBefore(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .exists()
     }
 
     override suspend fun createNewSubmittedAssignment(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document("l1CLTummIoarBY3Wb3FY")
+        return userCollection.document(userId)
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .set(

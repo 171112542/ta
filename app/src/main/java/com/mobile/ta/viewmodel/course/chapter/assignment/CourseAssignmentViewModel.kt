@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
+import com.google.firebase.auth.FirebaseAuth
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.publishChanges
@@ -21,11 +23,13 @@ import javax.inject.Inject
 class CourseAssignmentViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     var chapterTitle: String = ""
+    private lateinit var loggedInUid: String
     private lateinit var chapter: Chapter
 
     private var selectedAnswers = MutableLiveData<ArrayList<UserAssignmentAnswer>>(arrayListOf())
@@ -39,6 +43,7 @@ class CourseAssignmentViewModel @Inject constructor(
 
     init {
         launchViewModelScope {
+            loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(
                 networkChapter, {
@@ -49,6 +54,7 @@ class CourseAssignmentViewModel @Inject constructor(
                 }
             )
             val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
+                loggedInUid,
                 courseId,
                 chapterId
             )
@@ -88,11 +94,12 @@ class CourseAssignmentViewModel @Inject constructor(
         launchViewModelScope {
             var correctAnswerCount = 0
             userRepository.createNewSubmittedAssignment(
+                loggedInUid,
                 courseId,
                 chapterId
             )
             selectedAnswers.value?.forEach {
-                userRepository.submitQuestionResult(it, courseId, chapterId)
+                userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
             }
             val userSubmittedAssignment = UserSubmittedAssignment(
@@ -102,7 +109,7 @@ class CourseAssignmentViewModel @Inject constructor(
                 questions.value?.size ?: 0
             )
             userRepository
-                .updateCorrectAnswerCount(userSubmittedAssignment, courseId, chapterId)
+                .updateCorrectAnswerCount(loggedInUid, userSubmittedAssignment, courseId, chapterId)
             _navigateToSubmitResultPage.postValue(true)
         }
     }

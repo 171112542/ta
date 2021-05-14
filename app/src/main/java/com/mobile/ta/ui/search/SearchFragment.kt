@@ -14,6 +14,7 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.course.CourseAdapter
 import com.mobile.ta.adapter.diff.CourseOverviewDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.RVSeparator
 import com.mobile.ta.viewmodel.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,25 +23,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SearchFragment :
-    Fragment(),
+    BaseFragment<FragSearchBinding>(FragSearchBinding::inflate),
     View.OnClickListener {
     companion object {
         private const val FILTER_BSD_FRAGMENT = "filter_bsd_fragment"
     }
-
-    private var _binding: FragSearchBinding? = null
-    private val binding get() = _binding as FragSearchBinding
     private val viewmodel by viewModels<SearchViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    )
-        : View {
-        _binding = FragSearchBinding.inflate(inflater, container, false)
+    override fun runOnCreateView() {
         binding.fragSearchedFilter.setOnClickListener(this)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,11 +39,6 @@ class SearchFragment :
         setupSearchBar()
         setupRecyclerView()
         observeViewModel()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun onClick(v: View) {

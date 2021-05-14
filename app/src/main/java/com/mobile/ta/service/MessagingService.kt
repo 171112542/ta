@@ -8,6 +8,8 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mobile.ta.R
@@ -22,7 +24,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MessagingService : FirebaseMessagingService() {
+class MessagingService :
+    FirebaseMessagingService(),
+    FirebaseAuth.AuthStateListener {
     @Inject
     lateinit var notificationRepository: NotificationRepository
 
@@ -35,7 +39,17 @@ class MessagingService : FirebaseMessagingService() {
     }
 
     override fun onNewToken(token: String) {
-        sendTokenToFirestore(token)
+        saveTokenToSharedPreferences(token)
+    }
+
+    override fun onAuthStateChanged(auth: FirebaseAuth) {
+        auth.currentUser?.let {
+            val uid = it.uid
+            val savedRegistrationToken =
+                PreferenceManager.getDefaultSharedPreferences(this)
+                    .getString(getString(R.string.fcm_token_shared_pref_key), "")
+            savedRegistrationToken?.let { token -> sendTokenToFirestore(uid, token) }
+        }
     }
 
     private fun sendPushNotification(title: String, messageBody: String) {
@@ -64,10 +78,17 @@ class MessagingService : FirebaseMessagingService() {
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build())
     }
 
-    private fun sendTokenToFirestore(token: String) {
-        //TODO: Use logged in user ID
+    private fun saveTokenToSharedPreferences(token: String) {
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+        with (sharedPref.edit()) {
+            putString(getString(R.string.fcm_token_shared_pref_key), token)
+            apply()
+        }
+    }
+
+    private fun sendTokenToFirestore(uid: String, token: String) {
         GlobalScope.launch(Dispatchers.IO) {
-            notificationRepository.sendNotificationToken("l1CLTummIoarBY3Wb3FY", token)
+            notificationRepository.sendNotificationToken(uid, token)
         }
     }
 
