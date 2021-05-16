@@ -33,7 +33,6 @@
             android:name=".ui.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
 
-
         <service
             android:name=".service.MessagingService"
             android:enabled="true"

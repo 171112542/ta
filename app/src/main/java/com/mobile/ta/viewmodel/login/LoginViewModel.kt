@@ -50,8 +50,7 @@ class LoginViewModel @Inject constructor(
 
     fun getIsUserRegistered() {
         launchViewModelScope {
-            val isRegisteredResponse = authRepository.getIsUserRegistered()
-            checkStatus(isRegisteredResponse, { data ->
+            checkStatus(authRepository.getIsUserRegistered(), { data ->
                 _isRegistered.postValue(data)
             }, {
                 _isRegistered.postValue(false)
