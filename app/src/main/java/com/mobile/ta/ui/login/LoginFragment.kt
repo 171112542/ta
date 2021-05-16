@@ -30,6 +30,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel by viewModels<LoginViewModel>()
 
+    override fun runOnCreate() {}
+
     override fun onIntentResult(data: Intent?) {
         viewModel.getAccountAndAuthenticateUser(data)
     }

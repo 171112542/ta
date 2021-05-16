@@ -1,0 +1,19 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_10_05_2021_17_46_[Default_Changelist]1" date="1620646868365" recycled="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_05_2021_17_46_[Default_Changelist]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 10/05/2021 17:46 [Default Changelist]" />
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/notification_thumbnail_enroll.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_05_2021_17_46_[Default_Changelist]1/notification_thumbnail_enroll.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/notification_thumbnail_update.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_05_2021_17_46_[Default_Changelist]1/notification_thumbnail_update.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" />
+    <option name="AFTER_PATH" value="app/src/main/res/drawable/notification_thumbnail_finish.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_05_2021_17_46_[Default_Changelist]1/notification_thumbnail_finish.png" />
+  </binary>
+</changelist>

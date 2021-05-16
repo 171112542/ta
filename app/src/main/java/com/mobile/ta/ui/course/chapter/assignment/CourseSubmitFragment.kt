@@ -10,25 +10,16 @@ import androidx.navigation.fragment.findNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragCourseSubmitBinding
 import com.mobile.ta.model.course.chapter.ChapterType
+import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseSubmitViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class CourseSubmitFragment : Fragment() {
-    private var _binding: FragCourseSubmitBinding? = null
-    private val binding get() = _binding as FragCourseSubmitBinding
+class CourseSubmitFragment :
+    BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate) {
     private val viewmodel by viewModels<CourseSubmitViewModel>()
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragCourseSubmitBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,28 +44,38 @@ class CourseSubmitFragment : Fragment() {
         }
         binding.fragCourseSubmitRetry.setOnClickListener {
             viewmodel.retry()
-            findNavController().navigate(CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment())
+            findNavController().navigate(
+                CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
+                    courseId = viewmodel.courseId,
+                    chapterId = viewmodel.chapterId
+                )
+            )
         }
         binding.fragCourseSubmitNextChapter.setOnClickListener {
             viewmodel.navigateToNextChapter()
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            when (viewmodel.nextChapterType) {
+            val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
+            val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
+            when (nextChapterType) {
                 ChapterType.PRACTICE -> findNavController().navigate(
                     CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
                         courseId = viewmodel.courseId,
-                        chapterId = viewmodel.nextChapterId ?: ""
+                        chapterId = nextChapterId
                     )
                 )
                 ChapterType.QUIZ -> findNavController().navigate(
                     CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
                         courseId = viewmodel.courseId,
-                        chapterId = viewmodel.nextChapterId ?: ""
+                        chapterId = nextChapterId
                     )
                 )
                 ChapterType.CONTENT -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment()
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment(
+                        courseId = viewmodel.courseId,
+                        chapterId = nextChapterId
+                    )
                 )
             }
         }

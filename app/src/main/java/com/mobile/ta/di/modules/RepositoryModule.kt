@@ -1,5 +1,6 @@
 package com.mobile.ta.di.modules
 
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.repository.*
 import com.mobile.ta.repository.impl.*
@@ -41,4 +42,9 @@ abstract class RepositoryModule {
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ): AuthRepository
+
+    @Binds
+    abstract fun bindNotificationRepository(
+        notificationRepositoryImpl: NotificationRepositoryImpl
+    ): NotificationRepository
 }

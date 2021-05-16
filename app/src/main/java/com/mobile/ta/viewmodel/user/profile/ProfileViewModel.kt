@@ -4,16 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.viewmodel.base.BaseViewModel
+import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
-) : BaseViewModel() {
+    private val userRepository: UserRepository,
+    private val notificationRepository: NotificationRepository
+) : BaseViewModelWithAuth(authRepository, notificationRepository) {
 
     private val _isAuthenticated = MutableLiveData<Boolean>()
     val isAuthenticated: LiveData<Boolean>
@@ -37,7 +40,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun doLogOut() {
         launchViewModelScope {
-            authRepository.logOut()
+            logOut()
         }
     }
 }

@@ -9,27 +9,30 @@ import com.mobile.ta.utils.wrapper.status.Status
 
 interface UserRepository {
     suspend fun submitQuestionResult(
+        userId: String,
         userAssignmentAnswer: UserAssignmentAnswer,
         courseId: String,
         chapterId: String
     ): Status<Boolean>
 
     suspend fun updateCorrectAnswerCount(
+        userId: String,
         userSubmittedAssignment: UserSubmittedAssignment,
         courseId: String,
         chapterId: String
     ): Status<Boolean>
 
-    suspend fun resetSubmittedChapter(courseId: String, chapterId: String): Status<Boolean>
+    suspend fun resetSubmittedChapter(userId: String, courseId: String, chapterId: String): Status<Boolean>
 
     suspend fun getSubmittedChapter(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<UserSubmittedAssignment>
 
-    suspend fun getIfSubmittedBefore(courseId: String, chapterId: String): Status<Boolean>
+    suspend fun getIfSubmittedBefore(userId: String, courseId: String, chapterId: String): Status<Boolean>
 
-    suspend fun createNewSubmittedAssignment(courseId: String, chapterId: String): Status<Boolean>
+    suspend fun createNewSubmittedAssignment(userId: String, courseId: String, chapterId: String): Status<Boolean>
 
     suspend fun addUserFeedback(id: String, data: HashMap<String, Any?>): Status<Boolean>
 

@@ -20,6 +20,7 @@ buildscript {
         playServiceAuthVersion = "19.0.0"
         serializationCoreVersion = "1.0.0-RC"
         serializationJsonVersion = "1.1.0"
+        preferenceVersion = "1.1.1"
     }
     repositories {
         google()

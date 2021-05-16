@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.mobile.ta.model.course.chapter.Chapter
+import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.repository.UserRepository
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,12 +21,14 @@ import javax.inject.Inject
 class CourseSubmitViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userRepository: UserRepository,
+    private val authRepository: AuthRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
-    private val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
+    val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     var chapterTitle = ""
     private lateinit var chapter: Chapter
+    private lateinit var loggedInUid: String
 
     private var _submittedAssignment: MutableLiveData<UserSubmittedAssignment> = MutableLiveData()
     val submittedAssignment: LiveData<UserSubmittedAssignment>
@@ -37,11 +42,11 @@ class CourseSubmitViewModel @Inject constructor(
     private var _showRetryButton: MutableLiveData<Boolean> = MutableLiveData(false)
     val showRetryButton: LiveData<Boolean>
         get() = _showRetryButton
-    lateinit var nextChapterType: ChapterType
-    var nextChapterId: String? = null
+    var nextChapterSummary: ChapterSummary? = null
 
     init {
         launchViewModelScope {
+            loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(
                 networkChapter, {
@@ -51,8 +56,7 @@ class CourseSubmitViewModel @Inject constructor(
                     //TODO: Add a failure handler
                 }
             )
-            nextChapterId = chapter.nextChapter?.id
-            val networkSubmittedAssignment = userRepository.getSubmittedChapter(courseId, chapterId)
+            val networkSubmittedAssignment = userRepository.getSubmittedChapter(loggedInUid, courseId, chapterId)
             checkStatus(
                 networkSubmittedAssignment, {
                     _submittedAssignment.postValue(it)
@@ -62,19 +66,21 @@ class CourseSubmitViewModel @Inject constructor(
             )
 
             _showRetryButton.postValue(chapter.type == ChapterType.PRACTICE)
-            if (nextChapterId != null) _showNextChapterButton.postValue(true)
+            if (nextChapterSummary?.id.isNotNull()) {
+                _showNextChapterButton.postValue(true)
+            }
         }
     }
 
     fun retry() {
         launchViewModelScope {
-            userRepository.resetSubmittedChapter(courseId, chapterId)
+            userRepository.resetSubmittedChapter(loggedInUid, courseId, chapterId)
         }
     }
 
     fun navigateToNextChapter() {
         launchViewModelScope {
-            nextChapterType = chapter.nextChapterType
+            nextChapterSummary = chapter.nextChapter
             _navigateToNextChapter.postValue(true)
         }
     }

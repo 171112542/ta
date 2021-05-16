@@ -17,12 +17,10 @@ data class Chapter(
     val createdAt: Timestamp,
     @Serializable(with = TimestampSerializer::class)
     val updatedAt: Timestamp,
-    val nextChapter: ChapterSummary? = null,
-    val previousChapter: ChapterSummary? = null,
-    val nextChapterType: ChapterType,
-    val previousChapterType: ChapterType,
+    val nextChapter: ChapterSummary?,
+    val previousChapter: ChapterSummary?,
     val totalDiscussion: Int,
-    val sketchfab: Sketchfab? = null,
+    val sketchfab: Sketchfab?,
     val order: Int,
     val typeOrder: Int
 ) {
@@ -36,8 +34,6 @@ data class Chapter(
             Timestamp.now(),
             null,
             null,
-            ChapterType.CONTENT,
-            ChapterType.CONTENT,
             0,
             null,
             0,
