@@ -3,7 +3,7 @@ package com.mobile.ta.utils.mapper
 import com.google.firebase.firestore.DocumentSnapshot
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
-import java.util.Date
+import java.util.*
 
 object DiscussionMapper {
 

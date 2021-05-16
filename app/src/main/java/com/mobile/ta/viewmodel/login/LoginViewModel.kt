@@ -8,7 +8,6 @@ import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.utils.orFalse
-import com.mobile.ta.viewmodel.base.BaseViewModel
 import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

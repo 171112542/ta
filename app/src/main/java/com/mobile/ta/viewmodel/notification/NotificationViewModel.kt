@@ -1,6 +1,5 @@
 package com.mobile.ta.viewmodel.notification
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.notification.Notification

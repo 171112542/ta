@@ -6,7 +6,6 @@ import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.utils.fetchData
-import com.mobile.ta.utils.mapper.CourseMapper
 import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi

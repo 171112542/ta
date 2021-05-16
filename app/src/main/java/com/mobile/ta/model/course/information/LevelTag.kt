@@ -1,6 +1,6 @@
 package com.mobile.ta.model.course.information
 
-import java.util.Locale
+import java.util.*
 
 enum class LevelTag {
     JUNIOR_ONE, JUNIOR_TWO, JUNIOR_THREE, SENIOR_ONE, SENIOR_TWO, SENIOR_THREE;

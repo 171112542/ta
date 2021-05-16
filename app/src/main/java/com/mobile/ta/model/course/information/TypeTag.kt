@@ -1,6 +1,6 @@
 package com.mobile.ta.model.course.information
 
-import java.util.Locale
+import java.util.*
 
 enum class TypeTag {
     MATH, PHYSICS, BIOLOGY, CHEMISTRY;

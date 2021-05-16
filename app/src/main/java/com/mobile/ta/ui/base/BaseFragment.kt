@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +23,6 @@ import com.mobile.ta.R
 import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.wrapper.Inflate
-import dagger.hilt.android.AndroidEntryPoint
 
 abstract class BaseFragment<T : ViewBinding>(
     private val inflate: Inflate<T>

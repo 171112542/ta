@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
-import com.google.firebase.auth.FirebaseAuth
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer

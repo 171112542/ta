@@ -15,7 +15,7 @@ import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.viewmodel.course.chapter.discussion.DiscussionViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
+import java.util.*
 
 @AndroidEntryPoint
 class DiscussionFragment :
