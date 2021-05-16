@@ -10,8 +10,8 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseInfoPrerequisitesCourseDiffCallback
 import com.mobile.ta.databinding.LayoutCourseItemBinding
 import com.mobile.ta.model.course.information.RelatedCourse
-import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.utils.getOrDefaultInt
+import com.mobile.ta.utils.view.ImageUtil
 
 class RelatedCourseAdapter(
     private val onClickListener: (String) -> Unit

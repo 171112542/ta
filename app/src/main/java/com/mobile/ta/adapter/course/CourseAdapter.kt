@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.VhCourseOverviewBinding
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.utils.ImageUtil
+import com.mobile.ta.utils.view.ImageUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 interface CourseVHListener {

@@ -10,8 +10,8 @@ import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.LayoutDiscussionReplyBinding
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
-import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.utils.toDateString
+import com.mobile.ta.utils.view.ImageUtil
 
 class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Unit) :
     ListAdapter<DiscussionForumAnswer, DiscussionAnswerAdapter.DiscussionAnswerViewHolder>(

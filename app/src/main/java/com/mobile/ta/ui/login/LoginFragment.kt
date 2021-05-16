@@ -1,5 +1,6 @@
 package com.mobile.ta.ui.login
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -13,6 +14,7 @@ import com.mobile.ta.databinding.FragmentLoginBinding
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.utils.orFalse
+import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,13 +32,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel by viewModels<LoginViewModel>()
 
-    override fun runOnCreate() {}
+    private var loadingDialog: Dialog? = null
 
     override fun onIntentResult(data: Intent?) {
         viewModel.getAccountAndAuthenticateUser(data)
+        DialogHelper.showDialog(loadingDialog)
     }
 
     override fun runOnCreateView() {
+        loadingDialog = DialogHelper.createLoadingDialog(mContext)
         binding.apply {
             buttonSignIn.setOnClickListener(this@LoginFragment)
             buttonTeacherRole.setOnClickListener(this@LoginFragment)
@@ -71,6 +75,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         if (isAuthenticated) {
             viewModel.getIsUserRegistered()
         } else {
+            DialogHelper.dismissDialog(loadingDialog)
             showToast(R.string.fail_to_authenticate_message)
         }
     }
@@ -81,6 +86,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         } else {
             goToSignUp(viewModel.teacherCredentials.value?.first.orFalse())
         }
+        DialogHelper.dismissDialog(loadingDialog)
     }
 
     private fun checkTeacherCredentials(isSuccess: Boolean) {

@@ -1,4 +1,4 @@
-package com.mobile.ta.utils
+package com.mobile.ta.utils.view
 
 import android.content.Context
 import android.widget.ImageView

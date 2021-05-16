@@ -8,7 +8,7 @@ import com.mobile.ta.adapter.diff.NotificationDiffCallback
 import com.mobile.ta.adapter.notification.NotificationAdapter
 import com.mobile.ta.databinding.FragNotificationBinding
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.utils.RVSeparator
+import com.mobile.ta.utils.view.RVSeparator
 import com.mobile.ta.viewmodel.notification.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

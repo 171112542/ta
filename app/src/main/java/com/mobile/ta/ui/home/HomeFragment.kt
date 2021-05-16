@@ -10,7 +10,7 @@ import com.mobile.ta.adapter.course.CourseVHListener
 import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.FragHomeBinding
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.utils.RVSeparator
+import com.mobile.ta.utils.view.RVSeparator
 import com.mobile.ta.viewmodel.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
