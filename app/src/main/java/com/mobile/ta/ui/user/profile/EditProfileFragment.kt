@@ -22,7 +22,7 @@ import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
 import com.mobile.ta.viewmodel.user.profile.EditProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Date
+import java.util.*
 
 @AndroidEntryPoint
 class EditProfileFragment :

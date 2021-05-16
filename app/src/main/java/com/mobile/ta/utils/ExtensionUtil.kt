@@ -7,8 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 /**
  * Object helper

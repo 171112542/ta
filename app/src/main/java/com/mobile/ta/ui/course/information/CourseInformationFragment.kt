@@ -17,9 +17,9 @@ import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.course.information.Creator
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.utils.ImageUtil
 import com.mobile.ta.utils.getOrDefault
 import com.mobile.ta.utils.getOrDefaultInt
+import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
 import com.mobile.ta.viewmodel.course.information.CourseInformationViewModel
 import dagger.hilt.android.AndroidEntryPoint

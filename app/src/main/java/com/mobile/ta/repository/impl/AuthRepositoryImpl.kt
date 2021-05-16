@@ -11,6 +11,7 @@ import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
+import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.fetchDataWithResult
 import com.mobile.ta.utils.mapper.UserMapper
@@ -23,6 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     database: FirebaseFirestore
 ) : AuthRepository {
+
     private val userCollection by lazy {
         database.collection(CollectionConstants.USER_COLLECTION)
     }
@@ -42,9 +44,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getIsUserRegistered(): Status<Boolean> {
         return getUser()?.uid?.let { userId ->
-            userCollection.document(userId).fetchData {
-                it.exists()
-            }
+            userCollection.document(userId).exists()
         } ?: Status.success(false)
     }
 

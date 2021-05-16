@@ -3,11 +3,13 @@ package com.mobile.ta.viewmodel.login
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.auth.FirebaseUser
 import com.mobile.ta.model.user.User
 import com.mobile.ta.model.user.UserRoleEnum
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNull
+import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -31,22 +33,20 @@ class RegistrationViewModel @Inject constructor(
     val user: LiveData<User>
         get() = _user
 
+    private lateinit var initialUserData: User
+
     fun getAuthorizedUserData(isTeacher: Boolean) {
         launchViewModelScope {
             authRepository.getUser()?.let { firebaseUser ->
-                _user.postValue(
-                    User(
-                        id = firebaseUser.uid,
-                        name = firebaseUser.displayName.orEmpty(),
-                        email = firebaseUser.email.orEmpty(),
-                        photo = firebaseUser.photoUrl?.toString(),
-                        role = getUserRole(isTeacher),
-                        phoneNumber = firebaseUser.phoneNumber
-                    )
-                )
-                authRepository.registerUser(_user.value!!)
+                setUserValue(isTeacher, firebaseUser)
+                checkStatus(authRepository.registerUser(initialUserData), { status ->
+                    if (status) {
+                        _user.postValue(initialUserData)
+                    }
+                })
             }
         }
+        _user.publishChanges()
     }
 
     fun setProfilePicture(filePath: String) {
@@ -95,5 +95,16 @@ class RegistrationViewModel @Inject constructor(
         UserRoleEnum.ROLE_TEACHER
     } else {
         UserRoleEnum.ROLE_STUDENT
+    }
+
+    private fun setUserValue(isTeacher: Boolean, firebaseUser: FirebaseUser) {
+        initialUserData = User(
+            id = firebaseUser.uid,
+            name = firebaseUser.displayName.orEmpty(),
+            email = firebaseUser.email.orEmpty(),
+            photo = firebaseUser.photoUrl?.toString(),
+            role = getUserRole(isTeacher),
+            phoneNumber = firebaseUser.phoneNumber
+        )
     }
 }

@@ -3,6 +3,7 @@ package com.mobile.ta.utils
 import com.google.firebase.Timestamp
 
 object TimestampUtil {
+
     fun getTimeDifferenceString(
         thenTimestamp: Timestamp,
         nowTimestamp: Timestamp = Timestamp.now()

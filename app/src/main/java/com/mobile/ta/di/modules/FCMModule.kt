@@ -1,6 +1,5 @@
 package com.mobile.ta.di.modules
 
-import android.app.Service
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.impl.NotificationRepositoryImpl
 import dagger.Module

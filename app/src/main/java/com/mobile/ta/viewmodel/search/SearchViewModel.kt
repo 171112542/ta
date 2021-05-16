@@ -9,8 +9,7 @@ import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi

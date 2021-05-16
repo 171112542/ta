@@ -2,18 +2,12 @@ package com.mobile.ta.adapter.course
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.VhCourseOverviewBinding
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.ui.home.HomeFragment
-import com.mobile.ta.ui.home.HomeFragmentDirections
-import com.mobile.ta.ui.search.SearchFragment
-import com.mobile.ta.ui.search.SearchFragmentDirections
-import com.mobile.ta.utils.ImageUtil
+import com.mobile.ta.utils.view.ImageUtil
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 interface CourseVHListener {

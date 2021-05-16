@@ -1,4 +1,4 @@
-package com.mobile.ta.utils
+package com.mobile.ta.utils.view
 
 import android.content.Context
 import android.content.res.Resources
@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.mobile.ta.R
 
 object RVSeparator {
+
     fun getSpaceSeparator(
         context: Context,
         orientation: Int,

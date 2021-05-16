@@ -3,12 +3,10 @@ package com.mobile.ta.adapter.notification
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.NotificationDiffCallback
-import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.databinding.VhNotificationBinding
 import com.mobile.ta.model.notification.Notification
 import com.mobile.ta.model.notification.NotificationType

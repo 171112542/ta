@@ -2,7 +2,6 @@ package com.mobile.ta.utils
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
-import com.mobile.ta.model.course.Course
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
