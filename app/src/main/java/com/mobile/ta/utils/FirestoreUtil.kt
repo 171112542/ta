@@ -24,7 +24,7 @@ suspend fun CollectionReference.fetchDataSize(): Int {
 }
 
 @ExperimentalCoroutinesApi
-suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T): Status<T> {
+suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T?): Status<T> {
     lateinit var statusData: Status<T>
     get().addOnFailureListener {
         statusData = Status.error(it.message.orEmpty())

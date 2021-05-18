@@ -1,5 +1,6 @@
 package com.mobile.ta.model.course
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.information.Creator
@@ -19,9 +20,11 @@ data class Course(
     val type: TypeTag,
     val prerequisiteCourse: List<RelatedCourse>,
     val relatedCourse: List<RelatedCourse>,
-    val totalStudentEnrolled: Int
+    var totalEnrolled: Int,
+    val updatedAt: Timestamp? = null,
+    val enrollmentKey: String? = null
 ) {
-    constructor(): this(
+    constructor() : this(
         "",
         listOf(),
         "",

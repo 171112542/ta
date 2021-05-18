@@ -1,8 +1,12 @@
 package com.mobile.ta.utils
 
 import android.content.Context
+import android.util.TypedValue
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
@@ -69,3 +73,20 @@ fun String?.getOrDefault(context: Context): String =
 
 fun Int?.getOrDefaultInt(): Int =
     this ?: 0
+
+@ColorInt
+fun Context.resolveColorAttr(@AttrRes colorAttr: Int): Int {
+    val resolvedAttr = resolveThemeAttr(colorAttr)
+    val colorRes = if (resolvedAttr.resourceId != 0) resolvedAttr.resourceId else resolvedAttr.data
+    return ContextCompat.getColor(this, colorRes)
+}
+
+fun Context.resolveThemeAttr(@AttrRes attrRes: Int): TypedValue {
+    val typedValue = TypedValue()
+    theme.resolveAttribute(attrRes, typedValue, true)
+    return typedValue
+}
+
+fun String.getMaximum(maximum: Int): String {
+    return if (length - 1 <= maximum) this else "${this.substring(0, maximum)}..."
+}

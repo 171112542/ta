@@ -95,40 +95,39 @@ class CourseContentFragment :
                         courseContentDiscussionButton.text =
                             String.format(
                                 getString(R.string.see_discussion),
-                                it.totalDiscussion ?: 0
+                                it.totalDiscussion
                             )
                     }
+                    viewModel.addUserChapter(courseId, chapterId)
                 }
             })
         }
         setupDrawer()
     }
 
-    @JavascriptInterface
-    fun navigateToNextChapter(chapter: Chapter) {
+    private fun navigateToNextChapter(chapter: Chapter) {
         chapter.nextChapter?.let {
             findNavController().navigate(
                 getChapterDestination(
-                    it.id as String,
+                    it.id,
                     it.type as ChapterType
                 )
             )
         }
     }
 
-    fun navigateToPreviousChapter(chapter: Chapter) {
+    private fun navigateToPreviousChapter(chapter: Chapter) {
         chapter.previousChapter?.let {
             findNavController().navigate(
                 getChapterDestination(
-                    it.id as String,
+                    it.id,
                     it.type as ChapterType
                 )
             )
         }
     }
 
-    @JavascriptInterface
-    fun navigateThreeD(chapter: Chapter) {
+    private fun navigateThreeD(chapter: Chapter) {
         chapter.sketchfab?.let {
             val destination =
                 CourseContentFragmentDirections.actionCourseContentFragmentTo3DViewFragment(
@@ -147,15 +146,14 @@ class CourseContentFragment :
         mMainActivity = (mActivity as MainActivity)
         courseId = args.courseId
         chapterId = args.chapterId
-        viewModel.getCourse(courseId)
-        viewModel.getChapter(courseId, chapterId)
+        viewModel.getCourseChapter(courseId, chapterId)
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_content_discussion_button -> v.findNavController().navigate(
                 CourseContentFragmentDirections.actionCourseContentFragmentToDiscussionFragment(
-                    courseId
+                    courseId, chapterId
                 )
             )
         }
@@ -188,7 +186,7 @@ class CourseContentFragment :
             drawerNavigation.setNavigationItemSelectedListener {
                 chapters[menuItems.indexOf(it)].let { chapter ->
                     val destination =
-                        getChapterDestination(chapter.id as String, chapter.type as ChapterType)
+                        getChapterDestination(chapter.id, chapter.type as ChapterType)
                     findNavController().navigate(destination)
                 }
                 drawerLayout.closeDrawer(GravityCompat.START)
@@ -200,11 +198,10 @@ class CourseContentFragment :
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
         return when (type) {
             ChapterType.CONTENT -> CourseContentFragmentDirections.actionCourseContentFragmentSelf(
-                chapterId
+                courseId, chapterId
             )
             else -> CourseContentFragmentDirections.actionCourseContentFragmentToCoursePracticeFragment(
-                courseId,
-                chapterId
+                courseId, chapterId
             )
         }
     }

@@ -1,10 +1,11 @@
 package com.mobile.ta.ui.course.information
 
-import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,19 +16,24 @@ import com.mobile.ta.adapter.course.information.CourseInformationContentAdapter
 import com.mobile.ta.adapter.course.information.RelatedCourseAdapter
 import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
+import com.mobile.ta.model.course.chapter.ChapterSummary
+import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.information.Creator
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.utils.getOrDefault
-import com.mobile.ta.utils.getOrDefaultInt
+import com.mobile.ta.utils.*
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
 import com.mobile.ta.viewmodel.course.information.CourseInformationViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class CourseInformationFragment :
     BaseFragment<FragmentCourseInformationBinding>(FragmentCourseInformationBinding::inflate),
     View.OnClickListener {
+
+    private val dateFormat = SimpleDateFormat("yy/dd/MM", Locale.ROOT)
 
     companion object {
         private const val COURSE_INFORMATION_TAG = "COURSE_INFORMATION"
@@ -37,13 +43,15 @@ class CourseInformationFragment :
     private val viewModel: CourseInformationViewModel by viewModels()
 
     private val courseContentAdapter by lazy {
-        CourseInformationContentAdapter(this::goToCourseContent)
+        CourseInformationContentAdapter(::goToChapter, ::changeChapterProgress)
     }
+
     private val prerequisiteCourseAdapter by lazy {
         RelatedCourseAdapter(
             this::goToOtherCourseInfo
         )
     }
+
     private val relatedCourseAdapter by lazy {
         RelatedCourseAdapter(
             this::goToOtherCourseInfo
@@ -53,41 +61,56 @@ class CourseInformationFragment :
     override fun runOnCreateView() {
         super.runOnCreateView()
         setupContentRecyclerView()
-        setupPreqrequisiteCourseRecyclerView()
+        setupPrerequisiteCourseRecyclerView()
         setupRelatedCourseRecyclerView()
-        viewModel.course.observe(viewLifecycleOwner, {
-            if (it.status == StatusType.SUCCESS) {
-                it?.data?.let { course ->
-                    setupCourseMainInfo(
-                        course.imageUrl,
-                        course.title as String,
-                        course.creator?.name.getOrDefault(mContext)
-                    )
-//                    setupCourseAboutInfo(
-//                        course.description ?: "-",
-//                        listOf(course)
-//                    )
-                    setupCreatorInfo(course.creator as Creator)
-                    binding.apply {
-                        course.prerequisiteCourse?.let {
-                            if (it.isNotEmpty()) {
-                                prerequisiteCourseAdapter.submitList(it)
-                            }
-                            courseInformationPrerequisiteCourseList.isVisible = it.isNotEmpty()
-                            courseInformationPrerequisiteCourseEmpty.isVisible =
-                                it.isEmpty()
+        binding.apply {
+            courseInformationEnroll.setOnClickListener(this@CourseInformationFragment)
+            viewModel.course.observe(viewLifecycleOwner, {
+                if (it.status == StatusType.SUCCESS) {
+                    it?.data?.let { course ->
+                        courseInformationTotalEnrolled.text = course.totalEnrolled.toString()
+                        course.updatedAt?.let { updatedAt ->
+                            courseInformationLastUpdated.text =
+                                dateFormat.format(updatedAt.toDate())
                         }
-                        course.relatedCourse?.let {
-                            if (it.isNotEmpty()) {
-                                relatedCourseAdapter.submitList(it)
+                        setupCourseMainInfo(
+                            course.imageUrl,
+                            course.title,
+                            course.creator.name.getOrDefault(mContext)
+                        )
+                        setupCourseAboutInfo(
+                            course.description,
+                            listOf(course.level.toString(), course.type.toString())
+                        )
+                        setupCreatorInfo(course.creator)
+                        course.prerequisiteCourse.let { relatedCourses ->
+                            if (relatedCourses.isNotEmpty()) {
+                                prerequisiteCourseAdapter.submitList(relatedCourses)
                             }
-                            courseInformationRelatedCourseList.isVisible = it.isNotEmpty()
-                            courseInformationRelatedCourseEmpty.isVisible = it.isEmpty()
+                            courseInformationPrerequisiteCourseList.isVisible =
+                                relatedCourses.isNotEmpty()
+                            courseInformationPrerequisiteCourseEmpty.isVisible =
+                                relatedCourses.isEmpty()
+                        }
+                        course.relatedCourse.let { relatedCourses ->
+                            if (relatedCourses.isNotEmpty()) {
+                                relatedCourseAdapter.submitList(relatedCourses)
+                            }
+                            courseInformationRelatedCourseList.isVisible =
+                                relatedCourses.isNotEmpty()
+                            courseInformationRelatedCourseEmpty.isVisible = relatedCourses.isEmpty()
                         }
                     }
                 }
-            }
-        })
+            })
+            viewModel.userCourse.observe(viewLifecycleOwner, {
+                if (it.status == StatusType.SUCCESS) {
+                    courseInformationEnroll.text =
+                        if (it.data.isNull()) getString(R.string.enroll)
+                        else getString(R.string.continue_studying)
+                }
+            })
+        }
         viewModel.chapters.observe(viewLifecycleOwner, {
             if (it.status == StatusType.SUCCESS) {
                 courseContentAdapter.submitList(it.data)
@@ -95,8 +118,8 @@ class CourseInformationFragment :
         })
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
         viewModel.getCourse(args.courseId)
         viewModel.getChapters(args.courseId)
     }
@@ -115,10 +138,49 @@ class CourseInformationFragment :
     }
 
     private fun enrollCourse(enrollmentKey: String) {
-        Snackbar.make(binding.root, "Course enrolled.", Snackbar.LENGTH_SHORT).show()
-        findNavController().navigate(
-            CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment()
-        )
+        viewModel.enrollCourse(args.courseId, enrollmentKey)
+        viewModel.enrollCourse.observe(viewLifecycleOwner, {
+            if (it.status == StatusType.SUCCESS && it.data == true) {
+                viewModel.getCourse(args.courseId)
+                viewModel.getChapters(args.courseId)
+                Snackbar.make(binding.root, "Course enrolled.", Snackbar.LENGTH_SHORT).show()
+                viewModel.course.value?.data?.let { course ->
+                    viewModel.incrementTotalEnrolled(
+                        course
+                    )
+                }
+            } else {
+                Snackbar.make(
+                    binding.root,
+                    "Failed to enroll. ${it.message}",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+        })
+    }
+
+    private fun changeChapterProgress(chapterId: String, textView: TextView) {
+        viewModel.userChapters.observe(viewLifecycleOwner, {
+            if (it.status == StatusType.SUCCESS) {
+                textView.apply {
+                    if (it.data?.find { chapter -> chapter.id == chapterId } != null) {
+                        text = getString(R.string.completed_progress)
+                        setTextColor(mContext.resolveColorAttr(R.attr.colorPrimary))
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(
+                            0,
+                            0,
+                            R.drawable.ic_done_black_24dp,
+                            0
+                        )
+                    } else {
+                        text = getString(R.string.not_yet_started_progress)
+                        setTextColor(ContextCompat.getColor(mContext, R.color.grey))
+                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
+                    }
+                    isVisible = true
+                }
+            }
+        })
     }
 
     private fun getTagColor(index: Int): Int {
@@ -132,10 +194,21 @@ class CourseInformationFragment :
         return colors[index % colors.size]
     }
 
-    private fun goToCourseContent(id: String) {
+    private fun goToChapter(chapterId: String, type: ChapterType) {
         findNavController().navigate(
-            CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment()
+            getChapterDestination(chapterId, type)
         )
+    }
+
+    private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
+        return when (type) {
+            ChapterType.CONTENT -> CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment(
+                args.courseId, chapterId
+            )
+            else -> CourseInformationFragmentDirections.actionCourseInformationFragmentToCoursePracticeFragment(
+                args.courseId, chapterId
+            )
+        }
     }
 
     private fun goToOtherCourseInfo(id: String) {
@@ -144,12 +217,6 @@ class CourseInformationFragment :
                 id
             )
         )
-    }
-
-    private fun loadImage(imageUrl: String, imageView: ImageView) {
-        context?.let {
-            ImageUtil.loadImage(it, imageUrl, imageView)
-        }
     }
 
     private fun openInputEnrollmentKeyBottomSheet() {
@@ -162,14 +229,14 @@ class CourseInformationFragment :
             courseInformationTitle.text = title
             courseInformationCreatorName.text = createdBy
             image?.let {
-                loadImage(it, courseInformationImage)
+                ImageUtil.loadImage(mContext, it, courseInformationImage)
             }
         }
     }
 
     private fun setupCourseAboutInfo(about: String, tags: List<String>) {
         binding.apply {
-            courseInformationAboutCreatorDescription.text = about
+            courseInformationAboutCourse.text = about
             courseInformationTagsGroup.apply {
                 removeAllViews()
                 tags.forEachIndexed { index, tag ->
@@ -190,7 +257,7 @@ class CourseInformationFragment :
                 creator.totalCourseCreated.getOrDefaultInt()
             )
             creator.imageUrl?.let {
-                loadImage(it, courseInformationAboutCreatorImage)
+                ImageUtil.loadImage(mContext, it, courseInformationAboutCreatorImage)
             }
         }
     }
@@ -202,7 +269,7 @@ class CourseInformationFragment :
         }
     }
 
-    private fun setupPreqrequisiteCourseRecyclerView() {
+    private fun setupPrerequisiteCourseRecyclerView() {
         binding.courseInformationPrerequisiteCourseList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = prerequisiteCourseAdapter
@@ -218,7 +285,28 @@ class CourseInformationFragment :
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.course_information_enroll -> openInputEnrollmentKeyBottomSheet()
+            R.id.course_information_enroll -> {
+                viewModel.userCourse.value?.let {
+                    if (it.data.isNull()) {
+                        openInputEnrollmentKeyBottomSheet()
+                    } else {
+                        val lastAccessedCourse = it.data?.lastAccessedChapter as ChapterSummary
+                        if (lastAccessedCourse.type == ChapterType.CONTENT) {
+                            findNavController().navigate(
+                                CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment(
+                                    args.courseId, lastAccessedCourse.id
+                                )
+                            )
+                        } else {
+                            findNavController().navigate(
+                                CourseInformationFragmentDirections.actionCourseInformationFragmentToCoursePracticeFragment(
+                                    args.courseId, lastAccessedCourse.id
+                                )
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 }

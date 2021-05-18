@@ -11,9 +11,13 @@ class CoursePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment {
         return CourseTabFragment().apply {
             arguments = Bundle().let { bundle ->
-                bundle.putInt("position", position)
+                bundle.putInt(EXTRA_POSITION, position)
                 bundle
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_POSITION = "EXTRA_POSITION"
     }
 }

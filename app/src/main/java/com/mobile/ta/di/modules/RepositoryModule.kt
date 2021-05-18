@@ -45,4 +45,14 @@ abstract class RepositoryModule {
     abstract fun bindNotificationRepository(
         notificationRepositoryImpl: NotificationRepositoryImpl
     ): NotificationRepository
+
+    @Binds
+    abstract fun bindUserCourseRepository(
+        userCourseRepositoryImpl: UserCourseRepositoryImpl
+    ): UserCourseRepository
+
+    @Binds
+    abstract fun bindUserChapterRepository(
+        userChapterRepositoryImpl: UserChapterRepositoryImpl
+    ): UserChapterRepository
 }

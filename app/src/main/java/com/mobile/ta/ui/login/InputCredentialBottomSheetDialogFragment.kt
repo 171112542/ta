@@ -32,7 +32,7 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
             buttonSubmitCredentials.setOnClickListener {
-                onSubmitListener.invoke(editTextInputCredential.text())
+                onSubmitListener.invoke(editTextInputCredential.text().trim())
                 dismiss()
             }
             editTextInputCredential.doOnTextChanged { _, _, _, _ ->
