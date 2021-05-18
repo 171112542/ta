@@ -14,6 +14,7 @@ import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.ui.course.MyCourseFragmentDirections
 import com.mobile.ta.ui.home.HomeFragmentDirections
+import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.ui.user.profile.ProfileFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -88,14 +89,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun setStartFragment() {
-//        intent.getStringExtra(PARAM_FIRST_LAUNCH_FRAGMENT)?.let { firstLaunchFragment ->
-//            when (firstLaunchFragment) {
-//                PARAM_HOME_FRAGMENT ->
-//                    navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
-//                PARAM_LOGIN_FRAGMENT ->
-//                    navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment())
-//            }
-//        }
+        intent.getStringExtra(PARAM_FIRST_LAUNCH_FRAGMENT)?.let { firstLaunchFragment ->
+            when (firstLaunchFragment) {
+                PARAM_HOME_FRAGMENT ->
+                    navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
+                PARAM_LOGIN_FRAGMENT ->
+                    navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+            }
+        }
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
