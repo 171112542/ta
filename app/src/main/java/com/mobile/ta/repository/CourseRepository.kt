@@ -7,4 +7,5 @@ interface CourseRepository {
     suspend fun searchCourse(courseTitle: String): Status<MutableList<Course>>
     suspend fun getAllCourses(): Status<MutableList<Course>>
     suspend fun getCourseById(courseId: String): Status<Course>
+    suspend fun updateCourse(course: Course): Status<Boolean>
 }

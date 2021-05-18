@@ -11,6 +11,7 @@ import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.AssignmentQuestionMapper
 import com.mobile.ta.utils.mapper.ChapterMapper
+import com.mobile.ta.utils.mapper.ChapterMapper.ORDER_FIELD
 import com.mobile.ta.utils.mapper.CourseMapper
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +22,7 @@ class ChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) : C
     private val courseCollection = database.collection(COURSE_COLLECTION)
 
     override suspend fun getChapters(courseId: String): Status<MutableList<Chapter>> {
-        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION)
+        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION).orderBy(ORDER_FIELD)
             .fetchData(ChapterMapper::mapToChapters)
     }
 

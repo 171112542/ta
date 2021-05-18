@@ -136,6 +136,8 @@
     <string name="enrollment">Enrollment</string>
     <string name="enrollment_key_hint">Enrollment Key</string>
     <string name="enroll">Enroll</string>
+    <string name="enrolled_label">enrolled</string>
+    <string name="continue_studying">Continue</string>
     <string name="content">Content</string>
     <string name="about_this_course"><b>About</b> This Course</string>
     <string name="recommended_before_you_start"><b>Recommended</b> Before You Start</string>
@@ -143,11 +145,14 @@
     <string name="about_this_course_creator"><b>About This</b> Course\'s Creator</string>
     <string name="tags">Tags</string>
     <string name="lesson_number">LESSON %d</string>
-    <string name="practice_number">LESSON %d</string>
-    <string name="quiz_number">LESSON %d</string>
+    <string name="practice_number">PRACTICE %d</string>
+    <string name="quiz_number">QUIZ %d</string>
     <string name="created_by">Created by %s</string>
     <string name="no_recommended_course_label">No recommended course, yet.</string>
     <string name="no_related_courses_label">No related courses, yet.</string>
+    <string name="completed_progress">Completed</string>
+    <string name="not_yet_started_progress">Not yet started</string>
+    <string name="last_updated_label">last updated</string>
 
     <string name="three_d_back_information">Tap empty area to show back button</string>
     <string name="back_button_label">BACK</string>
@@ -183,6 +188,5 @@
     <!-- Others -->
     <string name="permission_not_granted_message">Fail to get permission.</string>
     <string name="default_string_field">-</string>
-    <string name="completed_label">Completed</string>
     <string name="fcm_token_shared_pref_key">fcmToken</string>
 </resources>

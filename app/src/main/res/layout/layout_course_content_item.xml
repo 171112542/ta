@@ -5,7 +5,7 @@
     android:id="@+id/card_view_course_content_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/dp_1"
+    android:layout_marginVertical="@dimen/dp_4"
     android:layout_marginStart="@dimen/dp_1"
     android:layout_marginEnd="@dimen/dp_32"
     android:clickable="true"
@@ -34,47 +34,27 @@
             android:layout_marginTop="@dimen/dp_4"
             android:textAppearance="?attr/textAppearanceHeadline5"
             android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toTopOf="@id/view_separator"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_view_course_content_lesson_number"
             tools:text="Chapter name" />
 
-        <View
-            android:id="@+id/view_separator"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_1"
-            android:layout_marginTop="@dimen/dp_8"
-            android:background="?attr/colorControlHighlight"
-            app:layout_constraintBottom_toTopOf="@id/text_view_course_content_description"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_title" />
-
-        <TextView
-            android:id="@+id/text_view_course_content_description"
-            android:layout_width="@dimen/dp_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_12"
-            android:lines="@integer/max_content_line_3"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?attr/colorOnSurface"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_separator"
-            tools:text="Contenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee..." />
-
         <TextView
             android:id="@+id/text_view_course_content_progress"
-            android:layout_width="@dimen/dp_0"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/completed_label"
+            android:layout_marginTop="@dimen/dp_16"
+            android:gravity="center"
+            android:text="@string/completed_progress"
             android:textAppearance="?attr/textAppearanceHeadline5"
             android:textColor="?attr/colorPrimary"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+            app:drawableEndCompat="@drawable/ic_done_black_24dp"
+            app:drawableTint="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_description" />
-
+            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_title"
+            tools:ignore="MissingPrefix"
+            tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

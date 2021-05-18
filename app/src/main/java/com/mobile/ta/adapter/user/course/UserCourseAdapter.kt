@@ -2,39 +2,52 @@ package com.mobile.ta.adapter.user.course
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import android.widget.ProgressBar
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.UserCourseDiffCallback
 import com.mobile.ta.databinding.VhCourseCardBinding
 import com.mobile.ta.model.user.course.UserCourse
+import com.mobile.ta.utils.getMaximum
+import com.mobile.ta.utils.view.ImageUtil
 
 
 class UserCourseAdapter(
-    diffCallback: UserCourseDiffCallback
-) : ListAdapter<UserCourse, UserCourseAdapter.ViewHolder>(diffCallback) {
-    class ViewHolder private constructor(private val binding: VhCourseCardBinding) :
+    private val onClickListener: (String) -> Unit,
+    private val changeProgressListener: (String, ProgressBar) -> Unit
+) : ListAdapter<UserCourse, UserCourseAdapter.ViewHolder>(UserCourseDiffCallback()) {
+    class ViewHolder private constructor(
+        private val binding: VhCourseCardBinding,
+        private val onClickListener: (String) -> Unit,
+        private val changeProgressListener: (String, ProgressBar) -> Unit,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
             item: UserCourse
         ) {
             binding.apply {
                 courseContainer.setOnClickListener {
-                    it.findNavController()
-                        .navigate(R.id.action_myCourseFragment_to_courseInformationFragment)
+                    onClickListener.invoke(item.id)
                 }
                 courseCardTitle.text = item.title
-                courseCardDescription.text = item.description
-                courseCardProgress.progress = item.progress
+                courseCardDescription.text =
+                    item.description.getMaximum(64)
+                item.imageUrl?.let {
+                    ImageUtil.loadImage(courseCardImage.context, it, courseCardImage)
+                }
+                changeProgressListener.invoke(item.id, courseCardProgress)
             }
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(
+                parent: ViewGroup,
+                onClickListener: (String) -> Unit,
+                changeProgressListener: (String, ProgressBar) -> Unit
+            ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = VhCourseCardBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding)
+                return ViewHolder(binding, onClickListener, changeProgressListener)
             }
         }
     }
@@ -46,7 +59,7 @@ class UserCourseAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(
-            parent
+            parent, onClickListener, changeProgressListener
         )
     }
 }

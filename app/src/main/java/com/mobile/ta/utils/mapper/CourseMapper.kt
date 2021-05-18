@@ -10,6 +10,7 @@ object CourseMapper {
     const val LEVEL_FIELD = "level"
     const val DESC_FIELD = "description"
     const val IMGURL_FIELD = "imageUrl"
+    const val TOTAL_ENROLLED_FIELD = "totalEnrolled"
 
     fun mapToCourses(querySnapshot: QuerySnapshot): MutableList<Course> {
         return querySnapshot.toObjects(Course::class.java)
@@ -17,5 +18,11 @@ object CourseMapper {
 
     fun mapToCourse(documentSnapshot: DocumentSnapshot): Course {
         return documentSnapshot.toObject(Course::class.java) ?: Course()
+    }
+
+    fun Course.toHashMap(): HashMap<String, Any> {
+        return hashMapOf(
+            TOTAL_ENROLLED_FIELD to totalEnrolled
+        )
     }
 }

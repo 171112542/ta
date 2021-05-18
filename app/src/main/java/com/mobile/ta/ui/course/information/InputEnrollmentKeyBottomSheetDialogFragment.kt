@@ -11,7 +11,6 @@ import com.mobile.ta.databinding.FragmentInputEnrollmentKeyBottomSheetBinding
 import com.mobile.ta.utils.notBlankValidate
 
 class InputEnrollmentKeyBottomSheetDialogFragment : BottomSheetDialogFragment() {
-
     companion object {
         fun newInstance(onSubmitListener: (String) -> Unit) =
             InputEnrollmentKeyBottomSheetDialogFragment().apply {

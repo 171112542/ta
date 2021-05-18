@@ -5,12 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
 import com.mobile.ta.model.course.chapter.Chapter
+import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
-import com.mobile.ta.repository.AuthRepository
-import com.mobile.ta.repository.ChapterRepository
-import com.mobile.ta.repository.UserRepository
+import com.mobile.ta.repository.*
+import com.mobile.ta.utils.isNotNull
+import com.mobile.ta.utils.mapper.UserCourseMapper.toHashMap
 import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +25,8 @@ class CourseAssignmentViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
+    private val userCourseRepository: UserCourseRepository,
+    private val userChapterRepository: UserChapterRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
@@ -51,6 +55,11 @@ class CourseAssignmentViewModel @Inject constructor(
                 }, {
                     //TODO: Add a failure handler
                 }
+            )
+            userCourseRepository.updateLastAccessedChapter(
+                loggedInUid,
+                courseId,
+                ChapterSummary(chapter.id, chapter.title, chapter.type)
             )
             val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
                 loggedInUid,
@@ -96,6 +105,19 @@ class CourseAssignmentViewModel @Inject constructor(
                 loggedInUid,
                 courseId,
                 chapterId
+            )
+            val userChapters = userChapterRepository.getUserChapters(loggedInUid, courseId)
+            val chapters = chapterRepository.getChapters(courseId)
+            val isFinished =
+                if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
+                else false
+            val userCourse = UserCourse().apply {
+                finished = isFinished
+            }
+            userCourseRepository.addUserCourse(
+                loggedInUid,
+                courseId,
+                userCourse.toHashMap()
             )
             selectedAnswers.value?.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)

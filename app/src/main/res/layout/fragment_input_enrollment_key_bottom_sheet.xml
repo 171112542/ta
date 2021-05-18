@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/dp_16"
-    android:paddingBottom="@dimen/dp_16"
+    android:paddingVertical="@dimen/dp_16"
     tools:context=".ui.course.information.InputEnrollmentKeyBottomSheetDialogFragment">
 
     <TextView
