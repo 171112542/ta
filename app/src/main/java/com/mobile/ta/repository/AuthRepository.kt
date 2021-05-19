@@ -17,7 +17,7 @@ interface AuthRepository {
 
     suspend fun getSignedInAccountFromIntent(data: Intent?): Status<GoogleSignInAccount>
 
-    suspend fun getUser(): FirebaseUser?
+    fun getUser(): FirebaseUser?
 
     suspend fun registerUser(user: User): Status<Boolean>
 

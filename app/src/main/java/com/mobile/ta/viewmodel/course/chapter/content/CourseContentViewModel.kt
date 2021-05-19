@@ -29,13 +29,7 @@ class CourseContentViewModel @Inject constructor(
     val course: LiveData<Status<Course>> get() = _course
     private var _chapter = MutableLiveData<Status<Chapter>>()
     val chapter: LiveData<Status<Chapter>> get() = _chapter
-    private lateinit var loggedInUid: String
-
-    init {
-        launchViewModelScope {
-            loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-        }
-    }
+    private val loggedInUid = authRepository.getUser()?.uid as String
 
     fun getCourseChapter(courseId: String, chapterId: String) {
         launchViewModelScope {
@@ -56,31 +50,40 @@ class CourseContentViewModel @Inject constructor(
                     chapterId,
                     userChapter.toHashMap()
                 )
+                updateFinishedCourse(loggedInUid, courseId)
                 val chapterSummary = ChapterSummary(chapterId, it.title, it.type)
                 updateLastAccessedCourse(loggedInUid, courseId, chapterSummary)
             }
         }
     }
 
-    private fun updateLastAccessedCourse(
-        userId: String,
-        courseId: String,
-        lastAccessedChapter: ChapterSummary? = null
-    ) {
-        launchViewModelScope {
-            val userChapters = userChapterRepository.getUserChapters(userId, courseId)
-            val chapters = chapterRepository.getChapters(courseId)
-            val isFinished =
-                if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
-                else false
+    private suspend fun updateFinishedCourse(userId: String, courseId: String) {
+        val userChapters = userChapterRepository.getUserChapters(userId, courseId)
+        val chapters = chapterRepository.getChapters(courseId)
+        val isFinished =
+            if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
+            else false
+        if (isFinished) {
             val userCourse = UserCourse().apply {
                 finished = isFinished
             }
-            userCourseRepository.addUserCourse(
+            userCourseRepository.updateFinishedCourse(
                 userId,
                 courseId,
-                userCourse.toHashMap(lastAccessedChapter)
+                userCourse.toHashMap()
             )
         }
+    }
+
+    private suspend fun updateLastAccessedCourse(
+        userId: String,
+        courseId: String,
+        lastAccessedChapter: ChapterSummary
+    ) {
+        userCourseRepository.updateLastAccessedChapter(
+            userId,
+            courseId,
+            lastAccessedChapter
+        )
     }
 }

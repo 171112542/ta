@@ -82,7 +82,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.homeFragment,
                 R.id.myCourseFragment,
                 R.id.profileFragment,
-                R.id.courseContentFragment
+                R.id.courseContentFragment,
+                R.id.courseAssignmentFragment,
+                R.id.courseSubmitFragment
             )
         )
         toolbar = binding.mainToolbar

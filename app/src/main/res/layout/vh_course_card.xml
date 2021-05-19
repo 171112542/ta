@@ -33,15 +33,15 @@
         android:textAppearance="?attr/textAppearanceHeadline5"
         android:textColor="?attr/colorOnSurface"
         app:layout_constraintBottom_toTopOf="@id/course_card_description"
-        app:layout_constraintEnd_toStartOf="@id/course_card_guideline"
+        app:layout_constraintEnd_toStartOf="@id/course_card_view_rounded"
         app:layout_constraintStart_toEndOf="@id/course_card_image"
         app:layout_constraintTop_toTopOf="@id/course_card_image"
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="Theory of Black Hole" />
 
     <View
-        android:id="@+id/view_rounded"
-        android:layout_width="@dimen/dp_56"
+        android:id="@+id/course_card_view_rounded"
+        android:layout_width="@dimen/my_course_half_circle_size"
         android:layout_height="@dimen/dp_0"
         android:background="@drawable/drawable_half_rounded_blue"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -70,17 +70,10 @@
         android:justificationMode="inter_word"
         android:textAppearance="@style/TextAppearance.TA.Body2"
         app:layout_constraintBottom_toTopOf="@id/course_card_progress"
-        app:layout_constraintEnd_toStartOf="@id/course_card_guideline"
+        app:layout_constraintEnd_toStartOf="@id/course_card_view_rounded"
         app:layout_constraintStart_toEndOf="@id/course_card_image"
         app:layout_constraintTop_toBottomOf="@id/course_card_title"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/course_card_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".85" />
 
     <ProgressBar
         android:id="@+id/course_card_progress"
@@ -92,7 +85,7 @@
         android:layout_marginEnd="@dimen/dp_24"
         android:progressDrawable="@drawable/drawable_progress_bar"
         app:layout_constraintBottom_toBottomOf="@+id/course_card_image"
-        app:layout_constraintEnd_toStartOf="@id/course_card_guideline"
+        app:layout_constraintEnd_toStartOf="@id/course_card_view_rounded"
         app:layout_constraintStart_toEndOf="@id/course_card_image"
         app:layout_constraintTop_toBottomOf="@id/course_card_description"
         tools:progress="20" />

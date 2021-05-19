@@ -9,13 +9,14 @@ import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.CourseMapper
 import com.mobile.ta.utils.mapper.CourseMapper.TOTAL_ENROLLED_FIELD
 import com.mobile.ta.utils.mapper.CourseMapper.toHashMap
+import com.mobile.ta.utils.mapper.UserCourseMapper.FINISHED_FIELD
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 class CourseRepositoryImpl @Inject constructor(
-    private val database: FirebaseFirestore
+    database: FirebaseFirestore
 ) : CourseRepository {
     private val courseCollection =
         database.collection(COURSE_COLLECTION)
@@ -40,7 +41,7 @@ class CourseRepositoryImpl @Inject constructor(
             .fetchData(CourseMapper::mapToCourses)
     }
 
-    override suspend fun updateCourse(course: Course): Status<Boolean> {
+    override suspend fun updateTotalEnrolledCourse(course: Course): Status<Boolean> {
         return courseCollection.document(course.id).set(
             course.toHashMap(), SetOptions.mergeFields(
                 TOTAL_ENROLLED_FIELD

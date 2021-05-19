@@ -32,13 +32,7 @@ class CourseInformationViewModel @Inject constructor(
     val userCourse: LiveData<Status<UserCourse>> get() = _userCourse
     private val _enrollCourse = MutableLiveData<Status<Boolean>>()
     val enrollCourse: LiveData<Status<Boolean>> get() = _enrollCourse
-    private lateinit var loggedInUid: String
-
-    init {
-        launchViewModelScope {
-            loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-        }
-    }
+    private val loggedInUid = authRepository.getUser()?.uid as String
 
     fun getCourse(courseId: String) {
         launchViewModelScope {
@@ -66,8 +60,8 @@ class CourseInformationViewModel @Inject constructor(
                 if (it.enrollmentKey == enrollmentKey) {
                     val userCourse = UserCourse(
                         courseId,
-                        it.title as String,
-                        it.description as String,
+                        it.title,
+                        it.description,
                         it.imageUrl,
                         true,
                         false
@@ -89,7 +83,7 @@ class CourseInformationViewModel @Inject constructor(
     fun incrementTotalEnrolled(course: Course) {
         launchViewModelScope {
             course.totalEnrolled += 1
-            courseRepository.updateCourse(course)
+            courseRepository.updateTotalEnrolledCourse(course)
         }
     }
 }

@@ -61,7 +61,7 @@
             tools:text="Contenteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee..." />
 
         <View
-            android:id="@+id/view_rounded"
+            android:id="@+id/course_card_view_rounded"
             android:layout_width="@dimen/dp_56"
             android:layout_height="@dimen/dp_0"
             android:background="@drawable/drawable_half_rounded_blue"

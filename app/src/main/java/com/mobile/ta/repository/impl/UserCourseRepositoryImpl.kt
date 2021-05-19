@@ -42,7 +42,7 @@ class UserCourseRepositoryImpl @Inject constructor(private val database: Firebas
         data: HashMap<String, Any?>
     ): Status<Boolean> {
         return userCollection.document(userId).collection(COURSE_COLLECTION).document(courseId)
-            .set(data, SetOptions.mergeFields(FINISHED_FIELD, LAST_ACCESSED_CHAPTER_FIELD))
+            .set(data)
             .fetchData()
     }
 
@@ -55,6 +55,19 @@ class UserCourseRepositoryImpl @Inject constructor(private val database: Firebas
             .set(
                 UserCourse().toHashMap(lastAccessedChapter),
                 SetOptions.mergeFields(LAST_ACCESSED_CHAPTER_FIELD)
+            ).fetchData()
+    }
+
+    override suspend fun updateFinishedCourse(
+        userId: String,
+        courseId: String,
+        data: HashMap<String, Any?>
+    ): Status<Boolean> {
+        return userCollection.document(userId).collection(COURSE_COLLECTION).document(courseId)
+            .set(
+                data, SetOptions.mergeFields(
+                    FINISHED_FIELD
+                )
             ).fetchData()
     }
 }

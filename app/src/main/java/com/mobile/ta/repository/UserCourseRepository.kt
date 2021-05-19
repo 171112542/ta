@@ -12,9 +12,16 @@ interface UserCourseRepository {
         courseId: String,
         data: HashMap<String, Any?>
     ): Status<Boolean>
+
     suspend fun updateLastAccessedChapter(
         userId: String,
         courseId: String,
         lastAccessedChapter: ChapterSummary
+    ): Status<Boolean>
+
+    suspend fun updateFinishedCourse(
+        userId: String,
+        courseId: String,
+        data: HashMap<String, Any?>
     ): Status<Boolean>
 }

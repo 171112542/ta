@@ -48,4 +48,5 @@
     <dimen name="dp_210">210dp</dimen>
     <dimen name="course_content_image_height">180dp</dimen>
     <dimen name="component_radius">10dp</dimen>
+    <dimen name="my_course_half_circle_size">60dp</dimen>
 </resources>

@@ -1,9 +1,14 @@
 package com.mobile.ta.ui.course.chapter.assignment
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
@@ -11,8 +16,12 @@ import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionAdapter
 import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionVHListener
 import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.FragCourseAssignmentBinding
+import com.mobile.ta.model.course.chapter.ChapterSummary
+import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.ui.course.chapter.content.CourseContentFragmentDirections
+import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,11 +32,15 @@ class CourseAssignmentFragment :
     BaseFragment<FragCourseAssignmentBinding>(FragCourseAssignmentBinding::inflate),
     CourseQuestionVHListener {
     private val viewmodel by viewModels<CourseAssignmentViewModel>()
+    private lateinit var mMainActivity: MainActivity
+    private var menuItems = mutableListOf<MenuItem>()
+    private val args: CourseAssignmentFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
         setupTabLayout()
+        setupDrawer()
     }
 
     private fun setupViewPager() {
@@ -54,6 +67,14 @@ class CourseAssignmentFragment :
                     )
                 )
         }
+        viewmodel.course.observe(viewLifecycleOwner, {
+            setupMenu(it.chapterSummaryList)
+        })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mMainActivity = (mActivity as MainActivity)
     }
 
     private fun setupTabLayout() {
@@ -63,6 +84,54 @@ class CourseAssignmentFragment :
         ) { tab, position ->
             tab.text = (position + 1).toString()
         }.attach()
+    }
+
+    private fun setupDrawer() {
+        binding.apply {
+            val toggle = ActionBarDrawerToggle(
+                mMainActivity,
+                fragCourseAssignmentDrawerLayout,
+                mMainActivity.getToolbar(),
+                R.string.open_drawer,
+                R.string.close_drawer
+            )
+            fragCourseAssignmentDrawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+        }
+    }
+
+
+    private fun setupMenu(chapters: List<ChapterSummary>) {
+        binding.apply {
+            fragCourseAssignmentDrawerNavigation.menu.apply {
+                menuItems.clear()
+                clear()
+                chapters.forEach {
+                    add(it.title).isChecked = (args.chapterId == it.id)
+                    menuItems.add(getItem(menuItems.count()))
+                }
+            }
+            fragCourseAssignmentDrawerNavigation.setNavigationItemSelectedListener {
+                chapters[menuItems.indexOf(it)].let { chapter ->
+                    val destination =
+                        getChapterDestination(chapter.id, chapter.type as ChapterType)
+                    findNavController().navigate(destination)
+                }
+                fragCourseAssignmentDrawerLayout.closeDrawer(GravityCompat.START)
+                true
+            }
+        }
+    }
+
+    private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
+        return when (type) {
+            ChapterType.CONTENT -> CourseAssignmentFragmentDirections.actionCourseAssignmentFragmentToCourseContentFragment(
+                args.courseId, chapterId
+            )
+            else -> CourseAssignmentFragmentDirections.actionCourseAssignmentFragmentSelf(
+                args.courseId, chapterId
+            )
+        }
     }
 
     override fun onSubmitAnswerListener(
