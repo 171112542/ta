@@ -2,8 +2,6 @@ package com.mobile.ta.ui.course.chapter.content
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.webkit.*
 import androidx.core.view.isVisible
@@ -13,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentThreeDBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.utils.HandlerUtil
 import com.mobile.ta.viewmodel.course.chapter.content.ThreeDViewModel
 
 class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding::inflate),
@@ -82,8 +81,6 @@ class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding
         private val toggleBackButtonState: () -> Unit,
         private val activity: Activity
     ) {
-        private val handler = Handler(Looper.getMainLooper())
-
         @JavascriptInterface
         fun getSketchfabId(): String {
             return sketchfabId
@@ -91,10 +88,8 @@ class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding
 
         @JavascriptInterface
         fun toggleBackButton() {
-            handler.post {
-                activity.runOnUiThread {
-                    toggleBackButtonState.invoke()
-                }
+            HandlerUtil.runOnUiThread(activity) {
+                toggleBackButtonState.invoke()
             }
         }
     }

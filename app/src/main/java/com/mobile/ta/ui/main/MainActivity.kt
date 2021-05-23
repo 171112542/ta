@@ -16,6 +16,7 @@ import com.mobile.ta.ui.course.MyCourseFragmentDirections
 import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.ui.user.profile.ProfileFragmentDirections
+import com.mobile.ta.utils.HandlerUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,6 +45,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             toggleBottomNavAnimation()
             showActionBar(destination.id)
+            toolbar.setNavigationOnClickListener {
+                navController.navigateUp(appBarConfiguration)
+            }
         }
 
     override val viewBindingInflater: (LayoutInflater) -> ActivityMainBinding
@@ -81,10 +85,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             setOf(
                 R.id.homeFragment,
                 R.id.myCourseFragment,
-                R.id.profileFragment,
-                R.id.courseContentFragment,
-                R.id.courseAssignmentFragment,
-                R.id.courseSubmitFragment
+                R.id.profileFragment
             )
         )
         toolbar = binding.mainToolbar
