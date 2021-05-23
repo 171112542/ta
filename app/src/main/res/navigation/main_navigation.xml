@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
-            app:destination="@id/registrationFragment" />
+            app:destination="@id/registrationFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"/>
     </fragment>
     <action
         android:id="@+id/action_global_loginFragment"
@@ -47,7 +49,9 @@
     </fragment>
     <action
         android:id="@+id/action_global_homeFragment"
-        app:destination="@id/homeFragment" />
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/main_navigation"
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/myCourseFragment"
         android:name="com.mobile.ta.ui.course.MyCourseFragment"
@@ -57,9 +61,6 @@
             android:id="@+id/action_myCourseFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_global_myCourseFragment"
-        app:destination="@id/myCourseFragment" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.mobile.ta.ui.user.profile.ProfileFragment"
@@ -72,9 +73,6 @@
             android:id="@+id/action_profileFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
     </fragment>
-    <action
-        android:id="@+id/action_global_profileFragment"
-        app:destination="@id/profileFragment" />
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.mobile.ta.ui.search.SearchFragment"
@@ -216,9 +214,6 @@
         android:name="com.mobile.ta.ui.user.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
-    <action
-        android:id="@+id/action_global_coursePracticeFragment"
-        app:destination="@id/courseAssignmentFragment" />
     <fragment
         android:id="@+id/courseSubmitFragment"
         android:name="com.mobile.ta.ui.course.chapter.assignment.CourseSubmitFragment"
