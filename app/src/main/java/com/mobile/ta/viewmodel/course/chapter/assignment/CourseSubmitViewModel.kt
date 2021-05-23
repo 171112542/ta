@@ -3,12 +3,14 @@ package com.mobile.ta.viewmodel.course.chapter.assignment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.ChapterRepository
+import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.viewmodel.base.BaseViewModel
@@ -22,6 +24,7 @@ class CourseSubmitViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
+    private val courseRepository: CourseRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
@@ -44,8 +47,15 @@ class CourseSubmitViewModel @Inject constructor(
         get() = _showRetryButton
     var nextChapterSummary: ChapterSummary? = null
 
+    private val _course = MutableLiveData<Course>()
+    val course: LiveData<Course> get() = _course
+
     init {
         launchViewModelScope {
+            val course = courseRepository.getCourseById(courseId)
+            checkStatus(course, {
+                _course.postValue(it)
+            }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(

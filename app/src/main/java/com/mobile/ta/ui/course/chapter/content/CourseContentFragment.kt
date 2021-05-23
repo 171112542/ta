@@ -163,19 +163,19 @@ class CourseContentFragment :
         binding.apply {
             val toggle = ActionBarDrawerToggle(
                 mMainActivity,
-                drawerLayout,
+                courseContentDrawerLayout,
                 mMainActivity.getToolbar(),
                 R.string.open_drawer,
                 R.string.close_drawer
             )
-            drawerLayout.addDrawerListener(toggle)
+            courseContentDrawerLayout.addDrawerListener(toggle)
             toggle.syncState()
         }
     }
 
     private fun setupMenu(chapters: List<ChapterSummary>) {
         binding.apply {
-            drawerNavigation.menu.apply {
+            courseContentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
                 chapters.forEach {
@@ -183,13 +183,13 @@ class CourseContentFragment :
                     menuItems.add(getItem(menuItems.count()))
                 }
             }
-            drawerNavigation.setNavigationItemSelectedListener {
+            courseContentDrawerNavigation.setNavigationItemSelectedListener {
                 chapters[menuItems.indexOf(it)].let { chapter ->
                     val destination =
                         getChapterDestination(chapter.id, chapter.type as ChapterType)
                     findNavController().navigate(destination)
                 }
-                drawerLayout.closeDrawer(GravityCompat.START)
+                courseContentDrawerLayout.closeDrawer(GravityCompat.START)
                 true
             }
         }

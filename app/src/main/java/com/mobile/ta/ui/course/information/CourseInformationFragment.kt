@@ -195,9 +195,11 @@ class CourseInformationFragment :
     }
 
     private fun goToChapter(chapterId: String, type: ChapterType) {
-        findNavController().navigate(
-            getChapterDestination(chapterId, type)
-        )
+        if (viewModel.userCourse.value?.data.isNotNull()) {
+            findNavController().navigate(
+                getChapterDestination(chapterId, type)
+            )
+        }
     }
 
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {

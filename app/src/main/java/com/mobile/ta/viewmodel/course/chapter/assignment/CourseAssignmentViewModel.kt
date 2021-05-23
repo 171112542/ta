@@ -1,9 +1,11 @@
 package com.mobile.ta.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.Transformations
+import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
@@ -27,6 +29,7 @@ class CourseAssignmentViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userCourseRepository: UserCourseRepository,
     private val userChapterRepository: UserChapterRepository,
+    private val courseRepository: CourseRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
@@ -44,8 +47,15 @@ class CourseAssignmentViewModel @Inject constructor(
     val navigateToSubmitResultPage: LiveData<Boolean>
         get() = _navigateToSubmitResultPage
 
+    private val _course = MutableLiveData<Course>()
+    val course: LiveData<Course> get() = _course
+
     init {
         launchViewModelScope {
+            val course = courseRepository.getCourseById(courseId)
+            checkStatus(course, {
+                _course.postValue(it)
+            }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(
@@ -106,19 +116,7 @@ class CourseAssignmentViewModel @Inject constructor(
                 courseId,
                 chapterId
             )
-            val userChapters = userChapterRepository.getUserChapters(loggedInUid, courseId)
-            val chapters = chapterRepository.getChapters(courseId)
-            val isFinished =
-                if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
-                else false
-            val userCourse = UserCourse().apply {
-                finished = isFinished
-            }
-            userCourseRepository.addUserCourse(
-                loggedInUid,
-                courseId,
-                userCourse.toHashMap()
-            )
+            updateFinishedCourse(loggedInUid, courseId)
             selectedAnswers.value?.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
@@ -132,6 +130,24 @@ class CourseAssignmentViewModel @Inject constructor(
             userRepository
                 .updateCorrectAnswerCount(loggedInUid, userSubmittedAssignment, courseId, chapterId)
             _navigateToSubmitResultPage.postValue(true)
+        }
+    }
+
+    private suspend fun updateFinishedCourse(userId: String, courseId: String) {
+        val userChapters = userChapterRepository.getUserChapters(userId, courseId)
+        val chapters = chapterRepository.getChapters(courseId)
+        val isFinished =
+            if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
+            else false
+        if (isFinished) {
+            val userCourse = UserCourse().apply {
+                finished = isFinished
+            }
+            userCourseRepository.updateFinishedCourse(
+                userId,
+                courseId,
+                userCourse.toHashMap()
+            )
         }
     }
 }

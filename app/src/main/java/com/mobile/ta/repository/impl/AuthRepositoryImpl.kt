@@ -52,7 +52,7 @@ class AuthRepositoryImpl @Inject constructor(
         return GoogleSignIn.getSignedInAccountFromIntent(data).fetchDataWithResult()
     }
 
-    override suspend fun getUser(): FirebaseUser? {
+    override fun getUser(): FirebaseUser? {
         return auth.currentUser
     }
 

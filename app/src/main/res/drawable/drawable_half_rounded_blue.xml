@@ -5,8 +5,8 @@
             android:shape="oval"
             android:useLevel="false">
             <size
-                android:width="60dp"
-                android:height="60dp" />
+                android:width="@dimen/my_course_half_circle_size"
+                android:height="@dimen/my_course_half_circle_size" />
             <gradient
                 android:angle="135"
                 android:endColor="@color/accent_blue"

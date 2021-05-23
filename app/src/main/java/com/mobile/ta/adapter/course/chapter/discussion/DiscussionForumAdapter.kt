@@ -61,7 +61,7 @@ class DiscussionForumAdapter(private val onClickListener: (String) -> Unit) :
                     onClickListener.invoke(data.id)
                 }
 
-                viewRounded.background = getDrawable(viewType)
+                courseCardViewRounded.background = getDrawable(viewType)
             }
         }
 
