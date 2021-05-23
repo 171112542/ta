@@ -1,110 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.circularreveal.cardview.CircularRevealCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/dp_16"
-    android:paddingEnd="@dimen/dp_16">
+    android:layout_marginBottom="@dimen/dp_16">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_id"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_20"
-        android:paddingBottom="@dimen/dp_20"
-        android:textAppearance="@style/TextAppearance.TA.Headline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="SUGGSTN - 020000012" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_submit_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/dp_16"
-        android:paddingBottom="@dimen/dp_16"
-        android:text="@string/submitted_label"
-        android:textAppearance="@style/TextAppearance.TA.Headline5"
-        android:textColor="?attr/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@id/profile_feedback_id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/profile_feedback_id"
-        tools:text="Submitted" />
-
-    <LinearLayout
-        android:id="@+id/profile_feedback_separator_line"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black_60"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_id" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_date_submitted_label"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="@string/date_submitted_label"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="@color/black_60"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_separator_line" />
+        android:padding="@dimen/dp_12">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_date_submitted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_date_submitted_label"
-        tools:text="June 18th, 2020 5:15PM" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_id"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/dp_16"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="SUGGSTN - 020000012" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_type_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="@string/feedback_type_label"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="@color/black_60"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_date_submitted" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_submit_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submitted_label"
+            android:textAppearance="@style/TextAppearance.TA.Headline5"
+            android:textColor="?attr/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/profile_feedback_id"
+            tools:text="Submitted" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_type_label"
-        tools:text="Others" />
+        <LinearLayout
+            android:id="@+id/profile_feedback_separator_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/drawable_black_gradient_overlay"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_id" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_description_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:text="@string/description_label"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-        android:textColor="@color/black_60"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_type" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_date_submitted_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/date_submitted_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/black_60"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_separator_line" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_feedback_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_4"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_feedback_description_label"
-        tools:text="Something wrong in the logout button" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_date_submitted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_date_submitted_label"
+            tools:text="June 18th, 2020 5:15PM" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_type_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/feedback_type_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/black_60"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_date_submitted" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_type_label"
+            tools:text="Others" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_description_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:text="@string/description_label"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/black_60"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_type" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/profile_feedback_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_4"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_feedback_description_label"
+            tools:text="Something wrong in the logout button" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.circularreveal.cardview.CircularRevealCardView>

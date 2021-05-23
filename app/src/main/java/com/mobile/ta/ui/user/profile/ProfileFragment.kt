@@ -70,6 +70,12 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         viewModel.user.observe(viewLifecycleOwner, {
             it?.let { user ->
                 setProfileData(user.photo, user.name, user.bio)
+                viewModel.fetchUserCourseCount(user.id)
+            }
+        })
+        viewModel.userCourseCount.observe(viewLifecycleOwner, {
+            it?.let { courseCount ->
+                setCourseInfo(courseCount.first, courseCount.second)
             }
         })
         viewModel.isAuthenticated.observe(viewLifecycleOwner, {
@@ -105,10 +111,13 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         }
     }
 
-    private fun setCourseInfo(courseCount: String, finishedCourseCount: String) {
+    private fun setCourseInfo(courseCount: Int, finishedCourseCount: Int) {
         binding.apply {
-            textViewProfileCourse.text = courseCount
-            textViewProfileFinished.text = finishedCourseCount
+            textViewProfileCourse.text = courseCount.toString()
+            textViewProfileFinished.text = finishedCourseCount.toString()
+
+            textViewProfileCourseLabel.text =
+                resources.getQuantityText(R.plurals.profile_course_label, courseCount)
         }
     }
 }

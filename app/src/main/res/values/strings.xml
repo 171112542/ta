@@ -132,6 +132,12 @@
     <string name="feedback_sent_message">Feedback sent!</string>
     <string name="feedback_not_sent_message">Failed to send your feedback. Please try again.</string>
 
+    <plurals name="profile_course_label">
+        <item quantity="zero">Course</item>
+        <item quantity="one">Course</item>
+        <item quantity="other">Courses</item>
+    </plurals>
+
     <!-- Course Info -->
     <string name="enrollment">Enrollment</string>
     <string name="enrollment_key_hint">Enrollment Key</string>

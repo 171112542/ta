@@ -4,15 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="@dimen/dp_16"
-    android:paddingTop="@dimen/dp_8"
-    android:paddingEnd="@dimen/dp_16">
+    android:padding="@dimen/dp_16">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_about_email_image_view"
         android:layout_width="@dimen/dp_32"
         android:layout_height="@dimen/dp_32"
-        android:layout_marginTop="@dimen/dp_32"
         android:src="@drawable/ic_mail_outline_black_24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
