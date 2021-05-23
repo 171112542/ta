@@ -3,8 +3,6 @@ package com.mobile.ta.ui.course.chapter.content
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.MenuItem
 import android.view.View
 import android.webkit.*
@@ -22,6 +20,7 @@ import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.utils.HandlerUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
 import com.mobile.ta.viewmodel.course.chapter.content.CourseContentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -62,6 +61,7 @@ class CourseContentFragment :
                     error: WebResourceError?
                 ) {
                 }
+
             }
             viewModel.course.observe(viewLifecycleOwner, { result ->
                 if (result.status == StatusType.SUCCESS) {
@@ -213,32 +213,24 @@ class CourseContentFragment :
         private val navigateToThreeD: (Chapter) -> Unit,
         private val activity: Activity
     ) {
-        private val handler = Handler(Looper.getMainLooper())
-
         @JavascriptInterface
         fun navigateNext() {
-            handler.post {
-                activity.runOnUiThread {
-                    navigateToNextChapter.invoke(chapter)
-                }
+            HandlerUtil.runOnUiThread(activity) {
+                navigateToNextChapter.invoke(chapter)
             }
         }
 
         @JavascriptInterface
         fun navigatePrevious() {
-            handler.post {
-                activity.runOnUiThread {
-                    navigateToPreviousChapter.invoke(chapter)
-                }
+            HandlerUtil.runOnUiThread(activity) {
+                navigateToPreviousChapter.invoke(chapter)
             }
         }
 
         @JavascriptInterface
         fun navigateThreeD() {
-            handler.post {
-                activity.runOnUiThread {
-                    navigateToThreeD.invoke(chapter)
-                }
+            HandlerUtil.runOnUiThread(activity) {
+                navigateToThreeD.invoke(chapter)
             }
         }
 
