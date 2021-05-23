@@ -1,8 +1,11 @@
 package com.mobile.ta.repository.impl
 
+import android.R
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -19,10 +22,12 @@ import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+
 @ExperimentalCoroutinesApi
 class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
-    database: FirebaseFirestore
+    database: FirebaseFirestore,
+    private val googleSignInClient: GoogleSignInClient
 ) : AuthRepository {
 
     private val userCollection by lazy {
@@ -61,6 +66,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logOut() {
+        googleSignInClient.signOut()
         auth.signOut()
     }
 }

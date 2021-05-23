@@ -5,6 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.databinding.FragmentSettingsBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.viewmodel.user.settings.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,7 +38,7 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(FragmentSettingsB
     }
 
     private fun processLogOut() {
-        viewModel.logOut()
-        findNavController().navigate(SettingsFragmentDirections.actionGlobalLoginFragment())
+        viewModel.doLogOut()
+        findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
     }
 }

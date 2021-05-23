@@ -3,6 +3,7 @@ package com.mobile.ta.ui.main
 import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,11 +13,8 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.base.BaseActivity
-import com.mobile.ta.ui.course.MyCourseFragmentDirections
 import com.mobile.ta.ui.home.HomeFragmentDirections
 import com.mobile.ta.ui.login.LoginFragmentDirections
-import com.mobile.ta.ui.user.profile.ProfileFragmentDirections
-import com.mobile.ta.utils.HandlerUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -45,9 +43,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             }
             toggleBottomNavAnimation()
             showActionBar(destination.id)
-            toolbar.setNavigationOnClickListener {
-                navController.navigateUp(appBarConfiguration)
-            }
         }
 
     override val viewBindingInflater: (LayoutInflater) -> ActivityMainBinding
@@ -103,13 +98,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     private fun setupBottomNavMenu(navController: NavController) {
-        binding.actMainBottomNav.onItemSelected = { pos ->
-            when (pos) {
-                0 -> navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
-                1 -> navController.navigate(MyCourseFragmentDirections.actionGlobalMyCourseFragment())
-                2 -> navController.navigate(ProfileFragmentDirections.actionGlobalProfileFragment())
-            }
-        }
+        val popupMenu = PopupMenu(this, null)
+        popupMenu.inflate(R.menu.main_nav_menu)
+        val menu = popupMenu.menu
+        binding.actMainBottomNav.setupWithNavController(menu, navController)
     }
 
     private fun showActionBar(destinationId: Int) {
