@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
+import com.mobile.ta.repository.UserCourseRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,9 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
+    authRepository: AuthRepository,
     private val userRepository: UserRepository,
-    private val notificationRepository: NotificationRepository
+    private val userCourseRepository: UserCourseRepository,
+    notificationRepository: NotificationRepository
 ) : BaseViewModelWithAuth(authRepository, notificationRepository) {
 
     private val _isAuthenticated = MutableLiveData<Boolean>()
@@ -25,7 +27,12 @@ class ProfileViewModel @Inject constructor(
     val user: LiveData<User>
         get() = _user
 
+    private val _userCourseCount = MutableLiveData<Pair<Int, Int>>()
+    val userCourseCount: LiveData<Pair<Int, Int>>
+        get() = _userCourseCount
+
     fun fetchUserData() {
+        _userCourseCount.value = Pair(0, 0)
         launchViewModelScope {
             checkStatus(userRepository.getUser(), { user ->
                 _user.postValue(user)
@@ -35,6 +42,24 @@ class ProfileViewModel @Inject constructor(
                 _isAuthenticated.postValue(false)
             })
         }
+    }
+
+    fun fetchUserCourseCount(userId: String) {
+        var courseCount = Pair(0, 0)
+        launchViewModelScope {
+            checkStatus(userCourseRepository.getUserCourses(userId, false), { data ->
+                courseCount = Pair(data.size, courseCount.second)
+                setCourseCount(courseCount)
+            })
+            checkStatus(userCourseRepository.getUserCourses(userId, true), { data ->
+                courseCount = Pair(courseCount.first, data.size)
+                setCourseCount(courseCount)
+            })
+        }
+    }
+
+    private fun setCourseCount(course: Pair<Int, Int>) {
+        _userCourseCount.postValue(course)
     }
 
     private fun doLogOut() {

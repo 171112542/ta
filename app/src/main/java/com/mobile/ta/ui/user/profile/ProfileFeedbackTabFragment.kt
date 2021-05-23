@@ -50,8 +50,10 @@ class ProfileFeedbackTabFragment :
     private fun setupObserver() {
         viewModel.fetchFeedbacks(profileViewModel.user.value?.id)
         viewModel.feedbacks.observe(viewLifecycleOwner, {
-            feedbackAdapter.submitList(it)
-            showEmptyState(it.isEmpty())
+            it?.let { data ->
+                feedbackAdapter.submitList(data)
+                showEmptyState(data.isEmpty())
+            }
         })
     }
 

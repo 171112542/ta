@@ -16,4 +16,11 @@ data class Feedback(
 
     @Serializable(with = TimestampSerializer::class)
     val createdAt: Timestamp
-)
+) {
+    constructor() : this(
+        "",
+        "",
+        "",
+        Timestamp.now()
+    )
+}
