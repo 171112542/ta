@@ -19,10 +19,6 @@ suspend fun <T> CollectionReference.fetchData(
     return statusData
 }
 
-suspend fun CollectionReference.fetchDataSize(): Int {
-    return get().await().size()
-}
-
 @ExperimentalCoroutinesApi
 suspend fun <T> DocumentReference.fetchData(mapper: (DocumentSnapshot) -> T?): Status<T> {
     lateinit var statusData: Status<T>

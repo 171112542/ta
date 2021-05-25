@@ -1,7 +1,7 @@
 package com.mobile.ta.repository
 
+import com.google.firebase.firestore.Query
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
-import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.utils.wrapper.status.Status
 
 interface DiscussionRepository {
@@ -15,8 +15,7 @@ interface DiscussionRepository {
     ): Status<DiscussionForum>
 
     suspend fun getDiscussionForumAnswers(
-        courseId: String, chapterId: String, discussionId: String
-    ): Status<MutableList<DiscussionForumAnswer>>
+        courseId: String, chapterId: String, discussionId: String): Query
 
     suspend fun addDiscussionForum(
         courseId: String, chapterId: String, data: HashMap<String, Any?>

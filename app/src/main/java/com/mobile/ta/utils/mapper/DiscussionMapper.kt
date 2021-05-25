@@ -1,6 +1,7 @@
 package com.mobile.ta.utils.mapper
 
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.QuerySnapshot
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import java.util.*
@@ -18,8 +19,10 @@ object DiscussionMapper {
     const val ACCEPTED_ANSWER_ID = "acceptedAnswerId"
     const val IS_ACCEPTED = "isAccepted"
 
-    fun mapToDiscussionForums(snapshots: MutableList<DocumentSnapshot>): MutableList<DiscussionForum> {
-        return DataMapper.mapToLists(snapshots, ::mapToDiscussionForum)
+    fun mapToDiscussionForums(snapshots: QuerySnapshot): MutableList<DiscussionForum> {
+        return snapshots.map {
+            mapToDiscussionForum(it)
+        }.toMutableList()
     }
 
     fun mapToDiscussionForum(snapshot: DocumentSnapshot): DiscussionForum {
@@ -46,8 +49,10 @@ object DiscussionMapper {
         )
     }
 
-    fun mapToDiscussionForumAnswers(snapshots: MutableList<DocumentSnapshot>): MutableList<DiscussionForumAnswer> {
-        return DataMapper.mapToLists(snapshots, ::mapToDiscussionForumAnswer)
+    fun mapToDiscussionForumAnswers(snapshots: QuerySnapshot): MutableList<DiscussionForumAnswer> {
+        return snapshots.map {
+            mapToDiscussionForumAnswer(it)
+        }.toMutableList()
     }
 
     private fun mapToDiscussionForumAnswer(snapshot: DocumentSnapshot): DiscussionForumAnswer {

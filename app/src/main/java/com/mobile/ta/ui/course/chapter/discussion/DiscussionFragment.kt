@@ -43,6 +43,7 @@ class DiscussionFragment :
                 setHasFixedSize(false)
             }
         }
+        showLoadingState(true)
         setupObserver()
     }
 
@@ -72,20 +73,16 @@ class DiscussionFragment :
         })
         viewModel.discussionAnswers.observe(viewLifecycleOwner, {
             it?.let { data ->
-                if (data.isEmpty()) {
-                    hideEmptyResult()
-                } else {
-                    showResult()
-                    discussionAnswerAdapter.submitList(data)
-                    binding.layoutDiscussionQuestion.textViewReplyCount.text = data.size.toString()
-                }
+                showEmptyState(data.isEmpty())
+                showLoadingState(false)
+                discussionAnswerAdapter.submitList(data)
+                binding.layoutDiscussionQuestion.textViewReplyCount.text = data.size.toString()
             }
         })
         viewModel.isAnswerAdded.observe(viewLifecycleOwner, {
             it?.let { added ->
                 if (added) {
                     showSuccessAddReplyToast()
-                    viewModel.fetchDiscussion()
                 }
                 viewModel.setIsAnswerAdded(false)
             }
@@ -95,14 +92,6 @@ class DiscussionFragment :
                 discussionAnswerAdapter.setIsCurrentUser(viewModel.isCurrentUser())
             }
         })
-    }
-
-    private fun hideEmptyResult() {
-        binding.apply {
-            recyclerViewDiscussionAnswer.visibility = View.GONE
-            progressBarDiscussionLoad.visibility = View.GONE
-            textViewDiscussionRepliesEmpty.visibility = View.VISIBLE
-        }
     }
 
     private fun openReplyBottomSheet() {
@@ -130,11 +119,15 @@ class DiscussionFragment :
         }
     }
 
-    private fun showResult() {
+    private fun showEmptyState(isEmpty: Boolean) {
         with(binding) {
-            recyclerViewDiscussionAnswer.visibility = View.VISIBLE
-            progressBarDiscussionLoad.visibility = View.GONE
+            recyclerViewDiscussionAnswer.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            textViewDiscussionRepliesEmpty.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
+    }
+
+    private fun showLoadingState(isLoading: Boolean) {
+        binding.progressBarDiscussionLoad.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showSuccessAddReplyToast() {

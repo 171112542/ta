@@ -3,12 +3,14 @@ package com.mobile.ta.viewmodel.course.chapter.discussion
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.ListenerRegistration
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.isNotNullOrBlank
+import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.viewmodel.base.BaseViewModel
@@ -49,6 +51,13 @@ class DiscussionViewModel @Inject constructor(
     val user: LiveData<User>
         get() = _user
 
+    private var snapshotListener: ListenerRegistration? = null
+
+    override fun onCleared() {
+        super.onCleared()
+        snapshotListener?.remove()
+    }
+
     fun createNewDiscussionAnswer(answer: String) {
         val discussionForumAnswer = hashMapOf<String, Any>(
             DiscussionMapper.ANSWER to answer,
@@ -67,9 +76,7 @@ class DiscussionViewModel @Inject constructor(
                 checkStatus(discussionRepository.getDiscussionForumById(courseId, chapterId, id), {
                     _discussionForumQuestion.postValue(it)
                 })
-                checkStatus(discussionRepository.getDiscussionForumAnswers(courseId, chapterId, id), {
-                    _discussionAnswers.postValue(it)
-                })
+                addSnapshotListener(courseId, chapterId, id)
                 checkStatus(userRepository.getUser(), {
                     _user.postValue(it)
                 })
@@ -117,4 +124,15 @@ class DiscussionViewModel @Inject constructor(
 
     private fun areDataNotNull() =
         _id.isNotNullOrBlank() && _chapterId.isNotNullOrBlank() && _courseId.isNotNullOrBlank()
+
+    private suspend fun addSnapshotListener(courseId: String, chapterId: String, id: String) {
+        if (snapshotListener.isNull()) {
+            snapshotListener = discussionRepository.getDiscussionForumAnswers(courseId, chapterId, id)
+                .addSnapshotListener { value, error ->
+                    if (error.isNull()) {
+                        _discussionAnswers.postValue(DiscussionMapper.mapToDiscussionForumAnswers(value!!))
+                    }
+                }
+        }
+    }
 }
