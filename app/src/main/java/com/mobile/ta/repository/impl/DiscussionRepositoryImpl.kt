@@ -1,9 +1,9 @@
 package com.mobile.ta.repository.impl
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
-import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.DiscussionMapper
@@ -19,10 +19,9 @@ class DiscussionRepositoryImpl @Inject constructor(
     override suspend fun getDiscussionForums(
         courseId: String, chapterId: String
     ): Status<MutableList<DiscussionForum>> {
-        return getDiscussionCollection(
-            courseId,
-            chapterId
-        ).fetchData(DiscussionMapper::mapToDiscussionForums)
+        return getDiscussionCollection(courseId, chapterId)
+            .orderBy(DiscussionMapper.CREATED_AT, Query.Direction.DESCENDING)
+            .fetchData(DiscussionMapper::mapToDiscussionForums)
     }
 
     override suspend fun getDiscussionForumById(
@@ -33,10 +32,9 @@ class DiscussionRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getDiscussionForumAnswers(
-        courseId: String, chapterId: String, discussionId: String
-    ): Status<MutableList<DiscussionForumAnswer>> {
+        courseId: String, chapterId: String, discussionId: String): Query {
         return getDiscussionAnswerCollection(courseId, chapterId, discussionId)
-            .fetchData(DiscussionMapper::mapToDiscussionForumAnswers)
+            .orderBy(DiscussionMapper.CREATED_AT, Query.Direction.DESCENDING)
     }
 
     override suspend fun addDiscussionForum(

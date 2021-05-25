@@ -38,7 +38,6 @@ class DiscussionForumFragment :
                 setHasFixedSize(true)
             }
         }
-        showLoading()
         setupObserver()
     }
 
@@ -52,22 +51,28 @@ class DiscussionForumFragment :
 
     private fun setupObserver() {
         viewModel.setCourseAndChapterId(args.courseId, args.chapterId)
-        viewModel.fetchDiscussionForums()
+        fetchDiscussionForums()
         viewModel.discussionForums.observe(viewLifecycleOwner, {
             it?.let { data ->
                 discussionForumAdapter.submitList(data)
-                showResult()
+                scrollToTop()
+                showLoadingState(false)
             }
         })
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
             it?.let { isForumAdded ->
                 if (isForumAdded) {
                     showSuccessAddForumToast()
-                    viewModel.fetchDiscussionForums()
+                    fetchDiscussionForums()
                 }
                 viewModel.setIsForumAdded(false)
             }
         })
+    }
+
+    private fun fetchDiscussionForums() {
+        showLoadingState(true)
+        viewModel.fetchDiscussionForums()
     }
 
     private fun goToDiscussionDetail(discussionForumId: String) {
@@ -79,22 +84,19 @@ class DiscussionForumFragment :
         )
     }
 
-    private fun showLoading() {
-        with(binding) {
-            recyclerViewDiscussions.visibility = View.GONE
-            progressBarDiscussionForumLoad.visibility = View.VISIBLE
-        }
-    }
-
     private fun openCreateDiscussionBottomSheet() {
         CreateDiscussionForumBottomSheetDialogFragment.newInstance(viewModel::createNewDiscussion)
             .show(parentFragmentManager, CREATE_NEW_DISCUSSION_TAG)
     }
 
-    private fun showResult() {
+    private fun scrollToTop() {
+        binding.recyclerViewDiscussions.scrollToPosition(0)
+    }
+
+    private fun showLoadingState(isLoading: Boolean) {
         with(binding) {
-            recyclerViewDiscussions.visibility = View.VISIBLE
-            progressBarDiscussionForumLoad.visibility = View.GONE
+            recyclerViewDiscussions.visibility = if (isLoading) View.GONE else View.VISIBLE
+            progressBarDiscussionForumLoad.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
     }
 
