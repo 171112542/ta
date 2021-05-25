@@ -41,6 +41,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.profileFragment -> false
                 else -> true
             }
+            toolbar.setNavigationOnClickListener {
+                navController.navigateUp(appBarConfiguration)
+            }
             toggleBottomNavAnimation()
             showActionBar(destination.id)
         }
