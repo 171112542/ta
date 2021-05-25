@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
+import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
 import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.repository.*
@@ -22,14 +23,19 @@ class CourseContentViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userCourseRepository: UserCourseRepository,
     private val userChapterRepository: UserChapterRepository,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val discussionRepository: DiscussionRepository
 ) :
     BaseViewModel() {
     private var _course = MutableLiveData<Status<Course>>()
     val course: LiveData<Status<Course>> get() = _course
     private var _chapter = MutableLiveData<Status<Chapter>>()
     val chapter: LiveData<Status<Chapter>> get() = _chapter
-    private val loggedInUid = authRepository.getUser()?.uid as String
+    private val loggedInUid = authRepository.getUser()?.uid
+    private var _discussions = MutableLiveData<Status<MutableList<DiscussionForum>>>()
+    val discussions: LiveData<Status<MutableList<DiscussionForum>>> get() = _discussions
+    private val _userChapters = MutableLiveData<Status<MutableList<UserChapter>>>()
+    val userChapters: LiveData<Status<MutableList<UserChapter>>> get() = _userChapters
 
     fun getCourseChapter(courseId: String, chapterId: String) {
         launchViewModelScope {
@@ -42,18 +48,29 @@ class CourseContentViewModel @Inject constructor(
 
     fun addUserChapter(courseId: String, chapterId: String) {
         launchViewModelScope {
-            chapter.value?.data?.let {
-                val userChapter = UserChapter(chapterId, it.title)
-                userChapterRepository.addUserChapter(
-                    loggedInUid,
-                    courseId,
-                    chapterId,
-                    userChapter.toHashMap()
-                )
-                updateFinishedCourse(loggedInUid, courseId)
-                val chapterSummary = ChapterSummary(chapterId, it.title, it.type)
-                updateLastAccessedCourse(loggedInUid, courseId, chapterSummary)
+            chapter.value?.data?.let { chapter ->
+                val userChapter = UserChapter(chapterId, chapter.title)
+                loggedInUid?.let { uid ->
+                    userChapterRepository.addUserChapter(
+                        uid,
+                        courseId,
+                        chapterId,
+                        userChapter.toHashMap()
+                    )
+                    getUserChapters(courseId)
+                    updateFinishedCourse(uid, courseId)
+                    val chapterSummary = ChapterSummary(chapterId, chapter.title, chapter.type)
+                    updateLastAccessedCourse(uid, courseId, chapterSummary)
+                }
             }
+        }
+    }
+
+    private suspend fun getUserChapters(courseId: String) {
+        loggedInUid?.let { uid ->
+            val userChaptersResult =
+                userChapterRepository.getUserChapters(uid, courseId)
+            _userChapters.postValue(userChaptersResult)
         }
     }
 
@@ -85,5 +102,11 @@ class CourseContentViewModel @Inject constructor(
             courseId,
             lastAccessedChapter
         )
+    }
+
+    fun getDiscussion(courseId: String, chapterId: String) {
+        launchViewModelScope {
+            _discussions.postValue(discussionRepository.getDiscussionForums(courseId, chapterId))
+        }
     }
 }

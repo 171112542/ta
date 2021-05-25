@@ -15,7 +15,7 @@ import com.mobile.ta.model.course.chapter.ChapterType
 import kotlinx.serialization.StringFormat
 
 class CourseInformationContentAdapter(
-    private val onClickListener: (String, ChapterType) -> Unit,
+    private val onClickListener: (String, ChapterType, Int) -> Unit,
     private val changeProgress: (String, TextView) -> Unit
 ) : ListAdapter<Chapter, CourseInformationContentAdapter.CourseInfoChapterViewHolder>(
     CourseInfoChapterDiffCallback()
@@ -35,7 +35,7 @@ class CourseInformationContentAdapter(
                     ChapterType.QUIZ -> String.format(context.getString(R.string.quiz_number), typeOrder)
                 }
                 root.setOnClickListener {
-                    onClickListener.invoke(data.id, data.type)
+                    onClickListener.invoke(data.id, data.type, data.order)
                 }
             }
         }

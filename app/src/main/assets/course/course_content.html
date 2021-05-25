@@ -57,7 +57,7 @@
             margin: 10px 0;
         }
         #content div.heading-level-1 h1 {
-            color: green;
+            color: #00CB9D;
             margin-top: 20px;
         }
         #content p {
@@ -189,19 +189,13 @@
             previousChapterTitle.innerHTML = chapter['previousChapter']['title'];
 
         }
-        if (!chapter['nextChapter']) {
-            nextChapter.classList.add('d-none');
-        } else {
-            nextChapter.classList.remove('d-none');
-            nextChapterTitle.innerHTML = chapter['nextChapter']['title'];
-        }
+        nextChapterTitle.innerHTML = Android.getNextChapter();
         previousChapter.addEventListener('click', function() {
             Android.navigatePrevious()
         });
         nextChapter.addEventListener('click', function() {
             Android.navigateNext()
         });
-
 </script>
 </body>
 </html>

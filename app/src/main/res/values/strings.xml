@@ -195,4 +195,5 @@
     <string name="permission_not_granted_message">Fail to get permission.</string>
     <string name="default_string_field">-</string>
     <string name="fcm_token_shared_pref_key">fcmToken</string>
+    <string name="require_previous_chapter">You need to complete previous chapter.</string>
 </resources>

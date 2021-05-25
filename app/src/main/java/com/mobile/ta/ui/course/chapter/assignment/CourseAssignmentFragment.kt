@@ -20,7 +20,6 @@ import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.ui.course.chapter.content.CourseContentFragmentDirections
 import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +69,11 @@ class CourseAssignmentFragment :
         viewmodel.course.observe(viewLifecycleOwner, {
             setupMenu(it.chapterSummaryList)
         })
+        viewmodel.userChapters.observe(viewLifecycleOwner, {
+            viewmodel.course.value?.chapterSummaryList?.let {
+                setupMenu(it)
+            }
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +110,11 @@ class CourseAssignmentFragment :
             fragCourseAssignmentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                chapters.forEach {
+                chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (args.chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()))
+                    menuItems.add(getItem(menuItems.count()).apply {
+                        isEnabled = (viewmodel.userChapters.value?.size ?: 0 >= index)
+                    })
                 }
             }
             fragCourseAssignmentDrawerNavigation.setNavigationItemSelectedListener {

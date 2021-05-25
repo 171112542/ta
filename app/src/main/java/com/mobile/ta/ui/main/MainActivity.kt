@@ -41,12 +41,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 R.id.profileFragment -> false
                 else -> true
             }
+            toggleBottomNavAnimation()
+            showActionBar(destination.id)
+            addNavigateUpListener(destination.id)
+        }
+
+    private fun addNavigateUpListener(destinationId: Int) {
+        val isNeedNavigateUp = when (destinationId) {
+            R.id.courseContentFragment -> false
+            R.id.courseAssignmentFragment -> false
+            R.id.courseSubmitFragment -> false
+            else -> true
+        }
+        if (isNeedNavigateUp) {
             toolbar.setNavigationOnClickListener {
                 navController.navigateUp(appBarConfiguration)
             }
-            toggleBottomNavAnimation()
-            showActionBar(destination.id)
         }
+    }
 
     override val viewBindingInflater: (LayoutInflater) -> ActivityMainBinding
         get() = ActivityMainBinding::inflate
