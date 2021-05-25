@@ -1,5 +1,7 @@
 package com.mobile.ta.repository.impl
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants.CHAPTER_COLLECTION
 import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
@@ -9,6 +11,7 @@ import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.utils.fetchData
+import com.mobile.ta.utils.fetchRealtimeData
 import com.mobile.ta.utils.mapper.AssignmentQuestionMapper
 import com.mobile.ta.utils.mapper.ChapterMapper
 import com.mobile.ta.utils.mapper.ChapterMapper.ORDER_FIELD
@@ -22,7 +25,8 @@ class ChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) : C
     private val courseCollection = database.collection(COURSE_COLLECTION)
 
     override suspend fun getChapters(courseId: String): Status<MutableList<Chapter>> {
-        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION).orderBy(ORDER_FIELD)
+        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION)
+            .orderBy(ORDER_FIELD)
             .fetchData(ChapterMapper::mapToChapters)
     }
 

@@ -7,11 +7,9 @@ import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
+import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
-import com.mobile.ta.repository.AuthRepository
-import com.mobile.ta.repository.ChapterRepository
-import com.mobile.ta.repository.CourseRepository
-import com.mobile.ta.repository.UserRepository
+import com.mobile.ta.repository.*
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +23,7 @@ class CourseSubmitViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
     private val courseRepository: CourseRepository,
+    private val userChapterRepository: UserChapterRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
@@ -50,6 +49,9 @@ class CourseSubmitViewModel @Inject constructor(
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
 
+    private val _userChapters = MutableLiveData<MutableList<UserChapter>>()
+    val userChapters: LiveData<MutableList<UserChapter>> get() = _userChapters
+
     init {
         launchViewModelScope {
             val course = courseRepository.getCourseById(courseId)
@@ -57,6 +59,7 @@ class CourseSubmitViewModel @Inject constructor(
                 _course.postValue(it)
             }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
+            getUserChapters(loggedInUid, courseId)
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(
                 networkChapter, {
@@ -66,7 +69,8 @@ class CourseSubmitViewModel @Inject constructor(
                     //TODO: Add a failure handler
                 }
             )
-            val networkSubmittedAssignment = userRepository.getSubmittedChapter(loggedInUid, courseId, chapterId)
+            val networkSubmittedAssignment =
+                userRepository.getSubmittedChapter(loggedInUid, courseId, chapterId)
             checkStatus(
                 networkSubmittedAssignment, {
                     _submittedAssignment.postValue(it)
@@ -80,6 +84,15 @@ class CourseSubmitViewModel @Inject constructor(
                 _showNextChapterButton.postValue(true)
             }
         }
+    }
+
+
+    private suspend fun getUserChapters(uid: String, courseId: String) {
+        val userChaptersResult =
+            userChapterRepository.getUserChapters(uid, courseId)
+        checkStatus(userChaptersResult, {
+            _userChapters.postValue(it)
+        }, {})
     }
 
     fun retry() {

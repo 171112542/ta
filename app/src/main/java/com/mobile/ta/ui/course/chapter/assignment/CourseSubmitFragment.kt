@@ -60,9 +60,11 @@ class CourseSubmitFragment :
             fragCourseSubmitDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                chapters.forEach {
+                chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (args.chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()))
+                    menuItems.add(getItem(menuItems.count()).apply {
+                        isEnabled = (viewmodel.userChapters.value?.size ?: 0 >= index)
+                    })
                 }
             }
             fragCourseSubmitDrawerNavigation.setNavigationItemSelectedListener {

@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_course_content_item"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/information_content_card_width"
+    android:layout_height="@dimen/information_content_card_height"
     android:layout_marginVertical="@dimen/dp_4"
-    android:layout_marginStart="@dimen/dp_1"
-    android:layout_marginEnd="@dimen/dp_32"
-    android:clickable="true"
-    android:focusable="true"
+    app:cardCornerRadius="@dimen/dp_12"
     app:cardElevation="@dimen/dp_4">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/dp_16">
 
         <TextView
@@ -52,9 +49,9 @@
             android:visibility="invisible"
             app:drawableEndCompat="@drawable/ic_done_black_24dp"
             app:drawableTint="?attr/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_view_course_content_title"
             tools:ignore="MissingPrefix"
             tools:visibility="visible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

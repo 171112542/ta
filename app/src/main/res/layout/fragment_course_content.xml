@@ -10,6 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/course_content_progress_bar_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurface"
+            android:elevation="@dimen/elevation_0"
+            android:gravity="center"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
         <WebView
             android:id="@+id/course_content_content_webview"
             android:layout_width="match_parent"
@@ -28,6 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/discussion_label"
             tools:text="@string/see_discussion" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

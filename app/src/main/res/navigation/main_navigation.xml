@@ -60,6 +60,10 @@
         <action
             android:id="@+id/action_myCourseFragment_to_courseInformationFragment"
             app:destination="@id/courseInformationFragment" />
+        <argument
+            android:name="tab"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -127,6 +131,11 @@
             android:id="@+id/action_courseContentFragment_to_coursePracticeFragment"
             app:destination="@id/courseAssignmentFragment"
             app:popUpTo="@id/courseInformationFragment" />
+        <action
+            android:id="@+id/action_courseContentFragment_to_myCourseFragment"
+            app:destination="@id/myCourseFragment"
+            app:popUpTo="@id/courseInformationFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/threeDFragment"

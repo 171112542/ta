@@ -19,7 +19,7 @@ class CourseInformationViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userChapterRepository: UserChapterRepository,
     private val userCourseRepository: UserCourseRepository,
-    private val authRepository: AuthRepository
+    authRepository: AuthRepository
 ) : BaseViewModel() {
     private val _course = MutableLiveData<Status<Course>>()
     val course: LiveData<Status<Course>>
@@ -32,13 +32,15 @@ class CourseInformationViewModel @Inject constructor(
     val userCourse: LiveData<Status<UserCourse>> get() = _userCourse
     private val _enrollCourse = MutableLiveData<Status<Boolean>>()
     val enrollCourse: LiveData<Status<Boolean>> get() = _enrollCourse
-    private val loggedInUid = authRepository.getUser()?.uid as String
+    private val loggedInUid = authRepository.getUser()?.uid
 
     fun getCourse(courseId: String) {
         launchViewModelScope {
-            val userCourseResult =
-                userCourseRepository.getUserCourse(loggedInUid, courseId)
-            _userCourse.postValue(userCourseResult)
+            loggedInUid?.let { uid ->
+                val userCourseResult =
+                    userCourseRepository.getUserCourse(uid, courseId)
+                _userCourse.postValue(userCourseResult)
+            }
             val result = courseRepository.getCourseById(courseId)
             _course.postValue(result)
         }
@@ -46,35 +48,43 @@ class CourseInformationViewModel @Inject constructor(
 
     fun getChapters(courseId: String) {
         launchViewModelScope {
-            val userChaptersResult =
-                userChapterRepository.getUserChapters(loggedInUid, courseId)
-            _userChapters.postValue(userChaptersResult)
+            getUserChapters(courseId)
             val result = chapterRepository.getChapters(courseId)
             _chapters.postValue(result)
         }
     }
 
+    private suspend fun getUserChapters(courseId: String) {
+        loggedInUid?.let { uid ->
+            val userChaptersResult =
+                userChapterRepository.getUserChapters(uid, courseId)
+            _userChapters.postValue(userChaptersResult)
+        }
+    }
+
     fun enrollCourse(courseId: String, enrollmentKey: String) {
         launchViewModelScope {
-            course.value?.data?.let {
-                if (it.enrollmentKey == enrollmentKey) {
-                    val userCourse = UserCourse(
-                        courseId,
-                        it.title,
-                        it.description,
-                        it.imageUrl,
-                        true,
-                        false
-                    )
-                    _enrollCourse.postValue(
-                        userCourseRepository.addUserCourse(
-                            loggedInUid,
+            course.value?.data?.let { course ->
+                loggedInUid?.let { uid ->
+                    if (course.enrollmentKey == enrollmentKey) {
+                        val userCourse = UserCourse(
                             courseId,
-                            userCourse.toHashMap(it.chapterSummaryList.first())
+                            course.title,
+                            course.description,
+                            course.imageUrl,
+                            true,
+                            false
                         )
-                    )
-                } else {
-                    _enrollCourse.postValue(Status.error("Wrong enrollment key."))
+                        _enrollCourse.postValue(
+                            userCourseRepository.addUserCourse(
+                                uid,
+                                courseId,
+                                userCourse.toHashMap(course.chapterSummaryList.first())
+                            )
+                        )
+                    } else {
+                        _enrollCourse.postValue(Status.error("Wrong enrollment key."))
+                    }
                 }
             }
         }
