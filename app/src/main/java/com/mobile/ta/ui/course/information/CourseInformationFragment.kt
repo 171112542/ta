@@ -1,8 +1,11 @@
 package com.mobile.ta.ui.course.information
 
+import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
@@ -23,6 +26,7 @@ import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
+import com.mobile.ta.view.DividerItemDecorator
 import com.mobile.ta.viewmodel.course.information.CourseInformationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -102,6 +106,7 @@ class CourseInformationFragment :
                         }
                     }
                 }
+                courseInformationProgressBarContainer.isVisible = false
             })
             viewModel.userCourse.observe(viewLifecycleOwner, {
                 if (it.status == StatusType.SUCCESS) {
@@ -120,8 +125,12 @@ class CourseInformationFragment :
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCourse(args.courseId)
         viewModel.getChapters(args.courseId)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getCourse(args.courseId)
     }
 
     private fun createTagChip(index: Int, text: String, color: Int): Chip {
@@ -194,11 +203,21 @@ class CourseInformationFragment :
         return colors[index % colors.size]
     }
 
-    private fun goToChapter(chapterId: String, type: ChapterType) {
-        if (viewModel.userCourse.value?.data.isNotNull()) {
-            findNavController().navigate(
-                getChapterDestination(chapterId, type)
-            )
+    private fun goToChapter(chapterId: String, type: ChapterType, position: Int) {
+        viewModel.userCourse.value?.data?.let {
+            viewModel.userChapters.value?.data?.let { userChapters ->
+                if (userChapters.size >= position) {
+                    findNavController().navigate(
+                        getChapterDestination(chapterId, type)
+                    )
+                } else {
+                    Toast.makeText(
+                        mContext,
+                        getString(R.string.require_previous_chapter),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -268,6 +287,19 @@ class CourseInformationFragment :
         binding.courseInformationContentList.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             adapter = courseContentAdapter
+            addItemDecoration(
+                DividerItemDecorator(
+                    context,
+                    LinearLayoutManager.HORIZONTAL
+                ).apply {
+                    setDrawable(
+                        ResourcesCompat.getDrawable(
+                            resources,
+                            R.drawable.drawable_dashed_item_decoration,
+                            null
+                        )!!
+                    )
+                })
         }
     }
 

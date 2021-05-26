@@ -47,6 +47,11 @@ class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding
                     request: WebResourceRequest?,
                     error: WebResourceError?
                 ) {
+                    threeDProgressBarContainer.isVisible = false
+                }
+
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    threeDProgressBarContainer.isVisible = false
                 }
             }
             threeDWebView.addJavascriptInterface(

@@ -27,11 +27,12 @@
 
     <!-- Register -->
     <string name="welcome_label">Welcome!</string>
-    <string name="identity_label">What’s your identity?</string>
+    <string name="identity_label">Let\'s update your profile info</string>
     <string name="full_name_hint">Full Name</string>
     <string name="date_of_birth_hint">Date of Birth</string>
     <string name="birth_date_picker_title_label">Choose Date</string>
     <string name="fail_to_update_profile">Failed to update your profile. Please try again.</string>
+    <string name="skip_registration">Skip</string>
 
     <!-- Search and Filter -->
     <string name="no_search_image_content_description">Search Image</string>
@@ -195,4 +196,5 @@
     <string name="permission_not_granted_message">Fail to get permission.</string>
     <string name="default_string_field">-</string>
     <string name="fcm_token_shared_pref_key">fcmToken</string>
+    <string name="require_previous_chapter">You need to complete previous chapter.</string>
 </resources>

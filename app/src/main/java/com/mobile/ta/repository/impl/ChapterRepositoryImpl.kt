@@ -22,7 +22,8 @@ class ChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) : C
     private val courseCollection = database.collection(COURSE_COLLECTION)
 
     override suspend fun getChapters(courseId: String): Status<MutableList<Chapter>> {
-        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION).orderBy(ORDER_FIELD)
+        return courseCollection.document(courseId).collection(CHAPTER_COLLECTION)
+            .orderBy(ORDER_FIELD)
             .fetchData(ChapterMapper::mapToChapters)
     }
 

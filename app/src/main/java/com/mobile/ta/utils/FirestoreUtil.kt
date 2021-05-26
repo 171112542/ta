@@ -1,5 +1,6 @@
 package com.mobile.ta.utils
 
+import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
 import com.mobile.ta.utils.wrapper.status.Status
@@ -17,10 +18,6 @@ suspend fun <T> CollectionReference.fetchData(
         statusData = Status.success(mapper.invoke(data.documents))
     }.await()
     return statusData
-}
-
-suspend fun CollectionReference.fetchDataSize(): Int {
-    return get().await().size()
 }
 
 @ExperimentalCoroutinesApi
@@ -54,6 +51,16 @@ suspend fun <T> Query.fetchData(
         statusData = Status.success(mapper.invoke(it))
     }.await()
     return statusData
+}
+
+fun <T> Query.fetchRealtimeData(
+    mapper: (QuerySnapshot) -> MutableList<T>,
+    output: MutableLiveData<Status<MutableList<T>>>
+) {
+    addSnapshotListener { value, error ->
+        if (value != null) output.postValue(Status.success(mapper.invoke(value)))
+        else output.postValue(Status.error(error?.message.orEmpty()))
+    }
 }
 
 @ExperimentalCoroutinesApi

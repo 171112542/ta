@@ -69,7 +69,7 @@ class CourseSubmitFragment :
     private fun setupDrawer() {
         binding.apply {
             val toggle = ActionBarDrawerToggle(
-                mActivity,
+                mMainActivity,
                 fragCourseSubmitDrawerLayout,
                 mMainActivity.getToolbar(),
                 R.string.open_drawer,
@@ -86,9 +86,11 @@ class CourseSubmitFragment :
             fragCourseSubmitDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                chapters.forEach {
+                chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (viewmodel.chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()))
+                    menuItems.add(getItem(menuItems.count()).apply {
+                        isEnabled = (viewmodel.userChapters.value?.size ?: 0 >= index)
+                    })
                 }
             }
             fragCourseSubmitDrawerNavigation.setNavigationItemSelectedListener {

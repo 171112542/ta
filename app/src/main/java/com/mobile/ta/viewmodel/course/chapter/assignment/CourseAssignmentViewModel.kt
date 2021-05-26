@@ -1,6 +1,5 @@
 package com.mobile.ta.viewmodel.course.chapter.assignment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -10,6 +9,7 @@ import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.user.course.UserCourse
+import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
 import com.mobile.ta.repository.*
@@ -50,6 +50,9 @@ class CourseAssignmentViewModel @Inject constructor(
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
 
+    private val _userChapters = MutableLiveData<MutableList<UserChapter>>()
+    val userChapters: LiveData<MutableList<UserChapter>> get() = _userChapters
+
     init {
         launchViewModelScope {
             val course = courseRepository.getCourseById(courseId)
@@ -71,6 +74,7 @@ class CourseAssignmentViewModel @Inject constructor(
                 courseId,
                 ChapterSummary(chapter.id, chapter.title, chapter.type)
             )
+            getUserChapters(loggedInUid, courseId)
             val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
                 loggedInUid,
                 courseId,
@@ -95,6 +99,14 @@ class CourseAssignmentViewModel @Inject constructor(
         }
     }
 
+    private suspend fun getUserChapters(uid: String, courseId: String) {
+        val userChaptersResult =
+            userChapterRepository.getUserChapters(uid, courseId)
+        checkStatus(userChaptersResult, {
+            _userChapters.postValue(it)
+        }, {})
+    }
+
     fun addSelectedAnswer(assignmentQuestion: AssignmentQuestion, selectedIndex: Int) {
         selectedAnswers.value?.add(
             UserAssignmentAnswer(
@@ -116,6 +128,7 @@ class CourseAssignmentViewModel @Inject constructor(
                 courseId,
                 chapterId
             )
+            getUserChapters(loggedInUid, courseId)
             updateFinishedCourse(loggedInUid, courseId)
             selectedAnswers.value?.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)

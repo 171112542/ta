@@ -66,6 +66,7 @@ class CourseTabFragment :
                     courseTabRecyclerView.isVisible = it.data?.count() ?: 0 != 0
                     userCourseAdapter.submitList(it.data)
                 }
+                courseTabProgressBarContainer.isVisible = false
             })
         }
     }

@@ -8,6 +8,7 @@
     <item>
         <bitmap
             android:gravity="top|end"
+            android:alpha="0.8"
             android:src="@drawable/registration_background" />
     </item>
 </layer-list>

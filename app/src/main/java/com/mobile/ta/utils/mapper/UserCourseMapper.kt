@@ -1,6 +1,5 @@
 package com.mobile.ta.utils.mapper
 
-import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.mobile.ta.model.course.chapter.ChapterSummary
