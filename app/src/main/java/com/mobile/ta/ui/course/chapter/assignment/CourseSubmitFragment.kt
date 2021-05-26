@@ -1,20 +1,26 @@
 package com.mobile.ta.ui.course.chapter.assignment
 
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.ColorFilter
+import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragCourseSubmitBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.utils.ThemeUtil.getThemeColor
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseSubmitViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,7 +32,14 @@ class CourseSubmitFragment :
     private val viewmodel by viewModels<CourseSubmitViewModel>()
     private lateinit var mMainActivity: MainActivity
     private var menuItems = mutableListOf<MenuItem>()
-    private val args: CourseSubmitFragmentArgs by navArgs()
+
+    override fun runOnCreateView() {
+        changeToolbarColors(R.attr.colorPrimary, R.attr.colorOnPrimary)
+    }
+
+    override fun runOnCreate() {
+        mMainActivity = mActivity as MainActivity
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,16 +47,29 @@ class CourseSubmitFragment :
         setupDrawer()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mMainActivity = (mActivity as MainActivity)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        changeToolbarColors(R.attr.colorOnPrimary, R.attr.colorOnBackground)
     }
 
+    private fun changeToolbarColors(backgroundResId: Int, componentsResId: Int) {
+        mMainActivity.getToolbar().let {
+            it.setBackgroundColor(
+                getThemeColor(this.requireContext(), backgroundResId)
+            )
+            it.setTitleTextColor(
+                getThemeColor(this.requireContext(), componentsResId)
+            )
+            it.navigationIcon!!.setTint(
+                getThemeColor(this.requireContext(), componentsResId)
+            )
+        }
+    }
 
     private fun setupDrawer() {
         binding.apply {
             val toggle = ActionBarDrawerToggle(
-                mMainActivity,
+                mActivity,
                 fragCourseSubmitDrawerLayout,
                 mMainActivity.getToolbar(),
                 R.string.open_drawer,
@@ -61,7 +87,7 @@ class CourseSubmitFragment :
                 menuItems.clear()
                 clear()
                 chapters.forEach {
-                    add(it.title).isChecked = (args.chapterId == it.id)
+                    add(it.title).isChecked = (viewmodel.chapterId == it.id)
                     menuItems.add(getItem(menuItems.count()))
                 }
             }
@@ -79,12 +105,14 @@ class CourseSubmitFragment :
 
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
         return when (type) {
-            ChapterType.CONTENT -> CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment(
-                args.courseId, chapterId
-            )
-            else -> CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                args.courseId, chapterId
-            )
+            ChapterType.CONTENT -> CourseSubmitFragmentDirections
+                .actionCourseSubmitFragmentToCourseContentFragment(
+                    viewmodel.courseId, chapterId
+                )
+            else -> CourseSubmitFragmentDirections
+                .actionCourseSubmitFragmentToCoursePracticeFragment(
+                    viewmodel.courseId, chapterId
+                )
         }
     }
 
@@ -120,26 +148,8 @@ class CourseSubmitFragment :
             if (!it) return@observe
             val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
             val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
-            when (nextChapterType) {
-                ChapterType.PRACTICE -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-                ChapterType.QUIZ -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-                ChapterType.CONTENT -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-            }
+            val destination = getChapterDestination(nextChapterId, nextChapterType)
+            findNavController().navigate(destination)
         }
         viewmodel.course.observe(viewLifecycleOwner, {
             setupMenu(it.chapterSummaryList)
