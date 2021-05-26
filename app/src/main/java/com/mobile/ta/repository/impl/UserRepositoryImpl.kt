@@ -14,7 +14,6 @@ import com.mobile.ta.model.user.feedback.Feedback
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
-import com.mobile.ta.utils.fetchDataWithResult
 import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.mapper.UserSubmittedAssignmentMapper
 import com.mobile.ta.utils.wrapper.status.Status
@@ -132,12 +131,6 @@ class UserRepositoryImpl @Inject constructor(
             .collection(CollectionConstants.FEEDBACK_COLLECTION)
             .orderBy(UserMapper.CREATED_AT, Query.Direction.DESCENDING)
             .fetchData(UserMapper::mapToUserFeedbacks)
-    }
-
-    override suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri> {
-        return storageReference
-            .child("${CollectionConstants.IMAGES_USERS_STORAGE_PATH}/$userId/${imageUri.lastPathSegment}")
-            .downloadUrl.fetchDataWithResult()
     }
 
     override suspend fun updateUser(user: User): Status<Boolean> {

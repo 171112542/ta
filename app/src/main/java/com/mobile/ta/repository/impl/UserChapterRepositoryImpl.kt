@@ -1,7 +1,6 @@
 package com.mobile.ta.repository.impl
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 import com.mobile.ta.config.CollectionConstants.CHAPTER_COLLECTION
 import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
 import com.mobile.ta.config.CollectionConstants.USER_COLLECTION

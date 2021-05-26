@@ -2,7 +2,6 @@ package com.mobile.ta.ui.user.profile
 
 import android.Manifest
 import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -53,8 +52,6 @@ class EditProfileFragment :
             )
         )
     }
-
-    private var loadingDialog: Dialog? = null
 
     override fun runOnCreateView() {
         binding.apply {

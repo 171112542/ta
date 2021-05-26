@@ -1,6 +1,7 @@
 package com.mobile.ta.ui.base
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -37,6 +38,8 @@ abstract class BaseFragment<T : ViewBinding>(
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     protected lateinit var intentLauncher: ActivityResultLauncher<Intent>
+
+    protected var loadingDialog: Dialog? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)

@@ -9,7 +9,6 @@ import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.CourseMapper
 import com.mobile.ta.utils.mapper.CourseMapper.TOTAL_ENROLLED_FIELD
 import com.mobile.ta.utils.mapper.CourseMapper.toHashMap
-import com.mobile.ta.utils.mapper.UserCourseMapper.FINISHED_FIELD
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

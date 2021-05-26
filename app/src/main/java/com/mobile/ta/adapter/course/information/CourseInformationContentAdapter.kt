@@ -12,7 +12,6 @@ import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.databinding.LayoutCourseContentItemBinding
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterType
-import kotlinx.serialization.StringFormat
 
 class CourseInformationContentAdapter(
     private val onClickListener: (String, ChapterType, Int) -> Unit,

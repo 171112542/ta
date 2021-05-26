@@ -1,6 +1,5 @@
 package com.mobile.ta.ui.login
 
-import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -31,8 +30,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private lateinit var googleSignInOptions: GoogleSignInOptions
 
     private val viewModel by viewModels<LoginViewModel>()
-
-    private var loadingDialog: Dialog? = null
 
     override fun onIntentResult(data: Intent?) {
         viewModel.getAccountAndAuthenticateUser(data)

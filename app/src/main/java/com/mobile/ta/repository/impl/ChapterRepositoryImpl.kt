@@ -1,7 +1,5 @@
 package com.mobile.ta.repository.impl
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants.CHAPTER_COLLECTION
 import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
@@ -11,7 +9,6 @@ import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.utils.fetchData
-import com.mobile.ta.utils.fetchRealtimeData
 import com.mobile.ta.utils.mapper.AssignmentQuestionMapper
 import com.mobile.ta.utils.mapper.ChapterMapper
 import com.mobile.ta.utils.mapper.ChapterMapper.ORDER_FIELD

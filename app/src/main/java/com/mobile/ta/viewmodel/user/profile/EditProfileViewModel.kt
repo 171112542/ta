@@ -77,12 +77,4 @@ class EditProfileViewModel @Inject constructor(
             }
         }
     }
-
-    private fun getImage(id: String, imageUri: Uri) {
-        launchViewModelScope {
-            checkStatus(userRepository.getUserImageUrl(id, imageUri), { data ->
-                _user.value?.photo = data.toString()
-            })
-        }
-    }
 }
