@@ -20,6 +20,7 @@ import com.mobile.ta.databinding.FragmentEditProfileBinding
 import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
+import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.viewmodel.user.profile.EditProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -63,6 +64,7 @@ class EditProfileFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObserver()
+        loadingDialog = DialogHelper.createLoadingDialog(mContext)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -97,11 +99,23 @@ class EditProfileFragment :
             }
         })
         viewModel.isUpdated.observe(viewLifecycleOwner, {
+            DialogHelper.dismissDialog(loadingDialog)
             if (it) {
                 showToastWithCloseAction(R.string.success_update_profile_message)
                 findNavController().navigateUp()
             } else {
                 showToast(R.string.fail_to_update_profile)
+            }
+        })
+        viewModel.isUploaded.observe(viewLifecycleOwner, {
+            if (it) {
+                viewModel.updateUser(
+                    binding.editProfileFullNameInput.text(),
+                    binding.editProfilePhoneNumberInput.text(),
+                    binding.editProfileBioInput.text()
+                )
+            } else {
+                DialogHelper.dismissDialog(loadingDialog)
             }
         })
     }
@@ -149,15 +163,9 @@ class EditProfileFragment :
     }
 
     private fun updateProfile() {
-        with(binding) {
-            if (validateName()) {
-                viewModel.uploadImage()
-                viewModel.updateUser(
-                    editProfileFullNameInput.text(),
-                    editProfilePhoneNumberInput.text(),
-                    editProfileBioInput.text()
-                )
-            }
+        if (validateName()) {
+            viewModel.uploadImage()
+            DialogHelper.showDialog(loadingDialog)
         }
     }
 

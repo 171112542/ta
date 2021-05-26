@@ -40,9 +40,7 @@ interface UserRepository {
 
     suspend fun getUserFeedbacks(id: String): Status<MutableList<Feedback>>
 
-    suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri>
-
     suspend fun updateUser(user: User): Status<Boolean>
 
-    suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Boolean>
+    suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Uri>
 }

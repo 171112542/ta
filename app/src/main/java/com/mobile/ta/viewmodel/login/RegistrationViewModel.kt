@@ -25,6 +25,10 @@ class RegistrationViewModel @Inject constructor(
     val isUpdated: LiveData<Boolean>
         get() = _isUpdated
 
+    private var _isUploaded = MutableLiveData<Boolean>()
+    val isUploaded: LiveData<Boolean>
+        get() = _isUploaded
+
     private var _profilePicture = MutableLiveData<File>()
     val profilePicture: LiveData<File>
         get() = _profilePicture
@@ -76,18 +80,13 @@ class RegistrationViewModel @Inject constructor(
             _user.value?.let { user ->
                 launchViewModelScope {
                     checkStatus(userRepository.uploadUserImage(user.id, imageUri), {
-                        getImage(user.id, imageUri)
+                        _user.value?.photo = it.toString()
+                        _isUploaded.postValue(true)
+                    }, {
+                        _isUploaded.postValue(false)
                     })
                 }
             }
-        }
-    }
-
-    private fun getImage(id: String, imageUri: Uri) {
-        launchViewModelScope {
-            checkStatus(userRepository.getUserImageUrl(id, imageUri), { data ->
-                _user.value?.photo = data.toString()
-            })
         }
     }
 

@@ -14,11 +14,11 @@ import com.mobile.ta.model.user.feedback.Feedback
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
-import com.mobile.ta.utils.fetchDataWithResult
 import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.mapper.UserSubmittedAssignmentMapper
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -133,12 +133,6 @@ class UserRepositoryImpl @Inject constructor(
             .fetchData(UserMapper::mapToUserFeedbacks)
     }
 
-    override suspend fun getUserImageUrl(userId: String, imageUri: Uri): Status<Uri> {
-        return storageReference
-            .child("${CollectionConstants.IMAGES_USERS_STORAGE_PATH}/$userId/${imageUri.lastPathSegment}")
-            .downloadUrl.fetchDataWithResult()
-    }
-
     override suspend fun updateUser(user: User): Status<Boolean> {
         return userCollection.document(user.id).update(
             mapOf(
@@ -151,9 +145,24 @@ class UserRepositoryImpl @Inject constructor(
         ).fetchData()
     }
 
-    override suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Boolean> {
-        return storageReference
+    override suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Uri> {
+        val imageReference = storageReference
             .child("${CollectionConstants.IMAGES_USERS_STORAGE_PATH}/$userId/${imageUri.lastPathSegment}")
-            .putFile(imageUri).fetchData()
+        val uploadImageTask = imageReference.putFile(imageUri)
+
+        lateinit var result: Status<Uri>
+        uploadImageTask.continueWithTask { task ->
+            if (task.isSuccessful.not()) {
+                result = Status.error(task.exception?.message, null)
+            }
+            imageReference.downloadUrl
+        }.addOnCompleteListener { task ->
+            task.result?.let {
+                result = Status.success(it)
+            } ?: run {
+                result = Status.error(task.exception?.message, null)
+            }
+        }.await()
+        return result
     }
 }

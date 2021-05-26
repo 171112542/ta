@@ -1,9 +1,7 @@
 package com.mobile.ta.model.user.course
 
-import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.mobile.ta.model.course.chapter.ChapterSummary
-import com.mobile.ta.model.course.chapter.ChapterType
 
 data class UserCourse(
     @DocumentId

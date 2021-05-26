@@ -19,6 +19,7 @@ import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 import com.mobile.ta.utils.toDateString
+import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.viewmodel.login.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
@@ -52,6 +53,7 @@ class RegistrationFragment :
     override fun runOnCreateView() {
         setupDatePicker()
         binding.apply {
+            buttonSkipEditInfo.setOnClickListener(this@RegistrationFragment)
             buttonEditProfilePicture.setOnClickListener(this@RegistrationFragment)
             buttonSubmitRegistrationForm.setOnClickListener(this@RegistrationFragment)
             editTextFullName.doOnTextChanged { _, _, _, _ ->
@@ -75,6 +77,15 @@ class RegistrationFragment :
         })
         viewModel.isUpdated.observe(viewLifecycleOwner, {
             checkIsUpdated(it)
+            DialogHelper.dismissDialog(loadingDialog)
+        })
+
+        viewModel.isUploaded.observe(viewLifecycleOwner, {
+            if (it) {
+                viewModel.updateUser(binding.editTextFullName.text())
+            } else {
+                DialogHelper.dismissDialog(loadingDialog)
+            }
         })
     }
 
@@ -100,6 +111,7 @@ class RegistrationFragment :
             when (view) {
                 buttonEditProfilePicture -> openGallery()
                 buttonSubmitRegistrationForm -> validate()
+                buttonSkipEditInfo -> goToHome()
             }
         }
     }
@@ -147,11 +159,9 @@ class RegistrationFragment :
     }
 
     private fun validate() {
-        with(binding) {
-            if (validateName() && validateDateOfBirth()) {
-                viewModel.uploadImage()
-                viewModel.updateUser(editTextFullName.text())
-            }
+        if (validateName() && validateDateOfBirth()) {
+            viewModel.uploadImage()
+            DialogHelper.showDialog(loadingDialog)
         }
     }
 
