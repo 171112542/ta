@@ -52,6 +52,7 @@ class RegistrationFragment :
     override fun runOnCreateView() {
         setupDatePicker()
         binding.apply {
+            buttonSkipEditInfo.setOnClickListener(this@RegistrationFragment)
             buttonEditProfilePicture.setOnClickListener(this@RegistrationFragment)
             buttonSubmitRegistrationForm.setOnClickListener(this@RegistrationFragment)
             editTextFullName.doOnTextChanged { _, _, _, _ ->
@@ -100,6 +101,7 @@ class RegistrationFragment :
             when (view) {
                 buttonEditProfilePicture -> openGallery()
                 buttonSubmitRegistrationForm -> validate()
+                buttonSkipEditInfo -> goToHome()
             }
         }
     }

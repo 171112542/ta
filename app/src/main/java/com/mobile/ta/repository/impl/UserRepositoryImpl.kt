@@ -19,6 +19,7 @@ import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.mapper.UserSubmittedAssignmentMapper
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
@@ -151,9 +152,24 @@ class UserRepositoryImpl @Inject constructor(
         ).fetchData()
     }
 
-    override suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Boolean> {
-        return storageReference
+    override suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Uri> {
+        val imageReference = storageReference
             .child("${CollectionConstants.IMAGES_USERS_STORAGE_PATH}/$userId/${imageUri.lastPathSegment}")
-            .putFile(imageUri).fetchData()
+        val uploadImageTask = imageReference.putFile(imageUri)
+
+        lateinit var result: Status<Uri>
+        uploadImageTask.continueWithTask { task ->
+            if (task.isSuccessful.not()) {
+                result = Status.error(task.exception?.message, null)
+            }
+            imageReference.downloadUrl
+        }.addOnCompleteListener { task ->
+            task.result?.let {
+                result = Status.success(it)
+            } ?: run {
+                result = Status.error(task.exception?.message, null)
+            }
+        }.await()
+        return result
     }
 }

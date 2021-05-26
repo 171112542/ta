@@ -13,6 +13,16 @@
         android:padding="@dimen/dp_16"
         tools:context=".ui.login.RegistrationFragment">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_skip_edit_info"
+            style="@style/Widget.TA.Button.TextButton.Secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_8"
+            android:text="@string/skip_registration"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/text_view_welcome_label"
             android:layout_width="@dimen/dp_0"

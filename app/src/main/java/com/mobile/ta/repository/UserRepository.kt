@@ -44,5 +44,5 @@ interface UserRepository {
 
     suspend fun updateUser(user: User): Status<Boolean>
 
-    suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Boolean>
+    suspend fun uploadUserImage(userId: String, imageUri: Uri): Status<Uri>
 }

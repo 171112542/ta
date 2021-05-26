@@ -21,6 +21,10 @@ class EditProfileViewModel @Inject constructor(
     val isUpdated: LiveData<Boolean>
         get() = _isUpdated
 
+    private var _isUploaded = MutableLiveData<Boolean>()
+    val isUploaded: LiveData<Boolean>
+        get() = _isUploaded
+
     private val _user = MutableLiveData<User>()
     val user: LiveData<User>
         get() = _user
@@ -64,7 +68,10 @@ class EditProfileViewModel @Inject constructor(
             _user.value?.let { user ->
                 launchViewModelScope {
                     checkStatus(userRepository.uploadUserImage(user.id, imageUri), {
-                        getImage(user.id, imageUri)
+                        _user.value?.photo = it.toString()
+                        _isUploaded.postValue(true)
+                    }, {
+                        _isUploaded.postValue(false)
                     })
                 }
             }
