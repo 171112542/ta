@@ -55,7 +55,11 @@ class FilterBottomSheetDialogFragment :
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.bsd_filter_reset_to_default -> viewmodel.resetFilter()
+            R.id.bsd_filter_reset_to_default -> {
+                viewmodel.resetFilter()
+                viewmodel.performFilter()
+                this.dismiss()
+            }
             R.id.bsd_filter_apply -> {
                 viewmodel.performFilter()
                 this.dismiss()

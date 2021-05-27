@@ -52,11 +52,6 @@ class CourseAssignmentFragment :
             binding.fragCourseAssignmentContent.visibility = View.VISIBLE
             binding.fragCourseAssignmentLoading.visibility = View.GONE
         }
-        viewmodel.allQuestionsAnswered.observe(viewLifecycleOwner) {
-            if (it) {
-                adapter.enableSubmitResult()
-            }
-        }
         viewmodel.navigateToSubmitResultPage.observe(viewLifecycleOwner) {
             if (it)
                 findNavController().navigate(
@@ -148,23 +143,8 @@ class CourseAssignmentFragment :
     }
 
     override fun onShowResultListener() {
-        if (checkNotNull(viewmodel.allQuestionsAnswered.value) && viewmodel.allQuestionsAnswered.value == false) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(getString(R.string.confirmation_dialog_show_result_title))
-                .setMessage(getString(R.string.confirmation_dialog_show_result_message))
-                .setNegativeButton(getString(R.string.dialog_no_text)) { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .setPositiveButton(getString(R.string.dialog_yes_text)) { _, _ ->
-                    viewmodel.submitAnswer()
-                    binding.fragCourseAssignmentLoading.visibility = View.VISIBLE
-                    binding.fragCourseAssignmentContent.visibility = View.GONE
-                }
-                .show()
-        } else {
-            viewmodel.submitAnswer()
-            binding.fragCourseAssignmentLoading.visibility = View.VISIBLE
-            binding.fragCourseAssignmentContent.visibility = View.GONE
-        }
+        viewmodel.submitAnswer()
+        binding.fragCourseAssignmentLoading.visibility = View.VISIBLE
+        binding.fragCourseAssignmentContent.visibility = View.GONE
     }
 }

@@ -54,15 +54,9 @@ class CourseQuestionAdapter(
                 binding.vhCourseQuestionSubmit.isEnabled = true
             }
             binding.vhCourseQuestionSubmit.setOnClickListener {
-                disableSubmitButton()
                 submitAnswer(assignmentQuestion)
-                if (type == QUIZ) {
-                    showSelectedAnswer(selectedAnswers[adapterPosition])
-                }
-                else {
-                    showCorrectAnswer(selectedAnswers[adapterPosition])
-                    showExplanation()
-                }
+                processSubmittedAnswer()
+                checkToEnableSubmitResult()
             }
             binding.vhCourseQuestionShowExplanation.setOnClickListener {
                 showExplanation()
@@ -79,6 +73,17 @@ class CourseQuestionAdapter(
             if (selectedAnswers.isNotEmpty()
                 && selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] != -1
             ) {
+                processSubmittedAnswer()
+            }
+        }
+
+        private fun processSubmittedAnswer() {
+            disableSubmitButton()
+            disableRadioButtons()
+            if (type == QUIZ) {
+                showSelectedAnswer(selectedAnswers[adapterPosition])
+            }
+            else {
                 showCorrectAnswer(selectedAnswers[adapterPosition])
                 showExplanation()
             }
@@ -98,6 +103,12 @@ class CourseQuestionAdapter(
         private fun disableSubmitButton() {
             binding.vhCourseQuestionSubmitGroup.visibility = View.GONE
             binding.vhCourseQuestionSubmit.isEnabled = false
+        }
+
+        private fun disableRadioButtons() {
+            binding.vhCourseQuestionChoiceGroup.children.forEach {
+                it.isEnabled = false
+            }
         }
 
         private fun showSelectedAnswer(selectedAnswer: MutableMap<String, Int>) {
@@ -204,9 +215,16 @@ class CourseQuestionAdapter(
         }
     }
 
-    fun enableSubmitResult() {
-        submitResultEnabled = true
-        notifyItemChanged(currentList.size - 1)
+    fun checkToEnableSubmitResult() {
+        var selectedAnswerCount = 0
+        selectedAnswers.forEach {
+            if (it[SELECTED_ANSWER_KEY] != -1)
+                selectedAnswerCount += 1
+        }
+        if (selectedAnswerCount == currentList.size) {
+            submitResultEnabled = true
+            notifyItemChanged(currentList.size - 1)
+        }
     }
 
     fun setQuestionType(type: ChapterType) {

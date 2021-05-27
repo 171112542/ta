@@ -38,12 +38,12 @@ class CourseSubmitViewModel @Inject constructor(
     private var _navigateToNextChapter: MutableLiveData<Boolean> = MutableLiveData(false)
     val navigateToNextChapter: LiveData<Boolean>
         get() = _navigateToNextChapter
-    private var _showNextChapterButton: MutableLiveData<Boolean> = MutableLiveData(false)
-    val showNextChapterButton: LiveData<Boolean>
-        get() = _showNextChapterButton
-    private var _showRetryButton: MutableLiveData<Boolean> = MutableLiveData(false)
-    val showRetryButton: LiveData<Boolean>
-        get() = _showRetryButton
+    private var _hasNextChapter: MutableLiveData<Boolean> = MutableLiveData()
+    val hasNextChapter: LiveData<Boolean>
+        get() = _hasNextChapter
+    private var _canRetry: MutableLiveData<Boolean> = MutableLiveData()
+    val canRetry: LiveData<Boolean>
+        get() = _canRetry
     var nextChapterSummary: ChapterSummary? = null
 
     private val _course = MutableLiveData<Course>()
@@ -79,10 +79,8 @@ class CourseSubmitViewModel @Inject constructor(
                 }
             )
 
-            _showRetryButton.postValue(chapter.type == ChapterType.PRACTICE)
-            if (nextChapterSummary?.id.isNotNull()) {
-                _showNextChapterButton.postValue(true)
-            }
+            _canRetry.postValue(chapter.type == ChapterType.PRACTICE)
+            _hasNextChapter.postValue(nextChapterSummary?.id.isNotNull())
         }
     }
 

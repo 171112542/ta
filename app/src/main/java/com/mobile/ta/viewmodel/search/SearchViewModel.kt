@@ -20,9 +20,7 @@ class SearchViewModel @Inject constructor(
     companion object {
         enum class SortOption {
             A_Z,
-            Z_A,
-//            NEWEST,
-//            OLDEST
+            Z_A
         }
     }
 
@@ -59,10 +57,10 @@ class SearchViewModel @Inject constructor(
     private var _typeTagFilter = MutableLiveData<ArrayList<TypeTag>>(arrayListOf())
     private var _levelTagFilter = MutableLiveData<ArrayList<LevelTag>>(arrayListOf())
 
-    private var _hasSearched = MutableLiveData(false)
-    val hasSearched get() = _hasSearched
-    private var _hasFiltered = MutableLiveData(false)
-    val hasFiltered get() = _hasFiltered
+    private var _isSearching = MutableLiveData<Boolean>()
+    val isSearching get() = _isSearching
+    private var _isFiltered = MutableLiveData(false)
+    val isFiltered get() = _isFiltered
 
     private var _searchResult = MutableLiveData<MutableList<Course>>()
     private var _filteredSearchResult = MutableLiveData<MutableList<Course>>(mutableListOf())
@@ -70,11 +68,12 @@ class SearchViewModel @Inject constructor(
 
     fun performSearch(keyword: String) {
         if (keyword == "") return
+        _isSearching.value = true
         this.keyword = keyword
         resetFilter()
         launchViewModelScope {
             val searchResult = courseRepository.searchCourse(keyword.toLowerCase(Locale.ENGLISH))
-            _hasSearched.postValue(true)
+            _isSearching.postValue(false)
             checkStatus(
                 searchResult, {
                     _searchResult.postValue(it)
@@ -112,7 +111,7 @@ class SearchViewModel @Inject constructor(
         _typeTagFilter.value = _selectedTypeTags.value
         _levelTagFilter.value = _selectedLevelTags.value
         var nonfilteredResult = _searchResult.value ?: return
-        _hasFiltered.value = true
+        _isFiltered.value = true
 
         if (_typeTagFilter.value != null && requireNotNull(_typeTagFilter.value).isNotEmpty()) {
             nonfilteredResult = nonfilteredResult.filter {
@@ -132,7 +131,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun resetFilter() {
-        _hasFiltered.value = false
+        _isFiltered.value = false
         _sortFilter.value = SortOption.A_Z
         _typeTagFilter.value = arrayListOf()
         _levelTagFilter.value = arrayListOf()

@@ -1,15 +1,9 @@
 package com.mobile.ta.ui.course.chapter.assignment
 
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.ColorFilter
-import android.graphics.ColorMatrixColorFilter
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.core.graphics.BlendModeColorFilterCompat
-import androidx.core.graphics.BlendModeCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
@@ -28,13 +22,17 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CourseSubmitFragment :
-    BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate) {
+    BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate),
+    View.OnClickListener {
     private val viewmodel by viewModels<CourseSubmitViewModel>()
     private lateinit var mMainActivity: MainActivity
     private var menuItems = mutableListOf<MenuItem>()
 
     override fun runOnCreateView() {
         changeToolbarColors(R.attr.colorPrimary, R.attr.colorOnPrimary)
+        binding.fragCourseSubmitRetry.setOnClickListener(this)
+        binding.fragCourseSubmitNextChapter.setOnClickListener(this)
+        binding.fragCourseSubmitFinishCourse.setOnClickListener(this)
     }
 
     override fun runOnCreate() {
@@ -52,6 +50,30 @@ class CourseSubmitFragment :
         changeToolbarColors(R.attr.colorOnPrimary, R.attr.colorOnBackground)
     }
 
+    override fun onClick(v: View) {
+        when (v) {
+            binding.fragCourseSubmitRetry -> {
+                viewmodel.retry()
+                findNavController().navigate(
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
+                        courseId = viewmodel.courseId,
+                        chapterId = viewmodel.chapterId
+                    )
+                )
+            }
+            binding.fragCourseSubmitNextChapter -> {
+                viewmodel.navigateToNextChapter()
+            }
+            binding.fragCourseSubmitFinishCourse -> {
+                findNavController().navigate(
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseInformationFragment(
+                        courseId = viewmodel.courseId
+                    )
+                )
+            }
+        }
+    }
+
     private fun changeToolbarColors(backgroundResId: Int, componentsResId: Int) {
         mMainActivity.getToolbar().let {
             it.setBackgroundColor(
@@ -61,7 +83,7 @@ class CourseSubmitFragment :
                 getThemeColor(this.requireContext(), componentsResId)
             )
             it.navigationIcon!!.setTint(
-                getThemeColor(this.requireContext(), componentsResId)
+                getThemeColor(this.requireContext(), R.attr.colorOnPrimary)
             )
         }
     }
@@ -77,6 +99,8 @@ class CourseSubmitFragment :
             )
             fragCourseSubmitDrawerLayout.addDrawerListener(toggle)
             toggle.syncState()
+            toggle.drawerArrowDrawable.color =
+                getThemeColor(requireContext(), R.attr.colorOnPrimary)
         }
     }
 
@@ -128,23 +152,12 @@ class CourseSubmitFragment :
             binding.fragCourseSubmitScore.text =
                 getString(R.string.assignment_result_text, correctAnswerCount, totalAnswerCount)
         }
-        viewmodel.showRetryButton.observe(viewLifecycleOwner) {
+        viewmodel.canRetry.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitRetry.visibility = if (it) View.VISIBLE else View.GONE
         }
-        viewmodel.showNextChapterButton.observe(viewLifecycleOwner) {
+        viewmodel.hasNextChapter.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitNextChapter.visibility = if (it) View.VISIBLE else View.GONE
-        }
-        binding.fragCourseSubmitRetry.setOnClickListener {
-            viewmodel.retry()
-            findNavController().navigate(
-                CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                    courseId = viewmodel.courseId,
-                    chapterId = viewmodel.chapterId
-                )
-            )
-        }
-        binding.fragCourseSubmitNextChapter.setOnClickListener {
-            viewmodel.navigateToNextChapter()
+            binding.fragCourseSubmitFinishCourse.visibility = if (it) View.GONE else View.VISIBLE
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
