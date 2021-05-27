@@ -197,4 +197,7 @@
     <string name="default_string_field">-</string>
     <string name="fcm_token_shared_pref_key">fcmToken</string>
     <string name="require_previous_chapter">You need to complete previous chapter.</string>
+    <string name="finish_course_text">Finish Course</string>
+    <string name="correct_questions_label">Questions you got correct:</string>
+    <string name="no_notification_text">No Notification Yet</string>
 </resources>

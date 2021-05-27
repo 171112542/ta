@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="frag_course_submit_description,
-        frag_course_submit_score,frag_course_submit_title"
+            frag_course_submit_score,frag_course_submit_title"
             tools:visibility="visible" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -49,7 +49,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/keyline_2"
-            android:text="Questions you got correct:"
+            android:text="@string/correct_questions_label"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.TA.Body1"
             android:textColor="?attr/colorOnPrimary"
@@ -94,6 +94,18 @@
             android:layout_height="wrap_content"
             android:text="@string/next_chapter_text"
             android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/frag_course_submit_finish_course"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/frag_course_submit_finish_course"
+            style="@style/Widget.TA.Button.Inverted"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/finish_course_text"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -105,5 +117,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true" />
+        android:fitsSystemWindows="true"
+        style="@style/Widget.TA.NavigationView" />
 </androidx.drawerlayout.widget.DrawerLayout>

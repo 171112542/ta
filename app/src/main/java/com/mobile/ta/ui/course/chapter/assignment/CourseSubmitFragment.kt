@@ -8,13 +8,13 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragCourseSubmitBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.utils.ThemeUtil.getThemeColor
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseSubmitViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,11 +22,22 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CourseSubmitFragment :
-    BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate) {
+    BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate),
+    View.OnClickListener {
     private val viewmodel by viewModels<CourseSubmitViewModel>()
     private lateinit var mMainActivity: MainActivity
     private var menuItems = mutableListOf<MenuItem>()
-    private val args: CourseSubmitFragmentArgs by navArgs()
+
+    override fun runOnCreateView() {
+        changeToolbarColors(R.attr.colorPrimary, R.attr.colorOnPrimary)
+        binding.fragCourseSubmitRetry.setOnClickListener(this)
+        binding.fragCourseSubmitNextChapter.setOnClickListener(this)
+        binding.fragCourseSubmitFinishCourse.setOnClickListener(this)
+    }
+
+    override fun runOnCreate() {
+        mMainActivity = mActivity as MainActivity
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -34,11 +45,48 @@ class CourseSubmitFragment :
         setupDrawer()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mMainActivity = (mActivity as MainActivity)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        changeToolbarColors(R.attr.colorOnPrimary, R.attr.colorOnBackground)
     }
 
+    override fun onClick(v: View) {
+        when (v) {
+            binding.fragCourseSubmitRetry -> {
+                viewmodel.retry()
+                findNavController().navigate(
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
+                        courseId = viewmodel.courseId,
+                        chapterId = viewmodel.chapterId
+                    )
+                )
+            }
+            binding.fragCourseSubmitNextChapter -> {
+                viewmodel.navigateToNextChapter()
+            }
+            binding.fragCourseSubmitFinishCourse -> {
+                findNavController().navigate(
+                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseInformationFragment(
+                        courseId = viewmodel.courseId
+                    )
+                )
+            }
+        }
+    }
+
+    private fun changeToolbarColors(backgroundResId: Int, componentsResId: Int) {
+        mMainActivity.getToolbar().let {
+            it.setBackgroundColor(
+                getThemeColor(this.requireContext(), backgroundResId)
+            )
+            it.setTitleTextColor(
+                getThemeColor(this.requireContext(), componentsResId)
+            )
+            it.navigationIcon!!.setTint(
+                getThemeColor(this.requireContext(), R.attr.colorOnPrimary)
+            )
+        }
+    }
 
     private fun setupDrawer() {
         binding.apply {
@@ -51,6 +99,8 @@ class CourseSubmitFragment :
             )
             fragCourseSubmitDrawerLayout.addDrawerListener(toggle)
             toggle.syncState()
+            toggle.drawerArrowDrawable.color =
+                getThemeColor(requireContext(), R.attr.colorOnPrimary)
         }
     }
 
@@ -61,7 +111,7 @@ class CourseSubmitFragment :
                 menuItems.clear()
                 clear()
                 chapters.forEachIndexed { index, it ->
-                    add(it.title).isChecked = (args.chapterId == it.id)
+                    add(it.title).isChecked = (viewmodel.chapterId == it.id)
                     menuItems.add(getItem(menuItems.count()).apply {
                         isEnabled = (viewmodel.userChapters.value?.size ?: 0 >= index)
                     })
@@ -81,12 +131,14 @@ class CourseSubmitFragment :
 
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
         return when (type) {
-            ChapterType.CONTENT -> CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment(
-                args.courseId, chapterId
-            )
-            else -> CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                args.courseId, chapterId
-            )
+            ChapterType.CONTENT -> CourseSubmitFragmentDirections
+                .actionCourseSubmitFragmentToCourseContentFragment(
+                    viewmodel.courseId, chapterId
+                )
+            else -> CourseSubmitFragmentDirections
+                .actionCourseSubmitFragmentToCoursePracticeFragment(
+                    viewmodel.courseId, chapterId
+                )
         }
     }
 
@@ -100,48 +152,19 @@ class CourseSubmitFragment :
             binding.fragCourseSubmitScore.text =
                 getString(R.string.assignment_result_text, correctAnswerCount, totalAnswerCount)
         }
-        viewmodel.showRetryButton.observe(viewLifecycleOwner) {
+        viewmodel.canRetry.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitRetry.visibility = if (it) View.VISIBLE else View.GONE
         }
-        viewmodel.showNextChapterButton.observe(viewLifecycleOwner) {
+        viewmodel.hasNextChapter.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitNextChapter.visibility = if (it) View.VISIBLE else View.GONE
-        }
-        binding.fragCourseSubmitRetry.setOnClickListener {
-            viewmodel.retry()
-            findNavController().navigate(
-                CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                    courseId = viewmodel.courseId,
-                    chapterId = viewmodel.chapterId
-                )
-            )
-        }
-        binding.fragCourseSubmitNextChapter.setOnClickListener {
-            viewmodel.navigateToNextChapter()
+            binding.fragCourseSubmitFinishCourse.visibility = if (it) View.GONE else View.VISIBLE
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
             val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
             val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
-            when (nextChapterType) {
-                ChapterType.PRACTICE -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-                ChapterType.QUIZ -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-                ChapterType.CONTENT -> findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCourseContentFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = nextChapterId
-                    )
-                )
-            }
+            val destination = getChapterDestination(nextChapterId, nextChapterType)
+            findNavController().navigate(destination)
         }
         viewmodel.course.observe(viewLifecycleOwner, {
             setupMenu(it.chapterSummaryList)

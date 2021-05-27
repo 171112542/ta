@@ -39,12 +39,16 @@ class NotificationFragment :
         viewmodel.isLoading.observe(viewLifecycleOwner, {
             when (it) {
                 true -> {
-                    binding.fragNotificationList.visibility = View.GONE
                     binding.fragNotificationLoading.visibility = View.VISIBLE
+                    binding.fragNotificationList.visibility = View.GONE
                 }
                 false -> {
-                    binding.fragNotificationList.visibility = View.VISIBLE
                     binding.fragNotificationLoading.visibility = View.GONE
+                    val isNotificationEmpty = viewmodel.notificationList.value?.isEmpty() ?: true
+                    binding.fragNotificationList.visibility =
+                        if (isNotificationEmpty) View.GONE else View.VISIBLE
+                    binding.fragNotificationListEmpty.visibility =
+                        if (isNotificationEmpty) View.VISIBLE else View.GONE
                 }
             }
         })

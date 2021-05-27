@@ -10,6 +10,7 @@ import com.mobile.ta.adapter.course.CourseVHListener
 import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.FragHomeBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.view.RVSeparator
 import com.mobile.ta.viewmodel.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +65,11 @@ class HomeFragment :
             )
         }
         viewmodel.courseOverviews.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
+            if (it.isNotNull()) {
+                binding.fragHomeLoading.visibility = View.GONE
+                binding.fragHomeRv.visibility = View.VISIBLE
+                adapter.submitList(it)
+            }
         })
     }
 }

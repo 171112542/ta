@@ -15,6 +15,18 @@
         android:clipToPadding="false"
         android:padding="@dimen/keyline_4">
 
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/frag_search_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/keyline_4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frag_search_search_bar" />
+
         <EditText
             android:id="@+id/frag_search_search_bar"
             android:layout_width="0dp"
@@ -138,16 +150,6 @@
             app:layout_constraintBottom_toTopOf="@id/frag_searched_filter"
             app:layout_constraintEnd_toEndOf="@id/frag_searched_filter" />
 
-        <View
-            android:id="@+id/frag_filtered_icon"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginTop="@dimen/keyline_1"
-            android:layout_marginEnd="@dimen/keyline_1"
-            android:background="@drawable/drawable_red_badge_circle"
-            app:layout_constraintEnd_toEndOf="@+id/frag_searched_filter_space"
-            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter_space" />
-
         <ImageView
             android:id="@+id/frag_searched_filter"
             style="@style/Widget.TA.Icon"
@@ -158,6 +160,16 @@
             android:src="@drawable/ic_filter_list_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frag_search_search_bar" />
+
+        <View
+            android:id="@+id/frag_filtered_icon"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginTop="@dimen/keyline_1"
+            android:layout_marginEnd="@dimen/keyline_1"
+            android:background="@drawable/drawable_red_badge_circle"
+            app:layout_constraintEnd_toEndOf="@+id/frag_searched_filter_space"
+            app:layout_constraintTop_toTopOf="@+id/frag_searched_filter_space" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/frag_search_found_result_rv"

@@ -35,13 +35,10 @@ class CourseAssignmentViewModel @Inject constructor(
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     var chapterTitle: String = ""
-    private lateinit var loggedInUid: String
     lateinit var chapter: Chapter
+    private lateinit var loggedInUid: String
 
     private var selectedAnswers = MutableLiveData<ArrayList<UserAssignmentAnswer>>(arrayListOf())
-    val allQuestionsAnswered = Transformations.map(selectedAnswers) {
-        it.size == questions.value?.size
-    }
     val questions = MutableLiveData<MutableList<AssignmentQuestion>>()
     private var _navigateToSubmitResultPage: MutableLiveData<Boolean> = MutableLiveData(false)
     val navigateToSubmitResultPage: LiveData<Boolean>
@@ -58,7 +55,9 @@ class CourseAssignmentViewModel @Inject constructor(
             val course = courseRepository.getCourseById(courseId)
             checkStatus(course, {
                 _course.postValue(it)
-            }, {})
+            }, {
+                //TODO: Add a failure handler
+            })
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
             checkStatus(
@@ -104,7 +103,9 @@ class CourseAssignmentViewModel @Inject constructor(
             userChapterRepository.getUserChapters(uid, courseId)
         checkStatus(userChaptersResult, {
             _userChapters.postValue(it)
-        }, {})
+        }, {
+            //TODO: Add a failure handler
+        })
     }
 
     fun addSelectedAnswer(assignmentQuestion: AssignmentQuestion, selectedIndex: Int) {

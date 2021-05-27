@@ -15,6 +15,7 @@ import com.mobile.ta.adapter.course.CourseVHListener
 import com.mobile.ta.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.ui.base.BaseFragment
+import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.view.RVSeparator
 import com.mobile.ta.viewmodel.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -115,31 +116,39 @@ class SearchFragment :
     }
 
     private fun observeViewModel() {
-        viewmodel.hasSearched.observe(viewLifecycleOwner, {
-            binding.fragSearchNoSearchGroup.visibility = if (it) View.GONE else View.VISIBLE
-            binding.fragSearchedGroup.visibility = if (it) View.VISIBLE else View.GONE
-            binding.fragSearchedLabel.text =
-                getString(R.string.searched_desc_text, viewmodel.keyword)
+        fun setOnlyThisAsVisible(visibleView: View) {
+            binding.fragSearchLoading.visibility = View.GONE
+            binding.fragFilteredNotFoundGroup.visibility = View.GONE
+            binding.fragSearchNotFoundGroup.visibility = View.GONE
+            binding.fragSearchFoundGroup.visibility = View.GONE
+            binding.fragSearchNoSearchGroup.visibility = View.GONE
+            visibleView.visibility = View.VISIBLE
+        }
+
+        viewmodel.isSearching.observe(viewLifecycleOwner, {
+            if (it.isNull()) return@observe
+            if (it) {
+                setOnlyThisAsVisible(binding.fragSearchLoading)
+            }
+            else {
+                setOnlyThisAsVisible(binding.fragSearchedGroup)
+                binding.fragSearchedLabel.text =
+                    getString(R.string.searched_desc_text, viewmodel.keyword)
+            }
         })
 
-        viewmodel.hasFiltered.observe(viewLifecycleOwner, {
+        viewmodel.isFiltered.observe(viewLifecycleOwner, {
             binding.fragFilteredGroup.visibility = if (it) View.VISIBLE else View.GONE
         })
 
         viewmodel.filteredSearchResult.observe(viewLifecycleOwner, {
-            if (viewmodel.hasSearched.value == false) return@observe
-            if (it.isEmpty() && viewmodel.hasFiltered.value == false) {
-                binding.fragFilteredNotFoundGroup.visibility = View.GONE
-                binding.fragSearchNotFoundGroup.visibility = View.VISIBLE
-                binding.fragSearchFoundGroup.visibility = View.GONE
-            } else if (it.isEmpty() && viewmodel.hasFiltered.value == true) {
-                binding.fragFilteredNotFoundGroup.visibility = View.VISIBLE
-                binding.fragSearchNotFoundGroup.visibility = View.GONE
-                binding.fragSearchFoundGroup.visibility = View.GONE
+            if (viewmodel.isSearching.value.isNull()) return@observe
+            if (it.isEmpty() && viewmodel.isFiltered.value == false) {
+                setOnlyThisAsVisible(binding.fragSearchNotFoundGroup)
+            } else if (it.isEmpty() && viewmodel.isFiltered.value == true) {
+                setOnlyThisAsVisible(binding.fragFilteredNotFoundGroup)
             } else {
-                binding.fragFilteredNotFoundGroup.visibility = View.GONE
-                binding.fragSearchNotFoundGroup.visibility = View.GONE
-                binding.fragSearchFoundGroup.visibility = View.VISIBLE
+                setOnlyThisAsVisible(binding.fragSearchFoundGroup)
                 if (binding.fragSearchFoundResultRv.adapter is CourseAdapter) {
                     (binding.fragSearchFoundResultRv.adapter as CourseAdapter)
                         .submitList(it)
