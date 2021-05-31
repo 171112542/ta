@@ -65,6 +65,7 @@ class CourseSubmitViewModel @Inject constructor(
                 networkChapter, {
                     chapter = it
                     chapterTitle = chapter.title
+                    nextChapterSummary = chapter.nextChapter
                 }, {
                     //TODO: Add a failure handler
                 }
