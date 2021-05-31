@@ -1,10 +1,12 @@
 package com.mobile.ta.adapter.course.chapter.assignment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.annotation.IntDef
+import androidx.appcompat.widget.ThemeUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
@@ -15,6 +17,7 @@ import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.utils.ThemeUtil
 
 interface CourseQuestionVHListener {
     fun onSubmitAnswerListener(assignmentQuestion: AssignmentQuestion, selectedIndex: Int)
@@ -44,6 +47,7 @@ class CourseQuestionAdapter(
     inner class ViewHolder(private val binding: VhCourseQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(assignmentQuestion: AssignmentQuestion) {
+            resetView()
             binding.vhCourseQuestionQuestion.text = assignmentQuestion.question
             binding.vhCourseQuestionChoiceOne.text = assignmentQuestion.choices[0]
             binding.vhCourseQuestionChoiceTwo.text = assignmentQuestion.choices[1]
@@ -119,6 +123,7 @@ class CourseQuestionAdapter(
             selectedRadioButton.changeVisuals(
                 R.drawable.drawable_rounded_rect,
                 R.color.grey_light,
+                R.color.grey_dark,
                 R.color.grey_dark
             )
         }
@@ -136,6 +141,7 @@ class CourseQuestionAdapter(
             correctRadioButton.changeVisuals(
                 R.drawable.drawable_rounded_rect,
                 R.color.green_light,
+                R.color.green,
                 R.color.green
             )
 
@@ -143,6 +149,7 @@ class CourseQuestionAdapter(
                 selectedRadioButton.changeVisuals(
                     R.drawable.drawable_rounded_rect,
                     R.color.red_light,
+                    R.color.red_dark,
                     R.color.red_dark
                 )
                 binding.vhCourseQuestionWrongBanner.visibility = View.VISIBLE
@@ -157,7 +164,8 @@ class CourseQuestionAdapter(
         private fun RadioButton.changeVisuals(
             backgroundDrawableId: Int,
             backgroundDrawableTintId: Int,
-            tintId: Int
+            textColorId: Int,
+            buttonTintId: Int?
         ) {
             this.background = ResourcesCompat.getDrawable(
                 binding.root.resources,
@@ -168,11 +176,37 @@ class CourseQuestionAdapter(
                 binding.root.context,
                 backgroundDrawableTintId
             )
-            this.setTextColor(tintId)
-            this.buttonTintList = ContextCompat.getColorStateList(
-                binding.root.context,
-                tintId
-            )
+            this.setTextColor(textColorId)
+            if (buttonTintId != null) {
+                this.buttonTintList = ContextCompat.getColorStateList(
+                    binding.root.context,
+                    buttonTintId
+                )
+            }
+        }
+
+        /**
+         * This function is used whenever a ViewHolder in this class is bound.
+         * View reset is required because views are dynamically changed by user input.
+         * As such, views in different adapter positions have different data.
+         * The data influences how the views look.
+         * As a result, reused ViewHolders must not carry the visuals caused by
+         * the data in another adapter position.
+         */
+        private fun resetView() {
+            binding.run {
+                vhCourseQuestionChoiceGroup.children.forEach {
+                    it.isEnabled = true
+                    (it as RadioButton).changeVisuals(
+                        R.drawable.drawable_rounded_rect,
+                        R.color.white,
+                        R.color.black,
+                        null
+                    )
+                }
+                vhCourseQuestionCorrectBanner.visibility = View.GONE
+                vhCourseQuestionWrongBanner.visibility = View.GONE
+            }
         }
 
         private fun hideExplanation() {
