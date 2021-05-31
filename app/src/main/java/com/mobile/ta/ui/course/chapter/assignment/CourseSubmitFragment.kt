@@ -166,8 +166,10 @@ class CourseSubmitFragment :
             val destination = getChapterDestination(nextChapterId, nextChapterType)
             findNavController().navigate(destination)
         }
-        viewmodel.course.observe(viewLifecycleOwner, {
-            setupMenu(it.chapterSummaryList)
+        viewmodel.userChapters.observe(viewLifecycleOwner, {
+            viewmodel.course.value?.chapterSummaryList?.let { chapterSummary ->
+                setupMenu(chapterSummary)
+            }
         })
     }
 }
