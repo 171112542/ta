@@ -28,8 +28,7 @@ class CourseSubmitViewModel @Inject constructor(
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
-    var chapterTitle = ""
-    private lateinit var chapter: Chapter
+    lateinit var chapter: Chapter
     private lateinit var loggedInUid: String
 
     private var _submittedAssignment: MutableLiveData<UserSubmittedAssignment> = MutableLiveData()
@@ -60,29 +59,38 @@ class CourseSubmitViewModel @Inject constructor(
             }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             getUserChapters(loggedInUid, courseId)
-            val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
-            checkStatus(
-                networkChapter, {
-                    chapter = it
-                    chapterTitle = chapter.title
-                    nextChapterSummary = chapter.nextChapter
-                }, {
-                    //TODO: Add a failure handler
-                }
-            )
-            val networkSubmittedAssignment =
-                userRepository.getSubmittedChapter(loggedInUid, courseId, chapterId)
-            checkStatus(
-                networkSubmittedAssignment, {
-                    _submittedAssignment.postValue(it)
-                }, {
-                    //TODO: Add a failure handler
-                }
-            )
 
-            _canRetry.postValue(chapter.type == ChapterType.PRACTICE)
-            _hasNextChapter.postValue(nextChapterSummary?.id.isNotNull())
+            initializeFragmentContent()
         }
+    }
+
+    /**
+     * A function to initialize the fragment content.
+     * Initializing includes manipulating text data and data that affects
+     * the visibility of certain elements.
+     */
+    private suspend fun initializeFragmentContent() {
+        val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
+        checkStatus(
+            networkChapter, {
+                chapter = it
+                nextChapterSummary = chapter.nextChapter
+            }, {
+                //TODO: Add a failure handler
+            }
+        )
+        val networkSubmittedAssignment =
+            userRepository.getSubmittedChapter(loggedInUid, courseId, chapterId)
+        checkStatus(
+            networkSubmittedAssignment, {
+                _submittedAssignment.postValue(it)
+            }, {
+                //TODO: Add a failure handler
+            }
+        )
+
+        _canRetry.postValue(chapter.type == ChapterType.PRACTICE)
+        _hasNextChapter.postValue(nextChapterSummary?.id.isNotNull())
     }
 
 
@@ -96,7 +104,7 @@ class CourseSubmitViewModel @Inject constructor(
 
     fun retry() {
         launchViewModelScope {
-            userRepository.resetSubmittedChapter(loggedInUid, courseId, chapterId)
+            userRepository.createNewSubmittedAssignment(loggedInUid, courseId, chapterId)
         }
     }
 

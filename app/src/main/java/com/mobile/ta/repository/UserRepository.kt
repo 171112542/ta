@@ -22,15 +22,11 @@ interface UserRepository {
         chapterId: String
     ): Status<Boolean>
 
-    suspend fun resetSubmittedChapter(userId: String, courseId: String, chapterId: String): Status<Boolean>
-
     suspend fun getSubmittedChapter(
         userId: String,
         courseId: String,
         chapterId: String
     ): Status<UserSubmittedAssignment>
-
-    suspend fun getIfSubmittedBefore(userId: String, courseId: String, chapterId: String): Status<Boolean>
 
     suspend fun createNewSubmittedAssignment(userId: String, courseId: String, chapterId: String): Status<Boolean>
 

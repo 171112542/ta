@@ -148,7 +148,7 @@ class CourseSubmitFragment :
             binding.fragCourseSubmitContent.visibility = View.VISIBLE
             val totalAnswerCount = it.totalAnswerCount
             val correctAnswerCount = it.correctAnswerCount
-            binding.fragCourseSubmitTitle.text = viewmodel.chapterTitle
+            binding.fragCourseSubmitTitle.text = viewmodel.chapter.title
             binding.fragCourseSubmitScore.text =
                 getString(R.string.assignment_result_text, correctAnswerCount, totalAnswerCount)
         }

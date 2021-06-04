@@ -9,9 +9,11 @@ import com.mobile.ta.repository.UserChapterRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.UserChapterMapper
 import com.mobile.ta.utils.wrapper.status.Status
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
-class UserChapterRepositoryImpl @Inject constructor(private val database: FirebaseFirestore) :
+@ExperimentalCoroutinesApi
+class UserChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) :
     UserChapterRepository {
     private val userCollection = database.collection(USER_COLLECTION)
     override suspend fun getUserChapters(

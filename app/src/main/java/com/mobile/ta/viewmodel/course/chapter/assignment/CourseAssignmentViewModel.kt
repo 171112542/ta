@@ -1,5 +1,6 @@
 package com.mobile.ta.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,6 +13,7 @@ import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
+import com.mobile.ta.model.user.course.chapter.assignment.isFinishedBefore
 import com.mobile.ta.repository.*
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.mapper.UserCourseMapper.toHashMap
@@ -34,7 +36,6 @@ class CourseAssignmentViewModel @Inject constructor(
 ) : BaseViewModel() {
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
-    var chapterTitle: String = ""
     lateinit var chapter: Chapter
     private lateinit var loggedInUid: String
 
@@ -59,55 +60,73 @@ class CourseAssignmentViewModel @Inject constructor(
                 //TODO: Add a failure handler
             })
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-            val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
-            checkStatus(
-                networkChapter, {
-                    chapter = it
-                    chapterTitle = chapter.title
-                }, {
-                    //TODO: Add a failure handler
-                }
-            )
+
+            handleAccessToFragment()
+            initializeFragmentContent()
             userCourseRepository.updateLastAccessedChapter(
                 loggedInUid,
                 courseId,
                 ChapterSummary(chapter.id, chapter.title, chapter.type)
             )
             getUserChapters(loggedInUid, courseId)
-            val isChapterDoneBefore = userRepository.getIfSubmittedBefore(
-                loggedInUid,
-                courseId,
-                chapterId
-            )
-            checkStatus(
-                isChapterDoneBefore, {
-                    if (it) _navigateToSubmitResultPage.postValue(true)
-                }, {
-                    //TODO: Add a failure handler
-                }
-            )
-
-            val questionList = chapterRepository.getQuestions(courseId, chapterId)
-            checkStatus(
-                questionList, {
-                    this.questions.postValue(it)
-                }, {
-                    //TODO: Add a failure handler
-                }
-            )
         }
     }
 
-    private suspend fun getUserChapters(uid: String, courseId: String) {
-        val userChaptersResult =
-            userChapterRepository.getUserChapters(uid, courseId)
-        checkStatus(userChaptersResult, {
-            _userChapters.postValue(it)
-        }, {
-            //TODO: Add a failure handler
-        })
+    /**
+     * A function to handle whether the user is allowed to access the associated fragment
+     * to submit their answers.
+     * If this chapter has been done before, the user will be navigated
+     * to the result fragment.
+     * Otherwise, a new chapter will be created on the user collection
+     * to mark that the user has accessed the chapter for the first time.
+     */
+    private suspend fun handleAccessToFragment() {
+        val submittedAssignment = userRepository.getSubmittedChapter(
+            loggedInUid,
+            courseId,
+            chapterId
+        )
+        checkStatus(
+            submittedAssignment, {
+                if (it.isFinishedBefore()) _navigateToSubmitResultPage.postValue(true)
+                else launchViewModelScope {
+                    userRepository.createNewSubmittedAssignment(loggedInUid, courseId, chapterId)
+                }
+            }, {
+                //TODO: Add a failure handler
+            }
+        )
     }
 
+    /**
+     * A function to fetch all the required information for the associated fragment
+     * so that the user can start doing the assignment.
+     */
+    private suspend fun initializeFragmentContent() {
+        val networkChapter = chapterRepository.getChapterById(courseId, chapterId)
+        checkStatus(
+            networkChapter, {
+                chapter = it
+            }, {
+                //TODO: Add a failure handler
+            }
+        )
+
+        val questionList = chapterRepository.getQuestions(courseId, chapterId)
+        checkStatus(
+            questionList, {
+                this.questions.postValue(it)
+            }, {
+                //TODO: Add a failure handler
+            }
+        )
+    }
+
+    /**
+     * A function to add selected answers of the user to a local variable.
+     * The local variable will be later submitted to the database if the user
+     * submits the assignment.
+     */
     fun addSelectedAnswer(assignmentQuestion: AssignmentQuestion, selectedIndex: Int) {
         selectedAnswers.value?.add(
             UserAssignmentAnswer(
@@ -121,16 +140,13 @@ class CourseAssignmentViewModel @Inject constructor(
         selectedAnswers.publishChanges()
     }
 
+    /**
+     * A function to submit the answers of the user to the database level.
+     * At the same time, update the user's course progress
+     */
     fun submitAnswer() {
         launchViewModelScope {
             var correctAnswerCount = 0
-            userRepository.createNewSubmittedAssignment(
-                loggedInUid,
-                courseId,
-                chapterId
-            )
-            getUserChapters(loggedInUid, courseId)
-            updateFinishedCourse(loggedInUid, courseId)
             selectedAnswers.value?.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
@@ -144,7 +160,20 @@ class CourseAssignmentViewModel @Inject constructor(
             userRepository
                 .updateCorrectAnswerCount(loggedInUid, userSubmittedAssignment, courseId, chapterId)
             _navigateToSubmitResultPage.postValue(true)
+
+            getUserChapters(loggedInUid, courseId)
+            updateFinishedCourse(loggedInUid, courseId)
         }
+    }
+
+    private suspend fun getUserChapters(uid: String, courseId: String) {
+        val userChaptersResult =
+            userChapterRepository.getUserChapters(uid, courseId)
+        checkStatus(userChaptersResult, {
+            _userChapters.postValue(it)
+        }, {
+            //TODO: Add a failure handler
+        })
     }
 
     private suspend fun updateFinishedCourse(userId: String, courseId: String) {
