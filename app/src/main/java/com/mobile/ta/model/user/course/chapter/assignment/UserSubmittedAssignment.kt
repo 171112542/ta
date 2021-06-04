@@ -19,3 +19,6 @@ fun UserSubmittedAssignment.mapToFirebaseData(): Map<String, Any> =
         UserSubmittedAssignmentMapper.CORRECT_ANSWER_COUNT_FIELD to this.correctAnswerCount,
         UserSubmittedAssignmentMapper.TOTAL_ANSWER_COUNT_FIELD to this.totalAnswerCount
     )
+
+fun UserSubmittedAssignment.isFinishedBefore(): Boolean =
+    this.totalAnswerCount != -1

@@ -48,7 +48,7 @@ class CourseAssignmentFragment :
         viewmodel.questions.observe(viewLifecycleOwner) {
             adapter.submitList(it)
             adapter.setQuestionType(viewmodel.chapter.type)
-            binding.fragCourseAssignmentTitle.text = viewmodel.chapterTitle
+            binding.fragCourseAssignmentTitle.text = viewmodel.chapter.title
             binding.fragCourseAssignmentContent.visibility = View.VISIBLE
             binding.fragCourseAssignmentLoading.visibility = View.GONE
         }
@@ -61,14 +61,6 @@ class CourseAssignmentFragment :
                     )
                 )
         }
-        viewmodel.course.observe(viewLifecycleOwner, {
-            setupMenu(it.chapterSummaryList)
-        })
-        viewmodel.userChapters.observe(viewLifecycleOwner, {
-            viewmodel.course.value?.chapterSummaryList?.let {
-                setupMenu(it)
-            }
-        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +78,14 @@ class CourseAssignmentFragment :
     }
 
     private fun setupDrawer() {
+        viewmodel.course.observe(viewLifecycleOwner, {
+            setupMenu(it.chapterSummaryList)
+        })
+        viewmodel.userChapters.observe(viewLifecycleOwner, {
+            viewmodel.course.value?.chapterSummaryList?.let {
+                setupMenu(it)
+            }
+        })
         binding.apply {
             val toggle = ActionBarDrawerToggle(
                 mMainActivity,

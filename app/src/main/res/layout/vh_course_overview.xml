@@ -58,6 +58,8 @@
             android:layout_marginBottom="@dimen/keyline_4"
             android:ellipsize="end"
             android:maxLines="4"
+            android:lineSpacingExtra="4sp"
+            android:justificationMode="inter_word"
             app:layout_constraintBottom_toTopOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="@+id/view"
             app:layout_constraintStart_toStartOf="parent"

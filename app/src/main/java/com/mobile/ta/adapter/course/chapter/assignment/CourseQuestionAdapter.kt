@@ -1,12 +1,11 @@
 package com.mobile.ta.adapter.course.chapter.assignment
 
-import android.util.Log
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.annotation.IntDef
-import androidx.appcompat.widget.ThemeUtils
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
@@ -17,7 +16,6 @@ import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
-import com.mobile.ta.utils.ThemeUtil
 
 interface CourseQuestionVHListener {
     fun onSubmitAnswerListener(assignmentQuestion: AssignmentQuestion, selectedIndex: Int)
@@ -81,6 +79,10 @@ class CourseQuestionAdapter(
             }
         }
 
+        /**
+         * A function to change the visuals and disable some components
+         * of the ViewHolder if the question has already been answered.
+         */
         private fun processSubmittedAnswer() {
             disableSubmitButton()
             disableRadioButtons()
@@ -93,6 +95,11 @@ class CourseQuestionAdapter(
             }
         }
 
+        /**
+         * A function to save the submitted answer.
+         * At the same time, it will run the other listener's
+         * callback for question-submitting events
+         */
         private fun submitAnswer(assignmentQuestion: AssignmentQuestion) {
             val selectedAnswerId = binding.vhCourseQuestionChoiceGroup.checkedRadioButtonId
             val selectedRadioButton =
@@ -115,6 +122,11 @@ class CourseQuestionAdapter(
             }
         }
 
+        /**
+         * A function to change the visuals of the radio buttons.
+         * Displays the selected answer in grey.
+         * Does not show which answer is correct.
+         */
         private fun showSelectedAnswer(selectedAnswer: MutableMap<String, Int>) {
             val selectedAnswerIndex = selectedAnswer[SELECTED_ANSWER_KEY] ?: return
             val selectedRadioButton =
@@ -128,6 +140,11 @@ class CourseQuestionAdapter(
             )
         }
 
+        /**
+         * A function to change the visuals of the radio buttons.
+         * Displays the selected answer.
+         * Displays if answer is correct or incorrect.
+         */
         private fun showCorrectAnswer(selectedAnswer: MutableMap<String, Int>) {
             val correctAnswerIndex = selectedAnswer[CORRECT_ANSWER_KEY] ?: return
             val selectedAnswerIndex = selectedAnswer[SELECTED_ANSWER_KEY] ?: return
@@ -177,12 +194,17 @@ class CourseQuestionAdapter(
                 backgroundDrawableTintId
             )
             this.setTextColor(textColorId)
-            if (buttonTintId != null) {
-                this.buttonTintList = ContextCompat.getColorStateList(
-                    binding.root.context,
-                    buttonTintId
+            val radioButtonColorStateList = ColorStateList(
+                arrayOf(
+                    intArrayOf(-android.R.attr.state_checked),
+                    intArrayOf(android.R.attr.state_checked)
+                ),
+                intArrayOf(
+                    resources.getColor(R.color.black_60, context.theme),
+                    resources.getColor(buttonTintId ?: R.color.red_dark, context.theme)
                 )
-            }
+            )
+            this.buttonTintList = radioButtonColorStateList
         }
 
         /**
@@ -190,7 +212,7 @@ class CourseQuestionAdapter(
          * View reset is required because views are dynamically changed by user input.
          * As such, views in different adapter positions have different data.
          * The data influences how the views look.
-         * As a result, reused ViewHolders must not carry the visuals caused by
+         * As a result, reused ViewHolders must not carry the visual changes caused by
          * the data in another adapter position.
          */
         private fun resetView() {

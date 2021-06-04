@@ -70,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_16"
             android:layout_marginTop="@dimen/dp_8"
+            android:lineSpacingExtra="4sp"
             android:justificationMode="inter_word"
             android:textAppearance="@style/TextAppearance.TA.Body2"
             app:layout_constraintBottom_toTopOf="@id/course_card_progress"

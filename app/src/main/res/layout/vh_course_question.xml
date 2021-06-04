@@ -71,53 +71,122 @@
 
     </LinearLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/vh_course_question_question"
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
+        android:layout_height="0dp"
+        android:paddingBottom="@dimen/keyline_4"
+        app:layout_constraintBottom_toTopOf="@id/vh_course_question_buttons_top_barrier"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vh_course_question_correct_banner"
-        tools:text="Question" />
+        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_banners_bottom_barrier">
 
-    <RadioGroup
-        android:id="@+id/vh_course_question_choice_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
-        android:divider="@drawable/radio_space_separator"
-        android:showDividers="middle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_question">
-
-        <RadioButton
-            android:id="@+id/vh_course_question_choice_one"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:checked="true"
-            tools:text="Choice 1" />
+            android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/vh_course_question_choice_two"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Choice 2" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/vh_course_question_question"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/keyline_4"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="4sp"
+                android:textAppearance="@style/TextAppearance.TA.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Question" />
 
-        <RadioButton
-            android:id="@+id/vh_course_question_choice_three"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Choice 3" />
+            <RadioGroup
+                android:id="@+id/vh_course_question_choice_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/keyline_4"
+                android:divider="@drawable/radio_space_separator"
+                android:showDividers="middle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vh_course_question_question">
 
-        <RadioButton
-            android:id="@+id/vh_course_question_choice_four"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Choice 4" />
+                <RadioButton
+                    android:id="@+id/vh_course_question_choice_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.TA.Body1"
+                    tools:checked="true"
+                    tools:text="Choice 1" />
 
-    </RadioGroup>
+                <RadioButton
+                    android:id="@+id/vh_course_question_choice_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.TA.Body1"
+                    tools:text="Choice 2" />
+
+                <RadioButton
+                    android:id="@+id/vh_course_question_choice_three"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.TA.Body1"
+                    tools:text="Choice 3" />
+
+                <RadioButton
+                    android:id="@+id/vh_course_question_choice_four"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.TA.Body1"
+                    tools:text="Choice 4" />
+
+            </RadioGroup>
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/vh_course_question_explanation_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="vh_course_question_explanation_description,
+                vh_course_question_explanation_title,
+                vh_course_question_explanation_line"
+                tools:visibility="visible" />
+
+            <View
+                android:id="@+id/vh_course_question_explanation_line"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_margin="@dimen/keyline_4"
+                android:background="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vh_course_question_choice_group" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/vh_course_question_explanation_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/keyline_4"
+                android:text="@string/explanation_text"
+                android:textAppearance="@style/TextAppearance.TA.Headline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_line" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/vh_course_question_explanation_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/keyline_4"
+                android:layout_marginTop="16dp"
+                android:justificationMode="inter_word"
+                android:lineSpacingExtra="4sp"
+                android:textAppearance="@style/TextAppearance.TA.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_title"
+                tools:text="Testing explanation text that is very long" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <androidx.constraintlayout.widget.Group
         android:id="@+id/vh_course_question_submit_group"
@@ -136,47 +205,6 @@
         app:layout_constraintBottom_toTopOf="@id/vh_course_question_submit_result"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/vh_course_question_explanation_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:constraint_referenced_ids="vh_course_question_explanation_description,
-        vh_course_question_explanation_title,
-        vh_course_question_explanation_line"
-        tools:visibility="visible" />
-
-    <View
-        android:id="@+id/vh_course_question_explanation_line"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_margin="@dimen/keyline_4"
-        android:background="@color/grey"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/vh_course_question_choice_group" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/vh_course_question_explanation_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
-        android:text="@string/explanation_text"
-        android:textAppearance="@style/TextAppearance.TA.Headline5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_line" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/vh_course_question_explanation_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/keyline_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/vh_course_question_explanation_title"
-        tools:text="Testing explanation text" />
 
     <Button
         android:id="@+id/vh_course_question_show_explanation"
@@ -215,6 +243,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="visible" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/vh_course_question_buttons_top_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="vh_course_question_hide_explanation,
+        vh_course_question_show_explanation,
+        vh_course_question_submit,
+        vh_course_question_submit_result" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/vh_course_question_banners_bottom_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="vh_course_question_correct_banner,
+        vh_course_question_wrong_banner" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
