@@ -26,7 +26,7 @@ class RelatedCourseAdapter(
             binding.apply {
                 textViewCourseItemTitle.text = data.title
                 textViewCourseItemEnrolledStudents.text =
-                    data.totalStudentEnrolled.getOrDefaultInt().toString()
+                    data.totalEnrolled.getOrDefaultInt().toString()
 
                 data.imageUrl?.let { ImageUtil.loadImage(context, it, imageViewCourseItem) }
 
