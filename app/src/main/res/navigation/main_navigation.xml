@@ -145,6 +145,12 @@
         <argument
             android:name="sketchfabId"
             app:argType="string" />
+        <argument
+            android:name="courseId"
+            app:argType="string" />
+        <argument
+            android:name="chapterId"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/discussionForumFragment"

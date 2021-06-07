@@ -14,21 +14,26 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.Timestamp
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentCourseContentBinding
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
+import com.mobile.ta.model.testing.TimeSpent
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.utils.HandlerUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
 import com.mobile.ta.viewmodel.course.chapter.content.CourseContentViewModel
+import com.mobile.ta.viewmodel.testingtimer.TestingTimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @AndroidEntryPoint
+@ExperimentalCoroutinesApi
 class CourseContentFragment :
     BaseFragment<FragmentCourseContentBinding>(FragmentCourseContentBinding::inflate),
     View.OnClickListener {
@@ -37,6 +42,7 @@ class CourseContentFragment :
     private lateinit var chapterId: String
     private val args: CourseContentFragmentArgs by navArgs()
     private val viewModel: CourseContentViewModel by viewModels()
+    private val testingViewModel: TestingTimerViewModel by viewModels()
     private var menuItems = mutableListOf<MenuItem>()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -118,7 +124,15 @@ class CourseContentFragment :
                 }
             })
         }
+        testingViewModel.saveStartTime(Timestamp.now())
+        testingViewModel.saveType(TimeSpent.CONTENT)
         setupDrawer()
+    }
+
+    override fun onDestroyView() {
+        testingViewModel.saveEndTime(Timestamp.now())
+        testingViewModel.startSaveTimeSpentWork()
+        super.onDestroyView()
     }
 
     private fun navigateToNextChapter(chapter: Chapter) {
@@ -153,7 +167,9 @@ class CourseContentFragment :
         chapter.sketchfab?.let {
             val destination =
                 CourseContentFragmentDirections.actionCourseContentFragmentTo3DViewFragment(
-                    it.id as String
+                    it.id as String,
+                    courseId,
+                    chapterId
                 )
             findNavController().navigate(destination)
         }

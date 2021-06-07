@@ -11,4 +11,5 @@ object CollectionConstants {
     const val IMAGES_USERS_STORAGE_PATH = "images/users"
     const val NOTIFICATION_COLLECTION = "notifications"
     const val FEEDBACK_COLLECTION = "feedbacks"
+    const val TIME_COLLECTION = "time"
 }
