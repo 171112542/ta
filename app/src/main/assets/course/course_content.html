@@ -152,16 +152,20 @@
                 var newElement = document.createElement('div');
                 newElement.innerHTML = element.innerHTML;
                 newElement.addEventListener('click', function() {
-                    location.href = "#";
-                    location.href = "#" + id;
+                    document.getElementById(id).scrollIntoView({
+                      behavior: 'smooth'
+                    })
                 })
                 if (tag == 'H1') {
                     var upIcon = document.createElement('span');
                     upIcon.classList.add('material-icons');
                     upIcon.innerHTML = "arrow_upward";
                     upIcon.addEventListener('click', function() {
-                        document.body.scrollTop = 0;
-                        document.documentElement.scrollTop = 0;
+                        window.scroll({
+                              top: 0,
+                              left: 0,
+                              behavior: 'smooth'
+                        });
                     })
 
                     var div = document.createElement('div');
@@ -172,6 +176,7 @@
                     div.appendChild(upIcon);
                 } else {
                     newElement.classList.add('level-2');
+                    element.id = id;
                 }
                 outline.appendChild(newElement);
             }
