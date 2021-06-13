@@ -1,8 +1,6 @@
 package com.mobile.ta.di.modules
 
-import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.TestingTimerRepository
-import com.mobile.ta.repository.impl.NotificationRepositoryImpl
 import com.mobile.ta.repository.impl.TestingTimerRepositoryImpl
 import dagger.Module
 import dagger.Provides

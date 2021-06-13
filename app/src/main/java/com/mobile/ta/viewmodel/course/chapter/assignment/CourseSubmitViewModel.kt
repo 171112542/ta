@@ -1,8 +1,6 @@
 package com.mobile.ta.viewmodel.course.chapter.assignment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.mobile.ta.model.course.Course

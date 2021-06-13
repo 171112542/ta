@@ -20,7 +20,5 @@ data class User(
 
     var role: UserRoleEnum,
 
-    var phoneNumber: String? = null,
-
     var bio: String? = null
 ) : Parcelable
