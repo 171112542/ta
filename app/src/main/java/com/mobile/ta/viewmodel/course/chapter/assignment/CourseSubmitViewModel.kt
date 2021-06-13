@@ -1,6 +1,8 @@
 package com.mobile.ta.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.mobile.ta.model.course.Course
@@ -11,6 +13,7 @@ import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
 import com.mobile.ta.repository.*
 import com.mobile.ta.utils.isNotNull
+import com.mobile.ta.utils.isNull
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,22 +31,37 @@ class CourseSubmitViewModel @Inject constructor(
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
+    var nextChapterSummary: ChapterSummary? = null
     lateinit var chapter: Chapter
     private lateinit var loggedInUid: String
 
     private var _submittedAssignment: MutableLiveData<UserSubmittedAssignment> = MutableLiveData()
     val submittedAssignment: LiveData<UserSubmittedAssignment>
         get() = _submittedAssignment
+
     private var _navigateToNextChapter: MutableLiveData<Boolean> = MutableLiveData(false)
     val navigateToNextChapter: LiveData<Boolean>
         get() = _navigateToNextChapter
-    private var _hasNextChapter: MutableLiveData<Boolean> = MutableLiveData()
-    val hasNextChapter: LiveData<Boolean>
-        get() = _hasNextChapter
-    private var _canRetry: MutableLiveData<Boolean> = MutableLiveData()
-    val canRetry: LiveData<Boolean>
-        get() = _canRetry
-    var nextChapterSummary: ChapterSummary? = null
+
+    private var _navigateToRetryPractice: MutableLiveData<Boolean> = MutableLiveData(false)
+    val navigateToRetryPractice: LiveData<Boolean>
+        get() = _navigateToRetryPractice
+
+    private var _showRetryButton = MutableLiveData<Boolean>()
+    val showRetryButton: LiveData<Boolean>
+        get() = _showRetryButton
+
+    private var _showNextChapterButton = MutableLiveData<Boolean>()
+    val showNextChapterButton: LiveData<Boolean>
+        get() = _showNextChapterButton
+
+    private var _showFinishCourseButton = MutableLiveData<Boolean>()
+    val showFinishCourseButton: LiveData<Boolean>
+        get() = _showFinishCourseButton
+
+    private var _showPassingGradeText = MutableLiveData<Boolean>()
+    val showPassingGradeText: LiveData<Boolean>
+        get() = _showPassingGradeText
 
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
@@ -84,13 +102,14 @@ class CourseSubmitViewModel @Inject constructor(
         checkStatus(
             networkSubmittedAssignment, {
                 _submittedAssignment.postValue(it)
+                _showPassingGradeText.postValue(!it.finished && it.type == ChapterType.PRACTICE)
+                _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
+                _showFinishCourseButton.postValue(nextChapterSummary?.id.isNull())
+                _showNextChapterButton.postValue(nextChapterSummary?.id.isNotNull() && it.finished)
             }, {
                 //TODO: Add a failure handler
             }
         )
-
-        _canRetry.postValue(chapter.type == ChapterType.PRACTICE)
-        _hasNextChapter.postValue(nextChapterSummary?.id.isNotNull())
     }
 
 
@@ -105,6 +124,7 @@ class CourseSubmitViewModel @Inject constructor(
     fun retry() {
         launchViewModelScope {
             userRepository.createNewSubmittedAssignment(loggedInUid, courseId, chapterId)
+            _navigateToRetryPractice.postValue(true)
         }
     }
 

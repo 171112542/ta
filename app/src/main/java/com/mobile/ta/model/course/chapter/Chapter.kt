@@ -18,6 +18,7 @@ data class Chapter(
     @Serializable(with = TimestampSerializer::class)
     val updatedAt: Timestamp,
     val nextChapter: ChapterSummary?,
+    val passingGrade: Int?,
     val previousChapter: ChapterSummary?,
     val totalDiscussion: Int,
     val sketchfab: Sketchfab?,
@@ -32,6 +33,7 @@ data class Chapter(
             "",
             Timestamp.now(),
             Timestamp.now(),
+            null,
             null,
             null,
             0,

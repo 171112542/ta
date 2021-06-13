@@ -10,8 +10,3 @@ data class UserAssignmentAnswer(
     val correctAnswer: Int,
     val order: Int
 )
-
-fun UserAssignmentAnswer.mapToFirebaseData(): Map<String, Any> =
-    mapOf(
-
-    )

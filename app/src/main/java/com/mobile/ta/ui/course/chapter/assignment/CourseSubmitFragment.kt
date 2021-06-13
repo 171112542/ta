@@ -54,12 +54,6 @@ class CourseSubmitFragment :
         when (v) {
             binding.fragCourseSubmitRetry -> {
                 viewmodel.retry()
-                findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = viewmodel.chapterId
-                    )
-                )
             }
             binding.fragCourseSubmitNextChapter -> {
                 viewmodel.navigateToNextChapter()
@@ -146,24 +140,36 @@ class CourseSubmitFragment :
         viewmodel.submittedAssignment.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitLoading.visibility = View.GONE
             binding.fragCourseSubmitContent.visibility = View.VISIBLE
-            val totalAnswerCount = it.totalAnswerCount
-            val correctAnswerCount = it.correctAnswerCount
             binding.fragCourseSubmitTitle.text = viewmodel.chapter.title
-            binding.fragCourseSubmitScore.text =
-                getString(R.string.assignment_result_text, correctAnswerCount, totalAnswerCount)
+            binding.fragCourseSubmitScore.text = it.score.toString()
+            binding.fragCourseSubmitPassingText.text =
+                getString(
+                    R.string.passing_grade_desc_text,
+                    it.passingGrade
+                )
         }
-        viewmodel.canRetry.observe(viewLifecycleOwner) {
+        viewmodel.showPassingGradeText.observe(viewLifecycleOwner) {
+            binding.fragCourseSubmitPassingText.visibility = if (it) View.VISIBLE else View.GONE
+        }
+        viewmodel.showRetryButton.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitRetry.visibility = if (it) View.VISIBLE else View.GONE
         }
-        viewmodel.hasNextChapter.observe(viewLifecycleOwner) {
+        viewmodel.showFinishCourseButton.observe(viewLifecycleOwner) {
+            binding.fragCourseSubmitFinishCourse.visibility = if (it) View.VISIBLE else View.GONE
+        }
+        viewmodel.showNextChapterButton.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitNextChapter.visibility = if (it) View.VISIBLE else View.GONE
-            binding.fragCourseSubmitFinishCourse.visibility = if (it) View.GONE else View.VISIBLE
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
             val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
             val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
             val destination = getChapterDestination(nextChapterId, nextChapterType)
+            findNavController().navigate(destination)
+        }
+        viewmodel.navigateToRetryPractice.observe(viewLifecycleOwner) {
+            if (!it) return@observe
+            val destination = getChapterDestination(viewmodel.chapterId, ChapterType.PRACTICE)
             findNavController().navigate(destination)
         }
         viewmodel.userChapters.observe(viewLifecycleOwner, {

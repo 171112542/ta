@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="frag_course_assignment_tab,
-        frag_course_assignment_title,frag_course_assignment_vp"
+            frag_course_assignment_title,frag_course_assignment_vp"
             tools:visibility="visible" />
 
         <com.google.android.material.textview.MaterialTextView
