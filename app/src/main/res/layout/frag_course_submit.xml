@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             app:constraint_referenced_ids="frag_course_submit_description,
-            frag_course_submit_score,frag_course_submit_title"
+            frag_course_submit_score,frag_course_submit_title,
+            frag_course_submit_passing_text"
             tools:visibility="visible" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -49,21 +50,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/keyline_2"
-            android:text="@string/correct_questions_label"
+            android:text="@string/your_score_text"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.TA.Body1"
             android:textColor="?attr/colorOnPrimary"
             app:layout_constraintBottom_toTopOf="@+id/frag_course_submit_score"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="Questions you got correct:" />
+            tools:text="Your Score" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/frag_course_submit_score"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:letterSpacing="0.2"
+            android:letterSpacing="0.1"
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.TA.Headline1"
             android:textColor="?attr/colorOnPrimary"
@@ -73,14 +74,30 @@
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frag_course_submit_title"
-            app:layout_constraintVertical_chainStyle="packed" />
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="90" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/frag_course_submit_passing_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/keyline_2"
+            android:text="@string/passing_grade_desc_text"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.TA.Body1"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginTop="@dimen/keyline_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frag_course_submit_score"
+            tools:text="Get 60 to proceed to the next chapter" />
 
         <Button
             android:id="@+id/frag_course_submit_retry"
             style="@style/Widget.TA.Button.Inverted"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Retry Practice"
+            android:text="@string/retry_practice_text"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/frag_course_submit_next_chapter"
             app:layout_constraintEnd_toEndOf="parent"

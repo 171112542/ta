@@ -22,6 +22,8 @@ import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
+import kotlin.math.ceil
+import kotlin.math.roundToInt
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
@@ -147,15 +149,20 @@ class CourseAssignmentViewModel @Inject constructor(
     fun submitAnswer() {
         launchViewModelScope {
             var correctAnswerCount = 0
-            selectedAnswers.value?.forEach {
+            val selectedAnswers = selectedAnswers.value ?: return@launchViewModelScope
+            selectedAnswers.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
             }
+            val score = ceil(correctAnswerCount * 100f / selectedAnswers.size).toInt()
+            val passed = score >= chapter.passingGrade ?: return@launchViewModelScope
+            val passingGrade = chapter.passingGrade ?: return@launchViewModelScope
             val userSubmittedAssignment = UserSubmittedAssignment(
                 chapter.title,
                 chapter.type,
-                correctAnswerCount,
-                questions.value?.size ?: 0
+                score,
+                passingGrade,
+                passed
             )
             userRepository
                 .updateCorrectAnswerCount(loggedInUid, userSubmittedAssignment, courseId, chapterId)
