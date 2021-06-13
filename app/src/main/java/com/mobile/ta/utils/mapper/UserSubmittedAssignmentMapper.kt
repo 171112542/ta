@@ -9,6 +9,7 @@ object UserSubmittedAssignmentMapper {
     const val SCORE_FIELD = "score"
     const val PASSING_GRADE_FIELD = "passingGrade"
     const val PASSED_FIELD = "passed"
+    const val FINISHED_FIELD = "finished"
 
     fun mapToUserSubmittedAssignment(snapshot: DocumentSnapshot): UserSubmittedAssignment {
         return snapshot.toObject(UserSubmittedAssignment::class.java) ?: UserSubmittedAssignment()

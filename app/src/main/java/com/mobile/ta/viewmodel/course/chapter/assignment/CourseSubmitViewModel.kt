@@ -43,6 +43,10 @@ class CourseSubmitViewModel @Inject constructor(
     val navigateToNextChapter: LiveData<Boolean>
         get() = _navigateToNextChapter
 
+    private var _navigateToRetryPractice: MutableLiveData<Boolean> = MutableLiveData(false)
+    val navigateToRetryPractice: LiveData<Boolean>
+        get() = _navigateToRetryPractice
+
     private var _showRetryButton = MutableLiveData<Boolean>()
     val showRetryButton: LiveData<Boolean>
         get() = _showRetryButton
@@ -98,11 +102,10 @@ class CourseSubmitViewModel @Inject constructor(
         checkStatus(
             networkSubmittedAssignment, {
                 _submittedAssignment.postValue(it)
-                Log.d("Submit", it.toString())
-                _showPassingGradeText.postValue(!it.passed && it.type == ChapterType.PRACTICE)
+                _showPassingGradeText.postValue(!it.finished && it.type == ChapterType.PRACTICE)
                 _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
                 _showFinishCourseButton.postValue(nextChapterSummary?.id.isNull())
-                _showNextChapterButton.postValue(nextChapterSummary?.id.isNotNull() && it.passed)
+                _showNextChapterButton.postValue(nextChapterSummary?.id.isNotNull() && it.finished)
             }, {
                 //TODO: Add a failure handler
             }
@@ -121,6 +124,7 @@ class CourseSubmitViewModel @Inject constructor(
     fun retry() {
         launchViewModelScope {
             userRepository.createNewSubmittedAssignment(loggedInUid, courseId, chapterId)
+            _navigateToRetryPractice.postValue(true)
         }
     }
 

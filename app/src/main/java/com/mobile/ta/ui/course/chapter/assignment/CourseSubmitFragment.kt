@@ -54,12 +54,6 @@ class CourseSubmitFragment :
         when (v) {
             binding.fragCourseSubmitRetry -> {
                 viewmodel.retry()
-                findNavController().navigate(
-                    CourseSubmitFragmentDirections.actionCourseSubmitFragmentToCoursePracticeFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = viewmodel.chapterId
-                    )
-                )
             }
             binding.fragCourseSubmitNextChapter -> {
                 viewmodel.navigateToNextChapter()
@@ -171,6 +165,11 @@ class CourseSubmitFragment :
             val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
             val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
             val destination = getChapterDestination(nextChapterId, nextChapterType)
+            findNavController().navigate(destination)
+        }
+        viewmodel.navigateToRetryPractice.observe(viewLifecycleOwner) {
+            if (!it) return@observe
+            val destination = getChapterDestination(viewmodel.chapterId, ChapterType.PRACTICE)
             findNavController().navigate(destination)
         }
         viewmodel.userChapters.observe(viewLifecycleOwner, {

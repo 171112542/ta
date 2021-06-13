@@ -15,9 +15,15 @@ interface UserRepository {
         chapterId: String
     ): Status<Boolean>
 
-    suspend fun updateCorrectAnswerCount(
+    suspend fun updateSubmittedAssignment(
         userId: String,
         userSubmittedAssignment: UserSubmittedAssignment,
+        courseId: String,
+        chapterId: String
+    ): Status<Boolean>
+
+    suspend fun markAssignmentAsFinished(
+        userId: String,
         courseId: String,
         chapterId: String
     ): Status<Boolean>

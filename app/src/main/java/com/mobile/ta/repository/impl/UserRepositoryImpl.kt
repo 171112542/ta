@@ -1,6 +1,7 @@
 package com.mobile.ta.repository.impl
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -17,6 +18,7 @@ import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.mapper.UserSubmittedAssignmentMapper
 import com.mobile.ta.utils.wrapper.status.Status
+import com.mobile.ta.utils.wrapper.status.StatusType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -50,7 +52,7 @@ class UserRepositoryImpl @Inject constructor(
             .fetchData()
     }
 
-    override suspend fun updateCorrectAnswerCount(
+    override suspend fun updateSubmittedAssignment(
         userId: String,
         userSubmittedAssignment: UserSubmittedAssignment,
         courseId: String,
@@ -60,6 +62,20 @@ class UserRepositoryImpl @Inject constructor(
             .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
             .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
             .update(userSubmittedAssignment.mapToFirebaseData())
+            .fetchData()
+    }
+
+    override suspend fun markAssignmentAsFinished(
+        userId: String,
+        courseId: String,
+        chapterId: String
+    ): Status<Boolean> {
+        return userCollection.document(userId)
+            .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
+            .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
+            .update(mapOf(
+                UserSubmittedAssignmentMapper.FINISHED_FIELD to true
+            ))
             .fetchData()
     }
 
@@ -79,15 +95,24 @@ class UserRepositoryImpl @Inject constructor(
         courseId: String,
         chapterId: String
     ): Status<Boolean> {
-        return userCollection.document(userId)
-            .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
-            .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
-            .set(
-                mapOf(
-                    "exists" to true
+        val userSubmittedAssignment = getSubmittedChapter(userId, courseId, chapterId)
+        Log.d("UserRepositoryImpl", userSubmittedAssignment.data.toString())
+        return if (userSubmittedAssignment.status == StatusType.FAILED) {
+            Status.error(userSubmittedAssignment.message)
+        }
+        else {
+            val finishedBefore = userSubmittedAssignment.data?.finished ?: false
+            Log.d("UserRepositoryImpl", userSubmittedAssignment.data.toString())
+            userCollection.document(userId)
+                .collection(CollectionConstants.COURSE_COLLECTION).document(courseId)
+                .collection(CollectionConstants.CHAPTER_COLLECTION).document(chapterId)
+                .set(
+                    mapOf(
+                        UserSubmittedAssignmentMapper.FINISHED_FIELD to finishedBefore
+                    )
                 )
-            )
-            .fetchData()
+                .fetchData()
+        }
     }
 
     override suspend fun addUserFeedback(id: String, data: HashMap<String, Any?>): Status<Boolean> {

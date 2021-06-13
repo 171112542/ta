@@ -4,16 +4,16 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.Transformations
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
+import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
 import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignment
-import com.mobile.ta.model.user.course.chapter.assignment.isFinishedBefore
+import com.mobile.ta.model.user.course.chapter.assignment.showResult
 import com.mobile.ta.repository.*
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.mapper.UserCourseMapper.toHashMap
@@ -23,7 +23,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 import kotlin.math.ceil
-import kotlin.math.roundToInt
 
 @ExperimentalCoroutinesApi
 @HiltViewModel
@@ -39,10 +38,12 @@ class CourseAssignmentViewModel @Inject constructor(
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     lateinit var chapter: Chapter
+    private var submittedAssignment: UserSubmittedAssignment? = null
     private lateinit var loggedInUid: String
 
     private var selectedAnswers = MutableLiveData<ArrayList<UserAssignmentAnswer>>(arrayListOf())
     val questions = MutableLiveData<MutableList<AssignmentQuestion>>()
+
     private var _navigateToSubmitResultPage: MutableLiveData<Boolean> = MutableLiveData(false)
     val navigateToSubmitResultPage: LiveData<Boolean>
         get() = _navigateToSubmitResultPage
@@ -88,10 +89,12 @@ class CourseAssignmentViewModel @Inject constructor(
             courseId,
             chapterId
         )
+        Log.d("CourseAssignmentViewModel", submittedAssignment.toString())
         checkStatus(
             submittedAssignment, {
-                if (it.isFinishedBefore()) _navigateToSubmitResultPage.postValue(true)
+                if (it.showResult()) _navigateToSubmitResultPage.postValue(true)
                 else launchViewModelScope {
+                    this.submittedAssignment = submittedAssignment.data
                     userRepository.createNewSubmittedAssignment(loggedInUid, courseId, chapterId)
                 }
             }, {
@@ -150,22 +153,32 @@ class CourseAssignmentViewModel @Inject constructor(
         launchViewModelScope {
             var correctAnswerCount = 0
             val selectedAnswers = selectedAnswers.value ?: return@launchViewModelScope
+            val passingGrade = chapter.passingGrade ?: return@launchViewModelScope
             selectedAnswers.forEach {
                 userRepository.submitQuestionResult(loggedInUid, it, courseId, chapterId)
                 if (it.selectedAnswer == it.correctAnswer) correctAnswerCount += 1
             }
             val score = ceil(correctAnswerCount * 100f / selectedAnswers.size).toInt()
-            val passed = score >= chapter.passingGrade ?: return@launchViewModelScope
-            val passingGrade = chapter.passingGrade ?: return@launchViewModelScope
+            val passed = score >= passingGrade
+            val finished =
+                if(chapter.type == ChapterType.QUIZ) true
+                else submittedAssignment?.finished ?: false || passed
             val userSubmittedAssignment = UserSubmittedAssignment(
                 chapter.title,
                 chapter.type,
                 score,
                 passingGrade,
-                passed
+                passed,
+                finished
             )
             userRepository
-                .updateCorrectAnswerCount(loggedInUid, userSubmittedAssignment, courseId, chapterId)
+                .updateSubmittedAssignment(loggedInUid, userSubmittedAssignment, courseId, chapterId)
+            val markAssignmentAsFinished =
+                (chapter.type == ChapterType.PRACTICE && passed) || chapter.type == ChapterType.QUIZ
+            if (markAssignmentAsFinished) {
+                userRepository
+                    .markAssignmentAsFinished(loggedInUid, courseId, chapterId)
+            }
             _navigateToSubmitResultPage.postValue(true)
 
             getUserChapters(loggedInUid, courseId)
