@@ -87,23 +87,6 @@ class CourseInformationFragment :
                             listOf(course.level.toString(), course.type.toString())
                         )
                         setupCreatorInfo(course.creator)
-                        course.prerequisiteCourse.let { relatedCourses ->
-                            if (relatedCourses.isNotEmpty()) {
-                                prerequisiteCourseAdapter.submitList(relatedCourses)
-                            }
-                            courseInformationPrerequisiteCourseList.isVisible =
-                                relatedCourses.isNotEmpty()
-                            courseInformationPrerequisiteCourseEmpty.isVisible =
-                                relatedCourses.isEmpty()
-                        }
-                        course.relatedCourse.let { relatedCourses ->
-                            if (relatedCourses.isNotEmpty()) {
-                                relatedCourseAdapter.submitList(relatedCourses)
-                            }
-                            courseInformationRelatedCourseList.isVisible =
-                                relatedCourses.isNotEmpty()
-                            courseInformationRelatedCourseEmpty.isVisible = relatedCourses.isEmpty()
-                        }
                     }
                 }
                 courseInformationProgressBarContainer.isVisible = false
@@ -114,6 +97,23 @@ class CourseInformationFragment :
                         if (it.data.isNull()) getString(R.string.enroll)
                         else getString(R.string.continue_studying)
                 }
+            })
+            viewModel.preRequisiteCourses.observe(viewLifecycleOwner, { preRequisiteCourses ->
+                if (preRequisiteCourses.isNotEmpty()) {
+                    prerequisiteCourseAdapter.submitList(preRequisiteCourses)
+                }
+                courseInformationPrerequisiteCourseList.isVisible =
+                    preRequisiteCourses.isNotEmpty()
+                courseInformationPrerequisiteCourseEmpty.isVisible =
+                    preRequisiteCourses.isEmpty()
+            })
+            viewModel.relatedCourses.observe(viewLifecycleOwner, { relatedCourses ->
+                if (relatedCourses.isNotEmpty()) {
+                    relatedCourseAdapter.submitList(relatedCourses)
+                }
+                courseInformationRelatedCourseList.isVisible =
+                    relatedCourses.isNotEmpty()
+                courseInformationRelatedCourseEmpty.isVisible = relatedCourses.isEmpty()
             })
         }
         viewModel.chapters.observe(viewLifecycleOwner, {

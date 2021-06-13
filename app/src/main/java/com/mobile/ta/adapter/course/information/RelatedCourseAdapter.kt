@@ -7,28 +7,30 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
-import com.mobile.ta.adapter.diff.CourseInfoPrerequisitesCourseDiffCallback
+import com.mobile.ta.adapter.diff.CourseDiffCallback
+import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.databinding.LayoutCourseItemBinding
-import com.mobile.ta.model.course.information.RelatedCourse
+import com.mobile.ta.model.course.Course
+import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.utils.getOrDefaultInt
 import com.mobile.ta.utils.view.ImageUtil
 
 class RelatedCourseAdapter(
     private val onClickListener: (String) -> Unit
-) : ListAdapter<RelatedCourse, RelatedCourseAdapter.PrerequisitesCourseViewHolder>(
-    CourseInfoPrerequisitesCourseDiffCallback()
+) : ListAdapter<Course, RelatedCourseAdapter.PrerequisitesCourseViewHolder>(
+    CourseDiffCallback()
 ) {
     inner class PrerequisitesCourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val binding = LayoutCourseItemBinding.bind(itemView)
         val context: Context = itemView.context
 
-        fun bind(data: RelatedCourse) {
+        fun bind(data: Course) {
             binding.apply {
                 textViewCourseItemTitle.text = data.title
                 textViewCourseItemEnrolledStudents.text =
                     data.totalEnrolled.getOrDefaultInt().toString()
 
-                data.imageUrl?.let { ImageUtil.loadImage(context, it, imageViewCourseItem) }
+                ImageUtil.loadImage(context, data.imageUrl, imageViewCourseItem)
 
                 root.setOnClickListener {
                     onClickListener.invoke(data.id as String)
