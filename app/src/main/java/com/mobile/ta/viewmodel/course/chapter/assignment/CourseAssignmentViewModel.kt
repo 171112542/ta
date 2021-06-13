@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.model.course.chapter.assignment.QuizScore
 import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.model.user.course.chapter.assignment.UserAssignmentAnswer
@@ -179,10 +181,24 @@ class CourseAssignmentViewModel @Inject constructor(
                 userRepository
                     .markAssignmentAsFinished(loggedInUid, courseId, chapterId)
             }
-            _navigateToSubmitResultPage.postValue(true)
 
+            if (chapter.type == ChapterType.QUIZ) {
+                val loggedInUserData = userRepository.getUser()
+                var loggedInUserEmail = ""
+                checkStatus(
+                    loggedInUserData, {
+                        loggedInUserEmail = it.email
+                    }, {
+                        // TODO: Handle network error
+                    }
+                )
+                val quizScore = QuizScore(score, loggedInUid, loggedInUserEmail, Timestamp.now())
+                chapterRepository
+                    .saveQuizScore(courseId, chapterId, quizScore)
+            }
             getUserChapters(loggedInUid, courseId)
             updateFinishedCourse(loggedInUid, courseId)
+            _navigateToSubmitResultPage.postValue(true)
         }
     }
 
