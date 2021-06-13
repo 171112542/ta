@@ -8,6 +8,7 @@ import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.repository.UserChapterRepository
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.UserChapterMapper
+import com.mobile.ta.utils.mapper.UserChapterMapper.FINISHED_FIELD
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -16,14 +17,14 @@ import javax.inject.Inject
 class UserChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) :
     UserChapterRepository {
     private val userCollection = database.collection(USER_COLLECTION)
-    override suspend fun getUserChapters(
+    override suspend fun getFinishedUserChapters(
         userId: String,
         courseId: String
     ): Status<MutableList<UserChapter>> {
         return userCollection.document(userId).collection(COURSE_COLLECTION).document(courseId)
             .collection(
                 CHAPTER_COLLECTION
-            ).fetchData(UserChapterMapper::mapToUserChapters)
+            ).whereEqualTo(FINISHED_FIELD, true).fetchData(UserChapterMapper::mapToUserChapters)
     }
 
     override suspend fun addUserChapter(

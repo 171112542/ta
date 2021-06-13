@@ -32,6 +32,10 @@ class CourseInformationViewModel @Inject constructor(
     val userCourse: LiveData<Status<UserCourse>> get() = _userCourse
     private val _enrollCourse = MutableLiveData<Status<Boolean>>()
     val enrollCourse: LiveData<Status<Boolean>> get() = _enrollCourse
+    private val _relatedCourses = MutableLiveData<MutableList<Course>>()
+    val relatedCourses: LiveData<MutableList<Course>> get() = _relatedCourses
+    private val _preRequisiteCourses = MutableLiveData<MutableList<Course>>()
+    val preRequisiteCourses: LiveData<MutableList<Course>> get() = _preRequisiteCourses
     private val loggedInUid = authRepository.getUser()?.uid
 
     fun getCourse(courseId: String) {
@@ -42,6 +46,10 @@ class CourseInformationViewModel @Inject constructor(
                 _userCourse.postValue(userCourseResult)
             }
             val result = courseRepository.getCourseById(courseId)
+            checkStatus(result, {
+                getPreRequisiteCourses(it.preRequisiteCourse)
+                getRelatedCourses(it.relatedCourse)
+            })
             _course.postValue(result)
         }
     }
@@ -57,7 +65,7 @@ class CourseInformationViewModel @Inject constructor(
     private suspend fun getUserChapters(courseId: String) {
         loggedInUid?.let { uid ->
             val userChaptersResult =
-                userChapterRepository.getUserChapters(uid, courseId)
+                userChapterRepository.getFinishedUserChapters(uid, courseId)
             _userChapters.postValue(userChaptersResult)
         }
     }
@@ -94,6 +102,32 @@ class CourseInformationViewModel @Inject constructor(
         launchViewModelScope {
             course.totalEnrolled += 1
             courseRepository.updateTotalEnrolledCourse(course)
+        }
+    }
+
+    private fun getPreRequisiteCourses(preRequisiteCourses: List<String>) {
+        launchViewModelScope {
+            val courses = mutableListOf<Course>()
+            preRequisiteCourses.forEach {
+                val course = courseRepository.getCourseById(it)
+                checkStatus(course, {
+                    courses.add(it)
+                })
+            }
+            _preRequisiteCourses.postValue(courses)
+        }
+    }
+
+    private fun getRelatedCourses(relatedCourses: List<String>) {
+        launchViewModelScope {
+            val courses = mutableListOf<Course>()
+            relatedCourses.forEach {
+                val course = courseRepository.getCourseById(it)
+                checkStatus(course, {
+                    courses.add(it)
+                })
+            }
+            _relatedCourses.postValue(courses)
         }
     }
 }

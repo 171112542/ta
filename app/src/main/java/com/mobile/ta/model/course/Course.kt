@@ -5,7 +5,6 @@ import com.google.firebase.firestore.DocumentId
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.information.Creator
 import com.mobile.ta.model.course.information.LevelTag
-import com.mobile.ta.model.course.information.RelatedCourse
 import com.mobile.ta.model.course.information.TypeTag
 
 data class Course(
@@ -18,8 +17,8 @@ data class Course(
     val creator: Creator,
     val level: LevelTag,
     val type: TypeTag,
-    val prerequisiteCourse: List<RelatedCourse>,
-    val relatedCourse: List<RelatedCourse>,
+    val preRequisiteCourse: List<String>,
+    val relatedCourse: List<String>,
     var totalEnrolled: Int,
     val updatedAt: Timestamp? = null,
     val enrollmentKey: String? = null

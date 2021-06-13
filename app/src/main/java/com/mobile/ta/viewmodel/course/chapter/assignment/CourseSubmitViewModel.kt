@@ -113,7 +113,7 @@ class CourseSubmitViewModel @Inject constructor(
 
     private suspend fun getUserChapters(uid: String, courseId: String) {
         val userChaptersResult =
-            userChapterRepository.getUserChapters(uid, courseId)
+            userChapterRepository.getFinishedUserChapters(uid, courseId)
         checkStatus(userChaptersResult, {
             _userChapters.postValue(it)
         }, {})

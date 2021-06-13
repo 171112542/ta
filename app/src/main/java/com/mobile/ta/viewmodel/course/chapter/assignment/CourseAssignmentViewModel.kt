@@ -204,7 +204,7 @@ class CourseAssignmentViewModel @Inject constructor(
 
     private suspend fun getUserChapters(uid: String, courseId: String) {
         val userChaptersResult =
-            userChapterRepository.getUserChapters(uid, courseId)
+            userChapterRepository.getFinishedUserChapters(uid, courseId)
         checkStatus(userChaptersResult, {
             _userChapters.postValue(it)
         }, {
@@ -213,7 +213,7 @@ class CourseAssignmentViewModel @Inject constructor(
     }
 
     private suspend fun updateFinishedCourse(userId: String, courseId: String) {
-        val userChapters = userChapterRepository.getUserChapters(userId, courseId)
+        val userChapters = userChapterRepository.getFinishedUserChapters(userId, courseId)
         val chapters = chapterRepository.getChapters(courseId)
         val isFinished =
             if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
