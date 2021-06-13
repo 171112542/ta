@@ -57,7 +57,7 @@ class CourseInformationViewModel @Inject constructor(
     private suspend fun getUserChapters(courseId: String) {
         loggedInUid?.let { uid ->
             val userChaptersResult =
-                userChapterRepository.getUserChapters(uid, courseId)
+                userChapterRepository.getFinishedUserChapters(uid, courseId)
             _userChapters.postValue(userChaptersResult)
         }
     }

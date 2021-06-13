@@ -162,7 +162,7 @@
     <string name="no_recommended_course_label">No recommended course, yet.</string>
     <string name="no_related_courses_label">No related courses, yet.</string>
     <string name="completed_progress">Completed</string>
-    <string name="not_yet_started_progress">Not yet started</string>
+    <string name="not_completed_progress">Not completed</string>
     <string name="last_updated_label">last updated</string>
 
     <string name="three_d_back_information">Tap empty area to show back button</string>

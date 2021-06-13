@@ -23,7 +23,7 @@ class CourseContentViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userCourseRepository: UserCourseRepository,
     private val userChapterRepository: UserChapterRepository,
-    private val authRepository: AuthRepository,
+    authRepository: AuthRepository,
     private val discussionRepository: DiscussionRepository
 ) :
     BaseViewModel() {
@@ -49,7 +49,7 @@ class CourseContentViewModel @Inject constructor(
     fun addUserChapter(courseId: String, chapterId: String) {
         launchViewModelScope {
             chapter.value?.data?.let { chapter ->
-                val userChapter = UserChapter(chapterId, chapter.title)
+                val userChapter = UserChapter(chapterId, chapter.title, true)
                 loggedInUid?.let { uid ->
                     userChapterRepository.addUserChapter(
                         uid,
@@ -69,13 +69,13 @@ class CourseContentViewModel @Inject constructor(
     private suspend fun getUserChapters(courseId: String) {
         loggedInUid?.let { uid ->
             val userChaptersResult =
-                userChapterRepository.getUserChapters(uid, courseId)
+                userChapterRepository.getFinishedUserChapters(uid, courseId)
             _userChapters.postValue(userChaptersResult)
         }
     }
 
     private suspend fun updateFinishedCourse(userId: String, courseId: String) {
-        val userChapters = userChapterRepository.getUserChapters(userId, courseId)
+        val userChapters = userChapterRepository.getFinishedUserChapters(userId, courseId)
         val chapters = chapterRepository.getChapters(courseId)
         val isFinished =
             if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size

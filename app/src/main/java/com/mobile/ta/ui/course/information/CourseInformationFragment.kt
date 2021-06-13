@@ -182,7 +182,7 @@ class CourseInformationFragment :
                             0
                         )
                     } else {
-                        text = getString(R.string.not_yet_started_progress)
+                        text = getString(R.string.not_completed_progress)
                         setTextColor(ContextCompat.getColor(mContext, R.color.grey))
                         setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
                     }

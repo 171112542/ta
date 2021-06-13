@@ -146,9 +146,7 @@ class CourseContentFragment :
                 )
             }
         } else {
-            findNavController().navigate(
-                CourseContentFragmentDirections.actionCourseContentFragmentToMyCourseFragment(1)
-            )
+            findNavController().navigateUp()
         }
     }
 
@@ -286,7 +284,7 @@ class CourseContentFragment :
 
         @JavascriptInterface
         fun getNextChapter(): String {
-            return chapter.nextChapter?.title ?: "Finish Course"
+            return chapter.nextChapter?.title ?: activity.getString(R.string.finish_course_text)
         }
     }
 }

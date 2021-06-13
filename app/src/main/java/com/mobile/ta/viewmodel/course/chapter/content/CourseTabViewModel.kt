@@ -46,7 +46,7 @@ class CourseTabViewModel @Inject constructor(
         val currentProgress = MutableLiveData<Double>()
         launchViewModelScope {
             val totalUserChapter =
-                (userChapterRepository.getUserChapters(loggedInUid, courseId).data?.size
+                (userChapterRepository.getFinishedUserChapters(loggedInUid, courseId).data?.size
                     ?: 0).toDouble()
             val totalChapter = (chapterRepository.getChapters(courseId).data?.size ?: 0).toDouble()
             val progress = (totalUserChapter / totalChapter) * 100
