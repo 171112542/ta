@@ -26,23 +26,15 @@ class ProfileAboutTabFragment :
             it?.let { user ->
                 setAboutData(
                     user.email,
-                    user.phoneNumber,
                     user.birthDate?.toDateString(Constants.MMMM_DD_YYYY)
                 )
             }
         })
     }
 
-    private fun setAboutData(email: String, phone: String?, birthDate: String?) {
+    private fun setAboutData(email: String, birthDate: String?) {
         binding.apply {
             profileAboutEmail.text = email
-
-            phone?.let {
-                profileAboutPhone.text = it
-                groupAboutPhone.visibility = View.VISIBLE
-            } ?: run {
-                groupAboutPhone.visibility = View.GONE
-            }
 
             birthDate?.let {
                 profileAboutBirthDate.text = it

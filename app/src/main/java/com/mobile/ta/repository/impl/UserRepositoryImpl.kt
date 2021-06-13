@@ -13,7 +13,6 @@ import com.mobile.ta.model.user.course.chapter.assignment.UserSubmittedAssignmen
 import com.mobile.ta.model.user.course.chapter.assignment.mapToFirebaseData
 import com.mobile.ta.model.user.feedback.Feedback
 import com.mobile.ta.repository.UserRepository
-import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.mapper.UserSubmittedAssignmentMapper
@@ -141,7 +140,6 @@ class UserRepositoryImpl @Inject constructor(
                 UserMapper.NAME to user.name,
                 UserMapper.BIRTH_DATE to user.birthDate,
                 UserMapper.PHOTO to user.photo,
-                UserMapper.PHONE_NUMBER to user.phoneNumber,
                 UserMapper.BIO to user.bio
             )
         ).fetchData()

@@ -102,8 +102,7 @@ class RegistrationViewModel @Inject constructor(
             name = firebaseUser.displayName.orEmpty(),
             email = firebaseUser.email.orEmpty(),
             photo = firebaseUser.photoUrl?.toString(),
-            role = getUserRole(isTeacher),
-            phoneNumber = firebaseUser.phoneNumber
+            role = getUserRole(isTeacher)
         )
     }
 }

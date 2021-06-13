@@ -111,7 +111,6 @@ class EditProfileFragment :
             if (it) {
                 viewModel.updateUser(
                     binding.editProfileFullNameInput.text(),
-                    binding.editProfilePhoneNumberInput.text(),
                     binding.editProfileBioInput.text()
                 )
             } else {
@@ -157,7 +156,6 @@ class EditProfileFragment :
             }
             editProfileBirthDateInput.setText(user.birthDate?.toDateString(Constants.YYYY_MM_DD))
             editProfileEmailInput.setText(user.email)
-            editProfilePhoneNumberInput.setText(user.phoneNumber)
             editProfileBioInput.setText(user.bio)
         }
     }

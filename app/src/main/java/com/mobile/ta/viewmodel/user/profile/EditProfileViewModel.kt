@@ -46,10 +46,9 @@ class EditProfileViewModel @Inject constructor(
         _user.publishChanges()
     }
 
-    fun updateUser(name: String, phoneNumber: String?, bio: String?) {
+    fun updateUser(name: String, bio: String?) {
         _user.value?.let { user ->
             user.name = name
-            user.phoneNumber = phoneNumber
             user.bio = bio
 
             launchViewModelScope {

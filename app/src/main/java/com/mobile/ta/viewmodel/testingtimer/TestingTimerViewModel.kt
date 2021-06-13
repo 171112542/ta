@@ -1,7 +1,6 @@
 package com.mobile.ta.viewmodel.testingtimer
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.work.OneTimeWorkRequestBuilder
