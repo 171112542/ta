@@ -22,35 +22,33 @@ class CourseTabViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val _userCourse = MutableLiveData<Status<MutableList<UserCourse>>>()
     val userCourse: LiveData<Status<MutableList<UserCourse>>> get() = _userCourse
-    private lateinit var loggedInUid: String
-
-    init {
-        launchViewModelScope {
-            loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-        }
-    }
+    private val loggedInUid: String? = authRepository.getUser()?.uid
 
     fun getUserCourse(type: CourseTabType) {
         launchViewModelScope {
             val isFinished = type == CourseTabType.FINISHED_TAB
-            _userCourse.postValue(
-                userCourseRepository.getUserCourses(
-                    loggedInUid,
-                    isFinished
+            loggedInUid?.let {
+                _userCourse.postValue(
+                    userCourseRepository.getUserCourses(
+                        it,
+                        isFinished
+                    )
                 )
-            )
+            }
         }
     }
 
     fun getProgress(courseId: String): MutableLiveData<Double> {
         val currentProgress = MutableLiveData<Double>()
         launchViewModelScope {
-            val totalUserChapter =
-                (userChapterRepository.getFinishedUserChapters(loggedInUid, courseId).data?.size
-                    ?: 0).toDouble()
-            val totalChapter = (chapterRepository.getChapters(courseId).data?.size ?: 0).toDouble()
-            val progress = (totalUserChapter / totalChapter) * 100
-            currentProgress.postValue(progress)
+            loggedInUid?.let {
+                val totalUserChapter =
+                    (userChapterRepository.getFinishedUserChapters(loggedInUid, courseId).data?.size
+                        ?: 0).toDouble()
+                val totalChapter = (chapterRepository.getChapters(courseId).data?.size ?: 0).toDouble()
+                val progress = (totalUserChapter / totalChapter) * 100
+                currentProgress.postValue(progress)
+            }
         }
         return currentProgress
     }
