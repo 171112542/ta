@@ -188,12 +188,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/vh_course_question_submit_group"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="vh_course_question_submit" />
-
     <Button
         android:id="@+id/vh_course_question_submit"
         style="@style/Widget.TA.Button"
