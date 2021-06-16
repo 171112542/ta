@@ -81,16 +81,7 @@ class CourseQuestionAdapter @Inject constructor(
             selectedAnswers.forEachIndexed { index, mutableMap ->
                 Log.d("Selected Answers", "$index $mutableMap")
             }
-            selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]!!.let {
-//                if (it == -1) {
-//                    binding.vhCourseQuestionChoiceGroup.run {
-//                        val radioButtonId = checkedRadioButtonId
-//                        if (radioButtonId == -1) return@run
-//                        val radioButton = this.findViewById<RadioButton>(radioButtonId)
-//                        radioButton.isChecked = false
-//                    }
-//                }
-//                else {
+            selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]?.let {
                 if (it != -1) {
                     (binding.vhCourseQuestionChoiceGroup.getChildAt(it) as RadioButton)
                         .isChecked = true
