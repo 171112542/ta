@@ -78,22 +78,17 @@ class CourseQuestionAdapter @Inject constructor(
         fun bind(assignmentQuestion: AssignmentQuestion) {
             isBinding = true
             resetView()
-            selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]!!.let {
-                if (it == -1) {
-                    binding.vhCourseQuestionChoiceGroup.run {
-                        val radioButtonId = checkedRadioButtonId
-                        if (radioButtonId == -1) return@run
-                        val radioButton = this.findViewById<RadioButton>(radioButtonId)
-                        radioButton.isChecked = false
-                    }
-                }
-                else {
+            selectedAnswers.forEachIndexed { index, mutableMap ->
+                Log.d("Selected Answers", "$index $mutableMap")
+            }
+            selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]?.let {
+                if (it != -1) {
                     (binding.vhCourseQuestionChoiceGroup.getChildAt(it) as RadioButton)
                         .isChecked = true
                 }
             }
             if (selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY] != -1) {
-                binding.vhCourseQuestionSubmitGroup.isEnabled = true
+                binding.vhCourseQuestionSubmit.isEnabled = true
             }
 
             binding.vhCourseQuestionQuestion.text = assignmentQuestion.question
@@ -124,7 +119,7 @@ class CourseQuestionAdapter @Inject constructor(
                 showExplanation()
             }
             binding.run {
-                vhCourseQuestionSubmitGroup.visibility = View.GONE
+                vhCourseQuestionSubmit.visibility = View.GONE
                 vhCourseQuestionSubmit.isEnabled = false
                 vhCourseQuestionChoiceGroup.children.forEach {
                     it.isEnabled = false
@@ -244,6 +239,7 @@ class CourseQuestionAdapter @Inject constructor(
          */
         private fun resetView() {
             binding.run {
+                vhCourseQuestionChoiceGroup.clearCheck()
                 vhCourseQuestionChoiceGroup.children.forEach {
                     (it as RadioButton).isEnabled = true
                     it.changeVisuals(
@@ -253,7 +249,7 @@ class CourseQuestionAdapter @Inject constructor(
                         null
                     )
                 }
-                vhCourseQuestionSubmitGroup.run {
+                vhCourseQuestionSubmit.run {
                     visibility = View.VISIBLE
                     isEnabled = false
                 }
@@ -306,12 +302,12 @@ class CourseQuestionAdapter @Inject constructor(
     }
 
     fun checkToEnableSubmitResult() {
-        var selectedAnswerCount = 0
+        var submittedAnswerCount = 0
         selectedAnswers.forEach {
-            if (it[SELECTED_ANSWER_KEY] != -1)
-                selectedAnswerCount += 1
+            if (it[SUBMITTED_KEY] != 0)
+                submittedAnswerCount += 1
         }
-        if (selectedAnswerCount == currentList.size) {
+        if (submittedAnswerCount == currentList.size) {
             submitResultEnabled = true
             notifyItemChanged(currentList.size - 1)
         }
