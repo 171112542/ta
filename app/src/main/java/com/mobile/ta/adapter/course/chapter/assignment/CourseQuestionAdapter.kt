@@ -1,6 +1,7 @@
 package com.mobile.ta.adapter.course.chapter.assignment
 
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.annotation.IntDef
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.children
+import androidx.core.view.get
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
@@ -16,15 +18,17 @@ import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.VhCourseQuestionBinding
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.utils.isNull
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface CourseQuestionVHListener {
     fun onSubmitAnswerListener(assignmentQuestion: AssignmentQuestion, selectedIndex: Int)
     fun onShowResultListener()
 }
 
-class CourseQuestionAdapter(
-    diffCallback: CourseQuestionDiffCallback,
-    val listener: CourseQuestionVHListener
+class CourseQuestionAdapter @Inject constructor(
+    diffCallback: CourseQuestionDiffCallback
 ) : ListAdapter<AssignmentQuestion, CourseQuestionAdapter.ViewHolder>(diffCallback) {
     companion object {
         @IntDef(QUIZ, PRACTICE)
@@ -33,30 +37,30 @@ class CourseQuestionAdapter(
 
         const val QUIZ = 0
         const val PRACTICE = 1
-        private const val SELECTED_ANSWER_KEY = "selectedAnswer"
-        private const val CORRECT_ANSWER_KEY = "correctAnswer"
+        const val SELECTED_ANSWER_KEY = "selectedAnswer"
+        const val SUBMITTED_KEY = "submitted"
+        const val CORRECT_ANSWER_KEY = "correctAnswer"
     }
 
+    lateinit var listener: CourseQuestionVHListener
     private var submitResultEnabled = false
     private var selectedAnswers = listOf<MutableMap<String, Int>>()
     @QuestionType
     private var type: Int = 0
 
-    inner class ViewHolder(private val binding: VhCourseQuestionBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind(assignmentQuestion: AssignmentQuestion) {
-            resetView()
-            binding.vhCourseQuestionQuestion.text = assignmentQuestion.question
-            binding.vhCourseQuestionChoiceOne.text = assignmentQuestion.choices[0]
-            binding.vhCourseQuestionChoiceTwo.text = assignmentQuestion.choices[1]
-            binding.vhCourseQuestionChoiceThree.text = assignmentQuestion.choices[2]
-            binding.vhCourseQuestionChoiceFour.text = assignmentQuestion.choices[3]
-            binding.vhCourseQuestionExplanationDescription.text = assignmentQuestion.explanation
-            binding.vhCourseQuestionChoiceGroup.setOnCheckedChangeListener { _, _ ->
+    inner class ViewHolder(
+        private val binding: VhCourseQuestionBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private var isBinding = false
+        init {
+            binding.vhCourseQuestionChoiceGroup.setOnCheckedChangeListener { group, checkedId ->
+                if (isBinding) return@setOnCheckedChangeListener
+                selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY] =
+                    group.indexOfChild(group.findViewById(checkedId))
                 binding.vhCourseQuestionSubmit.isEnabled = true
             }
             binding.vhCourseQuestionSubmit.setOnClickListener {
-                submitAnswer(assignmentQuestion)
+                submitAnswer(currentList[bindingAdapterPosition])
                 processSubmittedAnswer()
                 checkToEnableSubmitResult()
             }
@@ -69,14 +73,42 @@ class CourseQuestionAdapter(
             binding.vhCourseQuestionSubmitResult.setOnClickListener {
                 listener.onShowResultListener()
             }
+        }
+
+        fun bind(assignmentQuestion: AssignmentQuestion) {
+            isBinding = true
+            resetView()
+            selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]!!.let {
+                if (it == -1) {
+                    binding.vhCourseQuestionChoiceGroup.run {
+                        val radioButtonId = checkedRadioButtonId
+                        if (radioButtonId == -1) return@run
+                        val radioButton = this.findViewById<RadioButton>(radioButtonId)
+                        radioButton.isChecked = false
+                    }
+                }
+                else {
+                    (binding.vhCourseQuestionChoiceGroup.getChildAt(it) as RadioButton)
+                        .isChecked = true
+                }
+            }
+            if (selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY] != -1) {
+                binding.vhCourseQuestionSubmitGroup.isEnabled = true
+            }
+
+            binding.vhCourseQuestionQuestion.text = assignmentQuestion.question
+            binding.vhCourseQuestionChoiceOne.text = assignmentQuestion.choices[0]
+            binding.vhCourseQuestionChoiceTwo.text = assignmentQuestion.choices[1]
+            binding.vhCourseQuestionChoiceThree.text = assignmentQuestion.choices[2]
+            binding.vhCourseQuestionChoiceFour.text = assignmentQuestion.choices[3]
+            binding.vhCourseQuestionExplanationDescription.text = assignmentQuestion.explanation
             if (assignmentQuestion.id == currentList.last().id && submitResultEnabled) {
                 showSubmitResult()
             }
-            if (selectedAnswers.isNotEmpty()
-                && selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] != -1
-            ) {
+            if (selectedAnswers[bindingAdapterPosition][SUBMITTED_KEY] != 0) {
                 processSubmittedAnswer()
             }
+            isBinding = false
         }
 
         /**
@@ -84,14 +116,19 @@ class CourseQuestionAdapter(
          * of the ViewHolder if the question has already been answered.
          */
         private fun processSubmittedAnswer() {
-            disableSubmitButton()
-            disableRadioButtons()
             if (type == QUIZ) {
-                showSelectedAnswer(selectedAnswers[adapterPosition])
+                showSelectedAnswer(selectedAnswers[bindingAdapterPosition])
             }
             else {
-                showCorrectAnswer(selectedAnswers[adapterPosition])
+                showCorrectAnswer(selectedAnswers[bindingAdapterPosition])
                 showExplanation()
+            }
+            binding.run {
+                vhCourseQuestionSubmitGroup.visibility = View.GONE
+                vhCourseQuestionSubmit.isEnabled = false
+                vhCourseQuestionChoiceGroup.children.forEach {
+                    it.isEnabled = false
+                }
             }
         }
 
@@ -108,18 +145,7 @@ class CourseQuestionAdapter(
                 binding.vhCourseQuestionChoiceGroup.indexOfChild(selectedRadioButton)
 
             listener.onSubmitAnswerListener(assignmentQuestion, selectedAnswerIndex)
-            selectedAnswers[adapterPosition][SELECTED_ANSWER_KEY] = selectedAnswerIndex
-        }
-
-        private fun disableSubmitButton() {
-            binding.vhCourseQuestionSubmitGroup.visibility = View.GONE
-            binding.vhCourseQuestionSubmit.isEnabled = false
-        }
-
-        private fun disableRadioButtons() {
-            binding.vhCourseQuestionChoiceGroup.children.forEach {
-                it.isEnabled = false
-            }
+            selectedAnswers[bindingAdapterPosition][SUBMITTED_KEY] = 1
         }
 
         /**
@@ -129,9 +155,12 @@ class CourseQuestionAdapter(
          */
         private fun showSelectedAnswer(selectedAnswer: MutableMap<String, Int>) {
             val selectedAnswerIndex = selectedAnswer[SELECTED_ANSWER_KEY] ?: return
-            val selectedRadioButton =
-                binding.vhCourseQuestionChoiceGroup.getChildAt(selectedAnswerIndex) as RadioButton
-            selectedRadioButton.isChecked = true
+            val selectedRadioButton = when (selectedAnswerIndex) {
+                0 -> binding.vhCourseQuestionChoiceOne
+                1 -> binding.vhCourseQuestionChoiceTwo
+                2 -> binding.vhCourseQuestionChoiceThree
+                else -> binding.vhCourseQuestionChoiceFour
+            }
             selectedRadioButton.changeVisuals(
                 R.drawable.drawable_rounded_rect,
                 R.color.grey_light,
@@ -152,8 +181,6 @@ class CourseQuestionAdapter(
                 binding.vhCourseQuestionChoiceGroup.getChildAt(correctAnswerIndex) as RadioButton
             val selectedRadioButton =
                 binding.vhCourseQuestionChoiceGroup.getChildAt(selectedAnswerIndex) as RadioButton
-
-            selectedRadioButton.isChecked = true
 
             correctRadioButton.changeVisuals(
                 R.drawable.drawable_rounded_rect,
@@ -218,14 +245,20 @@ class CourseQuestionAdapter(
         private fun resetView() {
             binding.run {
                 vhCourseQuestionChoiceGroup.children.forEach {
-                    it.isEnabled = true
-                    (it as RadioButton).changeVisuals(
+                    (it as RadioButton).isEnabled = true
+                    it.changeVisuals(
                         R.drawable.drawable_rounded_rect,
                         R.color.white,
                         R.color.black,
                         null
                     )
                 }
+                vhCourseQuestionSubmitGroup.run {
+                    visibility = View.VISIBLE
+                    isEnabled = false
+                }
+                vhCourseQuestionSubmitResult.visibility = View.GONE
+                vhCourseQuestionExplanationGroup.visibility = View.GONE
                 vhCourseQuestionCorrectBanner.visibility = View.GONE
                 vhCourseQuestionWrongBanner.visibility = View.GONE
             }
@@ -265,7 +298,8 @@ class CourseQuestionAdapter(
             selectedAnswers = courseQuestion.map {
                 mutableMapOf(
                     Pair(SELECTED_ANSWER_KEY, -1),
-                    Pair(CORRECT_ANSWER_KEY, it.correctAnswer)
+                    Pair(CORRECT_ANSWER_KEY, it.correctAnswer),
+                    Pair(SUBMITTED_KEY, 0)
                 )
             }
         }
@@ -281,6 +315,10 @@ class CourseQuestionAdapter(
             submitResultEnabled = true
             notifyItemChanged(currentList.size - 1)
         }
+    }
+
+    fun setVhClickListener(listener: CourseQuestionVHListener) {
+        this.listener = listener
     }
 
     fun setQuestionType(type: ChapterType) {

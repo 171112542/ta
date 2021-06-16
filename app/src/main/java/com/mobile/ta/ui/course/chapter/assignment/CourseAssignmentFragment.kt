@@ -23,12 +23,16 @@ import com.mobile.ta.ui.main.MainActivity
 import com.mobile.ta.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CourseAssignmentFragment :
     BaseFragment<FragCourseAssignmentBinding>(FragCourseAssignmentBinding::inflate),
     CourseQuestionVHListener {
+    @Inject
+    lateinit var courseQuestionAdapter: CourseQuestionAdapter
+
     private val viewmodel by viewModels<CourseAssignmentViewModel>()
     private lateinit var mMainActivity: MainActivity
     private var menuItems = mutableListOf<MenuItem>()
@@ -42,11 +46,11 @@ class CourseAssignmentFragment :
     }
 
     private fun setupViewPager() {
-        val adapter = CourseQuestionAdapter(CourseQuestionDiffCallback(), this)
-        binding.fragCourseAssignmentVp.adapter = adapter
+        courseQuestionAdapter.setVhClickListener(this)
+        binding.fragCourseAssignmentVp.adapter = courseQuestionAdapter
         viewmodel.questions.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            adapter.setQuestionType(viewmodel.chapter.type)
+            courseQuestionAdapter.submitList(it)
+            courseQuestionAdapter.setQuestionType(viewmodel.chapter.type)
             binding.fragCourseAssignmentTitle.text = viewmodel.chapter.title
             binding.fragCourseAssignmentContent.visibility = View.VISIBLE
             binding.fragCourseAssignmentLoading.visibility = View.GONE
