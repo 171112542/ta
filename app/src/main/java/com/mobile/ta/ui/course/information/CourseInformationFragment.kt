@@ -22,6 +22,7 @@ import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.information.Creator
+import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
 import com.mobile.ta.utils.view.ImageUtil
@@ -79,14 +80,12 @@ class CourseInformationFragment :
                         }
                         setupCourseMainInfo(
                             course.imageUrl,
-                            course.title,
-                            course.creator.name.getOrDefault(mContext)
+                            course.title
                         )
                         setupCourseAboutInfo(
                             course.description,
                             listOf(course.level.toString(), course.type.toString())
                         )
-                        setupCreatorInfo(course.creator)
                     }
                 }
                 courseInformationProgressBarContainer.isVisible = false
@@ -106,6 +105,9 @@ class CourseInformationFragment :
                     preRequisiteCourses.isNotEmpty()
                 courseInformationPrerequisiteCourseEmpty.isVisible =
                     preRequisiteCourses.isEmpty()
+            })
+            viewModel.creator.observe(viewLifecycleOwner, {
+                setupCreatorInfo(it)
             })
             viewModel.relatedCourses.observe(viewLifecycleOwner, { relatedCourses ->
                 if (relatedCourses.isNotEmpty()) {
@@ -245,10 +247,9 @@ class CourseInformationFragment :
             .show(parentFragmentManager, COURSE_INFORMATION_TAG)
     }
 
-    private fun setupCourseMainInfo(image: String?, title: String, createdBy: String) {
+    private fun setupCourseMainInfo(image: String?, title: String) {
         binding.apply {
             courseInformationTitle.text = title
-            courseInformationCreatorName.text = createdBy
             image?.let {
                 ImageUtil.loadImage(mContext, it, courseInformationImage)
             }
@@ -267,17 +268,18 @@ class CourseInformationFragment :
         }
     }
 
-    private fun setupCreatorInfo(creator: Creator) {
+    private fun setupCreatorInfo(creator: User) {
         binding.apply {
+            courseInformationCreatorName.text = creator.name
             courseInformationAboutCreatorName.text = creator.name
-            courseInformationAboutCreatorDescription.text = creator.description
+            courseInformationAboutCreatorDescription.text = creator.bio
             courseInformationAboutCreatorEmail.text = creator.email
             courseInformationAboutCreatorTotalCourse.text = resources.getQuantityString(
                 R.plurals.creator_course_count,
                 creator.totalCourseCreated.getOrDefaultInt(),
                 creator.totalCourseCreated.getOrDefaultInt()
             )
-            creator.imageUrl?.let {
+            creator.photo?.let {
                 ImageUtil.loadImage(mContext, it, courseInformationAboutCreatorImage)
             }
         }

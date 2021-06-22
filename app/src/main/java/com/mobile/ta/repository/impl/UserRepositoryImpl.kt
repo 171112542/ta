@@ -165,4 +165,8 @@ class UserRepositoryImpl @Inject constructor(
         }.await()
         return result
     }
+
+    override suspend fun getUserById(id: String): Status<User> {
+        return userCollection.document(id).fetchData(UserMapper::mapToUser)
+    }
 }

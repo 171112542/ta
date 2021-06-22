@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
+import com.mobile.ta.model.user.User
 import com.mobile.ta.model.user.course.UserCourse
 import com.mobile.ta.model.user.course.chapter.UserChapter
 import com.mobile.ta.repository.*
@@ -19,6 +20,7 @@ class CourseInformationViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val userChapterRepository: UserChapterRepository,
     private val userCourseRepository: UserCourseRepository,
+    private val userRepository: UserRepository,
     authRepository: AuthRepository
 ) : BaseViewModel() {
     private val _course = MutableLiveData<Status<Course>>()
@@ -34,6 +36,8 @@ class CourseInformationViewModel @Inject constructor(
     val enrollCourse: LiveData<Status<Boolean>> get() = _enrollCourse
     private val _relatedCourses = MutableLiveData<MutableList<Course>>()
     val relatedCourses: LiveData<MutableList<Course>> get() = _relatedCourses
+    private val _creator = MutableLiveData<User>()
+    val creator: LiveData<User> get() = _creator
     private val _preRequisiteCourses = MutableLiveData<MutableList<Course>>()
     val preRequisiteCourses: LiveData<MutableList<Course>> get() = _preRequisiteCourses
     private val loggedInUid = authRepository.getUser()?.uid
@@ -49,8 +53,18 @@ class CourseInformationViewModel @Inject constructor(
             checkStatus(result, {
                 getPreRequisiteCourses(it.preRequisiteCourse)
                 getRelatedCourses(it.relatedCourse)
+                getCreator(it.creatorId)
             })
             _course.postValue(result)
+        }
+    }
+
+    private fun getCreator(creator: String) {
+        launchViewModelScope {
+            val user = userRepository.getUserById(creator)
+            checkStatus(user, {
+                _creator.postValue(it)
+            })
         }
     }
 
@@ -110,8 +124,8 @@ class CourseInformationViewModel @Inject constructor(
             val courses = mutableListOf<Course>()
             preRequisiteCourses.forEach {
                 val course = courseRepository.getCourseById(it)
-                checkStatus(course, {
-                    courses.add(it)
+                checkStatus(course, { result ->
+                    courses.add(result)
                 })
             }
             _preRequisiteCourses.postValue(courses)
@@ -123,8 +137,8 @@ class CourseInformationViewModel @Inject constructor(
             val courses = mutableListOf<Course>()
             relatedCourses.forEach {
                 val course = courseRepository.getCourseById(it)
-                checkStatus(course, {
-                    courses.add(it)
+                checkStatus(course, { result ->
+                    courses.add(result)
                 })
             }
             _relatedCourses.postValue(courses)

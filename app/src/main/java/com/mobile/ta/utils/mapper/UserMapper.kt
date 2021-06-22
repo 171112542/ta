@@ -19,6 +19,7 @@ object UserMapper {
     const val FEEDBACK_TYPE = "feedbackType"
     const val DESCRIPTION = "description"
     const val CREATED_AT = "createdAt"
+    const val TOTAL_COURSE_CREATED = "totalCourseCreated"
 
     fun mapToTeacherCredential(snapshot: DocumentSnapshot): TeacherCredential? {
         val userId: String = snapshot.getString(USER_ID).orEmpty()
@@ -41,8 +42,9 @@ object UserMapper {
             UserRoleEnum.valueOf(it)
         } ?: UserRoleEnum.ROLE_STUDENT
         val bio: String? = snapshot.getString(BIO)
+        val totalCourseCreated: Int = snapshot.getLong(TOTAL_COURSE_CREATED)?.toInt() ?: 0
 
-        return User(id, name, email, photo, birthDate, role, bio)
+        return User(id, name, email, photo, birthDate, role, bio, totalCourseCreated)
     }
 
     fun mapToUserFeedbacks(snapshot: QuerySnapshot): MutableList<Feedback> {

@@ -18,7 +18,7 @@ class CourseTabViewModel @Inject constructor(
     private val userCourseRepository: UserCourseRepository,
     private val userChapterRepository: UserChapterRepository,
     private val chapterRepository: ChapterRepository,
-    private val authRepository: AuthRepository
+    authRepository: AuthRepository
 ) : BaseViewModel() {
     private val _userCourse = MutableLiveData<Status<MutableList<UserCourse>>>()
     val userCourse: LiveData<Status<MutableList<UserCourse>>> get() = _userCourse

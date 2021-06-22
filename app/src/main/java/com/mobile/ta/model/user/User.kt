@@ -10,15 +10,17 @@ data class User(
     @DocumentId
     var id: String,
 
-    var name: String,
+    var name: String = "",
 
-    var email: String,
+    var email: String = "",
 
     var photo: String? = null,
 
     var birthDate: Long? = null,
 
-    var role: UserRoleEnum,
+    var role: UserRoleEnum = UserRoleEnum.ROLE_STUDENT,
 
-    var bio: String? = null
+    var bio: String? = null,
+
+    var totalCourseCreated: Int = 0
 ) : Parcelable
