@@ -17,7 +17,6 @@ class AdapterModule {
         CourseQuestionDiffCallback()
 
     @Provides
-    @Singleton
     fun provideCourseQuestionAdapter(diffCallback: CourseQuestionDiffCallback)
         : CourseQuestionAdapter = CourseQuestionAdapter(diffCallback)
 }

@@ -78,9 +78,6 @@ class CourseQuestionAdapter @Inject constructor(
         fun bind(assignmentQuestion: AssignmentQuestion) {
             isBinding = true
             resetView()
-            selectedAnswers.forEachIndexed { index, mutableMap ->
-                Log.d("Selected Answers", "$index $mutableMap")
-            }
             selectedAnswers[bindingAdapterPosition][SELECTED_ANSWER_KEY]?.let {
                 if (it != -1) {
                     (binding.vhCourseQuestionChoiceGroup.getChildAt(it) as RadioButton)
