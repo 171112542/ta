@@ -13,7 +13,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
 import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionAdapter
 import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionVHListener
-import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
 import com.mobile.ta.databinding.FragCourseAssignmentBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
@@ -48,10 +47,10 @@ class CourseAssignmentFragment :
     private fun setupViewPager() {
         courseQuestionAdapter.setVhClickListener(this)
         binding.fragCourseAssignmentVp.adapter = courseQuestionAdapter
-        viewmodel.questions.observe(viewLifecycleOwner) {
-            courseQuestionAdapter.submitList(it)
-            courseQuestionAdapter.setQuestionType(viewmodel.chapter.type)
-            binding.fragCourseAssignmentTitle.text = viewmodel.chapter.title
+        viewmodel.assignment.observe(viewLifecycleOwner) {
+            courseQuestionAdapter.submitList(it.questions.toMutableList())
+            courseQuestionAdapter.setQuestionType(it.type)
+            binding.fragCourseAssignmentTitle.text = it.title
             binding.fragCourseAssignmentContent.visibility = View.VISIBLE
             binding.fragCourseAssignmentLoading.visibility = View.GONE
         }
@@ -60,7 +59,7 @@ class CourseAssignmentFragment :
                 findNavController().navigate(
                     CourseAssignmentFragmentDirections.actionCourseAssignmentFragmentToCourseSubmitFragment(
                         courseId = viewmodel.courseId,
-                        chapterId = viewmodel.chapterId
+                        chapterId = viewmodel.assignmentId
                     )
                 )
         }

@@ -55,4 +55,9 @@ abstract class RepositoryModule {
     abstract fun bindUserChapterRepository(
         userChapterRepositoryImpl: UserChapterRepositoryImpl
     ): UserChapterRepository
+
+    @Binds
+    abstract fun bindStudentProgressRepository(
+        studentProgressRepository: StudentProgressRepositoryImpl
+    ): StudentProgressRepository
 }

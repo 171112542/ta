@@ -37,6 +37,7 @@ class CourseRepositoryImpl @Inject constructor(
 
     override suspend fun getAllCourses(): Status<MutableList<Course>> {
         return courseCollection
+            .whereEqualTo(CourseMapper.ARCHIVE_FIELD, false)
             .fetchData(CourseMapper::mapToCourses)
     }
 

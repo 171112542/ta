@@ -137,10 +137,10 @@ class CourseSubmitFragment :
     }
 
     private fun setupPage() {
-        viewmodel.submittedAssignment.observe(viewLifecycleOwner) {
+        viewmodel.studentAssignmentResult.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitLoading.visibility = View.GONE
             binding.fragCourseSubmitContent.visibility = View.VISIBLE
-            binding.fragCourseSubmitTitle.text = viewmodel.chapter.title
+            binding.fragCourseSubmitTitle.text = it.title
             binding.fragCourseSubmitScore.text = it.score.toString()
             binding.fragCourseSubmitPassingText.text =
                 getString(
@@ -162,8 +162,8 @@ class CourseSubmitFragment :
         }
         viewmodel.navigateToNextChapter.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            val nextChapterType = viewmodel.nextChapterSummary?.type ?: return@observe
-            val nextChapterId = viewmodel.nextChapterSummary?.id ?: return@observe
+            val nextChapterType = viewmodel.nextChapterSummary.value?.type ?: return@observe
+            val nextChapterId = viewmodel.nextChapterSummary.value?.id ?: return@observe
             val destination = getChapterDestination(nextChapterId, nextChapterType)
             findNavController().navigate(destination)
         }
