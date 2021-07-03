@@ -94,7 +94,7 @@ class CourseQuestionAdapter @Inject constructor(
             binding.vhCourseQuestionChoiceThree.text = assignmentQuestion.choices[2]
             binding.vhCourseQuestionChoiceFour.text = assignmentQuestion.choices[3]
             binding.vhCourseQuestionExplanationDescription.text = assignmentQuestion.explanation
-            if (assignmentQuestion.id == currentList.last().id && submitResultEnabled) {
+            if (assignmentQuestion.order == currentList.last().order && submitResultEnabled) {
                 showSubmitResult()
             }
             if (selectedAnswers[bindingAdapterPosition][SUBMITTED_KEY] != 0) {

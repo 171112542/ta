@@ -8,7 +8,7 @@ class CourseQuestionDiffCallback : DiffUtil.ItemCallback<AssignmentQuestion>() {
         oldItem: AssignmentQuestion,
         newItem: AssignmentQuestion
     ): Boolean {
-        return oldItem.id == newItem.id
+        return oldItem.question == newItem.question
     }
 
     override fun areContentsTheSame(
