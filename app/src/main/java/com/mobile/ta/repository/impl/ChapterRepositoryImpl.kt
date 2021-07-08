@@ -5,13 +5,16 @@ import com.mobile.ta.config.CollectionConstants.CHAPTER_COLLECTION
 import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
 import com.mobile.ta.config.CollectionConstants.QUESTION_COLLECTION
 import com.mobile.ta.config.CollectionConstants.SCORE_COLLECTION
+import com.mobile.ta.config.CollectionConstants.STUDENT_PROGRESS_COLLECTION
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
+import com.mobile.ta.model.course.chapter.assignment.Assignment
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.course.chapter.assignment.QuizScore
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.ChapterRepository
 import com.mobile.ta.utils.fetchData
+import com.mobile.ta.utils.mapper.AssignmentMapper
 import com.mobile.ta.utils.mapper.AssignmentQuestionMapper
 import com.mobile.ta.utils.mapper.ChapterMapper
 import com.mobile.ta.utils.mapper.ChapterMapper.ORDER_FIELD
@@ -41,28 +44,12 @@ class ChapterRepositoryImpl @Inject constructor(database: FirebaseFirestore) : C
             .fetchData(ChapterMapper::mapToChapter)
     }
 
-    override suspend fun getQuestions(
+    override suspend fun getAssignmentById(
         courseId: String,
         chapterId: String
-    ): Status<MutableList<AssignmentQuestion>> {
+    ): Status<Assignment> {
         return courseCollection.document(courseId)
             .collection(CHAPTER_COLLECTION).document(chapterId)
-            .collection(QUESTION_COLLECTION)
-            .orderBy(AssignmentQuestionMapper.ORDER_FIELD)
-            .fetchData(AssignmentQuestionMapper::mapToAssignmentQuestions)
-    }
-
-    override suspend fun saveQuizScore(
-        courseId: String,
-        chapterId: String,
-        quizScore: QuizScore
-    ): Status<Boolean> {
-        return courseCollection.document(courseId)
-            .collection(CHAPTER_COLLECTION)
-            .document(chapterId)
-            .collection(SCORE_COLLECTION)
-            .document()
-            .set(quizScore)
-            .fetchData()
+            .fetchData(AssignmentMapper::mapToAssignment)
     }
 }

@@ -6,6 +6,8 @@ object CollectionConstants {
     const val DISCUSSION_COLLECTION = "discussions"
     const val DISCUSSION_ANSWER_COLLECTION = "answers"
     const val USER_COLLECTION = "users"
+    const val STUDENT_PROGRESS_COLLECTION = "studentProgress"
+    const val ASSIGNMENT_COLLECTION = "assignments"
     const val QUESTION_COLLECTION = "questions"
     const val SCORE_COLLECTION = "scores"
     const val TOKEN_COLLECTION = "teacherCredentials"

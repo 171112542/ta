@@ -6,6 +6,7 @@ import com.mobile.ta.model.course.Course
 
 object CourseMapper {
     const val CANONICAL_TITLE_FIELD = "canonicalTitle"
+    const val ARCHIVE_FIELD = "archive"
     const val TYPE_FIELD = "type"
     const val LEVEL_FIELD = "level"
     const val DESC_FIELD = "description"
