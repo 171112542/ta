@@ -155,9 +155,9 @@
     <string name="related_to_this_course"><b>Related</b> to This Course</string>
     <string name="about_this_course_creator"><b>About This</b> Course\'s Creator</string>
     <string name="tags">Tags</string>
-    <string name="lesson_number">LESSON %d</string>
-    <string name="practice_number">PRACTICE %d</string>
-    <string name="quiz_number">QUIZ %d</string>
+    <string name="lesson_label">LESSON</string>
+    <string name="practice_label">PRACTICE</string>
+    <string name="quiz_label">QUIZ</string>
     <string name="created_by">Created by %s</string>
     <string name="no_recommended_course_label">No recommended course, yet.</string>
     <string name="no_related_courses_label">No related courses, yet.</string>

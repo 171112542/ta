@@ -7,6 +7,7 @@ abstract class BaseViewModelWithAuth(
     private val authRepository: AuthRepository,
     private val notificationRepository: NotificationRepository
 ) : BaseViewModel() {
+
     protected fun logOut() {
         launchViewModelScope {
             authRepository.getUser()?.let {

@@ -7,7 +7,7 @@
     android:layout_gravity="bottom"
     android:background="@drawable/drawable_login_background"
     android:gravity="bottom"
-    tools:context=".ui.login.LoginFragment">
+    tools:context=".ui.login.LoginActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

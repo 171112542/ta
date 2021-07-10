@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
-import com.mobile.ta.repository.UserCourseRepository
+import com.mobile.ta.repository.StudentProgressRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 class ProfileViewModel @Inject constructor(
     authRepository: AuthRepository,
     private val userRepository: UserRepository,
-    private val userCourseRepository: UserCourseRepository,
+    private val studentProgressRepository: StudentProgressRepository,
     notificationRepository: NotificationRepository
 ) : BaseViewModelWithAuth(authRepository, notificationRepository) {
 
@@ -47,14 +47,18 @@ class ProfileViewModel @Inject constructor(
     fun fetchUserCourseCount(userId: String) {
         var courseCount = Pair(0, 0)
         launchViewModelScope {
-            checkStatus(userCourseRepository.getUserCourses(userId, false), { data ->
-                courseCount = Pair(data.size, courseCount.second)
-                setCourseCount(courseCount)
-            })
-            checkStatus(userCourseRepository.getUserCourses(userId, true), { data ->
-                courseCount = Pair(courseCount.first, data.size)
-                setCourseCount(courseCount)
-            })
+            checkStatus(
+                studentProgressRepository.getStudentProgressByFinished(userId, false),
+                { data ->
+                    courseCount = Pair(data.size, courseCount.second)
+                    setCourseCount(courseCount)
+                })
+            checkStatus(
+                studentProgressRepository.getStudentProgressByFinished(userId, true),
+                { data ->
+                    courseCount = Pair(courseCount.first, data.size)
+                    setCourseCount(courseCount)
+                })
         }
     }
 

@@ -21,7 +21,6 @@ import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
-import com.mobile.ta.model.course.information.Creator
 import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
@@ -86,25 +85,26 @@ class CourseInformationFragment :
                             course.description,
                             listOf(course.level.toString(), course.type.toString())
                         )
+                        courseContentAdapter.submitList(course.chapterSummaryList)
                     }
                 }
                 courseInformationProgressBarContainer.isVisible = false
             })
-            viewModel.userCourse.observe(viewLifecycleOwner, {
+            viewModel.studentProgress.observe(viewLifecycleOwner, {
                 if (it.status == StatusType.SUCCESS) {
                     courseInformationEnroll.text =
                         if (it.data.isNull()) getString(R.string.enroll)
                         else getString(R.string.continue_studying)
                 }
             })
-            viewModel.preRequisiteCourses.observe(viewLifecycleOwner, { preRequisiteCourses ->
-                if (preRequisiteCourses.isNotEmpty()) {
-                    prerequisiteCourseAdapter.submitList(preRequisiteCourses)
+            viewModel.prerequisiteCourses.observe(viewLifecycleOwner, { prerequisiteCourses ->
+                if (prerequisiteCourses.isNotEmpty()) {
+                    prerequisiteCourseAdapter.submitList(prerequisiteCourses)
                 }
                 courseInformationPrerequisiteCourseList.isVisible =
-                    preRequisiteCourses.isNotEmpty()
+                    prerequisiteCourses.isNotEmpty()
                 courseInformationPrerequisiteCourseEmpty.isVisible =
-                    preRequisiteCourses.isEmpty()
+                    prerequisiteCourses.isEmpty()
             })
             viewModel.creator.observe(viewLifecycleOwner, {
                 setupCreatorInfo(it)
@@ -118,16 +118,11 @@ class CourseInformationFragment :
                 courseInformationRelatedCourseEmpty.isVisible = relatedCourses.isEmpty()
             })
         }
-        viewModel.chapters.observe(viewLifecycleOwner, {
-            if (it.status == StatusType.SUCCESS) {
-                courseContentAdapter.submitList(it.data)
-            }
-        })
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.getChapters(args.courseId)
+        viewModel.getStudentProgress(args.courseId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,13 +148,9 @@ class CourseInformationFragment :
         viewModel.enrollCourse.observe(viewLifecycleOwner, {
             if (it.status == StatusType.SUCCESS && it.data == true) {
                 viewModel.getCourse(args.courseId)
-                viewModel.getChapters(args.courseId)
+                viewModel.getStudentProgress(args.courseId)
                 Snackbar.make(binding.root, "Course enrolled.", Snackbar.LENGTH_SHORT).show()
-                viewModel.course.value?.data?.let { course ->
-                    viewModel.incrementTotalEnrolled(
-                        course
-                    )
-                }
+                viewModel.incrementTotalEnrolled()
             } else {
                 Snackbar.make(
                     binding.root,
@@ -171,10 +162,10 @@ class CourseInformationFragment :
     }
 
     private fun changeChapterProgress(chapterId: String, textView: TextView) {
-        viewModel.userChapters.observe(viewLifecycleOwner, {
+        viewModel.studentProgress.observe(viewLifecycleOwner, {
             if (it.status == StatusType.SUCCESS) {
                 textView.apply {
-                    if (it.data?.find { chapter -> chapter.id == chapterId } != null) {
+                    if (it.data?.finishedChapterIds?.find { chapter -> chapter == chapterId } != null) {
                         text = getString(R.string.completed_progress)
                         setTextColor(mContext.resolveColorAttr(R.attr.colorPrimary))
                         setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -206,19 +197,23 @@ class CourseInformationFragment :
     }
 
     private fun goToChapter(chapterId: String, type: ChapterType, position: Int) {
-        viewModel.userCourse.value?.data?.let {
-            viewModel.userChapters.value?.data?.let { userChapters ->
-                if (userChapters.size >= position) {
-                    findNavController().navigate(
-                        getChapterDestination(chapterId, type)
-                    )
-                } else {
-                    Toast.makeText(
-                        mContext,
-                        getString(R.string.require_previous_chapter),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        viewModel.studentProgress.value?.data?.let { progress ->
+            val chapterSummaryList = viewModel.course.value?.data?.chapterSummaryList
+            val lastFinishedChapterId = progress.finishedChapterIds.lastOrNull()
+            val lastFinishedChapterIndex =
+                if (lastFinishedChapterId.isNotNull())
+                    chapterSummaryList?.indexOfLast { it.id == lastFinishedChapterId } ?: -1
+                else -1
+            if (position <= lastFinishedChapterIndex + 1) {
+                findNavController().navigate(
+                    getChapterDestination(chapterId, type)
+                )
+            } else {
+                Toast.makeText(
+                    mContext,
+                    getString(R.string.require_previous_chapter),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -322,7 +317,7 @@ class CourseInformationFragment :
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_information_enroll -> {
-                viewModel.userCourse.value?.let {
+                viewModel.studentProgress.value?.let {
                     if (it.data.isNull()) {
                         openInputEnrollmentKeyBottomSheet()
                     } else {

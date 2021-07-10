@@ -3,22 +3,35 @@ package com.mobile.ta.repository.impl
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.config.CollectionConstants.ASSIGNMENT_COLLECTION
+import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
+import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.StudentProgressRepository
-import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
+import com.mobile.ta.utils.mapper.ChapterMapper.toHashMap
+import com.mobile.ta.utils.mapper.ShortCourseMapper.toHashMap
+import com.mobile.ta.utils.mapper.StudentMapper.toHashMap
 import com.mobile.ta.utils.mapper.StudentProgressMapper
+import com.mobile.ta.utils.mapper.StudentProgressMapper.COURSE_FIELD
 import com.mobile.ta.utils.mapper.StudentProgressMapper.COURSE_ID_FIELD
+import com.mobile.ta.utils.mapper.StudentProgressMapper.ENROLLED_FIELD
 import com.mobile.ta.utils.mapper.StudentProgressMapper.FINISHED_CHAPTER_ID_FIELD
+import com.mobile.ta.utils.mapper.StudentProgressMapper.FINISHED_FIELD
+import com.mobile.ta.utils.mapper.StudentProgressMapper.LAST_ACCESSED_CHAPTER_FIELD
+import com.mobile.ta.utils.mapper.StudentProgressMapper.STUDENT_FIELD
 import com.mobile.ta.utils.mapper.StudentProgressMapper.STUDENT_ID_FIELD
+import com.mobile.ta.utils.mapper.StudentProgressMapper.TOTAL_CHAPTER_COUNT_FIELD
 import com.mobile.ta.utils.wrapper.status.Status
+import com.mobile.ta.utils.wrapper.status.StatusType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class StudentProgressRepositoryImpl @Inject constructor(database: FirebaseFirestore): StudentProgressRepository {
-    private val studentProgressCollection = database.collection(CollectionConstants.STUDENT_PROGRESS_COLLECTION)
+class StudentProgressRepositoryImpl @Inject constructor(database: FirebaseFirestore) :
+    StudentProgressRepository {
+    private val studentProgressCollection =
+        database.collection(CollectionConstants.STUDENT_PROGRESS_COLLECTION)
 
     override suspend fun getSubmittedAssignment(
         userId: String,
@@ -74,5 +87,105 @@ class StudentProgressRepositoryImpl @Inject constructor(database: FirebaseFirest
             .document(assignmentId)
             .set(studentAssignmentResult)
             .fetchData()
+    }
+
+    override suspend fun getStudentProgress(
+        userId: String,
+        courseId: String
+    ): Status<StudentProgress> {
+        val studentProgresses = studentProgressCollection
+            .whereEqualTo(COURSE_ID_FIELD, courseId)
+            .whereEqualTo(STUDENT_ID_FIELD, userId)
+            .limit(1)
+            .fetchData(StudentProgressMapper::mapToStudentProgress)
+        if (studentProgresses.status == StatusType.SUCCESS) {
+            return Status.success(studentProgresses.data?.firstOrNull())
+        }
+        return Status.error(studentProgresses.message)
+    }
+
+    override suspend fun getStudentProgressByFinished(
+        userId: String,
+        finished: Boolean
+    ): Status<MutableList<StudentProgress>> {
+        return studentProgressCollection
+            .whereEqualTo(STUDENT_ID_FIELD, userId)
+            .whereEqualTo(FINISHED_FIELD, finished)
+            .fetchData(StudentProgressMapper::mapToStudentProgress)
+    }
+
+    override suspend fun addStudentProgress(
+        userId: String,
+        courseId: String,
+        studentProgress: StudentProgress
+    ): Status<Boolean> {
+        val studentProgressMap = hashMapOf(
+            COURSE_FIELD to studentProgress.course?.toHashMap(),
+            ENROLLED_FIELD to true,
+            FINISHED_FIELD to false,
+            FINISHED_CHAPTER_ID_FIELD to listOf<String>(),
+            LAST_ACCESSED_CHAPTER_FIELD to studentProgress.lastAccessedChapter?.toHashMap(),
+            STUDENT_FIELD to studentProgress.student?.toHashMap(),
+            TOTAL_CHAPTER_COUNT_FIELD to studentProgress.totalChapterCount
+        )
+        return studentProgressCollection.add(studentProgressMap).fetchData()
+    }
+
+    override suspend fun updateLastAccessedChapter(
+        userId: String,
+        courseId: String,
+        lastAccessedChapter: ChapterSummary
+    ): Status<Boolean> {
+        val studentProgressId = studentProgressCollection
+            .whereEqualTo(COURSE_ID_FIELD, courseId)
+            .whereEqualTo(STUDENT_ID_FIELD, userId)
+            .limit(1)
+            .get()
+            .await()
+            .documents
+            .firstOrNull()
+            ?.id
+        studentProgressId?.let {
+            return studentProgressCollection
+                .document(it)
+                .update(
+                    hashMapOf<String, Any>(
+                        LAST_ACCESSED_CHAPTER_FIELD to lastAccessedChapter.toHashMap()
+                    )
+                ).fetchData()
+        }
+        return Status.error("Not found.")
+    }
+
+    override suspend fun updateFinishedChapter(
+        userId: String,
+        courseId: String,
+        chapterId: String,
+        currentFinishedChapterIds: List<String>
+    ): Status<Boolean> {
+        if (currentFinishedChapterIds.indexOf(chapterId) != -1)
+            return Status.success(true)
+        val finishedChapterIds = mutableListOf<String>()
+        finishedChapterIds.addAll(currentFinishedChapterIds)
+        finishedChapterIds.add(chapterId)
+        val studentProgressId = studentProgressCollection
+            .whereEqualTo(COURSE_ID_FIELD, courseId)
+            .whereEqualTo(STUDENT_ID_FIELD, userId)
+            .limit(1)
+            .get()
+            .await()
+            .documents
+            .firstOrNull()
+            ?.id
+        studentProgressId?.let {
+            return studentProgressCollection
+                .document(it)
+                .update(
+                    hashMapOf<String, Any>(
+                        FINISHED_CHAPTER_ID_FIELD to finishedChapterIds
+                    )
+                ).fetchData()
+        }
+        return Status.error("Not found.")
     }
 }

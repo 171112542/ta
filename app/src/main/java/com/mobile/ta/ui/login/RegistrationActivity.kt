@@ -2,32 +2,30 @@ package com.mobile.ta.ui.login
 
 import android.Manifest
 import android.content.Intent
-import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
+import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.Observer
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
-import com.mobile.ta.databinding.FragmentRegistrationBinding
+import com.mobile.ta.databinding.ActivityRegistrationBinding
 import com.mobile.ta.model.user.User
-import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.utils.FileUtil
+import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.utils.view.DialogHelper
+import com.mobile.ta.utils.view.ImageUtil
+import com.mobile.ta.utils.view.RouterUtil
 import com.mobile.ta.viewmodel.login.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class RegistrationFragment :
-    BaseFragment<FragmentRegistrationBinding>(FragmentRegistrationBinding::inflate),
-    View.OnClickListener {
+class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.OnClickListener {
 
     companion object {
         private const val INPUT_BIRTH_DATE_TAG = "INPUT BIRTH DATE"
@@ -39,23 +37,18 @@ class RegistrationFragment :
         ).build()
     }
 
-    private val args: RegistrationFragmentArgs by navArgs()
     private val viewModel: RegistrationViewModel by viewModels()
 
-    override fun onIntentResult(data: Intent?) {
-        data?.data?.let { uri ->
-            FileUtil.getFileAbsolutePath(mContext.contentResolver, uri)?.let {
-                viewModel.setProfilePicture(it)
-            }
-        }
-    }
+    override val viewBindingInflater: (LayoutInflater) -> ActivityRegistrationBinding
+        get() = ActivityRegistrationBinding::inflate
 
-    override fun runOnCreateView() {
+    override fun setupViews() {
+        supportActionBar?.hide()
         setupDatePicker()
         binding.apply {
-            buttonSkipEditInfo.setOnClickListener(this@RegistrationFragment)
-            buttonEditProfilePicture.setOnClickListener(this@RegistrationFragment)
-            buttonSubmitRegistrationForm.setOnClickListener(this@RegistrationFragment)
+            buttonSkipEditInfo.setOnClickListener(this@RegistrationActivity)
+            buttonEditProfilePicture.setOnClickListener(this@RegistrationActivity)
+            buttonSubmitRegistrationForm.setOnClickListener(this@RegistrationActivity)
             editTextFullName.doOnTextChanged { _, _, _, _ ->
                 validateName()
             }
@@ -63,24 +56,19 @@ class RegistrationFragment :
         setupBirthDateEditText()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupObserver() {
+        super.setupObserver()
 
-        viewModel.getAuthorizedUserData(args.isTeacher)
-        viewModel.profilePicture.observe(viewLifecycleOwner, {
-            loadImage<File>(it, binding.imageViewEditProfilePicture)
+        viewModel.getAuthorizedUserData(intent.getBooleanExtra(RouterUtil.PARAM_IS_TEACHER, false))
+        viewModel.profilePicture.observe(this, { profilePicture ->
+            ImageUtil.loadImage<File>(this, profilePicture, binding.imageViewEditProfilePicture)
         })
-        viewModel.user.observe(viewLifecycleOwner, {
-            it?.let {
-                updateUserData(it)
-            }
-        })
-        viewModel.isUpdated.observe(viewLifecycleOwner, {
+        viewModel.user.observe(this, Observer(::updateUserData))
+        viewModel.isUpdated.observe(this, {
             checkIsUpdated(it)
             DialogHelper.dismissDialog(loadingDialog)
         })
-
-        viewModel.isUploaded.observe(viewLifecycleOwner, {
+        viewModel.isUploaded.observe(this, {
             if (it) {
                 viewModel.updateUser(binding.editTextFullName.text())
             } else {
@@ -97,11 +85,17 @@ class RegistrationFragment :
         }
     }
 
-    private fun updateUserData(user: User) {
-        binding.apply {
-            editTextFullName.setText(user.name)
-            user.photo?.let {
-                loadImage(it, binding.imageViewEditProfilePicture)
+    private fun updateUserData(user: User?) {
+        user?.let {
+            binding.apply {
+                editTextFullName.setText(user.name)
+                it.photo?.let {
+                    ImageUtil.loadImage(
+                        this@RegistrationActivity,
+                        it,
+                        binding.imageViewEditProfilePicture
+                    )
+                }
             }
         }
     }
@@ -117,7 +111,7 @@ class RegistrationFragment :
     }
 
     private fun goToHome() {
-        findNavController().navigate(RegistrationFragmentDirections.actionGlobalHomeFragment())
+        RouterUtil.goToMain(this, viewModel.getIsTeacher())
     }
 
     override fun onPermissionGranted() {
@@ -139,7 +133,7 @@ class RegistrationFragment :
             setOnTouchListener { view, _ ->
                 view.performClick()
                 if (birthDatePicker.isAdded.not()) {
-                    birthDatePicker.show(mActivity.supportFragmentManager, INPUT_BIRTH_DATE_TAG)
+                    birthDatePicker.show(supportFragmentManager, INPUT_BIRTH_DATE_TAG)
                 }
                 true
             }

@@ -1,25 +1,24 @@
 package com.mobile.ta.ui.login
 
 import android.content.Intent
-import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
-import com.mobile.ta.databinding.FragmentLoginBinding
-import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.ui.home.HomeFragmentDirections
+import com.mobile.ta.databinding.ActivityLoginBinding
+import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.utils.view.DialogHelper
+import com.mobile.ta.utils.view.RouterUtil
 import com.mobile.ta.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate),
-    View.OnClickListener {
+class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener {
 
     companion object {
         private const val INPUT_CREDENTIALS_TAG = "INPUT CREDENTIALS"
@@ -31,32 +30,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel by viewModels<LoginViewModel>()
 
-    override fun onIntentResult(data: Intent?) {
-        viewModel.getAccountAndAuthenticateUser(data)
-        DialogHelper.showDialog(loadingDialog)
-    }
+    override val viewBindingInflater: (LayoutInflater) -> ActivityLoginBinding
+        get() = ActivityLoginBinding::inflate
 
-    override fun runOnCreateView() {
-        loadingDialog = DialogHelper.createLoadingDialog(mContext)
+    override fun setupViews() {
+        supportActionBar?.hide()
+        loadingDialog = DialogHelper.createLoadingDialog(this)
         binding.apply {
-            buttonSignIn.setOnClickListener(this@LoginFragment)
-            buttonTeacherRole.setOnClickListener(this@LoginFragment)
+            buttonSignIn.setOnClickListener(this@LoginActivity)
+            buttonTeacherRole.setOnClickListener(this@LoginActivity)
         }
         setupGoogleSignIn()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupObserver() {
+        super.setupObserver()
 
-        viewModel.isAuthenticated.observe(viewLifecycleOwner, { isAuthenticated ->
-            checkIsAuthenticated(isAuthenticated)
-        })
-        viewModel.isRegistered.observe(viewLifecycleOwner, { isRegistered ->
-            checkIsRegistered(isRegistered)
-        })
-        viewModel.teacherCredentials.observe(viewLifecycleOwner, { credentials ->
-            checkTeacherCredentials(credentials.first)
-        })
+        viewModel.isAuthenticated.observe(this, Observer(::checkIsAuthenticated))
+
+        viewModel.isRegistered.observe(this, Observer(::checkIsRegistered))
+
+        viewModel.isValidCredentials.observe(this, Observer(::checkTeacherCredentials))
     }
 
     override fun onClick(view: View?) {
@@ -66,6 +60,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 buttonTeacherRole -> openCredentialsBottomSheet()
             }
         }
+    }
+
+    override fun onIntentResult(data: Intent?) {
+        viewModel.getAccountAndAuthenticateUser(data)
+        DialogHelper.showDialog(loadingDialog)
     }
 
     private fun checkIsAuthenticated(isAuthenticated: Boolean) {
@@ -78,10 +77,11 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     }
 
     private fun checkIsRegistered(isRegistered: Boolean) {
+        val isTeacher = viewModel.isValidCredentials.value.orFalse()
         if (isRegistered) {
-            goToHome()
+            goToHome(isTeacher)
         } else {
-            goToSignUp(viewModel.teacherCredentials.value?.first.orFalse())
+            goToSignUp(isTeacher)
         }
         DialogHelper.dismissDialog(loadingDialog)
     }
@@ -89,23 +89,22 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private fun checkTeacherCredentials(isSuccess: Boolean) {
         if (isSuccess) {
             launchSignInIntent()
-        } else {
-            showToast(R.string.wrong_credentials_message)
         }
     }
 
-    private fun goToHome() {
-        findNavController().navigate(HomeFragmentDirections.actionGlobalHomeFragment())
+    private fun goToHome(isTeacher: Boolean) {
+        RouterUtil.goToMain(this, isTeacher)
     }
 
     private fun goToSignUp(isTeacher: Boolean) {
-        findNavController()
-            .navigate(LoginFragmentDirections.actionLoginFragmentToRegistrationFragment(isTeacher))
+        RouterUtil.goToRegistration(this, isTeacher)
     }
 
     private fun openCredentialsBottomSheet() {
-        InputCredentialBottomSheetDialogFragment.newInstance(viewModel::checkTeacherCredential)
-            .show(parentFragmentManager, INPUT_CREDENTIALS_TAG)
+        InputCredentialBottomSheetDialogFragment.newInstance(
+            viewModel::checkTeacherCredential,
+            viewModel.isValidCredentials
+        ).show(supportFragmentManager, INPUT_CREDENTIALS_TAG)
     }
 
     private fun setupGoogleSignIn() {
@@ -113,7 +112,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(mContext, googleSignInOptions)
+        googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
     }
 
     private fun launchSignInIntent() {

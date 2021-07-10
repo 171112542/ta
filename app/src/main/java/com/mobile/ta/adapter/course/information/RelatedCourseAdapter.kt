@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mobile.ta.R
 import com.mobile.ta.adapter.diff.CourseDiffCallback
-import com.mobile.ta.adapter.diff.CourseInfoChapterDiffCallback
 import com.mobile.ta.databinding.LayoutCourseItemBinding
 import com.mobile.ta.model.course.Course
-import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.utils.getOrDefaultInt
 import com.mobile.ta.utils.view.ImageUtil
 
