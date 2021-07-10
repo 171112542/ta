@@ -33,7 +33,7 @@ class StudentProgressAdapter(
                 item.course?.imageUrl?.let {
                     ImageUtil.loadImage(courseCardImage.context, it, courseCardImage)
                 }
-                val progress = item.finishedChapterIds.size / item.totalChapterCount
+                val progress = item.finishedChapterIds.size * 100 / item.totalChapterCount
                 ObjectAnimator.ofInt(courseCardProgress, "progress", 0, progress).apply {
                     duration = 500
                     start()
