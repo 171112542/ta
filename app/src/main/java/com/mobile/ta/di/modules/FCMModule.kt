@@ -1,6 +1,8 @@
 package com.mobile.ta.di.modules
 
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
+import com.mobile.ta.repository.impl.AuthRepositoryImpl
 import com.mobile.ta.repository.impl.NotificationRepositoryImpl
 import dagger.Module
 import dagger.Provides
@@ -15,4 +17,8 @@ class FCMModule {
     @Provides
     fun provideNotificationRepository(notificationRepositoryImpl: NotificationRepositoryImpl)
         : NotificationRepository = notificationRepositoryImpl
+
+    @Provides
+    fun provideAuthRepository(authRepositoryImpl: AuthRepositoryImpl)
+        : AuthRepository = authRepositoryImpl
 }

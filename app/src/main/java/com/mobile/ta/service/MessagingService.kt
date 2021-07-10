@@ -6,12 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mobile.ta.R
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,13 @@ class MessagingService :
     FirebaseAuth.AuthStateListener {
     @Inject
     lateinit var notificationRepository: NotificationRepository
+    @Inject
+    lateinit var authRepository: AuthRepository
+
+    override fun onCreate() {
+        super.onCreate()
+        FirebaseAuth.getInstance().addAuthStateListener(this)
+    }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         val title = remoteMessage.notification?.title
@@ -37,6 +46,10 @@ class MessagingService :
 
     override fun onNewToken(token: String) {
         saveTokenToSharedPreferences(token)
+        authRepository.getUser()?.let {
+            val uid = it.uid
+            sendTokenToFirestore(uid, token)
+        }
     }
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
