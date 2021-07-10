@@ -14,6 +14,10 @@ object ImageUtil {
             .into(imageView)
     }
 
+    fun <T : Any> loadImage(context: Context, image: T, imageView: ImageView) {
+        Glide.with(context).load(image).centerCrop().into(imageView)
+    }
+
     fun loadImageWithPlaceholder(
         context: Context,
         imageUrl: String,

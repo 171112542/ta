@@ -4,10 +4,8 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
-import com.mobile.ta.utils.orFalse
 import com.mobile.ta.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -26,16 +24,16 @@ class LoginViewModel @Inject constructor(
     val isRegistered: LiveData<Boolean>
         get() = _isRegistered
 
-    private var _teacherCredentials = MutableLiveData<Pair<Boolean, TeacherCredential?>>()
-    val teacherCredentials: LiveData<Pair<Boolean, TeacherCredential?>>
-        get() = _teacherCredentials
+    private var _isValidCredentials = MutableLiveData<Boolean>()
+    val isValidCredentials: LiveData<Boolean>
+        get() = _isValidCredentials
 
     fun checkTeacherCredential(credential: String) {
         launchViewModelScope {
             checkStatus(authRepository.checkTeacherCredentials(credential), {
                 setCredentials(it)
             }, {
-                setCredentials()
+                setCredentials(false)
             })
         }
     }
@@ -74,10 +72,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun setCredentials(data: TeacherCredential? = null) {
-        _teacherCredentials.postValue(Pair(data?.let {
-            true
-        }.orFalse(), data))
+    private fun setCredentials(isValid: Boolean) {
+        _isValidCredentials.postValue(isValid)
     }
 
     private fun setUnauthenticated() {

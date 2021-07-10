@@ -15,14 +15,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.mobile.ta.R
-import com.mobile.ta.ui.login.LoginFragmentDirections
 import com.mobile.ta.utils.isNull
+import com.mobile.ta.utils.view.RouterUtil
 import com.mobile.ta.utils.wrapper.Inflate
 
 abstract class BaseFragment<T : ViewBinding>(
@@ -67,9 +66,7 @@ abstract class BaseFragment<T : ViewBinding>(
         showToast(R.string.permission_not_granted_message)
     }
 
-    open fun runOnCreate() {
-//        redirectIfLoggedOut()
-    }
+    open fun runOnCreate() {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -125,7 +122,7 @@ abstract class BaseFragment<T : ViewBinding>(
 
     private fun redirectIfLoggedOut() {
         if (FirebaseAuth.getInstance().currentUser.isNull()) {
-            findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+            RouterUtil.goToLogin(mContext)
         }
     }
 }

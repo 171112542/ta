@@ -13,17 +13,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityMainBinding
 import com.mobile.ta.ui.base.BaseActivity
-import com.mobile.ta.ui.home.HomeFragmentDirections
-import com.mobile.ta.ui.login.LoginFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>() {
-    companion object {
-        const val PARAM_FIRST_LAUNCH_FRAGMENT = "PARAM_FIRST_LAUNCH_FRAGMENT"
-        const val PARAM_LOGIN_FRAGMENT = "LOGIN_FRAGMENT"
-        const val PARAM_HOME_FRAGMENT = "HOME_FRAGMENT"
-    }
 
     private lateinit var toolbar: Toolbar
 
@@ -69,7 +62,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         setupBottomNavMenu(navController)
         setContentView(binding.root)
-        setStartFragment()
     }
 
     override fun onResume() {
@@ -101,17 +93,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         toolbar = binding.mainToolbar
     }
 
-    private fun setStartFragment() {
-        intent.getStringExtra(PARAM_FIRST_LAUNCH_FRAGMENT)?.let { firstLaunchFragment ->
-            when (firstLaunchFragment) {
-                PARAM_HOME_FRAGMENT ->
-                    navController.navigate(HomeFragmentDirections.actionGlobalHomeFragment())
-                PARAM_LOGIN_FRAGMENT ->
-                    navController.navigate(LoginFragmentDirections.actionGlobalLoginFragment())
-            }
-        }
-    }
-
     private fun setupBottomNavMenu(navController: NavController) {
         val popupMenu = PopupMenu(this, null)
         popupMenu.inflate(R.menu.main_nav_menu)
@@ -121,8 +102,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun showActionBar(destinationId: Int) {
         val isVisible = when (destinationId) {
-            R.id.loginFragment -> false
-            R.id.registrationFragment -> false
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
             R.id.searchFragment -> false

@@ -1,12 +1,13 @@
 package com.mobile.ta.ui.splash
 
-import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.mobile.ta.databinding.ActivitySplashScreenBinding
 import com.mobile.ta.ui.base.BaseActivity
-import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.utils.view.RouterUtil
 import com.mobile.ta.viewmodel.splash.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,41 +24,32 @@ class SplashScreenActivity : BaseActivity<ActivitySplashScreenBinding>() {
     }
 
     override fun setupObserver() {
-        viewModel.isAuthenticated.observe(this, { isAuthenticated ->
-            checkIsAuthenticated(isAuthenticated)
-        })
+        viewModel.isAuthenticated.observe(this, Observer(::checkIsAuthenticated))
+        viewModel.isTeacher.observe(this, Observer(::goToHome))
     }
 
     private fun checkForActiveAccount() {
+        Log.d("Account", GoogleSignIn.getLastSignedInAccount(this)?.idToken.toString())
         GoogleSignIn.getLastSignedInAccount(this)?.idToken?.let { token ->
             viewModel.authenticateUser(token)
         } ?: run {
-            goToLoginPage()
+            goToLogin()
         }
     }
 
     private fun checkIsAuthenticated(isAuthenticated: Boolean) {
         if (isAuthenticated) {
-            goToHome()
+            viewModel.checkUserRole()
         } else {
-            goToLoginPage()
+            goToLogin()
         }
     }
 
-    private fun goToHome() {
-        launchMainActivity(MainActivity.PARAM_HOME_FRAGMENT)
+    private fun goToHome(isTeacher: Boolean) {
+        RouterUtil.goToMain(this, isTeacher)
     }
 
-    private fun goToLoginPage() {
-        launchMainActivity(MainActivity.PARAM_LOGIN_FRAGMENT)
-    }
-
-    private fun launchMainActivity(firstLaunchFragment: String) {
-        val mainActivityIntent = Intent(this, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            putExtra(MainActivity.PARAM_FIRST_LAUNCH_FRAGMENT, firstLaunchFragment)
-        }
-        startActivity(mainActivityIntent)
-        finish()
+    private fun goToLogin() {
+        RouterUtil.goToLogin(this)
     }
 }

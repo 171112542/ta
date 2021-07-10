@@ -21,6 +21,7 @@ import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.utils.*
 import com.mobile.ta.utils.view.DialogHelper
+import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.viewmodel.user.profile.EditProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -95,7 +96,7 @@ class EditProfileFragment :
         })
         viewModel.profilePicture.observe(viewLifecycleOwner, {
             it?.let { image ->
-                loadImage(image, binding.editProfileImageView)
+                ImageUtil.loadImage(mContext, image, binding.editProfileImageView)
             }
         })
         viewModel.isUpdated.observe(viewLifecycleOwner, {
@@ -152,7 +153,7 @@ class EditProfileFragment :
         binding.apply {
             editProfileFullNameInput.setText(user.name)
             user.photo?.let {
-                loadImage(it, editProfileImageView)
+                ImageUtil.loadImage(mContext, it, editProfileImageView)
             }
             editProfileBirthDateInput.setText(user.birthDate?.toDateString(Constants.YYYY_MM_DD))
             editProfileEmailInput.setText(user.email)
