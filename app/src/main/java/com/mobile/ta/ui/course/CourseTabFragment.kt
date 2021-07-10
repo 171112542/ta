@@ -1,8 +1,6 @@
 package com.mobile.ta.ui.course
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.widget.ProgressBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -11,7 +9,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
 import com.mobile.ta.adapter.course.CoursePagerAdapter.Companion.EXTRA_POSITION
-import com.mobile.ta.adapter.user.course.UserCourseAdapter
+import com.mobile.ta.adapter.user.course.StudentProgressAdapter
 import com.mobile.ta.databinding.FragmentCourseTabBinding
 import com.mobile.ta.ui.base.BaseFragment
 import com.mobile.ta.ui.course.CourseTabFragment.CourseTabType.ONGOING_TAB
@@ -28,7 +26,7 @@ class CourseTabFragment :
 
     private val viewModel: CourseTabViewModel by viewModels()
     private val userCourseAdapter by lazy {
-        UserCourseAdapter(::navigateToCourseInformation, ::changeProgress)
+        StudentProgressAdapter(::navigateToCourseInformation)
     }
 
     override fun runOnCreateView() {
@@ -60,7 +58,7 @@ class CourseTabFragment :
             courseTabRecyclerView.addItemDecoration(itemDecoration)
             courseTabRecyclerView.adapter = userCourseAdapter
             courseTabRecyclerView.layoutManager = layoutManager
-            viewModel.userCourse.observe(viewLifecycleOwner, {
+            viewModel.studentProgress.observe(viewLifecycleOwner, {
                 if (it.status == StatusType.SUCCESS) {
                     courseTabNoData.isVisible = it.data?.count() ?: 0 == 0
                     courseTabRecyclerView.isVisible = it.data?.count() ?: 0 != 0
@@ -69,15 +67,6 @@ class CourseTabFragment :
                 courseTabProgressBarContainer.isVisible = false
             })
         }
-    }
-
-    private fun changeProgress(courseId: String, progressBar: ProgressBar) {
-        viewModel.getProgress(courseId).observe(viewLifecycleOwner, {
-            ObjectAnimator.ofInt(progressBar, "progress", 0, it.toInt()).apply {
-                duration = 500
-                start()
-            }
-        })
     }
 
     private fun navigateToCourseInformation(courseId: String) {

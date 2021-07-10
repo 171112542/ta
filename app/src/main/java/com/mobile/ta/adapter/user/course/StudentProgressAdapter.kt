@@ -1,41 +1,43 @@
 package com.mobile.ta.adapter.user.course
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.mobile.ta.adapter.diff.UserCourseDiffCallback
+import com.mobile.ta.adapter.diff.StudentProgressDiffCallback
 import com.mobile.ta.databinding.VhCourseCardBinding
-import com.mobile.ta.model.user.course.UserCourse
+import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.utils.getMaximum
 import com.mobile.ta.utils.view.ImageUtil
 
 
-class UserCourseAdapter(
+class StudentProgressAdapter(
     private val onClickListener: (String) -> Unit,
-    private val changeProgressListener: (String, ProgressBar) -> Unit
-) : ListAdapter<UserCourse, UserCourseAdapter.ViewHolder>(UserCourseDiffCallback()) {
+) : ListAdapter<StudentProgress, StudentProgressAdapter.ViewHolder>(StudentProgressDiffCallback()) {
     class ViewHolder private constructor(
         private val binding: VhCourseCardBinding,
         private val onClickListener: (String) -> Unit,
-        private val changeProgressListener: (String, ProgressBar) -> Unit,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(
-            item: UserCourse
+            item: StudentProgress
         ) {
             binding.apply {
                 courseContainer.setOnClickListener {
                     onClickListener.invoke(item.id)
                 }
-                courseCardTitle.text = item.title
+                courseCardTitle.text = item.course?.title
                 courseCardDescription.text =
-                    item.description.getMaximum(64)
-                item.imageUrl?.let {
+                    item.course?.description?.getMaximum(64)
+                item.course?.imageUrl?.let {
                     ImageUtil.loadImage(courseCardImage.context, it, courseCardImage)
                 }
-                changeProgressListener.invoke(item.id, courseCardProgress)
+                val progress = item.finishedChapterIds.size / item.totalChapterCount
+                ObjectAnimator.ofInt(courseCardProgress, "progress", 0, progress).apply {
+                    duration = 500
+                    start()
+                }
             }
         }
 
@@ -43,11 +45,10 @@ class UserCourseAdapter(
             fun from(
                 parent: ViewGroup,
                 onClickListener: (String) -> Unit,
-                changeProgressListener: (String, ProgressBar) -> Unit
             ): ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = VhCourseCardBinding.inflate(layoutInflater, parent, false)
-                return ViewHolder(binding, onClickListener, changeProgressListener)
+                return ViewHolder(binding, onClickListener)
             }
         }
     }
@@ -58,8 +59,6 @@ class UserCourseAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(
-            parent, onClickListener, changeProgressListener
-        )
+        return ViewHolder.from(parent, onClickListener)
     }
 }

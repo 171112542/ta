@@ -7,7 +7,7 @@ import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
-import com.mobile.ta.model.user.course.chapter.UserChapter
+import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
@@ -21,7 +21,6 @@ import javax.inject.Inject
 class CourseSubmitViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val courseRepository: CourseRepository,
-    private val userChapterRepository: UserChapterRepository,
     private val studentProgressRepository: StudentProgressRepository,
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
@@ -63,8 +62,8 @@ class CourseSubmitViewModel @Inject constructor(
     private val _nextChapterSummary = MutableLiveData<ChapterSummary>()
     val nextChapterSummary = _nextChapterSummary
 
-    private val _userChapters = MutableLiveData<MutableList<UserChapter>>()
-    val userChapters: LiveData<MutableList<UserChapter>> get() = _userChapters
+    private val _studentProgress = MutableLiveData<StudentProgress>()
+    val studentProgress: LiveData<StudentProgress> get() = _studentProgress
 
     init {
         launchViewModelScope {
@@ -73,7 +72,7 @@ class CourseSubmitViewModel @Inject constructor(
                 _course.postValue(it)
             }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-            getUserChapters(loggedInUid, courseId)
+            getStudentProgress(loggedInUid, courseId)
 
             initializeFragmentContent()
         }
@@ -120,11 +119,11 @@ class CourseSubmitViewModel @Inject constructor(
     }
 
 
-    private suspend fun getUserChapters(uid: String, courseId: String) {
-        val userChaptersResult =
-            userChapterRepository.getFinishedUserChapters(uid, courseId)
-        checkStatus(userChaptersResult, {
-            _userChapters.postValue(it)
+    private suspend fun getStudentProgress(uid: String, courseId: String) {
+        val studentProgressResult =
+            studentProgressRepository.getStudentProgress(uid, courseId)
+        checkStatus(studentProgressResult, {
+            _studentProgress.postValue(it)
         }, {})
     }
 

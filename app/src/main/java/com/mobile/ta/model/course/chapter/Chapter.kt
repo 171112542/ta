@@ -17,13 +17,9 @@ data class Chapter(
     val createdAt: Timestamp,
     @Serializable(with = TimestampSerializer::class)
     val updatedAt: Timestamp,
-    val nextChapter: ChapterSummary?,
     val passingGrade: Int?,
-    val previousChapter: ChapterSummary?,
     val totalDiscussion: Int,
     val sketchfab: Sketchfab?,
-    val order: Int,
-    val typeOrder: Int
 ) {
     constructor() :
         this(
@@ -34,11 +30,7 @@ data class Chapter(
             Timestamp.now(),
             Timestamp.now(),
             null,
-            null,
-            null,
             0,
             null,
-            0,
-            0
         )
 }

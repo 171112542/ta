@@ -83,7 +83,7 @@ class CourseAssignmentFragment :
         viewmodel.course.observe(viewLifecycleOwner, {
             setupMenu(it.chapterSummaryList)
         })
-        viewmodel.userChapters.observe(viewLifecycleOwner, {
+        viewmodel.studentProgress.observe(viewLifecycleOwner, {
             viewmodel.course.value?.chapterSummaryList?.let {
                 setupMenu(it)
             }
@@ -107,10 +107,14 @@ class CourseAssignmentFragment :
             fragCourseAssignmentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
+                val lastFinishedChapterIndex =
+                    viewmodel.studentProgress.value?.finishedChapterIds?.maxOf { current ->
+                        chapters.indexOfFirst { it.id == current }
+                    } ?: -1
                 chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (args.chapterId == it.id)
                     menuItems.add(getItem(menuItems.count()).apply {
-                        isEnabled = (viewmodel.userChapters.value?.size ?: 0 >= index)
+                        isEnabled = (lastFinishedChapterIndex + 1 >= index)
                     })
                 }
             }
