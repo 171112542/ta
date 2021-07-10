@@ -1,17 +1,14 @@
 package com.mobile.ta.viewmodel.course.chapter.content
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.discussion.DiscussionForum
-import com.mobile.ta.model.user.course.UserCourse
-import com.mobile.ta.model.user.course.chapter.UserChapter
+import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
-import com.mobile.ta.utils.isNotNull
-import com.mobile.ta.utils.mapper.UserChapterMapper.toHashMap
-import com.mobile.ta.utils.mapper.UserCourseMapper.toHashMap
 import com.mobile.ta.utils.wrapper.status.Status
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +18,7 @@ import javax.inject.Inject
 class CourseContentViewModel @Inject constructor(
     private val courseRepository: CourseRepository,
     private val chapterRepository: ChapterRepository,
-    private val userCourseRepository: UserCourseRepository,
-    private val userChapterRepository: UserChapterRepository,
+    private val studentProgressRepository: StudentProgressRepository,
     authRepository: AuthRepository,
     private val discussionRepository: DiscussionRepository
 ) :
@@ -34,11 +30,12 @@ class CourseContentViewModel @Inject constructor(
     private val loggedInUid = authRepository.getUser()?.uid
     private var _discussions = MutableLiveData<Status<MutableList<DiscussionForum>>>()
     val discussions: LiveData<Status<MutableList<DiscussionForum>>> get() = _discussions
-    private val _userChapters = MutableLiveData<Status<MutableList<UserChapter>>>()
-    val userChapters: LiveData<Status<MutableList<UserChapter>>> get() = _userChapters
+    private val _studentProgress = MutableLiveData<Status<StudentProgress>>()
+    val studentProgress: LiveData<Status<StudentProgress>> get() = _studentProgress
 
     fun getCourseChapter(courseId: String, chapterId: String) {
         launchViewModelScope {
+            getStudentProgress(courseId)
             val courseResult = courseRepository.getCourseById(courseId)
             _course.postValue(courseResult)
             val chapterResult = chapterRepository.getChapterById(courseId, chapterId)
@@ -46,49 +43,36 @@ class CourseContentViewModel @Inject constructor(
         }
     }
 
-    fun addUserChapter(courseId: String, chapterId: String) {
-        launchViewModelScope {
-            chapter.value?.data?.let { chapter ->
-                val userChapter = UserChapter(chapterId, chapter.title, true)
+    fun updateFinishedChapter(courseId: String, chapterId: String) {
+        chapter.value?.data?.let {
+            launchViewModelScope {
                 loggedInUid?.let { uid ->
-                    userChapterRepository.addUserChapter(
-                        uid,
-                        courseId,
+                    studentProgress.value?.data?.finishedChapterIds.let { finishedChapters ->
+                        if (finishedChapters != null)
+                            studentProgressRepository.updateFinishedChapter(
+                                uid,
+                                courseId,
+                                chapterId,
+                                finishedChapters
+                            )
+                    }
+                    val chapterSummary = ChapterSummary(
                         chapterId,
-                        userChapter.toHashMap()
+                        it.title,
+                        it.type
                     )
-                    getUserChapters(courseId)
-                    updateFinishedCourse(uid, courseId)
-                    val chapterSummary = ChapterSummary(chapterId, chapter.title, chapter.type)
                     updateLastAccessedCourse(uid, courseId, chapterSummary)
+                    getStudentProgress(courseId)
                 }
             }
         }
     }
 
-    private suspend fun getUserChapters(courseId: String) {
+    private suspend fun getStudentProgress(courseId: String) {
         loggedInUid?.let { uid ->
-            val userChaptersResult =
-                userChapterRepository.getFinishedUserChapters(uid, courseId)
-            _userChapters.postValue(userChaptersResult)
-        }
-    }
-
-    private suspend fun updateFinishedCourse(userId: String, courseId: String) {
-        val userChapters = userChapterRepository.getFinishedUserChapters(userId, courseId)
-        val chapters = chapterRepository.getChapters(courseId)
-        val isFinished =
-            if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
-            else false
-        if (isFinished) {
-            val userCourse = UserCourse().apply {
-                finished = isFinished
-            }
-            userCourseRepository.updateFinishedCourse(
-                userId,
-                courseId,
-                userCourse.toHashMap()
-            )
+            val studentProgressResult =
+                studentProgressRepository.getStudentProgress(uid, courseId)
+            _studentProgress.postValue(studentProgressResult)
         }
     }
 
@@ -97,7 +81,7 @@ class CourseContentViewModel @Inject constructor(
         courseId: String,
         lastAccessedChapter: ChapterSummary
     ) {
-        userCourseRepository.updateLastAccessedChapter(
+        studentProgressRepository.updateLastAccessedChapter(
             userId,
             courseId,
             lastAccessedChapter

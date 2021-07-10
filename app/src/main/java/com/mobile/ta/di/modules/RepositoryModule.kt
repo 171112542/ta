@@ -47,16 +47,6 @@ abstract class RepositoryModule {
     ): NotificationRepository
 
     @Binds
-    abstract fun bindUserCourseRepository(
-        userCourseRepositoryImpl: UserCourseRepositoryImpl
-    ): UserCourseRepository
-
-    @Binds
-    abstract fun bindUserChapterRepository(
-        userChapterRepositoryImpl: UserChapterRepositoryImpl
-    ): UserChapterRepository
-
-    @Binds
     abstract fun bindStudentProgressRepository(
         studentProgressRepository: StudentProgressRepositoryImpl
     ): StudentProgressRepository

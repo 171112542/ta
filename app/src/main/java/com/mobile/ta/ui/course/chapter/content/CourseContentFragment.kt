@@ -81,7 +81,7 @@ class CourseContentFragment :
                     }
                 }
             })
-            viewModel.userChapters.observe(viewLifecycleOwner, { result ->
+            viewModel.studentProgress.observe(viewLifecycleOwner, { result ->
                 if (result.status == StatusType.SUCCESS) {
                     viewModel.course.value?.data?.chapterSummaryList?.let {
                         setupMenu(it)
@@ -103,6 +103,7 @@ class CourseContentFragment :
                         courseContentContentWebview.addJavascriptInterface(
                             CourseContentAppInterface(
                                 it,
+                                viewModel.course.value?.data?.chapterSummaryList ?: listOf(),
                                 this@CourseContentFragment::navigateToNextChapter,
                                 this@CourseContentFragment::navigateToPreviousChapter,
                                 this@CourseContentFragment::navigateThreeD,
@@ -111,7 +112,7 @@ class CourseContentFragment :
                             "Android"
                         )
                     }
-                    viewModel.addUserChapter(courseId, chapterId)
+                    viewModel.updateFinishedChapter(courseId, chapterId)
                 }
             })
             viewModel.discussions.observe(viewLifecycleOwner, {
@@ -135,30 +136,26 @@ class CourseContentFragment :
         super.onDestroyView()
     }
 
-    private fun navigateToNextChapter(chapter: Chapter) {
-        if (chapter.nextChapter != null) {
-            chapter.nextChapter.let {
-                findNavController().navigate(
-                    getChapterDestination(
-                        it.id,
-                        it.type as ChapterType
-                    )
+    private fun navigateToNextChapter(chapter: ChapterSummary?) {
+        if (chapter != null) {
+            findNavController().navigate(
+                getChapterDestination(
+                    chapter.id,
+                    chapter.type as ChapterType
                 )
-            }
+            )
         } else {
             findNavController().navigateUp()
         }
     }
 
-    private fun navigateToPreviousChapter(chapter: Chapter) {
-        chapter.previousChapter?.let {
-            findNavController().navigate(
-                getChapterDestination(
-                    it.id,
-                    it.type as ChapterType
-                )
+    private fun navigateToPreviousChapter(chapter: ChapterSummary) {
+        findNavController().navigate(
+            getChapterDestination(
+                chapter.id,
+                chapter.type as ChapterType
             )
-        }
+        )
     }
 
     private fun navigateThreeD(chapter: Chapter) {
@@ -219,10 +216,17 @@ class CourseContentFragment :
             courseContentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
+                val finishedChapterIds = viewModel.studentProgress.value?.data?.finishedChapterIds
+                val lastFinishedChapterIndex = if (finishedChapterIds.isNullOrEmpty()) -1
+                else {
+                    finishedChapterIds.maxOf { current ->
+                        chapters.indexOfFirst { it.id == current }
+                    }
+                }
                 chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (chapterId == it.id)
                     menuItems.add(getItem(menuItems.count()).apply {
-                        isEnabled = (viewModel.userChapters.value?.data?.size ?: 0 >= index)
+                        isEnabled = (lastFinishedChapterIndex + 1 >= index)
                     })
                 }
             }
@@ -251,22 +255,42 @@ class CourseContentFragment :
 
     class CourseContentAppInterface(
         private val chapter: Chapter,
-        private val navigateToNextChapter: (Chapter) -> Unit,
-        private val navigateToPreviousChapter: (Chapter) -> Unit,
+        private val chapterSummaryList: List<ChapterSummary>,
+        private val navigateToNextChapter: (ChapterSummary?) -> Unit,
+        private val navigateToPreviousChapter: (ChapterSummary) -> Unit,
         private val navigateToThreeD: (Chapter) -> Unit,
         private val activity: Activity
     ) {
+        private val index = chapterSummaryList.indexOfFirst { it.id == chapter.id }
+
+        @JavascriptInterface
+        fun hasNext(): Boolean {
+            return index < chapterSummaryList.size
+        }
+
+        @JavascriptInterface
+        fun hasPrevious(): Boolean {
+            return index > 0
+        }
+
         @JavascriptInterface
         fun navigateNext() {
-            HandlerUtil.runOnUiThread(activity) {
-                navigateToNextChapter.invoke(chapter)
+            if (hasNext()) {
+                HandlerUtil.runOnUiThread(activity) {
+                    val nextChapter =
+                        if (index < chapterSummaryList.size - 1) chapterSummaryList[index + 1]
+                        else null
+                    navigateToNextChapter.invoke(nextChapter)
+                }
             }
         }
 
         @JavascriptInterface
         fun navigatePrevious() {
-            HandlerUtil.runOnUiThread(activity) {
-                navigateToPreviousChapter.invoke(chapter)
+            if (hasPrevious()) {
+                HandlerUtil.runOnUiThread(activity) {
+                    navigateToPreviousChapter.invoke(chapterSummaryList[index - 1])
+                }
             }
         }
 
@@ -284,7 +308,14 @@ class CourseContentFragment :
 
         @JavascriptInterface
         fun getNextChapter(): String {
-            return chapter.nextChapter?.title ?: activity.getString(R.string.finish_course_text)
+            return if (index < chapterSummaryList.size - 1) chapterSummaryList[index + 1].title
+            else activity.getString(R.string.finish_course_text)
+        }
+
+        @JavascriptInterface
+        fun getPreviousChapter(): String {
+            return if (hasPrevious()) chapterSummaryList[index - 1].title
+            else ""
         }
     }
 }

@@ -8,13 +8,10 @@ import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.assignment.Assignment
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
-import com.mobile.ta.model.studentProgress.SubmittedAnswer
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
-import com.mobile.ta.model.user.course.UserCourse
-import com.mobile.ta.model.user.course.chapter.UserChapter
+import com.mobile.ta.model.studentProgress.StudentProgress
+import com.mobile.ta.model.studentProgress.SubmittedAnswer
 import com.mobile.ta.repository.*
-import com.mobile.ta.utils.isNotNull
-import com.mobile.ta.utils.mapper.UserCourseMapper.toHashMap
 import com.mobile.ta.utils.publishChanges
 import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,8 +24,6 @@ import kotlin.math.ceil
 class CourseAssignmentViewModel @Inject constructor(
     private val chapterRepository: ChapterRepository,
     private val authRepository: AuthRepository,
-    private val userCourseRepository: UserCourseRepository,
-    private val userChapterRepository: UserChapterRepository,
     private val courseRepository: CourseRepository,
     private val studentProgressRepository: StudentProgressRepository,
     savedStateHandle: SavedStateHandle
@@ -49,8 +44,8 @@ class CourseAssignmentViewModel @Inject constructor(
     private val _assignment = MutableLiveData<Assignment>()
     val assignment: LiveData<Assignment> get() = _assignment
 
-    private val _userChapters = MutableLiveData<MutableList<UserChapter>>()
-    val userChapters: LiveData<MutableList<UserChapter>> get() = _userChapters
+    private val _studentProgress = MutableLiveData<StudentProgress>()
+    val studentProgress: LiveData<StudentProgress> get() = _studentProgress
 
     init {
         launchViewModelScope {
@@ -65,13 +60,13 @@ class CourseAssignmentViewModel @Inject constructor(
             handleAccessToFragment()
             initializeFragmentContent()
             _assignment.value?.let {
-                userCourseRepository.updateLastAccessedChapter(
+                studentProgressRepository.updateLastAccessedChapter(
                     loggedInUid,
                     courseId,
                     ChapterSummary(it.id, it.title, it.type)
                 )
             }
-            getUserChapters(loggedInUid, courseId)
+            getStudentProgress(loggedInUid, courseId)
         }
     }
 
@@ -158,40 +153,26 @@ class CourseAssignmentViewModel @Inject constructor(
                 )
 
                 studentProgressRepository
-                    .saveSubmittedAssignment(loggedInUid, courseId, assignmentId, assignmentToSubmit)
+                    .saveSubmittedAssignment(
+                        loggedInUid,
+                        courseId,
+                        assignmentId,
+                        assignmentToSubmit
+                    )
 
-                getUserChapters(loggedInUid, courseId)
-                updateFinishedCourse(loggedInUid, courseId)
+                getStudentProgress(loggedInUid, courseId)
                 _navigateToSubmitResultPage.postValue(true)
             }
         }
     }
 
-    private suspend fun getUserChapters(uid: String, courseId: String) {
-        val userChaptersResult =
-            userChapterRepository.getFinishedUserChapters(uid, courseId)
-        checkStatus(userChaptersResult, {
-            _userChapters.postValue(it)
+    private suspend fun getStudentProgress(uid: String, courseId: String) {
+        val studentProgressResult =
+            studentProgressRepository.getStudentProgress(uid, courseId)
+        checkStatus(studentProgressResult, {
+            _studentProgress.postValue(it)
         }, {
             //TODO: Add a failure handler
         })
-    }
-
-    private suspend fun updateFinishedCourse(userId: String, courseId: String) {
-        val userChapters = userChapterRepository.getFinishedUserChapters(userId, courseId)
-        val chapters = chapterRepository.getChapters(courseId)
-        val isFinished =
-            if (chapters.data.isNotNull()) chapters.data?.size == userChapters.data?.size
-            else false
-        if (isFinished) {
-            val userCourse = UserCourse().apply {
-                finished = isFinished
-            }
-            userCourseRepository.updateFinishedCourse(
-                userId,
-                courseId,
-                userCourse.toHashMap()
-            )
-        }
     }
 }
