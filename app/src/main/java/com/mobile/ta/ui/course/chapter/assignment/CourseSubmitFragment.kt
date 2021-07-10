@@ -103,10 +103,13 @@ class CourseSubmitFragment :
             fragCourseSubmitDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                val lastFinishedChapterIndex =
-                    viewmodel.studentProgress.value?.finishedChapterIds?.maxOf { current ->
+                val finishedChapterIds = viewmodel.studentProgress.value?.finishedChapterIds
+                val lastFinishedChapterIndex = if (finishedChapterIds.isNullOrEmpty()) -1
+                else {
+                    finishedChapterIds.maxOf { current ->
                         chapters.indexOfFirst { it.id == current }
-                    } ?: -1
+                    }
+                }
                 chapters.forEachIndexed { index, it ->
                     add(it.title).isChecked = (viewmodel.chapterId == it.id)
                     menuItems.add(getItem(menuItems.count()).apply {
