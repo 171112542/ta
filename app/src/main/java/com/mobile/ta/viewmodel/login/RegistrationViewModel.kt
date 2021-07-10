@@ -37,9 +37,12 @@ class RegistrationViewModel @Inject constructor(
     val user: LiveData<User>
         get() = _user
 
+    private var isTeacher: Boolean = false
+
     private lateinit var initialUserData: User
 
     fun getAuthorizedUserData(isTeacher: Boolean) {
+        setIsTeacher(isTeacher)
         launchViewModelScope {
             authRepository.getUser()?.let { firebaseUser ->
                 setUserValue(isTeacher, firebaseUser)
@@ -52,6 +55,8 @@ class RegistrationViewModel @Inject constructor(
         }
         _user.publishChanges()
     }
+
+    fun getIsTeacher() = isTeacher
 
     fun setProfilePicture(filePath: String) {
         _profilePicture.value = File(filePath)
@@ -94,6 +99,10 @@ class RegistrationViewModel @Inject constructor(
         UserRoleEnum.ROLE_TEACHER
     } else {
         UserRoleEnum.ROLE_STUDENT
+    }
+
+    private fun setIsTeacher(isTeacher: Boolean) {
+        this.isTeacher = isTeacher
     }
 
     private fun setUserValue(isTeacher: Boolean, firebaseUser: FirebaseUser) {

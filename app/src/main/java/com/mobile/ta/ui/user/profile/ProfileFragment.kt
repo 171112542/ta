@@ -9,7 +9,8 @@ import com.mobile.ta.R
 import com.mobile.ta.adapter.user.profile.ProfilePagerAdapter
 import com.mobile.ta.databinding.FragProfileBinding
 import com.mobile.ta.ui.base.BaseFragment
-import com.mobile.ta.ui.login.LoginFragmentDirections
+import com.mobile.ta.utils.view.ImageUtil
+import com.mobile.ta.utils.view.RouterUtil
 import com.mobile.ta.viewmodel.user.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -80,7 +81,7 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         })
         viewModel.isAuthenticated.observe(viewLifecycleOwner, {
             if (it.not()) {
-                findNavController().navigate(LoginFragmentDirections.actionGlobalLoginFragment())
+                RouterUtil.goToLogin(mContext)
             }
         })
     }
@@ -100,7 +101,7 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
     private fun setProfileData(photo: String?, name: String, bio: String?) {
         binding.apply {
             photo?.let {
-                loadImage(it, profilePhotoImageView)
+                ImageUtil.loadImage(mContext, it, profilePhotoImageView)
             }
             profileName.text = name
             bio?.let {

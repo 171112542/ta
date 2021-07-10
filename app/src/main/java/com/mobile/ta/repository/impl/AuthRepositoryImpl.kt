@@ -9,13 +9,11 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mobile.ta.config.CollectionConstants
-import com.mobile.ta.model.user.TeacherCredential
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.utils.exists
 import com.mobile.ta.utils.fetchData
 import com.mobile.ta.utils.fetchDataWithResult
-import com.mobile.ta.utils.mapper.UserMapper
 import com.mobile.ta.utils.wrapper.status.Status
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -40,8 +38,8 @@ class AuthRepositoryImpl @Inject constructor(
         return auth.signInWithCredential(credentials).fetchData()
     }
 
-    override suspend fun checkTeacherCredentials(credentials: String): Status<TeacherCredential?> {
-        return tokenCollection.document(credentials).fetchData(UserMapper::mapToTeacherCredential)
+    override suspend fun checkTeacherCredentials(credentials: String): Status<Boolean> {
+        return tokenCollection.document(credentials).exists()
     }
 
     override suspend fun getIsUserRegistered(): Status<Boolean> {
