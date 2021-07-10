@@ -264,18 +264,13 @@ class CourseContentFragment :
         private val index = chapterSummaryList.indexOfFirst { it.id == chapter.id }
 
         @JavascriptInterface
-        fun hasNext(): Boolean {
-            return index < chapterSummaryList.size
-        }
-
-        @JavascriptInterface
         fun hasPrevious(): Boolean {
             return index > 0
         }
 
         @JavascriptInterface
         fun navigateNext() {
-            if (hasNext()) {
+            if (index < chapterSummaryList.size) {
                 HandlerUtil.runOnUiThread(activity) {
                     val nextChapter =
                         if (index < chapterSummaryList.size - 1) chapterSummaryList[index + 1]

@@ -203,11 +203,11 @@
             })
             content.appendChild(div);
         }
-        if (!chapter['previousChapter']) {
+        if (!Android.hasPrevious()) {
             previousChapter.classList.add('d-none');
         } else {
             previousChapter.classList.remove('d-none');
-            previousChapterTitle.innerHTML = chapter['previousChapter']['title'];
+            previousChapterTitle.innerHTML = Android.getPreviousChapter();
 
         }
         nextChapterTitle.innerHTML = Android.getNextChapter();
