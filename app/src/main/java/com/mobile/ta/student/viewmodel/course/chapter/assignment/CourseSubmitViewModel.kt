@@ -1,6 +1,5 @@
 package com.mobile.ta.student.viewmodel.course.chapter.assignment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -13,8 +12,6 @@ import com.mobile.ta.repository.*
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
-import com.mobile.ta.utils.wrapper.status.Status
-import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

@@ -10,6 +10,7 @@
     <string name="toolbar_profile">Your <b>Profile</b></string>
     <string name="toolbar_my_course">Your <b>Course</b></string>
     <string name="toolbar_back">Back</string>
+    <string name="toolbar_sign_out">Sign Out</string>
 
     <string name="dest_home_label">Home</string>
     <string name="dest_course_label">Course</string>
