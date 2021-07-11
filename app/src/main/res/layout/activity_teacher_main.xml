@@ -32,4 +32,21 @@
         app:layout_constraintTop_toBottomOf="@id/main_app_bar"
         app:navGraph="@navigation/t_main_navigation" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/act_main_bottom_nav_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_4"
+        app:cardElevation="@dimen/keyline_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <me.ibrahimsn.lib.SmoothBottomBar
+            android:id="@+id/act_main_bottom_nav"
+            style="@style/Widget.TA.SmoothBottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bottom_nav_height"
+            app:menu="@menu/t_main_nav_menu" />
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

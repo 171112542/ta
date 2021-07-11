@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_navigation"
+    android:id="@+id/t_main_navigation"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -23,24 +23,6 @@
     <action
         android:id="@+id/action_global_homeFragment"
         app:destination="@id/homeFragment"
-        app:popUpTo="@id/main_navigation"
-        app:popUpToInclusive="true" />
-    <fragment
-        android:id="@+id/myCourseFragment"
-        android:name="com.mobile.ta.teacher.view.course.MyCourseFragment"
-        android:label="@string/toolbar_my_course"
-        tools:layout="@layout/frag_course">
-        <action
-            android:id="@+id/action_myCourseFragment_to_courseInformationFragment"
-            app:destination="@id/courseInformationFragment" />
-        <argument
-            android:name="tab"
-            app:argType="integer"
-            android:defaultValue="0" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_myCourseFragment"
-        app:destination="@id/myCourseFragment"
         app:popUpTo="@id/main_navigation"
         app:popUpToInclusive="true" />
     <fragment
@@ -104,7 +86,7 @@
             android:id="@+id/action_courseContentFragment_to_3DViewFragment"
             app:destination="@id/threeDFragment" />
         <action
-            android:id="@+id/action_courseContentFragment_to_discussionFragment"
+            android:id="@+id/action_courseContentFragment_to_discussionForumFragment"
             app:destination="@id/discussionForumFragment" />
         <action
             android:id="@+id/action_courseContentFragment_self"

@@ -6,6 +6,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.databinding.TFragmentDiscussionForumBinding
+import com.mobile.ta.student.view.course.chapter.discussion.DiscussionForumFragmentArgs
+import com.mobile.ta.student.view.course.chapter.discussion.DiscussionForumFragmentDirections
 import com.mobile.ta.teacher.viewmodel.course.chapter.discussion.DiscussionForumViewModel
 import com.mobile.ta.ui.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.ui.view.base.BaseFragment
