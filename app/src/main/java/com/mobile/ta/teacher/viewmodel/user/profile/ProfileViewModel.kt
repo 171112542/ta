@@ -31,6 +31,12 @@ class ProfileViewModel @Inject constructor(
     val userCourseCount: LiveData<Pair<Int, Int>>
         get() = _userCourseCount
 
+    fun doLogOut() {
+        launchViewModelScope {
+            logOut()
+        }
+    }
+
     fun fetchUserData() {
         _userCourseCount.value = Pair(0, 0)
         launchViewModelScope {
@@ -64,11 +70,5 @@ class ProfileViewModel @Inject constructor(
 
     private fun setCourseCount(course: Pair<Int, Int>) {
         _userCourseCount.postValue(course)
-    }
-
-    private fun doLogOut() {
-        launchViewModelScope {
-            logOut()
-        }
     }
 }

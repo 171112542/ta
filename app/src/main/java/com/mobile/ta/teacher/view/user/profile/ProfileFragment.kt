@@ -2,36 +2,28 @@ package com.mobile.ta.teacher.view.user.profile
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
-import com.mobile.ta.teacher.adapter.user.profile.ProfilePagerAdapter
-import com.mobile.ta.databinding.FragProfileBinding
+import com.mobile.ta.config.Constants
+import com.mobile.ta.databinding.TFragProfileBinding
+import com.mobile.ta.teacher.viewmodel.user.profile.ProfileViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.utils.toDateString
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.view.RouterUtil
-import com.mobile.ta.teacher.viewmodel.user.profile.ProfileViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inflate),
+class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::inflate),
     View.OnClickListener {
 
-    private val viewModel: ProfileViewModel by activityViewModels()
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun runOnCreateView() {
-        val profilePagerAdapter = ProfilePagerAdapter(this)
         binding.apply {
             profileEditButton.setOnClickListener(this@ProfileFragment)
-            profileViewPager.adapter = profilePagerAdapter
-            (profileViewPager.getChildAt(0) as ViewGroup).clipChildren = false
-            TabLayoutMediator(profileTabLayout, profileViewPager) { tab, position ->
-                when (position) {
-                    0 -> tab.text = getString(R.string.about_tab)
-                    1 -> tab.text = getString(R.string.feedback_tab)
-                }
-            }.attach()
+            buttonSignOut.setOnClickListener(this@ProfileFragment)
         }
         setHasOptionsMenu(true)
     }
@@ -41,27 +33,11 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         setupObserver()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.fetchUserData()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.profile_menu, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.profile_setting_item -> goToSettings()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     override fun onClick(view: View?) {
         binding.apply {
             when (view) {
                 profileEditButton -> goToEditProfile()
+                buttonSignOut -> signOut()
             }
         }
     }
@@ -71,6 +47,10 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         viewModel.user.observe(viewLifecycleOwner, {
             it?.let { user ->
                 setProfileData(user.photo, user.name, user.bio)
+                setAboutData(
+                    user.email,
+                    user.birthDate?.toDateString(Constants.MMMM_DD_YYYY)
+                )
                 viewModel.fetchUserCourseCount(user.id)
             }
         })
@@ -81,7 +61,7 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         })
         viewModel.isAuthenticated.observe(viewLifecycleOwner, {
             if (it.not()) {
-                RouterUtil.goToLogin(mContext)
+                signOut()
             }
         })
     }
@@ -92,10 +72,6 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
                 viewModel.user.value!!
             )
         )
-    }
-
-    private fun goToSettings() {
-        findNavController().navigate(ProfileFragmentDirections.actionProfileFragmentToSettingsFragment())
     }
 
     private fun setProfileData(photo: String?, name: String, bio: String?) {
@@ -112,6 +88,19 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
         }
     }
 
+    private fun setAboutData(email: String, birthDate: String?) {
+        binding.apply {
+            profileAboutEmail.text = email
+
+            birthDate?.let {
+                profileAboutBirthDate.text = it
+                groupAboutBirthDate.visibility = View.VISIBLE
+            } ?: run {
+                groupAboutBirthDate.visibility = View.GONE
+            }
+        }
+    }
+
     private fun setCourseInfo(courseCount: Int, finishedCourseCount: Int) {
         binding.apply {
             textViewProfileCourse.text = courseCount.toString()
@@ -120,5 +109,10 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
             textViewProfileCourseLabel.text =
                 resources.getQuantityText(R.plurals.profile_course_label, courseCount)
         }
+    }
+
+    private fun signOut() {
+        viewModel.doLogOut()
+        RouterUtil.goToLogin(mContext)
     }
 }
