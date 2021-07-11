@@ -168,6 +168,7 @@
     <string name="completed_progress">Completed</string>
     <string name="not_completed_progress">Not completed</string>
     <string name="last_updated_label">last updated</string>
+    <string name="view_student_result_label">View Student Result</string>
 
     <string name="three_d_back_information">Tap empty area to show back button</string>
     <string name="back_button_label">BACK</string>

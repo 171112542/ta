@@ -190,7 +190,7 @@ class CourseContentFragment :
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_content_discussion_button -> v.findNavController().navigate(
-                CourseContentFragmentDirections.actionCourseContentFragmentToDiscussionFragment(
+                CourseContentFragmentDirections.actionCourseContentFragmentToDiscussionForumFragment(
                     courseId, chapterId
                 )
             )

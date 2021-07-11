@@ -104,7 +104,7 @@
             android:id="@+id/action_courseContentFragment_to_3DViewFragment"
             app:destination="@id/threeDFragment" />
         <action
-            android:id="@+id/action_courseContentFragment_to_discussionFragment"
+            android:id="@+id/action_courseContentFragment_to_discussionForumFragment"
             app:destination="@id/discussionForumFragment" />
         <action
             android:id="@+id/action_courseContentFragment_self"

@@ -12,10 +12,10 @@ import com.mobile.ta.R
 import com.mobile.ta.databinding.FragCourseSubmitBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
-import com.mobile.ta.student.view.main.MainActivity
+import com.mobile.ta.teacher.view.main.TeacherMainActivity
+import com.mobile.ta.teacher.viewmodel.course.chapter.assignment.CourseSubmitViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.ThemeUtil.getThemeColor
-import com.mobile.ta.teacher.viewmodel.course.chapter.assignment.CourseSubmitViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -25,7 +25,7 @@ class CourseSubmitFragment :
     BaseFragment<FragCourseSubmitBinding>(FragCourseSubmitBinding::inflate),
     View.OnClickListener {
     private val viewmodel by viewModels<CourseSubmitViewModel>()
-    private lateinit var mMainActivity: MainActivity
+    private lateinit var mMainActivity: TeacherMainActivity
     private var menuItems = mutableListOf<MenuItem>()
 
     override fun runOnCreateView() {
@@ -36,7 +36,7 @@ class CourseSubmitFragment :
     }
 
     override fun runOnCreate() {
-        mMainActivity = mActivity as MainActivity
+        mMainActivity = mActivity as TeacherMainActivity
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,18 +103,9 @@ class CourseSubmitFragment :
             fragCourseSubmitDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                val finishedChapterIds = viewmodel.studentProgress.value?.finishedChapterIds
-                val lastFinishedChapterIndex = if (finishedChapterIds.isNullOrEmpty()) -1
-                else {
-                    finishedChapterIds.maxOf { current ->
-                        chapters.indexOfFirst { it.id == current }
-                    }
-                }
-                chapters.forEachIndexed { index, it ->
+                chapters.forEach {
                     add(it.title).isChecked = (viewmodel.chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()).apply {
-                        isEnabled = (lastFinishedChapterIndex + 1 >= index)
-                    })
+                    menuItems.add(getItem(menuItems.count()))
                 }
             }
             fragCourseSubmitDrawerNavigation.setNavigationItemSelectedListener {
@@ -178,10 +169,8 @@ class CourseSubmitFragment :
             val destination = getChapterDestination(viewmodel.chapterId, ChapterType.PRACTICE)
             findNavController().navigate(destination)
         }
-        viewmodel.studentProgress.observe(viewLifecycleOwner, {
-            viewmodel.course.value?.chapterSummaryList?.let { chapterSummary ->
-                setupMenu(chapterSummary)
-            }
-        })
+        viewmodel.course.observe(viewLifecycleOwner) {
+            setupMenu(it.chapterSummaryList)
+        }
     }
 }

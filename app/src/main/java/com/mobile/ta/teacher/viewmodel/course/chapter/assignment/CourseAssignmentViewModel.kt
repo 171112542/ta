@@ -9,7 +9,6 @@ import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.assignment.Assignment
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
-import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.model.studentProgress.SubmittedAnswer
 import com.mobile.ta.repository.*
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
@@ -44,9 +43,6 @@ class CourseAssignmentViewModel @Inject constructor(
     private val _assignment = MutableLiveData<Assignment>()
     val assignment: LiveData<Assignment> get() = _assignment
 
-    private val _studentProgress = MutableLiveData<StudentProgress>()
-    val studentProgress: LiveData<StudentProgress> get() = _studentProgress
-
     init {
         launchViewModelScope {
             val course = courseRepository.getCourseById(courseId)
@@ -66,7 +62,6 @@ class CourseAssignmentViewModel @Inject constructor(
                     ChapterSummary(it.id, it.title, it.type)
                 )
             }
-            getStudentProgress(loggedInUid, courseId)
         }
     }
 
@@ -101,7 +96,7 @@ class CourseAssignmentViewModel @Inject constructor(
         val networkAssignment = chapterRepository.getAssignmentById(courseId, assignmentId)
         checkStatus(
             networkAssignment, {
-                _assignment.value = it
+                _assignment.postValue(it)
             }, {
                 //TODO: Add a failure handler
             }
@@ -160,19 +155,8 @@ class CourseAssignmentViewModel @Inject constructor(
                         assignmentToSubmit
                     )
 
-                getStudentProgress(loggedInUid, courseId)
                 _navigateToSubmitResultPage.postValue(true)
             }
         }
-    }
-
-    private suspend fun getStudentProgress(uid: String, courseId: String) {
-        val studentProgressResult =
-            studentProgressRepository.getStudentProgress(uid, courseId)
-        checkStatus(studentProgressResult, {
-            _studentProgress.postValue(it)
-        }, {
-            //TODO: Add a failure handler
-        })
     }
 }
