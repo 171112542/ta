@@ -2,6 +2,7 @@ package com.mobile.ta.student.view.user.feedback
 
 import android.view.View
 import android.widget.ArrayAdapter
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.R
@@ -9,6 +10,8 @@ import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentFeedbackBinding
 import com.mobile.ta.student.viewmodel.user.feedback.FeedbackViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.utils.notBlankValidate
+import com.mobile.ta.utils.text
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

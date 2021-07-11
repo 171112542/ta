@@ -8,6 +8,7 @@ import android.view.View.OnTouchListener
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragSearchBinding
 import com.mobile.ta.student.adapter.course.CourseAdapter
@@ -16,6 +17,7 @@ import com.mobile.ta.student.adapter.diff.CourseDiffCallback
 import com.mobile.ta.student.viewmodel.search.SearchViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.isNull
+import com.mobile.ta.utils.view.RVSeparator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

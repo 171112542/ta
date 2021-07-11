@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.LiveData
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentInputCredentialBottomSheetBinding
+import com.mobile.ta.utils.notBlankValidate
+import com.mobile.ta.utils.text
 
 class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 

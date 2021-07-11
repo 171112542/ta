@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentReplyDiscussionBottomSheetBinding
+import com.mobile.ta.utils.notBlankValidate
+import com.mobile.ta.utils.text
 
 class ReplyDiscussionBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
 
