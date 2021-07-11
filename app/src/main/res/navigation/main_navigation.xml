@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.mobile.ta.ui.home.HomeFragment"
+        android:name="com.mobile.ta.student.view.home.HomeFragment"
         android:label=""
         tools:layout="@layout/frag_home">
         <action
@@ -27,7 +27,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/myCourseFragment"
-        android:name="com.mobile.ta.ui.course.MyCourseFragment"
+        android:name="com.mobile.ta.student.view.course.MyCourseFragment"
         android:label="@string/toolbar_my_course"
         tools:layout="@layout/frag_course">
         <action
@@ -45,7 +45,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.mobile.ta.ui.user.profile.ProfileFragment"
+        android:name="com.mobile.ta.student.view.user.profile.ProfileFragment"
         android:label="@string/toolbar_profile"
         tools:layout="@layout/frag_profile">
         <action
@@ -62,7 +62,7 @@
         app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.mobile.ta.ui.search.SearchFragment"
+        android:name="com.mobile.ta.student.view.search.SearchFragment"
         android:label=""
         tools:layout="@layout/frag_search">
         <action
@@ -71,7 +71,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseInformationFragment"
-        android:name="com.mobile.ta.ui.course.information.CourseInformationFragment"
+        android:name="com.mobile.ta.student.view.course.information.CourseInformationFragment"
         android:label="@string/toolbar_back"
         tools:layout="@layout/fragment_course_information">
         <action
@@ -92,7 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
-        android:name="com.mobile.ta.ui.course.chapter.content.CourseContentFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.content.CourseContentFragment"
         android:label="">
         <argument
             android:name="courseId"
@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/threeDFragment"
-        android:name="com.mobile.ta.ui.course.chapter.content.ThreeDFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.content.ThreeDFragment"
         android:label="3DViewFragment"
         tools:layout="@layout/fragment_three_d">
         <argument
@@ -132,7 +132,7 @@
     </fragment>
     <fragment
         android:id="@+id/discussionForumFragment"
-        android:name="com.mobile.ta.ui.course.chapter.discussion.DiscussionForumFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.discussion.DiscussionForumFragment"
         android:label="@string/toolbar_discussion_forum"
         tools:layout="@layout/fragment_discussion_forum">
         <argument
@@ -147,7 +147,7 @@
     </fragment>
     <fragment
         android:id="@+id/discussionFragment"
-        android:name="com.mobile.ta.ui.course.chapter.discussion.DiscussionFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.discussion.DiscussionFragment"
         android:label="@string/toolbar_discussion"
         tools:layout="@layout/fragment_discussion">
         <argument
@@ -162,7 +162,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseAssignmentFragment"
-        android:name="com.mobile.ta.ui.course.chapter.assignment.CourseAssignmentFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.assignment.CourseAssignmentFragment"
         android:label="Assignment"
         tools:layout="@layout/frag_course_assignment">
         <action
@@ -190,7 +190,7 @@
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.mobile.ta.ui.user.profile.EditProfileFragment"
+        android:name="com.mobile.ta.student.view.user.profile.EditProfileFragment"
         android:label="@string/toolbar_edit_profile"
         tools:layout="@layout/fragment_edit_profile">
         <argument
@@ -199,7 +199,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.mobile.ta.ui.user.settings.SettingsFragment"
+        android:name="com.mobile.ta.student.view.user.settings.SettingsFragment"
         android:label="@string/toolbar_settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -208,12 +208,12 @@
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"
-        android:name="com.mobile.ta.ui.user.feedback.FeedbackFragment"
+        android:name="com.mobile.ta.student.view.user.feedback.FeedbackFragment"
         android:label="@string/toolbar_feedback"
         tools:layout="@layout/fragment_feedback" />
     <fragment
         android:id="@+id/courseSubmitFragment"
-        android:name="com.mobile.ta.ui.course.chapter.assignment.CourseSubmitFragment"
+        android:name="com.mobile.ta.student.view.course.chapter.assignment.CourseSubmitFragment"
         android:label="Result"
         tools:layout="@layout/frag_course_submit">
         <action
@@ -245,7 +245,7 @@
     </fragment>
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.mobile.ta.ui.notification.NotificationFragment"
+        android:name="com.mobile.ta.student.view.notification.NotificationFragment"
         android:label="Notification"
         tools:layout="@layout/frag_notification" />
 </navigation>

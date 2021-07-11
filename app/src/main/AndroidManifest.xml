@@ -18,29 +18,25 @@
         android:roundIcon="@drawable/mlearn_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TA">
-
+        <activity android:name=".teacher.view.main.TeacherMainActivity"></activity>
         <activity
-            android:name=".ui.splash.SplashScreenActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:noHistory="true">
-
+            android:name=".ui.view.splash.SplashScreenActivity"
+            android:noHistory="true"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".student.view.main.MainActivity"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.view.login.LoginActivity"
             android:windowSoftInputMode="adjustResize" />
-
         <activity
-            android:name=".ui.login.RegistrationActivity"
+            android:name=".ui.view.login.RegistrationActivity"
             android:windowSoftInputMode="adjustResize" />
 
         <service
@@ -57,4 +53,5 @@
             android:authorities="${applicationId}.workmanager-init"
             tools:node="remove" />
     </application>
+
 </manifest>
