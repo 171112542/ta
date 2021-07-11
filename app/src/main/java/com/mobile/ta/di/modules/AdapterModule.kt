@@ -1,7 +1,7 @@
 package com.mobile.ta.di.modules
 
-import com.mobile.ta.adapter.course.chapter.assignment.CourseQuestionAdapter
-import com.mobile.ta.adapter.diff.CourseQuestionDiffCallback
+import com.mobile.ta.student.adapter.course.chapter.assignment.CourseQuestionAdapter
+import com.mobile.ta.student.adapter.diff.CourseQuestionDiffCallback
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
