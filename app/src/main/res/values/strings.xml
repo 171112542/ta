@@ -96,6 +96,9 @@
     <string name="reply">Reply</string>
     <string name="reply_count_state">0</string>
     <string name="no_replies_text">No answers</string>
+    <string name="no_discussion_image_content_description">Discussion Empty Image</string>
+    <string name="no_discussion_help_title">No Discussion Found.</string>
+    <string name="no_discussion_help_desc">All discussions related to this chapter will appear here.</string>
 
     <!-- Settings -->
     <string name="give_a_feedback">Give a feedback</string>

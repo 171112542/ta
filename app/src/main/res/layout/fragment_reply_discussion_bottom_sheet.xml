@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/dp_16"
-    tools:context=".student.view.course.chapter.discussion.ReplyDiscussionBottomSheetDialogFragment">
+    tools:context=".ui.view.course.chapter.discussion.ReplyDiscussionBottomSheetDialogFragment">
 
     <TextView
         android:id="@+id/text_view_reply_discussion_title"

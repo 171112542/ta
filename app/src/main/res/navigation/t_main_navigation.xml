@@ -134,7 +134,7 @@
         android:id="@+id/discussionForumFragment"
         android:name="com.mobile.ta.teacher.view.course.chapter.discussion.DiscussionForumFragment"
         android:label="@string/toolbar_discussion_forum"
-        tools:layout="@layout/fragment_discussion_forum">
+        tools:layout="@layout/t_fragment_discussion_forum">
         <argument
             android:name="courseId"
             app:argType="string" />
@@ -147,7 +147,7 @@
     </fragment>
     <fragment
         android:id="@+id/discussionFragment"
-        android:name="com.mobile.ta.teacher.view.course.chapter.discussion.DiscussionFragment"
+        android:name="com.mobile.ta.ui.view.course.chapter.discussion.DiscussionFragment"
         android:label="@string/toolbar_discussion"
         tools:layout="@layout/fragment_discussion">
         <argument

@@ -1,4 +1,4 @@
-package com.mobile.ta.teacher.adapter.course.chapter.discussion
+package com.mobile.ta.ui.adapter.course.chapter.discussion
 
 import android.view.LayoutInflater
 import android.view.View

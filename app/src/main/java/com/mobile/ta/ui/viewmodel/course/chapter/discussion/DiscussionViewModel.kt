@@ -1,4 +1,4 @@
-package com.mobile.ta.student.viewmodel.course.chapter.discussion
+package com.mobile.ta.ui.viewmodel.course.chapter.discussion
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +10,7 @@ import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.mapper.DiscussionMapper
@@ -86,7 +87,11 @@ class DiscussionViewModel @Inject constructor(
         }
     }
 
-    fun isCurrentUser() = _user.value?.id.orEmpty() == id
+    fun isCurrentUser(): Boolean {
+        return _user.value.isNotNull()
+                && _discussionForumQuestion.value.isNotNull()
+                && (_user.value?.id.orEmpty() == _discussionForumQuestion.value?.userId.orEmpty())
+    }
 
     fun markAsAcceptedAnswer(answerId: String) {
         if (areDataNotNull()) {
