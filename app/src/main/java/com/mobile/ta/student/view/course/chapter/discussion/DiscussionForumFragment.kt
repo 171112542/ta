@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
-import com.mobile.ta.student.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.student.viewmodel.course.chapter.discussion.DiscussionForumViewModel
+import com.mobile.ta.ui.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.ui.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
