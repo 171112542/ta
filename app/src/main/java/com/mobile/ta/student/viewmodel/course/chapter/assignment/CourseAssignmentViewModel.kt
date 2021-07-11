@@ -30,6 +30,7 @@ class CourseAssignmentViewModel @Inject constructor(
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
     val assignmentId = savedStateHandle.get<String>("chapterId") ?: ""
+    val retry = savedStateHandle.get<Boolean>("retry") ?: false
     private lateinit var loggedInUid: String
 
     private var selectedAnswers = MutableLiveData<ArrayList<SubmittedAnswer>>(arrayListOf())
@@ -86,7 +87,7 @@ class CourseAssignmentViewModel @Inject constructor(
         )
         checkStatus(
             assignmentAlreadyFinished, {
-                if (it) _navigateToSubmitResultPage.postValue(true)
+                if (it && !retry) _navigateToSubmitResultPage.postValue(true)
             }, {
                 //TODO: Add a failure handler
             }
@@ -101,7 +102,7 @@ class CourseAssignmentViewModel @Inject constructor(
         val networkAssignment = chapterRepository.getAssignmentById(courseId, assignmentId)
         checkStatus(
             networkAssignment, {
-                _assignment.value = it
+                _assignment.postValue(it)
             }, {
                 //TODO: Add a failure handler
             }

@@ -80,12 +80,13 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:${rootProject.playServiceAuthVersion}"
 
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-functions-ktx'
 
     implementation "com.github.ibrahimsn98:SmoothBottomBar:$rootProject.smoothBottomBarVersion"
     implementation "com.github.bumptech.glide:glide:${rootProject.glideVersion}"

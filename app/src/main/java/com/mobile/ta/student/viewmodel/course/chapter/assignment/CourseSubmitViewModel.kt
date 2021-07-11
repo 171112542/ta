@@ -1,5 +1,6 @@
 package com.mobile.ta.student.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,6 +13,8 @@ import com.mobile.ta.repository.*
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
+import com.mobile.ta.utils.wrapper.status.Status
+import com.mobile.ta.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -25,7 +28,7 @@ class CourseSubmitViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
     val courseId = savedStateHandle.get<String>("courseId") ?: ""
-    val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
+    val assignmentId = savedStateHandle.get<String>("chapterId") ?: ""
     private lateinit var loggedInUid: String
 
     private var _studentAssignmentResult: MutableLiveData<StudentAssignmentResult> = MutableLiveData()
@@ -59,7 +62,7 @@ class CourseSubmitViewModel @Inject constructor(
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
 
-    private val _nextChapterSummary = MutableLiveData<ChapterSummary>()
+    private val _nextChapterSummary = MutableLiveData<ChapterSummary?>()
     val nextChapterSummary = _nextChapterSummary
 
     private val _studentProgress = MutableLiveData<StudentProgress>()
@@ -89,11 +92,11 @@ class CourseSubmitViewModel @Inject constructor(
             networkCourse, {
                 _course.postValue(it)
                 val currentChapterSummary =
-                    it.chapterSummaryList.find { chapterSummary -> chapterSummary.id == chapterId }
+                    it.chapterSummaryList.find { chapterSummary -> chapterSummary.id == assignmentId }
                 val currentChapterSummaryIndex =
                     it.chapterSummaryList.indexOf(currentChapterSummary)
                 val nextChapterSummary =
-                    if (currentChapterSummaryIndex >= it.chapterSummaryList.size) ChapterSummary()
+                    if (currentChapterSummaryIndex + 1 >= it.chapterSummaryList.size) null
                     else it.chapterSummaryList[currentChapterSummaryIndex + 1]
                 _nextChapterSummary.postValue(nextChapterSummary)
             }, {
@@ -101,16 +104,32 @@ class CourseSubmitViewModel @Inject constructor(
             }
         )
         val studentAssignmentResult =
-            studentProgressRepository.getSubmittedAssignment(loggedInUid, courseId, chapterId)
+            studentProgressRepository.getSubmittedAssignment(loggedInUid, courseId, assignmentId)
+        val isAssignmentFinished = studentProgressRepository.getIsChapterCompleted(
+            loggedInUid,
+            courseId,
+            assignmentId
+        )
+        var finished = false
+        checkStatus(
+            isAssignmentFinished, {
+                finished = it
+            }
+        )
         checkStatus(
             studentAssignmentResult, {
-                val finished = it.passingGrade <= it.score
                 _studentAssignmentResult.postValue(it)
                 _showPassingGradeText.postValue(!finished && it.type == ChapterType.PRACTICE)
                 _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
-                _nextChapterSummary.value?.let { summary ->
-                    _showFinishCourseButton.postValue(summary.isNull())
-                    _showNextChapterButton.postValue(summary.isNotNull() && finished)
+                _nextChapterSummary.value.let { summary ->
+                    _showFinishCourseButton.postValue(
+                        if (it.type == ChapterType.PRACTICE) summary.isNull() && finished
+                        else summary.isNull()
+                    )
+                    _showNextChapterButton.postValue(
+                        if (it.type == ChapterType.PRACTICE) summary.isNotNull() && finished
+                        else summary.isNotNull()
+                    )
                 }
             }, {
                 //TODO: Add a failure handler

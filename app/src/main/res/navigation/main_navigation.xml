@@ -183,6 +183,10 @@
         <argument
             android:name="chapterId"
             app:argType="string" />
+        <argument
+            android:name="retry"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
