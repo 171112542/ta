@@ -1,9 +1,12 @@
 package com.mobile.ta.repository.impl
 
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.mobile.ta.config.CollectionConstants
 import com.mobile.ta.config.CollectionConstants.ASSIGNMENT_COLLECTION
 import com.mobile.ta.model.course.chapter.ChapterSummary
+import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
 import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.StudentProgressRepository
@@ -28,8 +31,15 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @ExperimentalCoroutinesApi
-class StudentProgressRepositoryImpl @Inject constructor(database: FirebaseFirestore) :
-    StudentProgressRepository {
+class StudentProgressRepositoryImpl @Inject constructor(
+    database: FirebaseFirestore,
+    private val functions: FirebaseFunctions
+) : StudentProgressRepository {
+    companion object {
+        const val ADD_PRACTICE_ID_FUNCTIONS = "studentProgressFunctions-addFinishedPracticeId"
+        const val ADD_QUIZ_ID_FUNCTIONS = "studentProgressFunctions-addFinishedQuizId"
+    }
+
     private val studentProgressCollection =
         database.collection(CollectionConstants.STUDENT_PROGRESS_COLLECTION)
 
@@ -81,12 +91,35 @@ class StudentProgressRepositoryImpl @Inject constructor(database: FirebaseFirest
             .await()
             .documents[0]
             .id
-        return studentProgressCollection
+        val addAssignmentDocumentStatus = studentProgressCollection
             .document(studentProgressId)
             .collection(ASSIGNMENT_COLLECTION)
             .document(assignmentId)
             .set(studentAssignmentResult)
             .fetchData()
+        val data = hashMapOf<String, Any>(
+            "assignmentId" to assignmentId,
+            "studentProgressId" to studentProgressId
+        )
+        return if (studentAssignmentResult.type == ChapterType.PRACTICE) {
+            if (studentAssignmentResult.score < studentAssignmentResult.passingGrade) {
+                addAssignmentDocumentStatus
+            } else {
+                functions
+                    .getHttpsCallable(ADD_PRACTICE_ID_FUNCTIONS)
+                    .call(data)
+                    .continueWith {
+                        it.result?.data
+                    }.fetchData()
+            }
+        } else {
+            data["score"] = studentAssignmentResult.score
+            functions
+                .getHttpsCallable(ADD_QUIZ_ID_FUNCTIONS)
+                .call(data)
+                .continueWith { it.result?.data }
+                .fetchData()
+        }
     }
 
     override suspend fun getStudentProgress(

@@ -111,7 +111,7 @@ class CourseSubmitFragment :
                     }
                 }
                 chapters.forEachIndexed { index, it ->
-                    add(it.title).isChecked = (viewmodel.chapterId == it.id)
+                    add(it.title).isChecked = (viewmodel.assignmentId == it.id)
                     menuItems.add(getItem(menuItems.count()).apply {
                         isEnabled = (lastFinishedChapterIndex + 1 >= index)
                     })
@@ -129,7 +129,11 @@ class CourseSubmitFragment :
         }
     }
 
-    private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
+    private fun getChapterDestination(
+        chapterId: String,
+        type: ChapterType,
+        isRetryPractice: Boolean = false
+    ): NavDirections {
         return when (type) {
             ChapterType.CONTENT -> CourseSubmitFragmentDirections
                 .actionCourseSubmitFragmentToCourseContentFragment(
@@ -137,7 +141,7 @@ class CourseSubmitFragment :
                 )
             else -> CourseSubmitFragmentDirections
                 .actionCourseSubmitFragmentToCoursePracticeFragment(
-                    viewmodel.courseId, chapterId
+                    viewmodel.courseId, chapterId, isRetryPractice
                 )
         }
     }
@@ -175,7 +179,11 @@ class CourseSubmitFragment :
         }
         viewmodel.navigateToRetryPractice.observe(viewLifecycleOwner) {
             if (!it) return@observe
-            val destination = getChapterDestination(viewmodel.chapterId, ChapterType.PRACTICE)
+            val destination = getChapterDestination(
+                viewmodel.assignmentId,
+                ChapterType.PRACTICE,
+                isRetryPractice = true
+            )
             findNavController().navigate(destination)
         }
         viewmodel.studentProgress.observe(viewLifecycleOwner, {
