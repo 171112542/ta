@@ -20,7 +20,7 @@ import com.mobile.ta.utils.toDateString
 import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.view.RouterUtil
-import com.mobile.ta.viewmodel.login.RegistrationViewModel
+import com.mobile.ta.student.viewmodel.login.RegistrationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 

@@ -8,7 +8,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.mobile.ta.databinding.ActivitySplashScreenBinding
 import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.utils.view.RouterUtil
-import com.mobile.ta.viewmodel.splash.SplashScreenViewModel
+import com.mobile.ta.student.viewmodel.splash.SplashScreenViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -14,7 +14,7 @@ import com.mobile.ta.ui.base.BaseActivity
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.utils.view.RouterUtil
-import com.mobile.ta.viewmodel.login.LoginViewModel
+import com.mobile.ta.student.viewmodel.login.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

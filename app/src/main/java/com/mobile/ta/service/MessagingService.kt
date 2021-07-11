@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
@@ -15,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.mobile.ta.R
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
-import com.mobile.ta.ui.main.MainActivity
+import com.mobile.ta.student.ui.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

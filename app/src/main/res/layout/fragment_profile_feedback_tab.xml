@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.user.profile.ProfileAboutTabFragment">
+    tools:context=".student.ui.user.profile.ProfileAboutTabFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/profile_tab_recycler_view"
