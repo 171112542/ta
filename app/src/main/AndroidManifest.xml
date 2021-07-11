@@ -18,7 +18,7 @@
         android:roundIcon="@drawable/mlearn_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.TA">
-        <activity android:name=".teacher.view.main.TeacherMainActivity"></activity>
+        <activity android:name=".teacher.view.main.TeacherMainActivity" />
         <activity
             android:name=".ui.view.splash.SplashScreenActivity"
             android:noHistory="true"

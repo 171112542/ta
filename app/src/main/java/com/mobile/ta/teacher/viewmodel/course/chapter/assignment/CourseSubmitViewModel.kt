@@ -7,11 +7,10 @@ import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
-import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
-import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -28,7 +27,8 @@ class CourseSubmitViewModel @Inject constructor(
     val chapterId = savedStateHandle.get<String>("chapterId") ?: ""
     private lateinit var loggedInUid: String
 
-    private var _studentAssignmentResult: MutableLiveData<StudentAssignmentResult> = MutableLiveData()
+    private var _studentAssignmentResult: MutableLiveData<StudentAssignmentResult> =
+        MutableLiveData()
     val studentAssignmentResult: LiveData<StudentAssignmentResult>
         get() = _studentAssignmentResult
 
@@ -62,9 +62,6 @@ class CourseSubmitViewModel @Inject constructor(
     private val _nextChapterSummary = MutableLiveData<ChapterSummary>()
     val nextChapterSummary = _nextChapterSummary
 
-    private val _studentProgress = MutableLiveData<StudentProgress>()
-    val studentProgress: LiveData<StudentProgress> get() = _studentProgress
-
     init {
         launchViewModelScope {
             val course = courseRepository.getCourseById(courseId)
@@ -72,7 +69,6 @@ class CourseSubmitViewModel @Inject constructor(
                 _course.postValue(it)
             }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
-            getStudentProgress(loggedInUid, courseId)
 
             initializeFragmentContent()
         }
@@ -116,15 +112,6 @@ class CourseSubmitViewModel @Inject constructor(
                 //TODO: Add a failure handler
             }
         )
-    }
-
-
-    private suspend fun getStudentProgress(uid: String, courseId: String) {
-        val studentProgressResult =
-            studentProgressRepository.getStudentProgress(uid, courseId)
-        checkStatus(studentProgressResult, {
-            _studentProgress.postValue(it)
-        }, {})
     }
 
     fun retry() {

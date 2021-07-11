@@ -2,9 +2,6 @@ package com.mobile.ta.teacher.view.course.information
 
 import android.os.Bundle
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -13,21 +10,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
-import com.mobile.ta.teacher.adapter.course.information.CourseInformationContentAdapter
-import com.mobile.ta.teacher.adapter.course.information.RelatedCourseAdapter
 import com.mobile.ta.databinding.FragmentCourseInformationBinding
 import com.mobile.ta.databinding.ItemSimpleTagChipBinding
-import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.user.User
+import com.mobile.ta.teacher.adapter.course.information.CourseInformationContentAdapter
+import com.mobile.ta.teacher.adapter.course.information.RelatedCourseAdapter
+import com.mobile.ta.teacher.viewmodel.course.information.CourseInformationViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.*
+import com.mobile.ta.utils.view.DividerItemDecorator
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
-import com.mobile.ta.teacher.viewmodel.course.information.CourseInformationViewModel
-import com.mobile.ta.utils.view.DividerItemDecorator
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,15 +34,11 @@ class CourseInformationFragment :
 
     private val dateFormat = SimpleDateFormat("yy/dd/MM", Locale.ROOT)
 
-    companion object {
-        private const val COURSE_INFORMATION_TAG = "COURSE_INFORMATION"
-    }
-
     private val args: CourseInformationFragmentArgs by navArgs()
     private val viewModel: CourseInformationViewModel by viewModels()
 
     private val courseContentAdapter by lazy {
-        CourseInformationContentAdapter(::goToChapter, ::changeChapterProgress)
+        CourseInformationContentAdapter(::goToChapter)
     }
 
     private val prerequisiteCourseAdapter by lazy {
@@ -68,7 +59,10 @@ class CourseInformationFragment :
         setupPrerequisiteCourseRecyclerView()
         setupRelatedCourseRecyclerView()
         binding.apply {
-            courseInformationEnroll.setOnClickListener(this@CourseInformationFragment)
+            courseInformationEnroll.apply {
+                text = getString(R.string.view_student_result_label)
+                setOnClickListener(this@CourseInformationFragment)
+            }
             viewModel.course.observe(viewLifecycleOwner, {
                 if (it.status == StatusType.SUCCESS) {
                     it?.data?.let { course ->
@@ -89,13 +83,6 @@ class CourseInformationFragment :
                     }
                 }
                 courseInformationProgressBarContainer.isVisible = false
-            })
-            viewModel.studentProgress.observe(viewLifecycleOwner, {
-                if (it.status == StatusType.SUCCESS) {
-                    courseInformationEnroll.text =
-                        if (it.data.isNull()) getString(R.string.enroll)
-                        else getString(R.string.continue_studying)
-                }
             })
             viewModel.prerequisiteCourses.observe(viewLifecycleOwner, { prerequisiteCourses ->
                 if (prerequisiteCourses.isNotEmpty()) {
@@ -120,11 +107,6 @@ class CourseInformationFragment :
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.getStudentProgress(args.courseId)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.getCourse(args.courseId)
@@ -143,48 +125,6 @@ class CourseInformationFragment :
         return chipBinding
     }
 
-    private fun enrollCourse(enrollmentKey: String) {
-        viewModel.enrollCourse(args.courseId, enrollmentKey)
-        viewModel.enrollCourse.observe(viewLifecycleOwner, {
-            if (it.status == StatusType.SUCCESS && it.data == true) {
-                viewModel.getCourse(args.courseId)
-                viewModel.getStudentProgress(args.courseId)
-                Snackbar.make(binding.root, "Course enrolled.", Snackbar.LENGTH_SHORT).show()
-                viewModel.incrementTotalEnrolled()
-            } else {
-                Snackbar.make(
-                    binding.root,
-                    "Failed to enroll. ${it.message}",
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        })
-    }
-
-    private fun changeChapterProgress(chapterId: String, textView: TextView) {
-        viewModel.studentProgress.observe(viewLifecycleOwner, {
-            if (it.status == StatusType.SUCCESS) {
-                textView.apply {
-                    if (it.data?.finishedChapterIds?.find { chapter -> chapter == chapterId } != null) {
-                        text = getString(R.string.completed_progress)
-                        setTextColor(mContext.resolveColorAttr(R.attr.colorPrimary))
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(
-                            0,
-                            0,
-                            R.drawable.ic_done_black_24dp,
-                            0
-                        )
-                    } else {
-                        text = getString(R.string.not_completed_progress)
-                        setTextColor(ContextCompat.getColor(mContext, R.color.grey))
-                        setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0)
-                    }
-                    isVisible = true
-                }
-            }
-        })
-    }
-
     private fun getTagColor(index: Int): Int {
         val colors = arrayListOf(
             R.color.black,
@@ -196,26 +136,10 @@ class CourseInformationFragment :
         return colors[index % colors.size]
     }
 
-    private fun goToChapter(chapterId: String, type: ChapterType, position: Int) {
-        viewModel.studentProgress.value?.data?.let { progress ->
-            val chapterSummaryList = viewModel.course.value?.data?.chapterSummaryList
-            val lastFinishedChapterId = progress.finishedChapterIds.lastOrNull()
-            val lastFinishedChapterIndex =
-                if (lastFinishedChapterId.isNotNull())
-                    chapterSummaryList?.indexOfLast { it.id == lastFinishedChapterId } ?: -1
-                else -1
-            if (position <= lastFinishedChapterIndex + 1) {
-                findNavController().navigate(
-                    getChapterDestination(chapterId, type)
-                )
-            } else {
-                Toast.makeText(
-                    mContext,
-                    getString(R.string.require_previous_chapter),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+    private fun goToChapter(chapterId: String, type: ChapterType) {
+        findNavController().navigate(
+            getChapterDestination(chapterId, type)
+        )
     }
 
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
@@ -235,11 +159,6 @@ class CourseInformationFragment :
                 id
             )
         )
-    }
-
-    private fun openInputEnrollmentKeyBottomSheet() {
-        InputEnrollmentKeyBottomSheetDialogFragment.newInstance(::enrollCourse)
-            .show(parentFragmentManager, COURSE_INFORMATION_TAG)
     }
 
     private fun setupCourseMainInfo(image: String?, title: String) {
@@ -317,26 +236,7 @@ class CourseInformationFragment :
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_information_enroll -> {
-                viewModel.studentProgress.value?.let {
-                    if (it.data.isNull()) {
-                        openInputEnrollmentKeyBottomSheet()
-                    } else {
-                        val lastAccessedCourse = it.data?.lastAccessedChapter as ChapterSummary
-                        if (lastAccessedCourse.type == ChapterType.CONTENT) {
-                            findNavController().navigate(
-                                CourseInformationFragmentDirections.actionCourseInformationFragmentToCourseContentFragment(
-                                    args.courseId, lastAccessedCourse.id
-                                )
-                            )
-                        } else {
-                            findNavController().navigate(
-                                CourseInformationFragmentDirections.actionCourseInformationFragmentToCoursePracticeFragment(
-                                    args.courseId, lastAccessedCourse.id
-                                )
-                            )
-                        }
-                    }
-                }
+                //TODO: Navigate to student result
             }
         }
     }

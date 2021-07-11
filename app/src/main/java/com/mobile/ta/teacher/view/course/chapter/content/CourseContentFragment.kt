@@ -14,19 +14,16 @@ import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.Timestamp
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentCourseContentBinding
 import com.mobile.ta.model.course.chapter.Chapter
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
-import com.mobile.ta.model.testing.TimeSpent
 import com.mobile.ta.teacher.view.main.TeacherMainActivity
+import com.mobile.ta.teacher.viewmodel.course.chapter.content.CourseContentViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.HandlerUtil
 import com.mobile.ta.utils.wrapper.status.StatusType
-import com.mobile.ta.teacher.viewmodel.course.chapter.content.CourseContentViewModel
-import com.mobile.ta.teacher.viewmodel.testingtimer.TestingTimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.serialization.encodeToString
@@ -42,7 +39,6 @@ class CourseContentFragment :
     private lateinit var chapterId: String
     private val args: CourseContentFragmentArgs by navArgs()
     private val viewModel: CourseContentViewModel by viewModels()
-    private val testingViewModel: TestingTimerViewModel by viewModels()
     private var menuItems = mutableListOf<MenuItem>()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -81,13 +77,6 @@ class CourseContentFragment :
                     }
                 }
             })
-            viewModel.studentProgress.observe(viewLifecycleOwner, { result ->
-                if (result.status == StatusType.SUCCESS) {
-                    viewModel.course.value?.data?.chapterSummaryList?.let {
-                        setupMenu(it)
-                    }
-                }
-            })
             viewModel.chapter.observe(viewLifecycleOwner, { result ->
                 if (result.status == StatusType.SUCCESS) {
                     mContext.assets.open("course/course_content.html").bufferedReader().use {
@@ -112,7 +101,6 @@ class CourseContentFragment :
                             "Android"
                         )
                     }
-                    viewModel.updateFinishedChapter(courseId, chapterId)
                 }
             })
             viewModel.discussions.observe(viewLifecycleOwner, {
@@ -125,15 +113,7 @@ class CourseContentFragment :
                 }
             })
         }
-        testingViewModel.saveStartTime(Timestamp.now())
-        testingViewModel.saveType(TimeSpent.CONTENT)
         setupDrawer()
-    }
-
-    override fun onDestroyView() {
-        testingViewModel.saveEndTime(Timestamp.now())
-        testingViewModel.startSaveTimeSpentWork()
-        super.onDestroyView()
     }
 
     private fun navigateToNextChapter(chapter: ChapterSummary?) {
@@ -190,7 +170,7 @@ class CourseContentFragment :
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_content_discussion_button -> v.findNavController().navigate(
-                CourseContentFragmentDirections.actionCourseContentFragmentToDiscussionFragment(
+                CourseContentFragmentDirections.actionCourseContentFragmentToDiscussionForumFragment(
                     courseId, chapterId
                 )
             )
@@ -216,18 +196,9 @@ class CourseContentFragment :
             courseContentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                val finishedChapterIds = viewModel.studentProgress.value?.data?.finishedChapterIds
-                val lastFinishedChapterIndex = if (finishedChapterIds.isNullOrEmpty()) -1
-                else {
-                    finishedChapterIds.maxOf { current ->
-                        chapters.indexOfFirst { it.id == current }
-                    }
-                }
-                chapters.forEachIndexed { index, it ->
+                chapters.forEach {
                     add(it.title).isChecked = (chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()).apply {
-                        isEnabled = (lastFinishedChapterIndex + 1 >= index)
-                    })
+                    menuItems.add(getItem(menuItems.count()))
                 }
             }
             courseContentDrawerNavigation.setNavigationItemSelectedListener {
