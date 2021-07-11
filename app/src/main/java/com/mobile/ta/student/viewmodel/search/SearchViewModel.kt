@@ -6,7 +6,7 @@ import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.information.LevelTag
 import com.mobile.ta.model.course.information.TypeTag
 import com.mobile.ta.repository.CourseRepository
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import java.util.*

@@ -5,9 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.StudentProgressRepository
-import com.mobile.ta.student.ui.course.CourseTabFragment.CourseTabType
+import com.mobile.ta.student.view.course.CourseTabFragment.CourseTabType
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.wrapper.status.Status
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -14,7 +14,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.mobile.ta.R
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
-import com.mobile.ta.student.ui.main.MainActivity
+import com.mobile.ta.student.view.main.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

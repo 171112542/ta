@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.repository.CourseRepository
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

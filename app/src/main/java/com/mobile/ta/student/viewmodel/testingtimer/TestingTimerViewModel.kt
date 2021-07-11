@@ -11,7 +11,7 @@ import com.mobile.ta.model.testing.TimeSpent
 import com.mobile.ta.model.testing.TimeSpent.FragmentType
 import com.mobile.ta.model.testing.serializeToJson
 import com.mobile.ta.repository.AuthRepository
-import com.mobile.ta.workmanager.TestingTimerWorker
+import com.mobile.ta.student.workmanager.TestingTimerWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

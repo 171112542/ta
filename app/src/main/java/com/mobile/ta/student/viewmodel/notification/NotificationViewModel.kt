@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.notification.Notification
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -2,8 +2,8 @@ package com.mobile.ta.utils.view
 
 import android.content.Context
 import android.content.Intent
-import com.mobile.ta.ui.login.LoginActivity
-import com.mobile.ta.student.ui.main.MainActivity
+import com.mobile.ta.student.view.main.MainActivity
+import com.mobile.ta.ui.view.login.LoginActivity
 
 object RouterUtil {
 

@@ -9,9 +9,9 @@ import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.studentProgress.StudentAssignmentResult
 import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    tools:context=".student.ui.course.chapter.discussion.DiscussionForumFragment">
+    tools:context=".student.view.course.chapter.discussion.DiscussionForumFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_discussions"

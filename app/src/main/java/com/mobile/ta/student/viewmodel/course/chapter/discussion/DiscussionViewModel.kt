@@ -9,11 +9,11 @@ import com.mobile.ta.model.course.chapter.discussion.DiscussionForumAnswer
 import com.mobile.ta.model.user.User
 import com.mobile.ta.repository.DiscussionRepository
 import com.mobile.ta.repository.UserRepository
+import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNullOrBlank
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.mapper.DiscussionMapper
 import com.mobile.ta.utils.publishChanges
-import com.mobile.ta.student.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -3,7 +3,7 @@ package com.mobile.ta.student.adapter.course
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.mobile.ta.student.ui.course.CourseTabFragment
+import com.mobile.ta.student.view.course.CourseTabFragment
 
 class CoursePagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2

@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/drawable_registration_background"
         android:padding="@dimen/dp_16"
-        tools:context=".ui.login.RegistrationActivity">
+        tools:context=".ui.view.login.RegistrationActivity">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_skip_edit_info"

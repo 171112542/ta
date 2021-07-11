@@ -7,7 +7,7 @@ import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.StudentProgressRepository
 import com.mobile.ta.repository.UserRepository
-import com.mobile.ta.student.viewmodel.base.BaseViewModelWithAuth
+import com.mobile.ta.ui.viewmodel.base.BaseViewModelWithAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
