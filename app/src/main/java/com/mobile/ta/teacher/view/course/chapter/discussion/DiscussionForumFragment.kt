@@ -5,22 +5,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.mobile.ta.R
+import com.mobile.ta.databinding.TFragmentDiscussionForumBinding
 import com.mobile.ta.teacher.adapter.course.chapter.discussion.DiscussionForumAdapter
-import com.mobile.ta.databinding.FragmentDiscussionForumBinding
-import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.teacher.viewmodel.course.chapter.discussion.DiscussionForumViewModel
+import com.mobile.ta.ui.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DiscussionForumFragment :
-    BaseFragment<FragmentDiscussionForumBinding>(FragmentDiscussionForumBinding::inflate),
-    View.OnClickListener {
-
-    companion object {
-        private const val CREATE_NEW_DISCUSSION_TAG = "CREATE NEW DISCUSSION"
-    }
+    BaseFragment<TFragmentDiscussionForumBinding>(TFragmentDiscussionForumBinding::inflate) {
 
     private val args: DiscussionForumFragmentArgs by navArgs()
 
@@ -31,7 +24,6 @@ class DiscussionForumFragment :
 
     override fun runOnCreateView() {
         binding.apply {
-            buttonAddDiscussion.setOnClickListener(this@DiscussionForumFragment)
             with(recyclerViewDiscussions) {
                 layoutManager = LinearLayoutManager(context)
                 adapter = discussionForumAdapter
@@ -39,14 +31,6 @@ class DiscussionForumFragment :
             }
         }
         setupObserver()
-    }
-
-    override fun onClick(view: View?) {
-        with(binding) {
-            when (view) {
-                buttonAddDiscussion -> openCreateDiscussionBottomSheet()
-            }
-        }
     }
 
     private fun setupObserver() {
@@ -57,15 +41,7 @@ class DiscussionForumFragment :
                 discussionForumAdapter.submitList(data)
                 scrollToTop()
                 showLoadingState(false)
-            }
-        })
-        viewModel.isForumAdded.observe(viewLifecycleOwner, {
-            it?.let { isForumAdded ->
-                if (isForumAdded) {
-                    showSuccessAddForumToast()
-                    fetchDiscussionForums()
-                }
-                viewModel.setIsForumAdded(false)
+                showEmptyState(data.isEmpty())
             }
         })
     }
@@ -84,11 +60,6 @@ class DiscussionForumFragment :
         )
     }
 
-    private fun openCreateDiscussionBottomSheet() {
-        CreateDiscussionForumBottomSheetDialogFragment.newInstance(viewModel::createNewDiscussion)
-            .show(parentFragmentManager, CREATE_NEW_DISCUSSION_TAG)
-    }
-
     private fun scrollToTop() {
         binding.recyclerViewDiscussions.scrollToPosition(0)
     }
@@ -100,11 +71,10 @@ class DiscussionForumFragment :
         }
     }
 
-    private fun showSuccessAddForumToast() {
-        Snackbar.make(
-            binding.root,
-            getString(R.string.success_add_forum_message),
-            Snackbar.LENGTH_SHORT
-        ).show()
+    private fun showEmptyState(isEmpty: Boolean) {
+        with(binding) {
+            recyclerViewDiscussions.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            groupDiscussionEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
+        }
     }
 }

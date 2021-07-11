@@ -1,4 +1,4 @@
-package com.mobile.ta.student.view.course.chapter.discussion
+package com.mobile.ta.ui.view.course.chapter.discussion
 
 import android.view.View
 import androidx.fragment.app.viewModels
@@ -8,9 +8,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.FragmentDiscussionBinding
-import com.mobile.ta.student.adapter.course.chapter.discussion.DiscussionAnswerAdapter
-import com.mobile.ta.student.viewmodel.course.chapter.discussion.DiscussionViewModel
+import com.mobile.ta.ui.adapter.course.chapter.discussion.DiscussionAnswerAdapter
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.ui.viewmodel.course.chapter.discussion.DiscussionViewModel
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.utils.view.ImageUtil

@@ -57,6 +57,7 @@ class DiscussionForumFragment :
                 discussionForumAdapter.submitList(data)
                 scrollToTop()
                 showLoadingState(false)
+                showEmptyState(data.isEmpty())
             }
         })
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
@@ -97,6 +98,13 @@ class DiscussionForumFragment :
         with(binding) {
             recyclerViewDiscussions.visibility = if (isLoading) View.GONE else View.VISIBLE
             progressBarDiscussionForumLoad.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun showEmptyState(isEmpty: Boolean) {
+        with(binding) {
+            recyclerViewDiscussions.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            groupDiscussionEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
     }
 

@@ -1,4 +1,4 @@
-package com.mobile.ta.student.adapter.course.chapter.discussion
+package com.mobile.ta.ui.adapter.course.chapter.discussion
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +22,7 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Un
         private val diffCallback = object : DiffUtil.ItemCallback<DiscussionForumAnswer>() {
             override fun areItemsTheSame(
                 oldItem: DiscussionForumAnswer, newItem: DiscussionForumAnswer
-            ) = oldItem.id == newItem.id
+            ) = oldItem == newItem
 
             override fun areContentsTheSame(
                 oldItem: DiscussionForumAnswer, newItem: DiscussionForumAnswer
@@ -84,14 +84,14 @@ class DiscussionAnswerAdapter(private val onMarkAsAnswerListener: (String) -> Un
                 }
 
                 buttonMarkAsAcceptedAnswer.apply {
-                    visibility =
-                        if (_isCurrentUser && _hasAcceptedAnswer.not() && data.isAccepted.not()) {
-                            View.VISIBLE
-                        } else {
-                            View.GONE
-                        }
+                    visibility = if (_isCurrentUser && _hasAcceptedAnswer.not()) {
+                        View.VISIBLE
+                    } else {
+                        View.GONE
+                    }
                     setOnClickListener {
                         onMarkAsAnswerListener.invoke(data.id)
+                        setHasAcceptedAnswer(true)
                     }
                 }
             }
