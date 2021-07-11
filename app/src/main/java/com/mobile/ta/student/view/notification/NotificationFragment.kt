@@ -3,11 +3,13 @@ package com.mobile.ta.student.view.notification
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.databinding.FragNotificationBinding
 import com.mobile.ta.student.adapter.diff.NotificationDiffCallback
 import com.mobile.ta.student.adapter.notification.NotificationAdapter
 import com.mobile.ta.student.viewmodel.notification.NotificationViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.utils.view.RVSeparator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mobile.ta.databinding.FragHomeBinding
 import com.mobile.ta.student.adapter.course.CourseAdapter
 import com.mobile.ta.student.adapter.course.CourseVHListener
@@ -11,6 +12,7 @@ import com.mobile.ta.student.adapter.diff.CourseDiffCallback
 import com.mobile.ta.student.viewmodel.home.HomeViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.isNotNull
+import com.mobile.ta.utils.view.RVSeparator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 

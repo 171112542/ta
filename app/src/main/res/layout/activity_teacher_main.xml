@@ -30,6 +30,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_app_bar"
-        app:navGraph="@navigation/teacher_main_navigation" />
+        app:navGraph="@navigation/t_main_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
