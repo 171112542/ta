@@ -1,6 +1,9 @@
 package com.mobile.ta.teacher.view.main
 
+import android.animation.ObjectAnimator
 import android.view.LayoutInflater
+import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,21 +17,27 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class TeacherMainActivity : BaseActivity<ActivityTeacherMainBinding>() {
-
     private lateinit var toolbar: Toolbar
 
     private lateinit var navController: NavController
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
+    private var hideBottomBar = false
+
     private val destinationChangedListener =
         NavController.OnDestinationChangedListener { _, destination, _ ->
+            hideBottomBar = when (destination.id) {
+                R.id.homeFragment -> false
+                R.id.profileFragment -> false
+                else -> true
+            }
+            toggleBottomNavAnimation()
             showActionBar(destination.id)
             addNavigateUpListener(destination.id)
         }
 
     private fun addNavigateUpListener(destinationId: Int) {
-        // TODO: Change fragment id to teacher's fragment id
         val isNeedNavigateUp = when (destinationId) {
             R.id.courseContentFragment -> false
             R.id.courseAssignmentFragment -> false
@@ -49,6 +58,7 @@ class TeacherMainActivity : BaseActivity<ActivityTeacherMainBinding>() {
         initVariables()
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        setupBottomNavMenu(navController)
     }
 
     override fun onResume() {
@@ -79,8 +89,14 @@ class TeacherMainActivity : BaseActivity<ActivityTeacherMainBinding>() {
         toolbar = binding.mainToolbar
     }
 
+    private fun setupBottomNavMenu(navController: NavController) {
+        val popupMenu = PopupMenu(this, null)
+        popupMenu.inflate(R.menu.t_main_nav_menu)
+        val menu = popupMenu.menu
+        binding.actMainBottomNav.setupWithNavController(menu, navController)
+    }
+
     private fun showActionBar(destinationId: Int) {
-        // TODO: Change fragment id to teacher's fragment id
         val isVisible = when (destinationId) {
             R.id.homeFragment -> false
             R.id.threeDFragment -> false
@@ -92,5 +108,21 @@ class TeacherMainActivity : BaseActivity<ActivityTeacherMainBinding>() {
         } else {
             supportActionBar?.hide()
         }
+    }
+
+    private fun toggleBottomNavAnimation() {
+        val translateDpValue =
+            if (hideBottomBar) resources.getDimension(R.dimen.bottom_nav_height) + 30f
+            else 0f
+        val translatePixelValue = translateDpValue * resources.displayMetrics.density
+
+        val animator =
+            ObjectAnimator.ofFloat(
+                binding.actMainBottomNavContainer,
+                View.TRANSLATION_Y,
+                translatePixelValue
+            )
+        animator.duration = 500
+        animator.start()
     }
 }

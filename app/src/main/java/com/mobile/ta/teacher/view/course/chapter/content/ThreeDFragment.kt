@@ -8,14 +8,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.firebase.Timestamp
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentThreeDBinding
-import com.mobile.ta.model.testing.TimeSpent
+import com.mobile.ta.teacher.viewmodel.course.chapter.content.ThreeDViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.utils.HandlerUtil
-import com.mobile.ta.teacher.viewmodel.course.chapter.content.ThreeDViewModel
-import com.mobile.ta.teacher.viewmodel.testingtimer.TestingTimerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -24,7 +21,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding::inflate),
     View.OnClickListener {
     private val viewModel: ThreeDViewModel by viewModels()
-    private val timerViewModel: TestingTimerViewModel by viewModels()
     private val args: ThreeDFragmentArgs by navArgs()
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -77,14 +73,10 @@ class ThreeDFragment : BaseFragment<FragmentThreeDBinding>(FragmentThreeDBinding
                 threeDBackInfoLabel.isVisible = !it
             })
         }
-        timerViewModel.saveStartTime(Timestamp.now())
-        timerViewModel.saveType(TimeSpent.THREE_D)
     }
 
     override fun onDestroyView() {
         viewModel.clearJob()
-        timerViewModel.saveEndTime(Timestamp.now())
-        timerViewModel.startSaveTimeSpentWork()
         super.onDestroyView()
     }
 

@@ -25,7 +25,7 @@ class StudentProgressAdapter(
         ) {
             binding.apply {
                 courseContainer.setOnClickListener {
-                    onClickListener.invoke(item.id)
+                    onClickListener.invoke(item.course?.id as String)
                 }
                 courseCardTitle.text = item.course?.title
                 courseCardDescription.text =
