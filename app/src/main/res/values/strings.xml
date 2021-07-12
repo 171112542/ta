@@ -139,15 +139,26 @@
     <string name="description_label">Description</string>
     <string name="edit_label">Edit</string>
     <string name="toolbar_edit_profile">Edit Profile</string>
-    <string name="courses_label">Courses</string>
+    <string name="course_label">Course</string>
     <string name="finished_label">Finished</string>
     <string name="feedback_sent_message">Feedback sent!</string>
     <string name="feedback_not_sent_message">Failed to send your feedback. Please try again.</string>
+    <string name="course_created_label">Course Created</string>
+    <string name="course_published_label">Course Published</string>
 
     <plurals name="profile_course_label">
-        <item quantity="zero">Course</item>
         <item quantity="one">Course</item>
         <item quantity="other">Courses</item>
+    </plurals>
+
+    <plurals name="profile_course_created_label">
+        <item quantity="one">Course Created</item>
+        <item quantity="other">Courses Created</item>
+    </plurals>
+
+    <plurals name="profile_course_published_label">
+        <item quantity="one">Course Published</item>
+        <item quantity="other">Courses Published</item>
     </plurals>
 
     <!-- Course Info -->

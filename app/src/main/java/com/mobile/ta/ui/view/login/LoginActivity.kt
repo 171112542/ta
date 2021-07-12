@@ -81,6 +81,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
     private fun checkIsRegistered(isRegistered: Pair<Boolean, Int?>) {
         val isTeacher = viewModel.isValidCredentials.value.orFalse()
 
+        DialogHelper.dismissDialog(loadingDialog)
         showErrorMessageByCode(isRegistered.second)
         if (isRegistered.second.isNotNull()) {
             return
@@ -91,7 +92,6 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
         } else {
             goToSignUp(isTeacher)
         }
-        DialogHelper.dismissDialog(loadingDialog)
     }
 
     private fun showErrorMessageByCode(errorCode: Int?) {

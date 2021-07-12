@@ -97,7 +97,7 @@ class LoginViewModel @Inject constructor(
         val pairIsRegistered = Pair(isRegistered, errorCode)
         _isRegistered.postValue(pairIsRegistered)
         if (isRegistered.not()) {
-            setUnauthenticated()
+            logOut()
         }
     }
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/image_view_profile_course"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="@dimen/dp_0"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyTheme.ShapeableImageView.Rounded.TopBottomLeft" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_profile_section_1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_32"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline3"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toStartOf="@id/group_profile_section_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_profile_section_1_label"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:textAlignment="center"
+        android:layout_marginStart="@dimen/dp_32"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/group_profile_section_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_view_profile_section_1"
+        tools:text="@string/course_published_label" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_profile_section_1"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="text_view_profile_section_1, text_view_profile_section_1_label"
+        app:layout_constraintEnd_toStartOf="@id/group_profile_section_2"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_profile_section_2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_16"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline3"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/group_profile_section_1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="0" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/text_view_profile_section_2_label"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_12"
+        android:layout_marginEnd="@dimen/dp_24"
+        android:layout_marginBottom="@dimen/dp_16"
+        android:textAlignment="center"
+        android:textAppearance="?attr/textAppearanceHeadline4"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/group_profile_section_1"
+        app:layout_constraintTop_toBottomOf="@id/text_view_profile_section_2"
+        tools:text="@string/course_published_label" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_profile_section_2"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="text_view_profile_section_2, text_view_profile_section_2_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/group_profile_section_1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

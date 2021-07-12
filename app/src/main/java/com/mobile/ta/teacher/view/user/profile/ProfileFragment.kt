@@ -3,12 +3,14 @@ package com.mobile.ta.teacher.view.user.profile
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.mobile.ta.R
 import com.mobile.ta.config.Constants
 import com.mobile.ta.databinding.TFragProfileBinding
 import com.mobile.ta.teacher.viewmodel.user.profile.ProfileViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.toDateString
 import com.mobile.ta.utils.view.ImageUtil
 import com.mobile.ta.utils.view.RouterUtil
@@ -52,15 +54,12 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
                     user.email,
                     user.birthDate?.toDateString(Constants.MMMM_DD_YYYY)
                 )
-                viewModel.fetchUserCourseCount(user.id)
+                viewModel.fetchCoursePublishedCount(user.id)
+                setCourseCreatedInfo(user.totalCourseCreated)
                 setLoadingState(false)
             }
         })
-        viewModel.userCourseCount.observe(viewLifecycleOwner, {
-            it?.let { courseCount ->
-                setCourseInfo(courseCount.first, courseCount.second)
-            }
-        })
+        viewModel.coursePublished.observe(viewLifecycleOwner, Observer(::setCoursePublishedInfo))
         viewModel.isAuthenticated.observe(viewLifecycleOwner, {
             if (it.not()) {
                 signOut()
@@ -82,16 +81,12 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
                 ImageUtil.loadImage(mContext, it, profilePhotoImageView)
             }
             profileName.text = name
-            bio?.let {
-                profileBio.text = it
-            } ?: run {
-                profileBio.visibility = View.GONE
-            }
+            profileBio.text = if (bio.isNullOrBlank()) "Teacher" else bio
         }
     }
 
     private fun setAboutData(email: String, birthDate: String?) {
-        binding.apply {
+        binding.viewCardAboutSection.apply {
             profileAboutEmail.text = email
 
             birthDate?.let {
@@ -103,13 +98,31 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
         }
     }
 
-    private fun setCourseInfo(courseCount: Int, finishedCourseCount: Int) {
-        binding.apply {
-            textViewProfileCourse.text = courseCount.toString()
-            textViewProfileFinished.text = finishedCourseCount.toString()
+    private fun setCourseCreatedInfo(courseCreatedCount: Int?) {
+        binding.profileInfoCourseCount.apply {
+            setValueSection1(courseCreatedCount.toString())
+            if (courseCreatedCount.isNotNull() && courseCreatedCount!! > 0) {
+                setLabelSection1(
+                    resources.getQuantityText(
+                        R.plurals.profile_course_created_label,
+                        courseCreatedCount
+                    ).toString()
+                )
+            }
+        }
+    }
 
-            textViewProfileCourseLabel.text =
-                resources.getQuantityText(R.plurals.profile_course_label, courseCount)
+    private fun setCoursePublishedInfo(coursePublishedCount: Int) {
+        binding.profileInfoCourseCount.apply {
+            setValueSection2(coursePublishedCount.toString())
+            if (coursePublishedCount > 0) {
+                setLabelSection2(
+                    resources.getQuantityText(
+                        R.plurals.profile_course_published_label,
+                        coursePublishedCount
+                    ).toString()
+                )
+            }
         }
     }
 
@@ -118,6 +131,11 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
             View.VISIBLE
         } else {
             View.GONE
+        }
+        binding.groupProfileLoad.visibility = if (isLoading) {
+            View.GONE
+        } else {
+            View.VISIBLE
         }
     }
 
