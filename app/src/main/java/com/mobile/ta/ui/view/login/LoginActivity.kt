@@ -9,9 +9,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
+import com.mobile.ta.config.ErrorCodeConstants
 import com.mobile.ta.databinding.ActivityLoginBinding
 import com.mobile.ta.ui.view.base.BaseActivity
 import com.mobile.ta.ui.viewmodel.login.LoginViewModel
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.orFalse
 import com.mobile.ta.utils.view.DialogHelper
 import com.mobile.ta.utils.view.RouterUtil
@@ -72,18 +74,36 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
             viewModel.getIsUserRegistered()
         } else {
             DialogHelper.dismissDialog(loadingDialog)
-            showToast(R.string.fail_to_authenticate_message)
+            showErrorToast(R.string.fail_to_authenticate_message)
         }
     }
 
-    private fun checkIsRegistered(isRegistered: Boolean) {
+    private fun checkIsRegistered(isRegistered: Pair<Boolean, Int?>) {
         val isTeacher = viewModel.isValidCredentials.value.orFalse()
-        if (isRegistered) {
+
+        showErrorMessageByCode(isRegistered.second)
+        if (isRegistered.second.isNotNull()) {
+            return
+        }
+
+        if (isRegistered.first) {
             goToHome(isTeacher)
         } else {
             goToSignUp(isTeacher)
         }
         DialogHelper.dismissDialog(loadingDialog)
+    }
+
+    private fun showErrorMessageByCode(errorCode: Int?) {
+        val errorMessageId = when (errorCode) {
+            ErrorCodeConstants.ERROR_CODE_STUDENT_NO_NEED_CREDENTIALS -> R.string.student_no_need_credentials_message
+            ErrorCodeConstants.ERROR_CODE_TEACHER_NEED_CREDENTIALS -> R.string.teacher_need_credentials_message
+            ErrorCodeConstants.ERROR_CODE_FAIL_TO_SIGN_IN -> R.string.fail_to_sign_in_message
+            else -> null
+        }
+        errorMessageId?.let { errorMessage ->
+            showErrorToast(errorMessage)
+        }
     }
 
     private fun checkTeacherCredentials(isSuccess: Boolean) {

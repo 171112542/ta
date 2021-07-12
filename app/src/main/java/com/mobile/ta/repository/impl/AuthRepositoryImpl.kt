@@ -42,12 +42,6 @@ class AuthRepositoryImpl @Inject constructor(
         return tokenCollection.document(credentials).exists()
     }
 
-    override suspend fun getIsUserRegistered(): Status<Boolean> {
-        return getUser()?.uid?.let { userId ->
-            userCollection.document(userId).exists()
-        } ?: Status.success(false)
-    }
-
     override suspend fun getSignedInAccountFromIntent(data: Intent?): Status<GoogleSignInAccount> {
         return GoogleSignIn.getSignedInAccountFromIntent(data).fetchDataWithResult()
     }

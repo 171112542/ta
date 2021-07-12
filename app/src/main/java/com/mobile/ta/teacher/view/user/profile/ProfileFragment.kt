@@ -30,6 +30,7 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setLoadingState(true)
         setupObserver()
     }
 
@@ -52,6 +53,7 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
                     user.birthDate?.toDateString(Constants.MMMM_DD_YYYY)
                 )
                 viewModel.fetchUserCourseCount(user.id)
+                setLoadingState(false)
             }
         })
         viewModel.userCourseCount.observe(viewLifecycleOwner, {
@@ -108,6 +110,14 @@ class ProfileFragment : BaseFragment<TFragProfileBinding>(TFragProfileBinding::i
 
             textViewProfileCourseLabel.text =
                 resources.getQuantityText(R.plurals.profile_course_label, courseCount)
+        }
+    }
+
+    private fun setLoadingState(isLoading: Boolean) {
+        binding.progressBarProfileLoad.visibility = if (isLoading) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 
