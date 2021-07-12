@@ -15,6 +15,7 @@ import com.mobile.ta.databinding.ActivityRegistrationBinding
 import com.mobile.ta.model.user.User
 import com.mobile.ta.ui.view.base.BaseActivity
 import com.mobile.ta.ui.viewmodel.login.RegistrationViewModel
+import com.mobile.ta.utils.FileUtil
 import com.mobile.ta.utils.notBlankValidate
 import com.mobile.ta.utils.text
 import com.mobile.ta.utils.toDateString
@@ -77,29 +78,6 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
         })
     }
 
-    private fun checkIsUpdated(isUpdated: Boolean) {
-        if (isUpdated) {
-            goToHome()
-        } else {
-            showToast(R.string.fail_to_update_profile)
-        }
-    }
-
-    private fun updateUserData(user: User?) {
-        user?.let {
-            binding.apply {
-                editTextFullName.setText(user.name)
-                it.photo?.let {
-                    ImageUtil.loadImage(
-                        this@RegistrationActivity,
-                        it,
-                        binding.imageViewEditProfilePicture
-                    )
-                }
-            }
-        }
-    }
-
     override fun onClick(view: View?) {
         binding.apply {
             when (view) {
@@ -110,10 +88,6 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
         }
     }
 
-    private fun goToHome() {
-        RouterUtil.goToMain(this, viewModel.getIsTeacher())
-    }
-
     override fun onPermissionGranted() {
         val openGalleryIntent = Intent(
             Intent.ACTION_PICK,
@@ -122,6 +96,26 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
             type = Constants.TYPE_IMAGE_ALL
         }
         intentLauncher.launch(openGalleryIntent)
+    }
+
+    override fun onIntentResult(data: Intent?) {
+        data?.data?.let { uri ->
+            FileUtil.getFileAbsolutePath(contentResolver, uri)?.let {
+                viewModel.setProfilePicture(it)
+            }
+        }
+    }
+
+    private fun checkIsUpdated(isUpdated: Boolean) {
+        if (isUpdated) {
+            goToHome()
+        } else {
+            showErrorToast(R.string.fail_to_update_profile)
+        }
+    }
+
+    private fun goToHome() {
+        RouterUtil.goToMain(this, viewModel.getIsTeacher())
     }
 
     private fun openGallery() {
@@ -149,6 +143,21 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
                 it.toDateString(Constants.DD_MMMM_YYYY)
             )
             viewModel.setBirthDate(it)
+        }
+    }
+
+    private fun updateUserData(user: User?) {
+        user?.let {
+            binding.apply {
+                editTextFullName.setText(user.name)
+                it.photo?.let {
+                    ImageUtil.loadImage(
+                        this@RegistrationActivity,
+                        it,
+                        binding.imageViewEditProfilePicture
+                    )
+                }
+            }
         }
     }
 

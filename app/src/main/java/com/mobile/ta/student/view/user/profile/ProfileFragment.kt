@@ -104,21 +104,19 @@ class ProfileFragment : BaseFragment<FragProfileBinding>(FragProfileBinding::inf
                 ImageUtil.loadImage(mContext, it, profilePhotoImageView)
             }
             profileName.text = name
-            bio?.let {
-                profileBio.text = it
-            } ?: run {
-                profileBio.visibility = View.GONE
-            }
+            profileBio.text = if (bio.isNullOrBlank()) "Student" else bio
         }
     }
 
     private fun setCourseInfo(courseCount: Int, finishedCourseCount: Int) {
-        binding.apply {
-            textViewProfileCourse.text = courseCount.toString()
-            textViewProfileFinished.text = finishedCourseCount.toString()
-
-            textViewProfileCourseLabel.text =
-                resources.getQuantityText(R.plurals.profile_course_label, courseCount)
+        binding.profileInfoCourseCount.apply {
+            setValueSection1(courseCount.toString())
+            setValueSection2(finishedCourseCount.toString())
+            if (courseCount > 0) {
+                setLabelSection1(
+                    resources.getQuantityText(R.plurals.profile_course_label, courseCount).toString()
+                )
+            }
         }
     }
 }

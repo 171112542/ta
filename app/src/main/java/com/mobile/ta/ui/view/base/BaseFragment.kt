@@ -14,6 +14,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
@@ -63,7 +64,7 @@ abstract class BaseFragment<T : ViewBinding>(
     open fun onPermissionGranted() {}
 
     open fun onPermissionNotGranted() {
-        showToast(R.string.permission_not_granted_message)
+        showErrorToast(R.string.permission_not_granted_message)
     }
 
     open fun runOnCreate() {}
@@ -95,6 +96,13 @@ abstract class BaseFragment<T : ViewBinding>(
 
     override fun onAuthStateChanged(auth: FirebaseAuth) {
         redirectIfLoggedOut()
+    }
+
+    protected fun showErrorToast(messageId: Int) {
+        Snackbar.make(binding.root, messageId, Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(getColor(mContext, R.color.design_default_color_error))
+            .setTextColor(getColor(mContext, R.color.white))
+            .show()
     }
 
     protected fun showToast(messageId: Int) {

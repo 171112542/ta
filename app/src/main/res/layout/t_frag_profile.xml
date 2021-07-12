@@ -4,13 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dp_16">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingStart="@dimen/dp_16"
+    android:paddingTop="@dimen/dp_16"
+    android:paddingEnd="@dimen/dp_0"
+    tools:context=".teacher.view.user.profile.ProfileFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_photo_image_view"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
-        android:layout_marginStart="@dimen/dp_32"
         android:layout_marginTop="@dimen/dp_16"
         android:padding="@dimen/dp_2"
         android:src="@drawable/ic_person"
@@ -20,216 +24,60 @@
         app:strokeColor="?attr/colorPrimary"
         app:strokeWidth="@dimen/dp_2" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_course_container"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_80"
-        android:layout_marginStart="@dimen/dp_32"
-        android:background="?attr/colorPrimary"
+    <com.mobile.ta.ui.widget.ProfileInfoTwoSection
+        android:id="@+id/profile_info_course_count"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp_24"
+        app:labelSection1="@string/course_created_label"
+        app:labelSection2="@string/course_published_label"
         app:layout_constraintBottom_toBottomOf="@id/profile_photo_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profile_photo_image_view"
-        app:layout_constraintTop_toTopOf="@id/profile_photo_image_view"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyTheme.ShapeableImageView.Rounded.TopBottomLeft" />
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="@dimen/dp_80"
-        android:layout_marginStart="@dimen/dp_32"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_0"
-        app:layout_constraintBottom_toBottomOf="@id/profile_course_container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/profile_photo_image_view"
-        app:layout_constraintTop_toTopOf="@id/profile_course_container">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_profile_course"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:textAppearance="@style/TextAppearance.TA.Headline3"
-                android:textColor="?attr/colorOnPrimary"
-                tools:text="0" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_profile_course_label"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="top"
-                android:text="@string/courses_label"
-                android:textAppearance="@style/TextAppearance.TA.Headline4"
-                android:textColor="?attr/colorOnPrimary" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/text_view_profile_finished"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:textAppearance="@style/TextAppearance.TA.Headline3"
-                android:textColor="?attr/colorOnPrimary"
-                tools:text="0" />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="top"
-                android:text="@string/finished_label"
-                android:textAppearance="@style/TextAppearance.TA.Headline4"
-                android:textColor="?attr/colorOnPrimary" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/profile_name_section_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="@dimen/dp_12"
-        android:paddingStart="@dimen/dp_32"
-        android:paddingEnd="@dimen/dp_16"
-        app:layout_constraintTop_toBottomOf="@id/profile_photo_image_view">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/profile_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.TA.Headline5"
-            app:layout_constraintBottom_toTopOf="@id/profile_bio"
-            app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/profile_bio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.TA.Subtitle2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_name" />
-
-        <Button
-            android:id="@+id/profile_edit_button"
-            style="@style/Widget.TA.Button.OutlinedButton.Secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit_label"
-            android:textColor="?attr/colorSecondary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toTopOf="@id/profile_photo_image_view" />
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_about_title"
+        android:id="@+id/profile_name"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_12"
-        android:text="@string/about_tab"
-        android:textAppearance="?attr/textAppearanceHeadline3"
-        android:textColor="?attr/colorOnSurface"
+        android:layout_marginTop="@dimen/dp_24"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        app:layout_constraintBottom_toTopOf="@id/profile_bio"
+        app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_photo_image_view" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/profile_bio"
+        android:layout_width="@dimen/dp_0"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceSubtitle2"
+        app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_name" />
+
+    <Button
+        android:id="@+id/profile_edit_button"
+        style="@style/Widget.TA.Button.OutlinedButton.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:text="@string/edit_label"
+        android:textColor="?attr/colorSecondary"
+        app:layout_constraintBottom_toBottomOf="@id/profile_bio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profile_name" />
+
+    <include
+        android:id="@+id/view_card_about_section"
+        layout="@layout/t_layout_profile_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_name_section_container" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_about_email_image_view"
-        android:layout_width="@dimen/dp_32"
-        android:layout_height="@dimen/dp_32"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_16"
-        android:src="@drawable/ic_mail_outline_black_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_about_title"
-        app:tint="?attr/colorSecondary" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_about_email_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:text="@string/email_label"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/black_60"
-        app:layout_constraintBottom_toTopOf="@id/profile_about_email"
-        app:layout_constraintStart_toEndOf="@id/profile_about_email_image_view"
-        app:layout_constraintTop_toTopOf="@id/profile_about_email_image_view" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_about_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorOnSurface"
-        app:layout_constraintBottom_toBottomOf="@id/profile_about_email_image_view"
-        app:layout_constraintStart_toEndOf="@id/profile_about_email_image_view"
-        app:layout_constraintTop_toBottomOf="@id/profile_about_email_label"
-        tools:text="john@gmail.com" />
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_about_birth_date_image_view"
-        android:layout_width="@dimen/dp_32"
-        android:layout_height="@dimen/dp_32"
-        android:layout_marginStart="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_32"
-        android:src="@drawable/ic_date_range_black_24dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_about_email_image_view"
-        app:tint="?attr/colorSecondary" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_about_birth_date_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:text="@string/birth_date_label"
-        android:textAppearance="?attr/textAppearanceBody2"
-        android:textColor="@color/black_60"
-        app:layout_constraintBottom_toTopOf="@id/profile_about_birth_date"
-        app:layout_constraintStart_toEndOf="@id/profile_about_birth_date_image_view"
-        app:layout_constraintTop_toTopOf="@id/profile_about_birth_date_image_view" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/profile_about_birth_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:textAppearance="?attr/textAppearanceBody1"
-        android:textColor="?attr/colorOnSurface"
-        app:layout_constraintBottom_toBottomOf="@id/profile_about_birth_date_image_view"
-        app:layout_constraintStart_toEndOf="@id/profile_about_birth_date_image_view"
-        app:layout_constraintTop_toBottomOf="@id/profile_about_birth_date_label"
-        tools:text="March 5, 1990" />
-
-    <androidx.constraintlayout.widget.Group
-        android:id="@+id/group_about_birth_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_ids="profile_about_birth_date, profile_about_birth_date_image_view, profile_about_birth_date_label" />
+        app:layout_constraintTop_toBottomOf="@id/profile_bio" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progress_bar_profile_load"
@@ -246,10 +94,19 @@
         style="@style/Widget.TA.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dp_16"
-        android:layout_marginTop="@dimen/dp_32"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_16"
         android:text="@string/toolbar_sign_out"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_about_birth_date_image_view" />
+        app:layout_constraintTop_toBottomOf="@id/view_card_about_section" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_profile_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="button_sign_out, view_card_about_section"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

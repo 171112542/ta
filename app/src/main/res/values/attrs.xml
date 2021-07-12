@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="colorDivider" format="reference"/>
+    
+    <declare-styleable name="ProfileInfoTwoSection">
+        <attr name="labelSection1" format="string" />
+        <attr name="labelSection2" format="string" />
+        <attr name="valueSection1" format="string" />
+        <attr name="valueSection2" format="string" />
+    </declare-styleable>
 </resources>

@@ -12,8 +12,6 @@ interface AuthRepository {
 
     suspend fun checkTeacherCredentials(credentials: String): Status<Boolean>
 
-    suspend fun getIsUserRegistered(): Status<Boolean>
-
     suspend fun getSignedInAccountFromIntent(data: Intent?): Status<GoogleSignInAccount>
 
     fun getUser(): FirebaseUser?
