@@ -47,6 +47,15 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        
+        <receiver
+            android:name=".receiver.MessagingServiceRestarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartMessagingService"></action>
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.work.impl.WorkManagerInitializer"

@@ -1,6 +1,8 @@
 package com.mobile.ta.ui.view.login
 
 import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -10,6 +12,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityLoginBinding
+import com.mobile.ta.receiver.MessagingServiceRestarter
+import com.mobile.ta.service.MessagingService
 import com.mobile.ta.ui.view.base.BaseActivity
 import com.mobile.ta.ui.viewmodel.login.LoginViewModel
 import com.mobile.ta.utils.orFalse
