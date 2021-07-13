@@ -6,14 +6,15 @@
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
+    android:paddingStart="@dimen/dp_16"
     android:paddingTop="@dimen/dp_16"
-    tools:context=".student.view.user.profile.ProfileFragment">
+    android:paddingEnd="@dimen/dp_0"
+    tools:context=".teacher.view.user.profile.ProfileFragment">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_photo_image_view"
         android:layout_width="@dimen/dp_100"
         android:layout_height="@dimen/dp_100"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_16"
         android:padding="@dimen/dp_2"
         android:src="@drawable/ic_person"
@@ -28,8 +29,8 @@
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dp_24"
-        app:labelSection1="@string/course_label"
-        app:labelSection2="@string/finished_label"
+        app:labelSection1="@string/course_created_label"
+        app:labelSection2="@string/course_published_label"
         app:layout_constraintBottom_toBottomOf="@id/profile_photo_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/profile_photo_image_view"
@@ -39,7 +40,6 @@
         android:id="@+id/profile_name"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
         android:layout_marginTop="@dimen/dp_24"
         android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintBottom_toTopOf="@id/profile_bio"
@@ -51,7 +51,6 @@
         android:id="@+id/profile_bio"
         android:layout_width="@dimen/dp_0"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_16"
         android:textAppearance="?attr/textAppearanceSubtitle2"
         app:layout_constraintEnd_toStartOf="@+id/profile_edit_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,23 +68,45 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/profile_name" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/profile_tab_layout"
-        android:layout_width="@dimen/dp_0"
+    <include
+        android:id="@+id/view_card_about_section"
+        layout="@layout/t_layout_profile_about"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/profile_bio" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/profile_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0"
-        android:clipChildren="false"
-        android:clipToPadding="false"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progress_bar_profile_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_tab_layout" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_sign_out"
+        style="@style/Widget.TA.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:layout_marginEnd="@dimen/dp_16"
+        android:text="@string/toolbar_sign_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view_card_about_section" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_profile_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="button_sign_out, view_card_about_section"
+        tools:visibility="visible" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

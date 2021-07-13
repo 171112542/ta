@@ -6,6 +6,7 @@ import com.mobile.ta.model.user.feedback.Feedback
 import com.mobile.ta.utils.wrapper.status.Status
 
 interface UserRepository {
+
     suspend fun addUserFeedback(id: String, data: HashMap<String, Any?>): Status<Boolean>
 
     suspend fun getUser(): Status<User>

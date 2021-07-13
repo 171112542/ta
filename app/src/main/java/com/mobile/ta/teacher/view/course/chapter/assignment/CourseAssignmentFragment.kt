@@ -11,15 +11,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
-import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionAdapter
-import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionVHListener
 import com.mobile.ta.databinding.FragCourseAssignmentBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionAdapter
+import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionVHListener
 import com.mobile.ta.teacher.view.main.TeacherMainActivity
-import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.teacher.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
+import com.mobile.ta.ui.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -83,11 +83,6 @@ class CourseAssignmentFragment :
         viewmodel.course.observe(viewLifecycleOwner, {
             setupMenu(it.chapterSummaryList)
         })
-        viewmodel.studentProgress.observe(viewLifecycleOwner, {
-            viewmodel.course.value?.chapterSummaryList?.let {
-                setupMenu(it)
-            }
-        })
         binding.apply {
             val toggle = ActionBarDrawerToggle(
                 mMainActivity,
@@ -107,18 +102,9 @@ class CourseAssignmentFragment :
             fragCourseAssignmentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
-                val finishedChapterIds = viewmodel.studentProgress.value?.finishedChapterIds
-                val lastFinishedChapterIndex = if (finishedChapterIds.isNullOrEmpty()) -1
-                else {
-                    finishedChapterIds.maxOf { current ->
-                        chapters.indexOfFirst { it.id == current }
-                    }
-                }
-                chapters.forEachIndexed { index, it ->
+                chapters.forEach {
                     add(it.title).isChecked = (args.chapterId == it.id)
-                    menuItems.add(getItem(menuItems.count()).apply {
-                        isEnabled = (lastFinishedChapterIndex + 1 >= index)
-                    })
+                    menuItems.add(getItem(menuItems.count()))
                 }
             }
             fragCourseAssignmentDrawerNavigation.setNavigationItemSelectedListener {

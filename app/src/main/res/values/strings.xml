@@ -10,6 +10,7 @@
     <string name="toolbar_profile">Your <b>Profile</b></string>
     <string name="toolbar_my_course">Your <b>Course</b></string>
     <string name="toolbar_back">Back</string>
+    <string name="toolbar_sign_out">Sign Out</string>
 
     <string name="dest_home_label">Home</string>
     <string name="dest_course_label">Course</string>
@@ -24,6 +25,9 @@
     <string name="credentials">Credentials</string>
     <string name="wrong_credentials_message">Wrong teacher credentials. Please try again.</string>
     <string name="fail_to_authenticate_message">Failed to get your Google account. Please re-login your account.</string>
+    <string name="teacher_need_credentials_message">Please input your credentials by clicking the I\'m a teacher button.</string>
+    <string name="student_no_need_credentials_message">Student can\'t log in as a teacher. Please use another email to log in as teacher.</string>
+    <string name="fail_to_sign_in_message">Failed to log in. Please try again.</string>
 
     <!-- Register -->
     <string name="welcome_label">Welcome!</string>
@@ -96,6 +100,9 @@
     <string name="reply">Reply</string>
     <string name="reply_count_state">0</string>
     <string name="no_replies_text">No answers</string>
+    <string name="no_discussion_image_content_description">Discussion Empty Image</string>
+    <string name="no_discussion_help_title">No Discussion Found.</string>
+    <string name="no_discussion_help_desc">All discussions related to this chapter will appear here.</string>
 
     <!-- Settings -->
     <string name="give_a_feedback">Give a feedback</string>
@@ -132,15 +139,26 @@
     <string name="description_label">Description</string>
     <string name="edit_label">Edit</string>
     <string name="toolbar_edit_profile">Edit Profile</string>
-    <string name="courses_label">Courses</string>
+    <string name="course_label">Course</string>
     <string name="finished_label">Finished</string>
     <string name="feedback_sent_message">Feedback sent!</string>
     <string name="feedback_not_sent_message">Failed to send your feedback. Please try again.</string>
+    <string name="course_created_label">Course Created</string>
+    <string name="course_published_label">Course Published</string>
 
     <plurals name="profile_course_label">
-        <item quantity="zero">Course</item>
         <item quantity="one">Course</item>
         <item quantity="other">Courses</item>
+    </plurals>
+
+    <plurals name="profile_course_created_label">
+        <item quantity="one">Course Created</item>
+        <item quantity="other">Courses Created</item>
+    </plurals>
+
+    <plurals name="profile_course_published_label">
+        <item quantity="one">Course Published</item>
+        <item quantity="other">Courses Published</item>
     </plurals>
 
     <!-- Course Info -->
@@ -164,6 +182,7 @@
     <string name="completed_progress">Completed</string>
     <string name="not_completed_progress">Not completed</string>
     <string name="last_updated_label">last updated</string>
+    <string name="view_student_result_label">View Student Result</string>
 
     <string name="three_d_back_information">Tap empty area to show back button</string>
     <string name="back_button_label">BACK</string>

@@ -53,6 +53,16 @@ suspend fun <T> Query.fetchData(
     return statusData
 }
 
+suspend fun Query.fetchDataCount(): Status<Int> {
+    lateinit var statusData: Status<Int>
+    get().addOnFailureListener {
+        statusData = Status.error(it.message.orEmpty())
+    }.addOnSuccessListener {
+        statusData = Status.success(it.documents.size)
+    }.await()
+    return statusData
+}
+
 fun <T> Query.fetchRealtimeData(
     mapper: (QuerySnapshot) -> MutableList<T>,
     output: MutableLiveData<Status<MutableList<T>>>

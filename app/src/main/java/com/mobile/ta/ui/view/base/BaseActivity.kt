@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
@@ -44,7 +43,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     open fun onPermissionGranted() {}
 
     open fun onPermissionNotGranted() {
-        showToast(R.string.permission_not_granted_message)
+        showErrorToast(R.string.permission_not_granted_message)
     }
 
     private fun initializeLauncher() {
@@ -65,15 +64,18 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     protected fun checkPermission(permission: String) {
-        if (ContextCompat.checkSelfPermission(
-                this,
-                permission
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
             onPermissionGranted()
         } else {
             requestPermissionLauncher.launch(permission)
         }
+    }
+
+    protected fun showErrorToast(messageId: Int) {
+        Snackbar.make(binding.root, messageId, Snackbar.LENGTH_SHORT)
+            .setBackgroundTint(getColor(R.color.design_default_color_error))
+            .setTextColor(getColor(R.color.white))
+            .show()
     }
 
     protected fun showToast(messageId: Int) {

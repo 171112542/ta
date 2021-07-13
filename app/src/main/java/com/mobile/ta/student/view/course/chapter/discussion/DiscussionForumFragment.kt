@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragmentDiscussionForumBinding
-import com.mobile.ta.student.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.student.viewmodel.course.chapter.discussion.DiscussionForumViewModel
+import com.mobile.ta.ui.adapter.course.chapter.discussion.DiscussionForumAdapter
 import com.mobile.ta.ui.view.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,6 +57,7 @@ class DiscussionForumFragment :
                 discussionForumAdapter.submitList(data)
                 scrollToTop()
                 showLoadingState(false)
+                showEmptyState(data.isEmpty())
             }
         })
         viewModel.isForumAdded.observe(viewLifecycleOwner, {
@@ -97,6 +98,13 @@ class DiscussionForumFragment :
         with(binding) {
             recyclerViewDiscussions.visibility = if (isLoading) View.GONE else View.VISIBLE
             progressBarDiscussionForumLoad.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun showEmptyState(isEmpty: Boolean) {
+        with(binding) {
+            recyclerViewDiscussions.visibility = if (isEmpty) View.GONE else View.VISIBLE
+            groupDiscussionEmptyState.visibility = if (isEmpty) View.VISIBLE else View.GONE
         }
     }
 

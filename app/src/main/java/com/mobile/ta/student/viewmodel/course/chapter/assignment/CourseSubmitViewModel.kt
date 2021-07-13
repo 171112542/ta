@@ -1,6 +1,5 @@
 package com.mobile.ta.student.viewmodel.course.chapter.assignment
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
