@@ -6,12 +6,14 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.mobile.ta.R
+import com.mobile.ta.receiver.MessagingServiceRestarter
 import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.student.view.main.MainActivity
@@ -25,6 +27,12 @@ import javax.inject.Inject
 class MessagingService :
     FirebaseMessagingService(),
     FirebaseAuth.AuthStateListener {
+    companion object {
+        var isRunning = false
+        const val REQUEST_CODE = 0
+        const val NOTIFICATION_ID = 0
+    }
+
     @Inject
     lateinit var notificationRepository: NotificationRepository
     @Inject
@@ -32,7 +40,20 @@ class MessagingService :
 
     override fun onCreate() {
         super.onCreate()
+        Log.d("MessagingService", "I am created")
+        isRunning = true
         FirebaseAuth.getInstance().addAuthStateListener(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MessagingService", "I am destroyed")
+        isRunning = false
+        FirebaseAuth.getInstance().removeAuthStateListener(this)
+        val intent = Intent()
+        intent.action = "restartMessagingService"
+        intent.setClass(this, MessagingServiceRestarter::class.java)
+        this.sendBroadcast(intent)
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -99,10 +120,5 @@ class MessagingService :
         GlobalScope.launch(Dispatchers.IO) {
             notificationRepository.sendNotificationToken(uid, token)
         }
-    }
-
-    companion object {
-        const val REQUEST_CODE = 0
-        const val NOTIFICATION_ID = 0
     }
 }

@@ -122,6 +122,12 @@ class StudentProgressRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getStudentProgressByCourseId(courseId: String): Status<MutableList<StudentProgress>> {
+        return studentProgressCollection
+            .whereEqualTo(COURSE_ID_FIELD, courseId)
+            .fetchData(StudentProgressMapper::mapToStudentProgress)
+    }
+
     override suspend fun getStudentProgress(
         userId: String,
         courseId: String

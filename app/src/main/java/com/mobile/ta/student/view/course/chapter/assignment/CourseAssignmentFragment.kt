@@ -48,6 +48,11 @@ class CourseAssignmentFragment :
         courseQuestionAdapter.setVhClickListener(this)
         binding.fragCourseAssignmentVp.adapter = courseQuestionAdapter
         viewmodel.assignment.observe(viewLifecycleOwner) {
+            mActivity.supportActionBar?.title =
+                if (it.type == ChapterType.PRACTICE)
+                    getString(R.string.practice_fragment_toolbar_text)
+                else
+                    getString(R.string.quiz_fragment_toolbar_text)
             courseQuestionAdapter.submitList(it.questions.toMutableList())
             courseQuestionAdapter.setQuestionType(it.type)
             binding.fragCourseAssignmentTitle.text = it.title

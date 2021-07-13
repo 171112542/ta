@@ -89,6 +89,11 @@
     <string name="passing_grade_desc_text">Get %d to proceed to the next chapter</string>
     <string name="finish_course_text">Finish Course</string>
     <string name="your_score_text">Your Score</string>
+    <string name="practice_fragment_toolbar_text">Practice</string>
+    <string name="quiz_fragment_toolbar_text">Quiz</string>
+    <string name="quiz_result_fragment_toolbar_text">Quiz Result</string>
+    <string name="practice_result_fragment_toolbar_text">Practice Result</string>
+    <string name="question_text">Question %d</string>
 
     <!-- Discussion -->
     <string name="discussion_label">Discussion</string>
@@ -216,9 +221,18 @@
     <string name="general_notification_channel_id">General</string>
     <string name="no_notification_text">No Notification Yet</string>
 
+    <!-- Student Data -->
+    <string name="student_data_search_hint">Search by emails</string>
+    <string name="name_text">Name</string>
+    <string name="progress_text">Progress</string>
+    <string name="score_text">Score</string>
+    <string name="student_progress_text_template">%1s \/%2s</string>
+
     <!-- Others -->
     <string name="permission_not_granted_message">Fail to get permission.</string>
     <string name="default_string_field">-</string>
     <string name="fcm_token_shared_pref_key">fcmToken</string>
     <string name="require_previous_chapter">You need to complete previous chapter.</string>
+    <string name="back_alt_text">Back</string>
+    <string name="next_alt_text">Next</string>
 </resources>

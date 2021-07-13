@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardElevation="@dimen/keyline_1"
+    tools:layout_margin="@dimen/keyline_4">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/keyline_4">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/t_vh_course_question_question_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceOverline"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textColor="@color/grey_dark" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/t_vh_course_question_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_2"
+            android:justificationMode="inter_word"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_vh_course_question_question_label"
+            tools:text="What causes the universe to appear for the first time?" />
+
+        <RadioGroup
+            android:id="@+id/vh_course_question_radio_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/t_vh_course_question_question">
+            <RadioButton
+                android:id="@+id/t_vh_course_question_choice_one"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black"
+                android:clickable="false"
+                tools:text="Option 1 answer"
+                tools:checked="true" />
+            <RadioButton
+                android:id="@+id/t_vh_course_question_choice_two"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textColor="@color/black"
+                android:clickable="false"
+                tools:text="Option 2 answer" />
+            <RadioButton
+                android:id="@+id/t_vh_course_question_choice_three"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:enabled="false"
+                android:clickable="false"
+                tools:text="Option 3 answer" />
+            <RadioButton
+                android:id="@+id/t_vh_course_question_choice_four"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:enabled="false"
+                android:clickable="false"
+                tools:text="Option 4 answer" />
+        </RadioGroup>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/t_vh_course_question_explanation_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceOverline"
+            android:layout_marginTop="@dimen/keyline_2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/vh_course_question_radio_group"
+            android:textColor="@color/grey_dark"
+            android:text="@string/explanation_text" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/t_vh_course_question_explanation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/keyline_2"
+            android:justificationMode="inter_word"
+            android:textAppearance="?attr/textAppearanceBody1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/t_vh_course_question_explanation_label"
+            tools:text="Just an explanation" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

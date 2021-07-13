@@ -15,7 +15,7 @@
         android:padding="@dimen/keyline_4">
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:id="@+id/frag_home_loading"
+            android:id="@+id/t_frag_home_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/keyline_4"
@@ -24,10 +24,10 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_home_search_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/t_frag_home_search_bar" />
 
         <View
-            android:id="@+id/frag_home_search_bar"
+            android:id="@+id/t_frag_home_search_bar"
             android:layout_width="0dp"
             android:layout_height="@dimen/search_bar_height"
             android:layout_marginEnd="@dimen/keyline_2"
@@ -36,51 +36,24 @@
             android:clickable="true"
             android:elevation="@dimen/keyline_2"
             android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintEnd_toStartOf="@+id/frag_home_notification_container"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/frag_home_notification_container"
-            android:layout_width="@dimen/dp_56"
-            android:layout_height="@dimen/search_bar_height"
-            android:background="@drawable/drawable_rounded_rect"
-            android:backgroundTint="?attr/colorSurface"
-            android:clickable="true"
-            android:elevation="8dp"
-            android:foreground="?android:attr/selectableItemBackground"
-            app:layout_constraintBottom_toBottomOf="@+id/frag_home_search_bar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/frag_home_search_bar" />
-
         <ImageView
-            android:id="@+id/frag_home_notification"
-            style="@style/Widget.TA.Icon"
-            android:background="?attr/colorSurface"
-            android:clickable="false"
-            android:contentDescription="@string/notification_label"
-            android:elevation="@dimen/keyline_2"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_notification_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/frag_home_notification_container"
-            app:layout_constraintEnd_toEndOf="@+id/frag_home_notification_container"
-            app:layout_constraintStart_toStartOf="@+id/frag_home_notification_container"
-            app:layout_constraintTop_toTopOf="@+id/frag_home_notification_container" />
-
-        <ImageView
-            android:id="@+id/frag_home_search_icon"
+            android:id="@+id/t_frag_home_search_icon"
             style="@style/Widget.TA.Icon"
             android:layout_marginStart="@dimen/keyline_4"
             android:clickable="false"
             android:contentDescription="@string/ic_search_content_description"
             android:elevation="@dimen/keyline_2"
             android:src="@drawable/ic_search_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/frag_home_search_bar"
-            app:layout_constraintStart_toStartOf="@+id/frag_home_search_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/t_frag_home_search_bar"
+            app:layout_constraintStart_toStartOf="@+id/t_frag_home_search_bar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/frag_home_search_label"
+            android:id="@+id/t_frag_home_search_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/keyline_4"
@@ -89,12 +62,12 @@
             android:text="@string/search_bar_hint"
             android:textAppearance="?attr/textAppearanceBody1"
             android:textColor="?attr/colorOnSurface"
-            app:layout_constraintBottom_toBottomOf="@+id/frag_home_search_bar"
-            app:layout_constraintStart_toEndOf="@+id/frag_home_search_icon"
-            app:layout_constraintTop_toTopOf="@+id/frag_home_search_bar" />
+            app:layout_constraintBottom_toBottomOf="@+id/t_frag_home_search_bar"
+            app:layout_constraintStart_toEndOf="@+id/t_frag_home_search_icon"
+            app:layout_constraintTop_toTopOf="@+id/t_frag_home_search_bar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/frag_home_rv"
+            android:id="@+id/t_frag_home_rv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/keyline_4"
@@ -103,7 +76,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_home_search_bar" />
+            app:layout_constraintTop_toBottomOf="@+id/t_frag_home_search_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

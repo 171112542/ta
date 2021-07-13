@@ -1,6 +1,11 @@
 package com.mobile.ta.student.view.main
 
 import android.animation.ObjectAnimator
+import android.app.ActivityManager
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupMenu
@@ -12,6 +17,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.mobile.ta.R
 import com.mobile.ta.databinding.ActivityMainBinding
+import com.mobile.ta.receiver.MessagingServiceRestarter
+import com.mobile.ta.service.MessagingService
 import com.mobile.ta.ui.view.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -51,6 +58,25 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 navController.navigateUp(appBarConfiguration)
             }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.d("MessagingService", "MainActivity" + MessagingService.isRunning.toString())
+        if (!MessagingService.isRunning) {
+            val intent = Intent(this, MessagingService::class.java)
+            startService(intent)
+            MessagingService.isRunning = true
+        }
+    }
+
+    override fun onDestroy() {
+        val intent = Intent()
+        Log.d("MessagingService", "MainActivity" + MessagingService.isRunning.toString())
+        intent.action = "restartMessagingService"
+        intent.setClass(this, MessagingServiceRestarter::class.java)
+        sendBroadcast(intent)
+        super.onDestroy()
     }
 
     override val viewBindingInflater: (LayoutInflater) -> ActivityMainBinding

@@ -25,6 +25,10 @@ interface StudentProgressRepository {
         studentAssignmentResult: StudentAssignmentResult
     ): Status<Boolean>
 
+    suspend fun getStudentProgressByCourseId(
+        courseId: String
+    ): Status<MutableList<StudentProgress>>
+
     suspend fun getStudentProgress(
         userId: String,
         courseId: String

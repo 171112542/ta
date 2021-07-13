@@ -1,6 +1,7 @@
 package com.mobile.ta.student.view.course.chapter.assignment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -148,6 +149,11 @@ class CourseSubmitFragment :
 
     private fun setupPage() {
         viewmodel.studentAssignmentResult.observe(viewLifecycleOwner) {
+            mMainActivity.supportActionBar?.title =
+                if (it.type == ChapterType.PRACTICE)
+                    getString(R.string.practice_result_fragment_toolbar_text)
+                else
+                    getString(R.string.quiz_result_fragment_toolbar_text)
             binding.fragCourseSubmitLoading.visibility = View.GONE
             binding.fragCourseSubmitContent.visibility = View.VISIBLE
             binding.fragCourseSubmitTitle.text = it.title

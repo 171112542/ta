@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class ChapterSummary(
     val id: String,
     val title: String,
-    val type: ChapterType? = null
+    val type: ChapterType
 ) {
-    constructor() : this("", "")
+    constructor() : this("", "", ChapterType.CONTENT)
 }

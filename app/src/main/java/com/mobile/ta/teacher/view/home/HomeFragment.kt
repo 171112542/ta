@@ -9,6 +9,7 @@ import com.mobile.ta.teacher.adapter.course.CourseAdapter
 import com.mobile.ta.teacher.adapter.course.CourseVHListener
 import com.mobile.ta.teacher.adapter.diff.CourseDiffCallback
 import com.mobile.ta.databinding.FragHomeBinding
+import com.mobile.ta.databinding.TFragHomeBinding
 import com.mobile.ta.ui.view.base.BaseFragment
 import com.mobile.ta.teacher.viewmodel.home.HomeViewModel
 import com.mobile.ta.utils.isNotNull
@@ -19,14 +20,13 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @AndroidEntryPoint
 @ExperimentalCoroutinesApi
 class HomeFragment :
-    BaseFragment<FragHomeBinding>(FragHomeBinding::inflate),
+    BaseFragment<TFragHomeBinding>(TFragHomeBinding::inflate),
     View.OnClickListener,
     CourseVHListener {
     private val viewmodel by viewModels<HomeViewModel>()
 
     override fun runOnCreateView() {
-        binding.fragHomeSearchBar.setOnClickListener(this)
-        binding.fragHomeNotificationContainer.setOnClickListener(this)
+        binding.tFragHomeSearchBar.setOnClickListener(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,10 +36,7 @@ class HomeFragment :
 
     override fun onClick(v: View) {
         when (v) {
-            binding.fragHomeSearchBar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
-            binding.fragHomeNotificationContainer -> findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToNotificationFragment()
-            )
+            binding.tFragHomeSearchBar -> findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
         }
     }
 
@@ -54,7 +51,7 @@ class HomeFragment :
     private fun setupRecyclerView() {
         val diffCallback = CourseDiffCallback()
         val adapter = CourseAdapter(diffCallback, this)
-        with(binding.fragHomeRv) {
+        with(binding.tFragHomeRv) {
             this.adapter = adapter
             addItemDecoration(
                 RVSeparator.getSpaceSeparator(
@@ -66,8 +63,8 @@ class HomeFragment :
         }
         viewmodel.courseOverviews.observe(viewLifecycleOwner, {
             if (it.isNotNull()) {
-                binding.fragHomeLoading.visibility = View.GONE
-                binding.fragHomeRv.visibility = View.VISIBLE
+                binding.tFragHomeLoading.visibility = View.GONE
+                binding.tFragHomeRv.visibility = View.VISIBLE
                 adapter.submitList(it)
             }
         })
