@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/t_frag_course_assignment_drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:padding="@dimen/keyline_4">
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/t_frag_course_assignment_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/t_frag_course_assignment_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="t_frag_course_assignment_rv,
+                t_frag_course_assignment_title"
+                tools:visibility="visible" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/t_frag_course_assignment_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.TA.Headline5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Exercise Title" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/t_frag_course_assignment_rv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/keyline_4"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/t_frag_course_assignment_title" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/t_frag_course_assignment_back_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="t_frag_course_assignment_back_icon,
+                t_frag_course_assignment_back_text, t_frag_course_assignment_back"
+                tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/t_frag_course_assignment_next_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="t_frag_course_assignment_next_icon,
+                t_frag_course_assignment_next_text, t_frag_course_assignment_next"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/t_frag_course_assignment_back_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/keyline_4"
+                android:contentDescription="@string/back_alt_text"
+                android:src="@drawable/ic_arrow_backward"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/t_frag_course_assignment_rv"
+                app:tint="@color/accent_blue" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/t_frag_course_assignment_back_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/keyline_2"
+                android:textAppearance="?attr/textAppearanceSubtitle2"
+                app:layout_constraintBottom_toBottomOf="@+id/t_frag_course_assignment_back_icon"
+                app:layout_constraintStart_toEndOf="@+id/t_frag_course_assignment_back_icon"
+                app:layout_constraintTop_toTopOf="@+id/t_frag_course_assignment_back_icon"
+                tools:text="Previous Chapter" />
+
+            <View
+                android:id="@+id/t_frag_course_assignment_back"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/barrier3"
+                app:layout_constraintEnd_toEndOf="@+id/t_frag_course_assignment_back_text"
+                app:layout_constraintStart_toStartOf="@+id/t_frag_course_assignment_back_icon"
+                app:layout_constraintTop_toTopOf="@+id/barrier2" />
+
+            <ImageView
+                android:id="@+id/t_frag_course_assignment_next_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/next_alt_text"
+                android:src="@drawable/ic_arrow_forward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/t_frag_course_assignment_back_icon"
+                app:tint="@color/accent_blue" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/t_frag_course_assignment_next_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceSubtitle2"
+                app:layout_constraintBottom_toBottomOf="@+id/t_frag_course_assignment_next_icon"
+                app:layout_constraintEnd_toStartOf="@+id/t_frag_course_assignment_next_icon"
+                app:layout_constraintTop_toTopOf="@+id/t_frag_course_assignment_next_icon"
+                tools:text="Next Chapter" />
+
+            <View
+                android:id="@+id/t_frag_course_assignment_next"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/barrier5"
+                app:layout_constraintEnd_toEndOf="@+id/t_frag_course_assignment_next_icon"
+                app:layout_constraintStart_toStartOf="@+id/t_frag_course_assignment_next_text"
+                app:layout_constraintTop_toTopOf="@+id/barrier4" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="t_frag_course_assignment_back_text,t_frag_course_assignment_back_icon" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="t_frag_course_assignment_back_text,t_frag_course_assignment_back_icon" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="top"
+                app:constraint_referenced_ids="t_frag_course_assignment_next_text,t_frag_course_assignment_next_icon" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="t_frag_course_assignment_next_text,t_frag_course_assignment_next_icon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/t_frag_course_assignment_drawer_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

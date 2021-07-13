@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.information.LevelTag
 import com.mobile.ta.model.course.information.TypeTag
+import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.CourseRepository
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val courseRepository: CourseRepository
+    private val courseRepository: CourseRepository,
+    private val authRepository: AuthRepository
 ) : BaseViewModel() {
     companion object {
         enum class SortOption {
@@ -72,7 +74,11 @@ class SearchViewModel @Inject constructor(
         this.keyword = keyword
         resetFilter()
         launchViewModelScope {
-            val searchResult = courseRepository.searchCourse(keyword.toLowerCase(Locale.ENGLISH))
+            val teacherId = authRepository.getUser()?.uid ?: return@launchViewModelScope
+            val searchResult = courseRepository.searchCourseWithCreatorId(
+                keyword.toLowerCase(Locale.ENGLISH),
+                teacherId
+            )
             _isSearching.postValue(false)
             checkStatus(
                 searchResult, {

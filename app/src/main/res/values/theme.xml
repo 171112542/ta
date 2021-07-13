@@ -43,6 +43,7 @@
         <item name="toolbarStyle">@style/Widget.TA.Toolbar</item>
         <item name="materialCardViewStyle">@style/Widget.TA.CardView</item>
         <item name="bottomSheetDialogTheme">@style/ThemeOverlay.TA.BottomSheetDialog</item>
+        <item name="radioButtonStyle">@style/Widget.TA.RadioButton</item>
     </style>
 
     <style name="Base.Theme.ThemeBuilder" parent="Theme.MaterialComponents.Light.NoActionBar">

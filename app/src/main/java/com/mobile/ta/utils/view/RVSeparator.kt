@@ -21,4 +21,18 @@ object RVSeparator {
             setDrawable(drawable)
         }
     }
+
+    fun getLineSeparator(
+        context: Context,
+        orientation: Int,
+        resources: Resources
+    ): DividerItemDecoration {
+        return DividerItemDecoration(context, orientation).apply {
+            val drawable = ResourcesCompat.getDrawable(
+                resources,
+                R.drawable.rv_line_separator, null
+            ) ?: return@apply
+            setDrawable(drawable)
+        }
+    }
 }

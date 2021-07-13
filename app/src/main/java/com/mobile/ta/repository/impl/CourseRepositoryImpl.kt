@@ -47,6 +47,27 @@ class CourseRepositoryImpl @Inject constructor(
             .fetchData(CourseMapper::mapToCourses)
     }
 
+    override suspend fun getAllCoursesByCreatorId(teacherId: String): Status<MutableList<Course>> {
+        return courseCollection
+            .whereEqualTo(CourseMapper.CREATOR_ID, teacherId)
+            .fetchData(CourseMapper::mapToCourses)
+    }
+
+    override suspend fun searchCourseWithCreatorId(
+        courseTitle: String,
+        teacherId: String
+    ): Status<MutableList<Course>> {
+        return courseCollection
+            .whereGreaterThanOrEqualTo(CourseMapper.CANONICAL_TITLE_FIELD, courseTitle)
+            .whereLessThanOrEqualTo(
+                CourseMapper.CANONICAL_TITLE_FIELD,
+                courseTitle.substring(0, courseTitle.lastIndex) +
+                courseTitle.last().plus(1)
+            )
+            .whereEqualTo(CourseMapper.CREATOR_ID, teacherId)
+            .fetchData(CourseMapper::mapToCourses)
+    }
+
     override suspend fun updateTotalEnrolledCourse(
         courseId: String,
         totalEnrolled: Int

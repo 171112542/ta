@@ -70,6 +70,14 @@ class CourseSubmitViewModel @Inject constructor(
             val course = courseRepository.getCourseById(courseId)
             checkStatus(course, {
                 _course.postValue(it)
+                val currentChapterSummary =
+                    it.chapterSummaryList.find { chapterSummary -> chapterSummary.id == assignmentId }
+                val currentChapterSummaryIndex =
+                    it.chapterSummaryList.indexOf(currentChapterSummary)
+                val nextChapterSummary =
+                    if (currentChapterSummaryIndex + 1 >= it.chapterSummaryList.size) null
+                    else it.chapterSummaryList[currentChapterSummaryIndex + 1]
+                _nextChapterSummary.postValue(nextChapterSummary)
             }, {})
             loggedInUid = authRepository.getUser()?.uid ?: return@launchViewModelScope
             getStudentProgress(loggedInUid, courseId)
@@ -84,22 +92,6 @@ class CourseSubmitViewModel @Inject constructor(
      * the visibility of certain elements.
      */
     private suspend fun initializeFragmentContent() {
-        val networkCourse = courseRepository.getCourseById(courseId)
-        checkStatus(
-            networkCourse, {
-                _course.postValue(it)
-                val currentChapterSummary =
-                    it.chapterSummaryList.find { chapterSummary -> chapterSummary.id == assignmentId }
-                val currentChapterSummaryIndex =
-                    it.chapterSummaryList.indexOf(currentChapterSummary)
-                val nextChapterSummary =
-                    if (currentChapterSummaryIndex + 1 >= it.chapterSummaryList.size) null
-                    else it.chapterSummaryList[currentChapterSummaryIndex + 1]
-                _nextChapterSummary.postValue(nextChapterSummary)
-            }, {
-                //TODO: Add a failure handler
-            }
-        )
         val studentAssignmentResult =
             studentProgressRepository.getSubmittedAssignment(loggedInUid, courseId, assignmentId)
         val isAssignmentFinished = studentProgressRepository.getIsChapterCompleted(

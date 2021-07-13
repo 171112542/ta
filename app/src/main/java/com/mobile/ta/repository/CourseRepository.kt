@@ -9,6 +9,10 @@ interface CourseRepository {
 
     suspend fun getAllCourses(): Status<MutableList<Course>>
 
+    suspend fun getAllCoursesByCreatorId(teacherId: String): Status<MutableList<Course>>
+
+    suspend fun searchCourseWithCreatorId(courseTitle: String, teacherId: String): Status<MutableList<Course>>
+
     suspend fun getCourseById(courseId: String): Status<Course>
 
     suspend fun getTotalPublishedCourse(teacherId: String): Status<Int>

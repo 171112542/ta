@@ -1,6 +1,7 @@
 package com.mobile.ta.teacher.view.course.chapter.assignment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,17 +10,21 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
 import com.mobile.ta.R
 import com.mobile.ta.databinding.FragCourseAssignmentBinding
+import com.mobile.ta.databinding.TFragCourseAssignmentBinding
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
 import com.mobile.ta.model.course.chapter.assignment.AssignmentQuestion
+import com.mobile.ta.student.view.main.MainActivity
 import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionAdapter
-import com.mobile.ta.teacher.adapter.course.chapter.assignment.CourseQuestionVHListener
+import com.mobile.ta.teacher.view.home.HomeFragmentDirections
 import com.mobile.ta.teacher.view.main.TeacherMainActivity
 import com.mobile.ta.teacher.viewmodel.course.chapter.assignment.CourseAssignmentViewModel
 import com.mobile.ta.ui.view.base.BaseFragment
+import com.mobile.ta.utils.view.RVSeparator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
@@ -27,11 +32,10 @@ import javax.inject.Inject
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class CourseAssignmentFragment :
-    BaseFragment<FragCourseAssignmentBinding>(FragCourseAssignmentBinding::inflate),
-    CourseQuestionVHListener {
+    BaseFragment<TFragCourseAssignmentBinding>(TFragCourseAssignmentBinding::inflate),
+    View.OnClickListener {
     @Inject
     lateinit var courseQuestionAdapter: CourseQuestionAdapter
-
     private val viewmodel by viewModels<CourseAssignmentViewModel>()
     private lateinit var mMainActivity: TeacherMainActivity
     private var menuItems = mutableListOf<MenuItem>()
@@ -39,30 +43,9 @@ class CourseAssignmentFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViewPager()
-        setupTabLayout()
+        setupRecyclerView()
         setupDrawer()
-    }
-
-    private fun setupViewPager() {
-        courseQuestionAdapter.setVhClickListener(this)
-        binding.fragCourseAssignmentVp.adapter = courseQuestionAdapter
-        viewmodel.assignment.observe(viewLifecycleOwner) {
-            courseQuestionAdapter.submitList(it.questions.toMutableList())
-            courseQuestionAdapter.setQuestionType(it.type)
-            binding.fragCourseAssignmentTitle.text = it.title
-            binding.fragCourseAssignmentContent.visibility = View.VISIBLE
-            binding.fragCourseAssignmentLoading.visibility = View.GONE
-        }
-        viewmodel.navigateToSubmitResultPage.observe(viewLifecycleOwner) {
-            if (it)
-                findNavController().navigate(
-                    CourseAssignmentFragmentDirections.actionCourseAssignmentFragmentToCourseSubmitFragment(
-                        courseId = viewmodel.courseId,
-                        chapterId = viewmodel.assignmentId
-                    )
-                )
-        }
+        setupNavigation()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,13 +53,57 @@ class CourseAssignmentFragment :
         mMainActivity = (mActivity as TeacherMainActivity)
     }
 
-    private fun setupTabLayout() {
-        TabLayoutMediator(
-            binding.fragCourseAssignmentTab,
-            binding.fragCourseAssignmentVp
-        ) { tab, position ->
-            tab.text = (position + 1).toString()
-        }.attach()
+    override fun onClick(v: View) {
+        when (v) {
+            binding.tFragCourseAssignmentBack -> {
+                val actions = viewmodel.previousChapterSummary.value?.let {
+                    getChapterDestination(
+                        it.id,
+                        it.type
+                    )
+                }
+                actions?.let {
+                    findNavController().navigate(it)
+                }
+            }
+            binding.tFragCourseAssignmentNext -> {
+                val actions = viewmodel.nextChapterSummary.value?.let {
+                    getChapterDestination(
+                        it.id,
+                        it.type
+                    )
+                }
+                if (actions != null) findNavController().navigate(actions)
+                else findNavController().navigate(
+                    CourseAssignmentFragmentDirections
+                        .actionCourseAssignmentFragmentToCourseInformationFragment(
+                            viewmodel.courseId
+                        )
+                )
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        binding.tFragCourseAssignmentRv.adapter = courseQuestionAdapter
+        binding.tFragCourseAssignmentRv.addItemDecoration(
+            RVSeparator.getSpaceSeparator(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                resources
+            )
+        )
+        viewmodel.assignment.observe(viewLifecycleOwner, {
+            mMainActivity.supportActionBar?.title =
+                if (it.type == ChapterType.PRACTICE)
+                    getString(R.string.practice_fragment_toolbar_text)
+                else
+                    getString(R.string.quiz_fragment_toolbar_text)
+            binding.tFragCourseAssignmentTitle.text = it.title
+            courseQuestionAdapter.submitList(it.questions)
+            binding.tFragCourseAssignmentLoading.visibility = View.GONE
+            binding.tFragCourseAssignmentContent.visibility = View.VISIBLE
+        })
     }
 
     private fun setupDrawer() {
@@ -86,12 +113,12 @@ class CourseAssignmentFragment :
         binding.apply {
             val toggle = ActionBarDrawerToggle(
                 mMainActivity,
-                fragCourseAssignmentDrawerLayout,
+                tFragCourseAssignmentDrawerLayout,
                 mMainActivity.getToolbar(),
                 R.string.open_drawer,
                 R.string.close_drawer
             )
-            fragCourseAssignmentDrawerLayout.addDrawerListener(toggle)
+            tFragCourseAssignmentDrawerLayout.addDrawerListener(toggle)
             toggle.syncState()
         }
     }
@@ -99,7 +126,7 @@ class CourseAssignmentFragment :
 
     private fun setupMenu(chapters: List<ChapterSummary>) {
         binding.apply {
-            fragCourseAssignmentDrawerNavigation.menu.apply {
+            tFragCourseAssignmentDrawerNavigation.menu.apply {
                 menuItems.clear()
                 clear()
                 chapters.forEach {
@@ -107,16 +134,29 @@ class CourseAssignmentFragment :
                     menuItems.add(getItem(menuItems.count()))
                 }
             }
-            fragCourseAssignmentDrawerNavigation.setNavigationItemSelectedListener {
+            tFragCourseAssignmentDrawerNavigation.setNavigationItemSelectedListener {
                 chapters[menuItems.indexOf(it)].let { chapter ->
                     val destination =
                         getChapterDestination(chapter.id, chapter.type as ChapterType)
                     findNavController().navigate(destination)
                 }
-                fragCourseAssignmentDrawerLayout.closeDrawer(GravityCompat.START)
+                tFragCourseAssignmentDrawerLayout.closeDrawer(GravityCompat.START)
                 true
             }
         }
+    }
+    private fun setupNavigation() {
+        viewmodel.nextChapterSummary.observe(viewLifecycleOwner, {
+            binding.tFragCourseAssignmentNextGroup.visibility = View.VISIBLE
+            binding.tFragCourseAssignmentNextText.text = it?.title ?: getString(R.string.finish_course_text)
+            binding.tFragCourseAssignmentNext.setOnClickListener(this)
+        })
+        viewmodel.previousChapterSummary.observe(viewLifecycleOwner, {
+            if (it == null) return@observe
+            binding.tFragCourseAssignmentBackGroup.visibility = View.VISIBLE
+            binding.tFragCourseAssignmentBackText.text = it.title
+            binding.tFragCourseAssignmentBack.setOnClickListener(this)
+        })
     }
 
     private fun getChapterDestination(chapterId: String, type: ChapterType): NavDirections {
@@ -128,18 +168,5 @@ class CourseAssignmentFragment :
                 args.courseId, chapterId
             )
         }
-    }
-
-    override fun onSubmitAnswerListener(
-        assignmentQuestion: AssignmentQuestion,
-        selectedIndex: Int
-    ) {
-        viewmodel.addSelectedAnswer(assignmentQuestion, selectedIndex)
-    }
-
-    override fun onShowResultListener() {
-        viewmodel.submitAnswer()
-        binding.fragCourseAssignmentLoading.visibility = View.VISIBLE
-        binding.fragCourseAssignmentContent.visibility = View.GONE
     }
 }

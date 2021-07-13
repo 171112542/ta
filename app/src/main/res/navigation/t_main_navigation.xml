@@ -62,15 +62,15 @@
         <action
             android:id="@+id/action_courseInformationFragment_to_coursePracticeFragment"
             app:destination="@id/courseAssignmentFragment" />
-        <action
-            android:id="@+id/action_courseInformationFragment_to_courseSubmitFragment"
-            app:destination="@id/courseSubmitFragment" />
         <argument
             android:name="courseId"
             app:argType="string" />
         <action
             android:id="@+id/action_courseInformationFragment_self"
             app:destination="@id/courseInformationFragment" />
+        <action
+            android:id="@+id/action_courseInformationFragment_to_studentDataFragment"
+            app:destination="@id/studentDataFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseContentFragment"
@@ -148,10 +148,6 @@
         android:label="Assignment"
         tools:layout="@layout/frag_course_assignment">
         <action
-            android:id="@+id/action_courseAssignmentFragment_to_courseSubmitFragment"
-            app:destination="@id/courseSubmitFragment"
-            app:popUpTo="@id/courseInformationFragment" />
-        <action
             android:id="@+id/action_courseAssignmentFragment_to_courseContentFragment"
             app:destination="@id/courseContentFragment"
             app:popUpTo="@id/courseInformationFragment" />
@@ -165,6 +161,9 @@
         <argument
             android:name="chapterId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_courseAssignmentFragment_to_courseInformationFragment"
+            app:destination="@id/courseInformationFragment" />
     </fragment>
     <fragment
         android:id="@+id/editProfileFragment"
@@ -176,40 +175,16 @@
             app:argType="com.mobile.ta.model.user.User" />
     </fragment>
     <fragment
-        android:id="@+id/courseSubmitFragment"
-        android:name="com.mobile.ta.teacher.view.course.chapter.assignment.CourseSubmitFragment"
-        android:label="Result"
-        tools:layout="@layout/frag_course_submit">
-        <action
-            android:id="@+id/action_courseSubmitFragment_to_discussionForumFragment"
-            app:destination="@id/discussionForumFragment" />
-        <action
-            android:id="@+id/action_courseSubmitFragment_to_courseContentFragment"
-            app:destination="@id/courseContentFragment"
-            app:popUpTo="@id/courseInformationFragment" />
-        <action
-            android:id="@+id/action_courseSubmitFragment_to_coursePracticeFragment"
-            app:destination="@id/courseAssignmentFragment"
-            app:popUpTo="@id/courseInformationFragment" />
-        <argument
-            android:name="chapterId"
-            app:argType="string" />
-        <argument
-            android:name="courseId"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_courseSubmitFragment_to_courseInformationFragment"
-            app:destination="@id/courseInformationFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@id/courseInformationFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
         android:id="@+id/notificationFragment"
         android:name="com.mobile.ta.teacher.view.notification.NotificationFragment"
         android:label="Notification"
         tools:layout="@layout/frag_notification" />
+    <fragment
+        android:id="@+id/studentDataFragment"
+        android:name="com.mobile.ta.teacher.view.course.students.StudentDataFragment"
+        android:label="Students Data" >
+        <argument
+            android:name="courseId"
+            app:argType="string" />
+    </fragment>
 </navigation>

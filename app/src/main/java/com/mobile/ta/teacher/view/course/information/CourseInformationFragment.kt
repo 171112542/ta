@@ -236,7 +236,12 @@ class CourseInformationFragment :
     override fun onClick(v: View) {
         when (v.id) {
             R.id.course_information_enroll -> {
-                //TODO: Navigate to student result
+                findNavController().navigate(
+                    CourseInformationFragmentDirections
+                        .actionCourseInformationFragmentToStudentDataFragment(
+                            args.courseId
+                        )
+                )
             }
         }
     }
