@@ -75,16 +75,20 @@ class SearchViewModel @Inject constructor(
         resetFilter()
         launchViewModelScope {
             val teacherId = authRepository.getUser()?.uid ?: return@launchViewModelScope
-            val searchResult = courseRepository.searchCourseWithCreatorId(
-                keyword.toLowerCase(Locale.ENGLISH),
-                teacherId
+            val searchResult = courseRepository.searchCourse(
+                keyword.toLowerCase(Locale.ENGLISH)
             )
             _isSearching.postValue(false)
             checkStatus(
                 searchResult, {
-                    _searchResult.postValue(it)
+                    val filteredResultByTeacherId = it.filter { course ->
+                        course.creatorId == teacherId
+                    }.toMutableList()
+                    _searchResult.postValue(filteredResultByTeacherId)
                     _filteredSearchResult.postValue(
-                        it.sortedBy { it.title }.toMutableList()
+                        filteredResultByTeacherId.sortedBy { course ->
+                            course.title
+                        }.toMutableList()
                     )
                 }, {
                     //TODO: Add network failure handler
