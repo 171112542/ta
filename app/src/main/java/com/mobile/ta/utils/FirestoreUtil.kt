@@ -1,5 +1,6 @@
 package com.mobile.ta.utils
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.*
@@ -46,8 +47,10 @@ suspend fun <T> Query.fetchData(
 ): Status<MutableList<T>> {
     lateinit var statusData: Status<MutableList<T>>
     get().addOnFailureListener {
+        Log.d("FetchData", it.toString())
         statusData = Status.error(it.message.orEmpty())
     }.addOnSuccessListener {
+        Log.d("FetchData", it.toString())
         statusData = Status.success(mapper.invoke(it))
     }.await()
     return statusData
