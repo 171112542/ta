@@ -62,7 +62,8 @@ class LoginViewModel @Inject constructor(
                         ErrorCodeConstants.ERROR_CODE_STUDENT_NO_NEED_CREDENTIALS
                     else -> null
                 }
-                setIsRegistered(errorCode.isNull(), errorCode)
+                val isRegistered = user.email.isNotBlank() && errorCode.isNull()
+                setIsRegistered(isRegistered, errorCode)
             }, {
                 setIsRegistered(false, ErrorCodeConstants.ERROR_CODE_FAIL_TO_SIGN_IN)
             })

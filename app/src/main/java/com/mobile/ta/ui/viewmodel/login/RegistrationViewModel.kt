@@ -1,6 +1,7 @@
 package com.mobile.ta.ui.viewmodel.login
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
@@ -10,8 +11,8 @@ import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
 import com.mobile.ta.utils.isNotNull
-import com.mobile.ta.utils.publishChanges
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import java.io.File
 import javax.inject.Inject
 
@@ -46,14 +47,10 @@ class RegistrationViewModel @Inject constructor(
         launchViewModelScope {
             authRepository.getUser()?.let { firebaseUser ->
                 setUserValue(isTeacher, firebaseUser)
-                checkStatus(authRepository.registerUser(initialUserData), { status ->
-                    if (status) {
-                        _user.postValue(initialUserData)
-                    }
-                })
+                setUser()
+                authRepository.registerUser(initialUserData)
             }
         }
-        _user.publishChanges()
     }
 
     fun getIsTeacher() = isTeacher
@@ -92,6 +89,8 @@ class RegistrationViewModel @Inject constructor(
                     })
                 }
             }
+        } else {
+            _isUploaded.postValue(true)
         }
     }
 
@@ -105,6 +104,12 @@ class RegistrationViewModel @Inject constructor(
         this.isTeacher = isTeacher
     }
 
+    private fun setUser() {
+        launchViewModelScope(Dispatchers.Main) {
+            _user.value = initialUserData
+        }
+    }
+
     private fun setUserValue(isTeacher: Boolean, firebaseUser: FirebaseUser) {
         initialUserData = User(
             id = firebaseUser.uid,
@@ -113,5 +118,6 @@ class RegistrationViewModel @Inject constructor(
             photo = firebaseUser.photoUrl?.toString(),
             role = getUserRole(isTeacher)
         )
+        Log.d("INITIAL USER", initialUserData.toString())
     }
 }
