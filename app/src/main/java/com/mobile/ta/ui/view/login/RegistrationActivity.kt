@@ -45,6 +45,7 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
 
     override fun setupViews() {
         supportActionBar?.hide()
+        loadingDialog = DialogHelper.createLoadingDialog(this)
         setupDatePicker()
         binding.apply {
             buttonSkipEditInfo.setOnClickListener(this@RegistrationActivity)
@@ -131,9 +132,6 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
                 }
                 true
             }
-            doOnTextChanged { _, _, _, _ ->
-                validateDateOfBirth()
-            }
         }
     }
 
@@ -160,14 +158,11 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
     }
 
     private fun validate() {
-        if (validateName() && validateDateOfBirth()) {
+        if (validateName()) {
             viewModel.uploadImage()
             DialogHelper.showDialog(loadingDialog)
         }
     }
-
-    private fun validateDateOfBirth() =
-        binding.editTextDateOfBirth.notBlankValidate(Constants.DATE_OF_BIRTH)
 
     private fun validateName() = binding.editTextFullName.notBlankValidate(Constants.NAME)
 }

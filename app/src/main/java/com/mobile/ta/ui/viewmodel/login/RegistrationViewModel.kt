@@ -89,6 +89,8 @@ class RegistrationViewModel @Inject constructor(
                     })
                 }
             }
+        } else {
+            _isUploaded.postValue(true)
         }
     }
 
