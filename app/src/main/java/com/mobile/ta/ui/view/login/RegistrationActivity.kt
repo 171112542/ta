@@ -146,17 +146,15 @@ class RegistrationActivity : BaseActivity<ActivityRegistrationBinding>(), View.O
         }
     }
 
-    private fun updateUserData(user: User?) {
-        user?.let {
-            binding.apply {
-                editTextFullName.setText(user.name)
-                it.photo?.let {
-                    ImageUtil.loadImage(
-                        this@RegistrationActivity,
-                        it,
-                        binding.imageViewEditProfilePicture
-                    )
-                }
+    private fun updateUserData(user: User) {
+        binding.apply {
+            editTextFullName.setText(user.name)
+            user.photo?.let {
+                ImageUtil.loadImage(
+                    this@RegistrationActivity,
+                    it,
+                    binding.imageViewEditProfilePicture
+                )
             }
         }
     }

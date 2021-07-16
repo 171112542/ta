@@ -80,8 +80,10 @@ fun <T> Query.fetchRealtimeData(
 suspend fun <T> Task<T>.fetchData(): Status<Boolean> {
     return try {
         await()
+        Log.d("FETCH DATA", "SUCCESS")
         Status.success(true)
     } catch (ex: Exception) {
+        Log.d("FETCH DATA", ex.message.toString())
         Status.error(ex.message, false)
     }
 }
