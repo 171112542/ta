@@ -40,9 +40,11 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
             buttonSubmitCredentials.setOnClickListener(this@InputCredentialBottomSheetDialogFragment)
 
             editTextInputCredential.doOnTextChanged { _, _, _, _ ->
-                enableSubmitButton(editTextInputCredential.notBlankValidate(
-                    Constants.CREDENTIALS
-                ))
+                enableSubmitButton(
+                    editTextInputCredential.notBlankValidate(
+                        Constants.CREDENTIALS
+                    )
+                )
             }
         }
         return binding.root
@@ -55,7 +57,8 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
             if (isValid) {
                 dismiss()
             } else {
-                binding.editTextInputCredential.error = getString(R.string.wrong_credentials_message)
+                binding.editTextInputCredential.error =
+                    getString(R.string.wrong_credentials_message)
             }
             enableSubmitButton(true)
         })
