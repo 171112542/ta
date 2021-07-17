@@ -141,7 +141,7 @@ class CourseContentFragment :
             findNavController().navigate(
                 getChapterDestination(
                     chapter.id,
-                    chapter.type as ChapterType
+                    chapter.type
                 )
             )
         } else {
@@ -153,7 +153,7 @@ class CourseContentFragment :
         findNavController().navigate(
             getChapterDestination(
                 chapter.id,
-                chapter.type as ChapterType
+                chapter.type
             )
         )
     }
@@ -233,7 +233,7 @@ class CourseContentFragment :
             courseContentDrawerNavigation.setNavigationItemSelectedListener {
                 chapters[menuItems.indexOf(it)].let { chapter ->
                     val destination =
-                        getChapterDestination(chapter.id, chapter.type as ChapterType)
+                        getChapterDestination(chapter.id, chapter.type)
                     findNavController().navigate(destination)
                 }
                 courseContentDrawerLayout.closeDrawer(GravityCompat.START)
