@@ -31,6 +31,8 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
 
     private lateinit var isValidCredentials: LiveData<Boolean>
 
+    private var isNewInstance = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
@@ -40,6 +42,7 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
             buttonSubmitCredentials.setOnClickListener(this@InputCredentialBottomSheetDialogFragment)
 
             editTextInputCredential.doOnTextChanged { _, _, _, _ ->
+                changeIsNewInstance()
                 enableSubmitButton(
                     editTextInputCredential.notBlankValidate(
                         Constants.CREDENTIALS
@@ -54,13 +57,12 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
         super.onViewCreated(view, savedInstanceState)
 
         isValidCredentials.observe(viewLifecycleOwner, { isValid ->
-            if (isValid) {
+            if (isValid && isNewInstance.not()) {
                 dismiss()
-            } else {
+            } else if (isValid.not()) {
                 binding.editTextInputCredential.error =
                     getString(R.string.wrong_credentials_message)
             }
-            enableSubmitButton(true)
         })
     }
 
@@ -74,6 +76,10 @@ class InputCredentialBottomSheetDialogFragment : BottomSheetDialogFragment(), Vi
                 }
             }
         }
+    }
+
+    private fun changeIsNewInstance() {
+        isNewInstance = false
     }
 
     private fun enableSubmitButton(isEnabled: Boolean) {
