@@ -18,7 +18,7 @@ data class User(
 
     var birthDate: Long? = null,
 
-    var role: UserRoleEnum = UserRoleEnum.ROLE_STUDENT,
+    var role: UserRoleEnum? = null,
 
     var bio: String? = null,
 

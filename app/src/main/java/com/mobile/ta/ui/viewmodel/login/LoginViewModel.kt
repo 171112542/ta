@@ -10,6 +10,7 @@ import com.mobile.ta.repository.AuthRepository
 import com.mobile.ta.repository.NotificationRepository
 import com.mobile.ta.repository.UserRepository
 import com.mobile.ta.ui.viewmodel.base.BaseViewModelWithAuth
+import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
 import com.mobile.ta.utils.orFalse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -56,6 +57,7 @@ class LoginViewModel @Inject constructor(
         launchViewModelScope {
             checkStatus(userRepository.getUser(), { user ->
                 val errorCode = when {
+                    user.role.isNull() -> null
                     isTeacher(user.role) && isValidCredentials().not() ->
                         ErrorCodeConstants.ERROR_CODE_TEACHER_NEED_CREDENTIALS
                     isTeacher(user.role).not() && isValidCredentials() ->
@@ -78,7 +80,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private fun isTeacher(userRole: UserRoleEnum) = userRole == UserRoleEnum.ROLE_TEACHER
+    private fun isTeacher(userRole: UserRoleEnum?) = userRole == UserRoleEnum.ROLE_TEACHER
 
     private fun isValidCredentials() = _isValidCredentials.value.orFalse()
 
@@ -97,7 +99,7 @@ class LoginViewModel @Inject constructor(
     private fun setIsRegistered(isRegistered: Boolean, errorCode: Int? = null) {
         val pairIsRegistered = Pair(isRegistered, errorCode)
         _isRegistered.postValue(pairIsRegistered)
-        if (isRegistered.not()) {
+        if (errorCode.isNotNull()) {
             logOut()
         }
     }

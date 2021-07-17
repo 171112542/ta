@@ -38,9 +38,9 @@ object UserMapper {
         val email: String = snapshot.getString(EMAIL).orEmpty()
         val photo: String? = snapshot.getString(PHOTO)
         val birthDate: Long? = snapshot.getLong(BIRTH_DATE)
-        val role: UserRoleEnum = snapshot.getString(ROLE)?.let {
+        val role: UserRoleEnum? = snapshot.getString(ROLE)?.let {
             UserRoleEnum.valueOf(it)
-        } ?: UserRoleEnum.ROLE_STUDENT
+        }
         val bio: String? = snapshot.getString(BIO)
         val totalCourseCreated: Int = snapshot.getLong(TOTAL_COURSE_CREATED)?.toInt() ?: 0
 
