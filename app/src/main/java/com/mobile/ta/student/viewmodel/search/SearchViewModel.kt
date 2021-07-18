@@ -76,9 +76,14 @@ class SearchViewModel @Inject constructor(
             _isSearching.postValue(false)
             checkStatus(
                 searchResult, {
+                    val filteredResultByTeacherId = it.filter { course ->
+                        !course.archive
+                    }.toMutableList()
                     _searchResult.postValue(it)
                     _filteredSearchResult.postValue(
-                        it.sortedBy { it.title }.toMutableList()
+                        filteredResultByTeacherId.sortedBy { course ->
+                            course.title
+                        }.toMutableList()
                     )
                 }, {
                     //TODO: Add network failure handler

@@ -20,7 +20,9 @@ class StudentProgressAdapter(
             binding.let {
                 it.tVhStudentProgressName.text = studentProgress.student?.name
                 it.tVhStudentProgressEmail.text = studentProgress.student?.email
-                it.tVhStudentProgressScore.text = studentProgress.averageScore.toString()
+                it.tVhStudentProgressScore.text =
+                    if (studentProgress.averageScore != null) studentProgress.averageScore.toString()
+                    else "-"
                 it.tVhStudentProgressProgress.text =
                     it.root.context
                         .getString(

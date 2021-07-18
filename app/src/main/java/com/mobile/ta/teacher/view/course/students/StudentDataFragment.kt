@@ -71,8 +71,12 @@ class StudentDataFragment
         )
         viewModel.studentProgressData.observe(viewLifecycleOwner, {
             binding.tFragStudentDataLoading.visibility = View.GONE
-            binding.tFragStudentDataSearchBar.visibility = View.VISIBLE
-            binding.tFragStudentDataTable.visibility = View.VISIBLE
+            if (it.isNotEmpty()) {
+                binding.tFragStudentDataSearchBar.visibility = View.VISIBLE
+                binding.tFragStudentDataTable.visibility = View.VISIBLE
+            } else {
+                binding.tFragStudentDataEmptyStudentData.visibility = View.VISIBLE
+            }
         })
         viewModel.searchedStudentProgressData.observe(viewLifecycleOwner, {
             studentProgressAdapter.submitList(it)

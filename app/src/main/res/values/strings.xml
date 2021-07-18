@@ -15,8 +15,11 @@
     <string name="dest_home_label">Home</string>
     <string name="dest_course_label">Course</string>
     <string name="dest_profile_label">Profile</string>
+
+    <!-- Home -->
     <string name="ic_search_content_description">Search</string>
     <string name="search_bar_hint">Search</string>
+    <string name="empty_home_course_text">No Course Yet</string>
 
     <!-- Log in -->
     <string name="teacher_role">I am a teacher</string>
@@ -227,6 +230,7 @@
     <string name="progress_text">Progress</string>
     <string name="score_text">Score</string>
     <string name="student_progress_text_template">%1s \/%2s</string>
+    <string name="no_student_data_text">No Student Data Yet</string>
 
     <!-- Others -->
     <string name="permission_not_granted_message">Fail to get permission.</string>

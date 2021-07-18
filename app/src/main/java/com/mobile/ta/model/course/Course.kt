@@ -9,6 +9,7 @@ import com.mobile.ta.model.course.information.TypeTag
 data class Course(
     @DocumentId
     val id: String,
+    val archive: Boolean,
     val chapterSummaryList: List<ChapterSummary>,
     val title: String,
     val imageUrl: String,
@@ -24,6 +25,7 @@ data class Course(
 ) {
     constructor() : this(
         "",
+        true,
         listOf(),
         "",
         "",

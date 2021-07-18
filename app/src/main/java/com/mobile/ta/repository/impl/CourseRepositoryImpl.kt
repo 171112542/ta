@@ -1,6 +1,7 @@
 package com.mobile.ta.repository.impl
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.mobile.ta.config.CollectionConstants.COURSE_COLLECTION
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.repository.CourseRepository
@@ -44,12 +45,14 @@ class CourseRepositoryImpl @Inject constructor(
     override suspend fun getAllCourses(): Status<MutableList<Course>> {
         return courseCollection
             .whereEqualTo(CourseMapper.ARCHIVE_FIELD, false)
+            .orderBy(CourseMapper.CANONICAL_TITLE_FIELD, Query.Direction.ASCENDING)
             .fetchData(CourseMapper::mapToCourses)
     }
 
     override suspend fun getAllCoursesByCreatorId(teacherId: String): Status<MutableList<Course>> {
         return courseCollection
             .whereEqualTo(CourseMapper.CREATOR_ID, teacherId)
+            .orderBy(CourseMapper.CANONICAL_TITLE_FIELD, Query.Direction.ASCENDING)
             .fetchData(CourseMapper::mapToCourses)
     }
 
