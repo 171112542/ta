@@ -47,7 +47,6 @@ suspend fun <T> Query.fetchData(
 ): Status<MutableList<T>> {
     lateinit var statusData: Status<MutableList<T>>
     get().addOnFailureListener {
-        Log.d("FetchData", it.toString())
         statusData = Status.error(it.message.orEmpty())
     }.addOnSuccessListener {
         Log.d("FetchData", it.toString())

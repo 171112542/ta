@@ -39,7 +39,8 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/t_frag_student_data_table"
@@ -121,6 +122,20 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
         </LinearLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/t_frag_student_data_empty_student_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no_student_data_text"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.TA.Overline"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

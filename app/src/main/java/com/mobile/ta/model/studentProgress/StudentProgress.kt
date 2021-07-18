@@ -14,5 +14,5 @@ data class StudentProgress(
     val student: Student? = null,
     val totalChapterCount: Int = 0,
     val quizDoneCount: Int = 0,
-    val averageScore: Float = 0f
+    val averageScore: Float? = null
 )
