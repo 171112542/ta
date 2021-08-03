@@ -68,6 +68,7 @@ class SearchViewModel @Inject constructor(
     private var _filteredSearchResult = MutableLiveData<MutableList<Course>>(mutableListOf())
     val filteredSearchResult get() = _filteredSearchResult
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun performSearch(keyword: String) {
         if (keyword == "") return
         _isSearching.value = true
@@ -75,14 +76,12 @@ class SearchViewModel @Inject constructor(
         resetFilter()
         launchViewModelScope {
             val teacherId = authRepository.getUser()?.uid ?: return@launchViewModelScope
-            val searchResult = courseRepository.searchCourse(
-                keyword.toLowerCase(Locale.ENGLISH)
-            )
+            val searchResult = courseRepository.getAllCoursesByCreatorId(teacherId)
             _isSearching.postValue(false)
             checkStatus(
                 searchResult, {
                     val filteredResultByTeacherId = it.filter { course ->
-                        course.creatorId == teacherId
+                        course.title.lowercase().contains(keyword.toLowerCase())
                     }.toMutableList()
                     _searchResult.postValue(filteredResultByTeacherId)
                     _filteredSearchResult.postValue(
