@@ -3,6 +3,7 @@ package com.mobile.ta.student.viewmodel.course.chapter.assignment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
@@ -10,6 +11,7 @@ import com.mobile.ta.model.studentProgress.StudentAssignmentResult
 import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
+import com.mobile.ta.utils.TimestampUtil
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -55,6 +57,10 @@ class CourseSubmitViewModel @Inject constructor(
     private var _showPassingGradeText = MutableLiveData<Boolean>()
     val showPassingGradeText: LiveData<Boolean>
         get() = _showPassingGradeText
+
+    private var _showPassingGradeAndNextRetryText = MutableLiveData<Pair<Boolean, String>>()
+    val showPassingGradeAndNextRetryText: LiveData<Pair<Boolean, String>>
+        get() = _showPassingGradeAndNextRetryText
 
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
@@ -109,7 +115,17 @@ class CourseSubmitViewModel @Inject constructor(
             studentAssignmentResult, {
                 _studentAssignmentResult.postValue(it)
                 _showPassingGradeText.postValue(!finished && it.type == ChapterType.PRACTICE)
-                _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
+                _showPassingGradeAndNextRetryText.postValue(
+                    Pair(
+                        !finished && it.type == ChapterType.QUIZ,
+                        TimestampUtil.getTimeRemainingString(it.nextRetryDate, Timestamp.now())
+                    )
+                )
+                _showRetryButton.postValue(
+                    it.type == ChapterType.PRACTICE
+                    || (it.type == ChapterType.QUIZ && it.nextRetryDate <= Timestamp.now())
+                )
+//                _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
                 _nextChapterSummary.value.let { summary ->
                     _showFinishCourseButton.postValue(
                         if (it.type == ChapterType.PRACTICE) summary.isNull() && finished
