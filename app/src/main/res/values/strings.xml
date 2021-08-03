@@ -239,4 +239,5 @@
     <string name="require_previous_chapter">You need to complete previous chapter.</string>
     <string name="back_alt_text">Back</string>
     <string name="next_alt_text">Next</string>
+    <string name="passing_grade_next_retry_desc_text">Get %1s to proceed. You may retry after another %2s.</string>
 </resources>
