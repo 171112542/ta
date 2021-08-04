@@ -19,7 +19,7 @@
             android:visibility="gone"
             app:constraint_referenced_ids="frag_course_submit_description,
             frag_course_submit_score,frag_course_submit_title,
-            frag_course_submit_passing_text,frag_course_submit_passing_next_retry_text"
+            frag_course_submit_passing_text"
             tools:visibility="visible" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -91,21 +91,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/frag_course_submit_score"
             tools:text="Get 60 to proceed to the next chapter" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/frag_course_submit_passing_next_retry_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/keyline_2"
-            android:text="@string/passing_grade_next_retry_desc_text"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.TA.Body1"
-            android:textColor="?attr/colorOnPrimary"
-            android:layout_marginTop="@dimen/keyline_2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/frag_course_submit_score"
-            tools:text="Get 60 to proceed. You may retry after another 1 hour." />
 
         <Button
             android:id="@+id/frag_course_submit_retry"
