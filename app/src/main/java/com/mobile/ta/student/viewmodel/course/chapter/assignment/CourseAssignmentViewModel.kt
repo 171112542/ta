@@ -147,7 +147,6 @@ class CourseAssignmentViewModel @Inject constructor(
                     "",
                     score,
                     Timestamp.now(),
-                    Timestamp(Timestamp.now().seconds + 3600, Timestamp.now().nanoseconds),
                     passingGrade,
                     it.title,
                     it.type,

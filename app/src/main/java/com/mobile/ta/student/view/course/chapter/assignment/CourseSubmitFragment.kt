@@ -167,15 +167,6 @@ class CourseSubmitFragment :
         viewmodel.showPassingGradeText.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitPassingText.visibility = if (it) View.VISIBLE else View.GONE
         }
-        viewmodel.showPassingGradeAndNextRetryText.observe(viewLifecycleOwner) {
-            binding.fragCourseSubmitPassingNextRetryText.visibility = if (it.first) View.VISIBLE else View.GONE
-            binding.fragCourseSubmitPassingText.text =
-                getString(
-                    R.string.passing_grade_next_retry_desc_text,
-                    60.toString(),
-                    it.second
-                )
-        }
         viewmodel.showRetryButton.observe(viewLifecycleOwner) {
             binding.fragCourseSubmitRetry.visibility = if (it) View.VISIBLE else View.GONE
         }

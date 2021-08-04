@@ -1,5 +1,6 @@
 package com.mobile.ta.student.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -58,10 +59,6 @@ class CourseSubmitViewModel @Inject constructor(
     val showPassingGradeText: LiveData<Boolean>
         get() = _showPassingGradeText
 
-    private var _showPassingGradeAndNextRetryText = MutableLiveData<Pair<Boolean, String>>()
-    val showPassingGradeAndNextRetryText: LiveData<Pair<Boolean, String>>
-        get() = _showPassingGradeAndNextRetryText
-
     private val _course = MutableLiveData<Course>()
     val course: LiveData<Course> get() = _course
 
@@ -114,22 +111,14 @@ class CourseSubmitViewModel @Inject constructor(
         checkStatus(
             studentAssignmentResult, {
                 _studentAssignmentResult.postValue(it)
-                _showPassingGradeText.postValue(!finished && it.type == ChapterType.PRACTICE)
-                _showPassingGradeAndNextRetryText.postValue(
-                    Pair(
-                        !finished && it.type == ChapterType.QUIZ,
-                        TimestampUtil.getTimeRemainingString(it.nextRetryDate, Timestamp.now())
-                    )
-                )
+                _showPassingGradeText.postValue(!finished)
                 _showRetryButton.postValue(
                     it.type == ChapterType.PRACTICE
-                    || (it.type == ChapterType.QUIZ && it.nextRetryDate <= Timestamp.now())
+                    || (it.type == ChapterType.QUIZ && it.score < it.passingGrade)
                 )
-//                _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
                 _nextChapterSummary.value.let { summary ->
                     _showFinishCourseButton.postValue(
-                        if (it.type == ChapterType.PRACTICE) summary.isNull() && finished
-                        else summary.isNull()
+                        summary.isNull() && finished
                     )
                     _showNextChapterButton.postValue(
                         if (it.type == ChapterType.PRACTICE) summary.isNotNull() && finished
