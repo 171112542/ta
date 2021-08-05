@@ -1,5 +1,6 @@
 package com.mobile.ta.student.viewmodel.search
 
+import android.util.Log
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobile.ta.model.course.Course
@@ -66,19 +67,25 @@ class SearchViewModel @Inject constructor(
     private var _filteredSearchResult = MutableLiveData<MutableList<Course>>(mutableListOf())
     val filteredSearchResult get() = _filteredSearchResult
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun performSearch(keyword: String) {
         if (keyword == "") return
         _isSearching.value = true
         this.keyword = keyword
         resetFilter()
         launchViewModelScope {
-            val searchResult = courseRepository.searchCourse(keyword.toLowerCase(Locale.ENGLISH))
+            val searchResult = courseRepository.getAllCourses()
             _isSearching.postValue(false)
             checkStatus(
                 searchResult, {
+                    val filteredResultByTeacherId = it.filter { course ->
+                        !course.archive && course.title.lowercase().contains(keyword.toLowerCase())
+                    }.toMutableList()
                     _searchResult.postValue(it)
                     _filteredSearchResult.postValue(
-                        it.sortedBy { it.title }.toMutableList()
+                        filteredResultByTeacherId.sortedBy { course ->
+                            course.title
+                        }.toMutableList()
                     )
                 }, {
                     //TODO: Add network failure handler

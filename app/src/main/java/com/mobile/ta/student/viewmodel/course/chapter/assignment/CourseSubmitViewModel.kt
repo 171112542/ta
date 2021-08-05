@@ -1,8 +1,10 @@
 package com.mobile.ta.student.viewmodel.course.chapter.assignment
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import com.google.firebase.Timestamp
 import com.mobile.ta.model.course.Course
 import com.mobile.ta.model.course.chapter.ChapterSummary
 import com.mobile.ta.model.course.chapter.ChapterType
@@ -10,6 +12,7 @@ import com.mobile.ta.model.studentProgress.StudentAssignmentResult
 import com.mobile.ta.model.studentProgress.StudentProgress
 import com.mobile.ta.repository.*
 import com.mobile.ta.ui.viewmodel.base.BaseViewModel
+import com.mobile.ta.utils.TimestampUtil
 import com.mobile.ta.utils.isNotNull
 import com.mobile.ta.utils.isNull
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -108,12 +111,14 @@ class CourseSubmitViewModel @Inject constructor(
         checkStatus(
             studentAssignmentResult, {
                 _studentAssignmentResult.postValue(it)
-                _showPassingGradeText.postValue(!finished && it.type == ChapterType.PRACTICE)
-                _showRetryButton.postValue(it.type == ChapterType.PRACTICE)
+                _showPassingGradeText.postValue(!finished)
+                _showRetryButton.postValue(
+                    it.type == ChapterType.PRACTICE
+                    || (it.type == ChapterType.QUIZ && it.score < it.passingGrade)
+                )
                 _nextChapterSummary.value.let { summary ->
                     _showFinishCourseButton.postValue(
-                        if (it.type == ChapterType.PRACTICE) summary.isNull() && finished
-                        else summary.isNull()
+                        summary.isNull() && finished
                     )
                     _showNextChapterButton.postValue(
                         if (it.type == ChapterType.PRACTICE) summary.isNotNull() && finished

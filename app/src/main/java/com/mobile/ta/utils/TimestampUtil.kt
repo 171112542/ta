@@ -16,4 +16,16 @@ object TimestampUtil {
             else -> "${(difference / 86400)} days ago"
         }
     }
+
+    fun getTimeRemainingString(
+        futureTimestamp: Timestamp,
+        nowTimestamp: Timestamp = Timestamp.now()
+    ): String {
+        val difference = futureTimestamp.seconds - nowTimestamp.seconds
+        return when {
+            difference < 60 -> "one more minute"
+            difference < 3600 -> "${difference / 60} more minutes"
+            else -> "${difference / 3600} more hours"
+        }
+    }
 }

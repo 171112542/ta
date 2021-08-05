@@ -114,6 +114,7 @@ class StudentProgressRepositoryImpl @Inject constructor(
             }
         } else {
             data["score"] = studentAssignmentResult.score
+            data["passingGrade"] = studentAssignmentResult.passingGrade
             functions
                 .getHttpsCallable(ADD_QUIZ_ID_FUNCTIONS)
                 .call(data)

@@ -64,7 +64,11 @@ class HomeFragment :
         viewmodel.courseOverviews.observe(viewLifecycleOwner, {
             if (it.isNotNull()) {
                 binding.tFragHomeLoading.visibility = View.GONE
-                binding.tFragHomeRv.visibility = View.VISIBLE
+                if (it.size == 0) {
+                    binding.tFragHomeEmptyCourseText.visibility = View.VISIBLE
+                } else {
+                    binding.tFragHomeRv.visibility = View.VISIBLE
+                }
                 adapter.submitList(it)
             }
         })

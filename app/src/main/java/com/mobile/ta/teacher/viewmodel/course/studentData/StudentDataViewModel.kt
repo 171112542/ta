@@ -30,8 +30,9 @@ class StudentDataViewModel @Inject constructor(
                 studentProgressRepository.getStudentProgressByCourseId(courseId)
             checkStatus(
                 networkStudentProgressData, {
-                    _studentProgressData.postValue(it.toList())
-                    _searchedStudentProgressData.postValue(it.toList())
+                    val sortedByNameStudentData = it.sortedBy { studentProgress -> studentProgress.student?.name }
+                    _studentProgressData.postValue(sortedByNameStudentData)
+                    _searchedStudentProgressData.postValue(sortedByNameStudentData)
                 }, {
                     //TODO: Handle network error
                 }
