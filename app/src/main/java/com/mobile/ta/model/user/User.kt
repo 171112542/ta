@@ -22,5 +22,7 @@ data class User(
 
     var bio: String? = null,
 
+    var deactivated: Boolean? = false,
+
     var totalCourseCreated: Int = 0
 ) : Parcelable

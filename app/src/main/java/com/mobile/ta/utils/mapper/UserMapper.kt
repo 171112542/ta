@@ -15,6 +15,7 @@ object UserMapper {
     const val PHOTO = "photo"
     const val BIRTH_DATE = "birthDate"
     const val BIO = "bio"
+    const val DEACTIVATED = "deactivated"
     const val ROLE = "role"
     const val FEEDBACK_TYPE = "feedbackType"
     const val DESCRIPTION = "description"
@@ -42,9 +43,10 @@ object UserMapper {
             UserRoleEnum.valueOf(it)
         }
         val bio: String? = snapshot.getString(BIO)
+        val deactivated: Boolean = snapshot.getBoolean(DEACTIVATED) ?: false
         val totalCourseCreated: Int = snapshot.getLong(TOTAL_COURSE_CREATED)?.toInt() ?: 0
 
-        return User(id, name, email, photo, birthDate, role, bio, totalCourseCreated)
+        return User(id, name, email, photo, birthDate, role, bio, deactivated, totalCourseCreated)
     }
 
     fun mapToUserFeedbacks(snapshot: QuerySnapshot): MutableList<Feedback> {

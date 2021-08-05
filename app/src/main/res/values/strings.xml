@@ -28,6 +28,7 @@
     <string name="teacher_need_credentials_message">Please input your credentials by clicking the I\'m a teacher button.</string>
     <string name="student_no_need_credentials_message">Student can\'t log in as a teacher. Please use another email to log in as teacher.</string>
     <string name="fail_to_sign_in_message">Failed to log in. Please try again.</string>
+    <string name="account_deactivated_by_admin">Your account has been deactivated by admin. Please contact admin to activate back.</string>
 
     <!-- Register -->
     <string name="welcome_label">Welcome!</string>

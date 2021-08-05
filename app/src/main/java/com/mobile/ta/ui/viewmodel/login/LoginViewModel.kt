@@ -58,6 +58,7 @@ class LoginViewModel @Inject constructor(
             checkStatus(userRepository.getUser(), { user ->
                 val errorCode = when {
                     user.role.isNull() -> null
+                    user.deactivated == true -> ErrorCodeConstants.ERROR_CODE_DEACTIVATED
                     isTeacher(user.role) && isValidCredentials().not() ->
                         ErrorCodeConstants.ERROR_CODE_TEACHER_NEED_CREDENTIALS
                     isTeacher(user.role).not() && isValidCredentials() ->

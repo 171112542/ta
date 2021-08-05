@@ -1,8 +1,6 @@
 package com.mobile.ta.ui.view.login
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.activity.viewModels
@@ -13,8 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.mobile.ta.R
 import com.mobile.ta.config.ErrorCodeConstants
 import com.mobile.ta.databinding.ActivityLoginBinding
-import com.mobile.ta.receiver.MessagingServiceRestarter
-import com.mobile.ta.service.MessagingService
 import com.mobile.ta.ui.view.base.BaseActivity
 import com.mobile.ta.ui.viewmodel.login.LoginViewModel
 import com.mobile.ta.utils.isNotNull
@@ -100,6 +96,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>(), View.OnClickListener
 
     private fun showErrorMessageByCode(errorCode: Int?) {
         val errorMessageId = when (errorCode) {
+            ErrorCodeConstants.ERROR_CODE_DEACTIVATED -> R.string.account_deactivated_by_admin
             ErrorCodeConstants.ERROR_CODE_STUDENT_NO_NEED_CREDENTIALS -> R.string.student_no_need_credentials_message
             ErrorCodeConstants.ERROR_CODE_TEACHER_NEED_CREDENTIALS -> R.string.teacher_need_credentials_message
             ErrorCodeConstants.ERROR_CODE_FAIL_TO_SIGN_IN -> R.string.fail_to_sign_in_message
